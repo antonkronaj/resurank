@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, ipcMain, session, shell } from 'electron';
+import { app, BrowserWindow, clipboard, dialog, ipcMain, session, shell } from 'electron';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import type { AddressInfo } from 'node:net';
@@ -37,7 +37,7 @@ async function createWindow(port: number): Promise<void> {
     webPreferences: {
       contextIsolation: true,
       sandbox: true,
-      preload: join(__dirname, '../preload/index.js'),
+      preload: join(__dirname, '../preload/index.cjs'),
     },
   });
 
@@ -81,6 +81,7 @@ function initUpdater(): void {
 }
 
 ipcMain.handle('get-app-version', () => app.getVersion());
+ipcMain.handle('write-clipboard', (_event, text: string) => { clipboard.writeText(text); });
 
 app.whenReady().then(async () => {
   // Deny all renderer permission requests (camera, mic, notifications, etc.)
@@ -94,7 +95,9 @@ app.whenReady().then(async () => {
       responseHeaders: {
         ...details.responseHeaders,
         'Content-Security-Policy': [
-          "default-src 'self'; connect-src http://127.0.0.1:*; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; script-src 'self'",
+          isDev
+            ? "default-src 'self' http://localhost:4200; connect-src http://127.0.0.1:* ws://localhost:*; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; script-src 'self' 'unsafe-eval'"
+            : "default-src 'self'; connect-src http://127.0.0.1:*; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; script-src 'self'",
         ],
       },
     });

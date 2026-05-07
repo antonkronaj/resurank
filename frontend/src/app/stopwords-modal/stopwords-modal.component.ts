@@ -46,11 +46,8 @@ export class StopwordsModalComponent {
 
   exportToArray() {
     const words = this.parseWords(this.draft());
-    const arrayStr = JSON.stringify(words);
-    navigator.clipboard.writeText(arrayStr).then(() => {
+    window.electronAPI.writeToClipboard(JSON.stringify(words)).then(() => {
       alert('Copied to clipboard as array');
-    }).catch(err => {
-      console.error('Failed to copy: ', err);
     });
   }
 

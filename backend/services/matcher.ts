@@ -34,8 +34,8 @@ export interface JobInput {
 
 // Final score blend. Must sum to 1. Embedding captures semantic similarity
 // (paraphrases, related concepts); TF-IDF anchors on shared keywords.
-const EMBEDDING_WEIGHT = 0.70;
-const TFIDF_WEIGHT = 0.30;
+const EMBEDDING_WEIGHT = 0.75;
+const TFIDF_WEIGHT = 0.25;
 
 // Of the resume's TF-IDF terms sorted by weight desc, how many count as
 // "high signal." Only terms in this top slice can show up as matched

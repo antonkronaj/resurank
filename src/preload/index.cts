@@ -6,4 +6,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onUpdateReady: (cb: () => void): void => {
     ipcRenderer.on('update-ready', cb);
   },
+  writeToClipboard: (text: string): Promise<void> => ipcRenderer.invoke('write-clipboard', text),
 });
