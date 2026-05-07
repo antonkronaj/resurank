@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import multer from 'multer';
-import { parseResumePdf, extractTerms } from '../services/resumeParser';
-import { getResumeInfo, upsertResume } from '../dal';
+import { parseResumePdf, extractTerms } from '../services/resumeParser.js';
+import { getResumeInfo, upsertResume } from '../dal.js';
 
 export const resumeRouter = Router();
 

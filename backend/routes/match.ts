@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { getResumeText } from '../dal';
-import { getSetting } from '../db';
-import { scoreSingleJob } from '../services/matcher';
+import { getResumeText } from '../dal.js';
+import { getSetting } from '../db.js';
+import { scoreSingleJob } from '../services/matcher.js';
 
 export const matchRouter = Router();
 

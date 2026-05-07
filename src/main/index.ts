@@ -1,22 +1,16 @@
-import { app, BrowserWindow, dialog, shell } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, session, shell } from 'electron';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import type { AddressInfo } from 'node:net';
 import pkg from 'electron-updater';
 const { autoUpdater } = pkg;
-import { config } from '../shared/config';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 // Dev mode opt-in via env var. Packaged apps always run in prod mode.
 const isDev = !app.isPackaged && process.env.JOBDASH_DEV === '1';
 
-// process.env.DATABASE_PATH = join(app.getPath('userData'), 'jobmatch.db');
-
 async function startBackend(): Promise<number> {
-  // Resolve the compiled backend relative to this file. In dev (`tsx`) and in
-  // production both map to `<repo>/backend/dist/app.js`.
-  const backendUrl = pathToFileURL(join(__dirname, '..', '..', 'backend', 'dist', 'app.js'));
-  // Loose typing — we don't depend on express types from inside the electron package.
+  const backendUrl = pathToFileURL(join(__dirname, '..', '..', 'backend', 'backend', 'index.js'));
   interface BackendModule {
     createApp: () => {
       listen: (port: number, host: string, cb: () => void) => import('node:http').Server;
@@ -43,6 +37,7 @@ async function createWindow(port: number): Promise<void> {
     webPreferences: {
       contextIsolation: true,
       sandbox: true,
+      preload: join(__dirname, '../preload/index.js'),
     },
   });
 
@@ -53,21 +48,22 @@ async function createWindow(port: number): Promise<void> {
   });
 
   if (isDev) {
-    // Frontend served by `ng serve` on :4200 (`npm run dev:frontend`).
     await win.loadURL(`http://localhost:4200/?apiPort=${port}`);
     win.webContents.openDevTools({ mode: 'detach' });
   } else {
-    const indexFile = join(__dirname, '..', '..', 'frontend', 'dist', 'frontend', 'browser', 'index.html');
+    const indexFile = join(__dirname, '..', '..', '..', 'frontend', 'dist', 'frontend', 'browser', 'index.html');
     await win.loadFile(indexFile, { query: { apiPort: String(port) } });
   }
 }
 
 function initUpdater(): void {
-  autoUpdater.logger = null; // silence to console; swap for electron-log if desired
+  autoUpdater.logger = null;
   autoUpdater.autoDownload = true;
   autoUpdater.autoInstallOnAppQuit = true;
 
   autoUpdater.on('update-downloaded', () => {
+    BrowserWindow.getAllWindows().forEach(w => w.webContents.send('update-ready'));
+
     dialog.showMessageBox({
       type: 'info',
       title: 'Update ready',
@@ -84,7 +80,26 @@ function initUpdater(): void {
   });
 }
 
+ipcMain.handle('get-app-version', () => app.getVersion());
+
 app.whenReady().then(async () => {
+  // Deny all renderer permission requests (camera, mic, notifications, etc.)
+  session.defaultSession.setPermissionRequestHandler((_wc, _permission, callback) => {
+    callback(false);
+  });
+
+  // Content Security Policy for all responses including file://
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        'Content-Security-Policy': [
+          "default-src 'self'; connect-src http://127.0.0.1:*; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; script-src 'self'",
+        ],
+      },
+    });
+  });
+
   const port = await startBackend();
   console.log(`[electron] backend bound to 127.0.0.1:${port}`);
   await createWindow(port);

@@ -1,4 +1,4 @@
-import { store } from './store';
+import { store } from './store.js';
 
 export function getSetting(key: string): string | undefined {
   if (key === 'user_stopwords') {

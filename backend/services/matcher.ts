@@ -1,7 +1,7 @@
 import natural from 'natural';
-import { extractTerms, getUserStopwords } from './resumeParser';
-import { EXTRA_STOPWORDS } from './stopwords';
-import { embeddingClient } from './embeddingClient';
+import { extractTerms, getUserStopwords } from './resumeParser.js';
+import { EXTRA_STOPWORDS } from './stopwords.js';
+import { embeddingClient } from './embeddingClient.js';
 
 export interface TermWeight {
   term: string;

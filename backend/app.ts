@@ -2,14 +2,14 @@ import express, { type Express } from 'express';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import './store';
-import { resumeRouter } from './routes/resume';
-import { settingsRouter } from './routes/settings';
-import { matchRouter } from './routes/match';
-import { embeddingClient } from './services/embeddingClient';
+import './store.js';
+import { resumeRouter } from './routes/resume.js';
+import { settingsRouter } from './routes/settings.js';
+import { matchRouter } from './routes/match.js';
+import { embeddingClient } from './services/embeddingClient.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const iconSvgPath = resolve(__dirname, '../../resources/icon.svg');
+const iconSvgPath = resolve(__dirname, '../../../resources/icon.svg');
 
 export function createApp(): Express {
   const app = express();

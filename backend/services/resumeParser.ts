@@ -1,7 +1,7 @@
 import pdfParse from 'pdf-parse';
 import natural from 'natural';
-import { getSetting } from '../db';
-import { EXTRA_STOPWORDS } from './stopwords';
+import { getSetting } from '../db.js';
+import { EXTRA_STOPWORDS } from './stopwords.js';
 
 const STOPWORDS = new Set(
   (natural as any).stopwords as string[],

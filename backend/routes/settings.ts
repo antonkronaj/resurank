@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { getSetting, setSetting } from '../db';
-import { reloadUserStopwords } from '../services/resumeParser';
+import { getSetting, setSetting } from '../db.js';
+import { reloadUserStopwords } from '../services/resumeParser.js';
 
 export const settingsRouter = Router();
 

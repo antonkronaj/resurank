@@ -3,88 +3,55 @@
   "version": "0.2.4",
   "private": true,
   "description": "Resume to job-description matcher",
-  "main": "src/electron/dist/main.js",
+  "main": "dist/src/main/index.js",
   "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
   "scripts": {
-    "install:all": "npm install && npm --prefix src/backend install && npm --prefix frontend install",
-    "rebuild:native": "electron-rebuild -m src/backend",
-    "build:backend": "npm --prefix src/backend run build",
+    "rebuild:native": "electron-rebuild -m backend",
+    "build:backend": "npm --prefix backend run build",
     "build:frontend": "npm --prefix frontend run build -- --base-href=./",
-    "build:electron": "tsc -p tsconfig.main.json",
+    "build:electron": "tsc -p src/tsconfig.json",
     "build": "npm run build:backend && npm run build:frontend && npm run build:electron",
     "dev:frontend": "npm --prefix frontend start",
-    "dev:electron": "JOBDASH_DEV=1 npm run build:backend && npm run build:electron && npm run rebuild:native && JOBDASH_DEV=1 src/electron .",
-    "start": "npm run rebuild:native && src/electron .",
-    "dist": "npm run build && electron-builder",
-    "postinstall": "electron-builder install-app-deps || true"
+    "dev:electron": "JOBDASH_DEV=1 npm run build:backend && npm run build:electron && npm run rebuild:native && JOBDASH_DEV=1 electron .",
+    "start": "npm run rebuild:native && electron .",
+    "package": "electron-forge package",
+    "dist": "electron-forge make",
+    "publish": "electron-forge publish",
+    "postinstall": "electron-forge import || true"
   },
   "dependencies": {
-    "electron-updater": "^6.8.3",
     "@huggingface/transformers": "^4.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "electron-updater": "^6.8.3",
     "express": "^4.21.1",
     "multer": "^1.4.5-lts.1",
     "natural": "^8.0.1",
     "pdf-parse": "^1.1.1"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^7.11.1",
+    "@electron-forge/maker-deb": "^7.11.1",
+    "@electron-forge/maker-dmg": "^7.11.1",
+    "@electron-forge/maker-rpm": "^7.11.1",
+    "@electron-forge/maker-squirrel": "^7.11.1",
+    "@electron-forge/maker-zip": "^7.11.1",
+    "@electron-forge/plugin-fuses": "^7.11.1",
+    "@electron-forge/shared-types": "^7.11.1",
+    "@electron/fuses": "^1.8.0",
     "@electron/rebuild": "^3.6.0",
-    "electron": "^35.0.0",
-    "electron-builder": "^25.0.0",
-    "typescript": "^5.6.3",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/multer": "^1.4.12",
     "@types/node": "^22.9.0",
     "@types/pdf-parse": "^1.1.4",
-    "tsx": "^4.19.2"
-  },
-  "build": {
-    "appId": "dev.jobmatch.app",
-    "productName": "jobMatch",
-    "icon": "resources/icon",
-    "includeSubNodeModules": true,
-    "files": [
-      "electron/dist/**/*",
-      "backend/dist/**/*",
-      "backend/package.json",
-      "backend/node_modules/**/*",
-      "frontend/dist/**/*",
-      "package.json",
-      "!**/{.DS_Store,.git,.vscode,.idea,*.map,*.ts,tsconfig*.json}",
-      "!**/node_modules/typescript/**/*",
-      "!**/node_modules/@types/**/*",
-      "!**/node_modules/onnxruntime-web/dist/*.wasm",
-      "!**/node_modules/wordnet-db/dict/**/*"
-    ],
-    "asarUnpack": [
-      "**/node_modules/onnxruntime-node/**/*",
-      "**/node_modules/@huggingface/**/*"
-    ],
-    "publish": {
-      "provider": "github",
-      "owner": "antonkronaj",
-      "repo": "jobdash"
-    },
-    "mac": {
-      "target": {
-        "target": "dmg",
-        "arch": [
-          "arm64"
-        ]
-      },
-      "category": "public.app-category.productivity",
-      "identity": "Anton Kronaj (HSJNM2MG33)",
-      "notarize": {
-        "teamId": "HSJNM2MG33"
-      }
-    },
-    "win": {
-      "target": "nsis"
-    },
-    "linux": {
-      "target": "AppImage"
-    }
+    "electron": "^35.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
   }
 }

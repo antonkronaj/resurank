@@ -1,6 +1,6 @@
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { config } from './config';
+import { config } from '../shared/config.js';
 
 const DATA_DIR = dirname(config.databasePath);
 
