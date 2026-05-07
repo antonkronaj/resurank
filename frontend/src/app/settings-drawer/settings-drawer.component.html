@@ -1,0 +1,70 @@
+<div class="drawer-backdrop" *ngIf="isOpen()" (click)="onClose()"></div>
+<aside class="settings-drawer" [class.open]="isOpen()">
+  <div class="dw-header">
+    <span class="dw-title">Settings</span>
+    <button class="dw-close" (click)="onClose()">✕</button>
+  </div>
+  <div class="dw-body">
+
+    <div class="dw-section">
+      <div class="dw-section-title">Resume</div>
+      <div class="resume-info" *ngIf="resume().uploaded; else noResume">
+        <span class="resume-name">{{ resume().filename }}</span>
+        <span class="text-muted small">
+          Uploaded {{ resume().uploadedAt | date: 'mediumDate' }} · {{ resume().chars }} chars
+        </span>
+      </div>
+      <ng-template #noResume>
+        <p class="text-muted small">No resume uploaded yet.</p>
+      </ng-template>
+      <label class="file-btn">
+        <input type="file" accept="application/pdf" (change)="onResumeSelected($event)" hidden />
+        {{ uploading() ? 'Uploading…' : (resume().uploaded ? 'Replace PDF' : 'Upload PDF') }}
+      </label>
+    </div>
+
+    <div class="dw-section">
+      <div class="dw-section-title">Exclusion words</div>
+      <p class="text-muted small">
+        Words to ignore when scoring. These are filtered out of both the resume
+        and the pasted job description before matching.
+      </p>
+      <button class="file-btn" type="button" (click)="openStopwords.emit()">Manage exclusion words…</button>
+    </div>
+
+    <div class="dw-section">
+      <div class="dw-section-title">Term boosts</div>
+      <p class="text-muted small">
+        Multiply the influence of specific terms. e.g. <b>java: 3</b> makes java
+        matches count 3× a normal term. Affects the TF-IDF half of the score.
+      </p>
+      <div class="boost-rows">
+        <div class="boost-row" *ngFor="let row of boostRows(); let i = index; trackBy: trackByIndex">
+          <input
+            class="boost-term"
+            type="text"
+            placeholder="term (e.g. java)"
+            [ngModel]="row.term"
+            (ngModelChange)="updateBoostTerm(i, $event)" />
+          <input
+            class="boost-weight"
+            type="number"
+            min="0.1"
+            step="0.1"
+            placeholder="2"
+            [ngModel]="row.weight"
+            (ngModelChange)="updateBoostWeight(i, $event)" />
+          <button class="boost-remove" type="button" (click)="removeBoostRow(i)" title="Remove">✕</button>
+        </div>
+        <div class="text-muted small" *ngIf="boostRows().length === 0">No boosts yet.</div>
+      </div>
+      <div class="boost-actions">
+        <button class="file-btn" type="button" (click)="addBoostRow()">+ Add</button>
+        <button class="primary sm" type="button" (click)="onSaveBoosts()" [disabled]="savingBoosts()">
+          {{ savingBoosts() ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</aside>

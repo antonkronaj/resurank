@@ -1,0 +1,11 @@
+node_modules/
+data/
+dist/
+out/
+.DS_Store
+*.log
+.idea/
+
+# Electron build output
+src/electron/dist/
+release/

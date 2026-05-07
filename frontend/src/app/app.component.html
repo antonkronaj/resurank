@@ -1,0 +1,140 @@
+<div class="shell">
+
+  <header class="toolbar">
+    <div class="app-brand">
+      <img src="icon.svg" class="app-icon" alt="jobMatch icon" />
+      <span class="app-name">jobMatch</span>
+    </div>
+    <div class="flex-1"></div>
+    <button class="tb-btn" (click)="settingsOpen.set(!settingsOpen())">⚙ Settings</button>
+  </header>
+
+  <div class="body">
+
+    <main class="content">
+      <div class="msg-bar" *ngIf="message()">{{ message() }}</div>
+
+      <div class="msg-bar model-download" *ngIf="modelStatus() as ms" [hidden]="!ms.loading">
+        <div class="model-download-content">
+          <span class="spinner"></span>
+          <span class="model-download-text">
+            Downloading AI model (first run only)...
+            <ng-container *ngIf="ms.progress !== undefined">
+              {{ ms.progress | number: '1.0-0' }}%
+            </ng-container>
+          </span>
+        </div>
+      </div>
+
+      <section class="panel">
+        <h2 class="panel-title">Job description</h2>
+        <label class="field">
+          <span class="field-label">Title (optional)</span>
+          <input type="text" class="text-input"
+                 placeholder="Senior Software Engineer"
+                 [ngModel]="jdTitle()"
+                 (ngModelChange)="jdTitle.set($event)" />
+        </label>
+        <label class="field">
+          <span class="field-label">Description</span>
+          <textarea class="text-area"
+                    rows="12"
+                    placeholder="Paste the job description here…"
+                    [ngModel]="jdDescription()"
+                    (ngModelChange)="jdDescription.set($event)"></textarea>
+        </label>
+        <div class="actions">
+          <button class="primary" (click)="evaluate()"
+                  [disabled]="evaluating() || !resume().uploaded">
+            {{ evaluating() ? 'Scoring…' : 'Evaluate match' }}
+          </button>
+          <span class="text-muted small" *ngIf="!resume().uploaded">
+            Upload a resume first ↖
+          </span>
+        </div>
+      </section>
+
+      <section class="panel" *ngIf="result() as r">
+        <h2 class="panel-title">Result</h2>
+        <div class="score-row">
+          <div class="score-big" [attr.data-tier]="scoreTier(r.score)">{{ scorePct(r.score) }}<span class="score-pct">%</span></div>
+          <div class="score-breakdown text-muted small">
+            <div>Embedding: {{ scorePct(r.breakdown.embeddingScore) }}%</div>
+            <div>TF-IDF: {{ scorePct(r.breakdown.tfidfScore) }}%</div>
+            <div>Overlap bonus: +{{ scorePct(r.breakdown.overlapBonus) }}%</div>
+          </div>
+        </div>
+
+        <div class="matched-section">
+          <h3 class="sub-title">Matched terms</h3>
+          <div class="chips" *ngIf="r.matchedTerms.length; else noMatched">
+            <span class="chip" *ngFor="let term of r.matchedTerms">{{ term }}</span>
+          </div>
+          <ng-template #noMatched>
+            <p class="text-muted small">No high-signal terms matched.</p>
+          </ng-template>
+        </div>
+      </section>
+
+      <section class="panel" *ngIf="result() as r">
+        <div class="panel-head">
+          <h2 class="panel-title">Job description keywords</h2>
+          <div class="seg">
+            <button class="seg-btn"
+                    [class.active]="breakdownMode() === 'weighted'"
+                    (click)="setBreakdownMode('weighted')">Weighted</button>
+            <button class="seg-btn"
+                    [class.active]="breakdownMode() === 'counts'"
+                    (click)="setBreakdownMode('counts')">Raw counts</button>
+          </div>
+        </div>
+
+        <div class="kw-table" *ngIf="breakdownMode() === 'weighted'">
+          <div class="kw-row" *ngFor="let w of r.jobWeighted" [class.kw-row--matched]="matchedTermsSet().has(w.term)">
+            <button class="kw-exclude-btn" (click)="addToExclusion(w.term)" [disabled]="stopwordsSet().has(w.term)" title="Add to exclusions">+</button>
+            <span class="kw-term">{{ w.term }}</span>
+            <span class="kw-bar">
+              <span class="kw-bar-fill" [style.width.%]="(w.weight / (r.jobWeighted[0].weight || 1)) * 100"></span>
+            </span>
+            <span class="kw-val text-muted small">{{ w.weight | number: '1.2-2' }}</span>
+          </div>
+          <p class="text-muted small" *ngIf="!r.jobWeighted.length">No terms extracted.</p>
+        </div>
+
+        <div class="kw-table" *ngIf="breakdownMode() === 'counts'">
+          <div class="kw-row" *ngFor="let c of r.jobCounts" [class.kw-row--matched]="matchedTermsSet().has(c.term)">
+            <button class="kw-exclude-btn" (click)="addToExclusion(c.term)" [disabled]="stopwordsSet().has(c.term)" title="Add to exclusions">+</button>
+            <span class="kw-term">{{ c.term }}</span>
+            <span class="kw-bar">
+              <span class="kw-bar-fill" [style.width.%]="(c.count / (r.jobCounts[0].count || 1)) * 100"></span>
+            </span>
+            <span class="kw-val text-muted small">{{ c.count }}</span>
+          </div>
+          <p class="text-muted small" *ngIf="!r.jobCounts.length">No terms extracted.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <app-settings-drawer
+    [isOpen]="settingsOpen()"
+    [resume]="resume()"
+    [uploading]="uploading()"
+    [termBoosts]="termBoosts()"
+    [savingBoosts]="savingBoosts()"
+    (close)="settingsOpen.set(false)"
+    (uploadResume)="onUploadResume($event)"
+    (saveTermBoosts)="onSaveTermBoosts($event)"
+    (openStopwords)="openStopwordsModal()">
+  </app-settings-drawer>
+
+  <app-stopwords-modal
+    [isOpen]="stopwordsOpen()"
+    [words]="stopwords()"
+    [saving]="savingStopwords()"
+    (close)="stopwordsOpen.set(false)"
+    (save)="onSaveStopwords($event)">
+  </app-stopwords-modal>
+
+</div>
