@@ -109,6 +109,14 @@
   font-weight: 500;
 }
 
+.model-error {
+  background: #fef2f2;
+  color: #991b1b;
+  border-bottom: 1px solid #fecaca;
+  padding: 8px 16px;
+  font-weight: 500;
+}
+
 .spinner {
   width: 14px;
   height: 14px;

@@ -83,5 +83,7 @@ getEmbedder()
   })
   .catch((err) => {
     console.error('[EmbeddingWorker] Failed to load model:', err);
+    const message = err instanceof Error ? err.message : String(err);
+    process.send?.({ type: 'loadError', message });
     process.exit(1);
   });

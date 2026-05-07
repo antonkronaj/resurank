@@ -9,6 +9,7 @@ interface WorkerMessage {
   ready?: boolean;
   vectors?: number[][];
   error?: string;
+  message?: string;
   type?: string;
   file?: string;
   progress?: number;
@@ -19,6 +20,7 @@ export interface ModelStatus {
   ready: boolean;
   progress?: number;
   file?: string;
+  error?: string;
 }
 
 class EmbeddingClient {
@@ -99,6 +101,9 @@ class EmbeddingClient {
         } else if (message.type === 'downloadDone') {
           this.status.file = message.file;
           this.status.progress = 100;
+        } else if (message.type === 'loadError') {
+          this.status.loading = false;
+          this.status.error = message.message;
         } else if (message.id && this.pendingRequests.has(message.id)) {
           const resolveReq = this.pendingRequests.get(message.id)!;
           this.pendingRequests.delete(message.id);
@@ -123,6 +128,7 @@ class EmbeddingClient {
         this.readyPromise = null;
         this.status.ready = false;
         this.status.loading = false;
+        // Preserve this.status.error so the frontend can read it on the next poll.
       });
 
       this.worker.on('error', (err) => {

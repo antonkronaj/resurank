@@ -38,6 +38,7 @@ export interface ModelStatus {
   ready: boolean;
   progress?: number;
   file?: string;
+  error?: string;
 }
 
 export interface HealthResponse {

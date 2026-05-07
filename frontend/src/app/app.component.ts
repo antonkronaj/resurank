@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
     this.api.getHealth().subscribe({
       next: (r) => {
         this.modelStatus.set(r.model);
-        if (!r.model.ready) {
+        if (!r.model.ready && !r.model.error) {
           setTimeout(() => this.checkModelStatus(), r.model.loading ? 1000 : 2000);
         }
       },

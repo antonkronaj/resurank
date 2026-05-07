@@ -26,6 +26,10 @@
         </div>
       </div>
 
+      <div class="msg-bar model-error" *ngIf="modelStatus()?.error">
+        Model download failed — check your network connection and restart the app.
+      </div>
+
       <section class="panel">
         <h2 class="panel-title">Job description</h2>
         <label class="field">
