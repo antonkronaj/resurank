@@ -46,6 +46,10 @@
                     placeholder="Paste the job description here…"
                     [ngModel]="jdDescription()"
                     (ngModelChange)="jdDescription.set($event)"></textarea>
+          <span class="char-counter" [class.char-counter--warn]="jdDescription().length > JD_CHAR_CAP * 0.9" [class.char-counter--over]="jdDescription().length > JD_CHAR_CAP">
+            {{ jdDescription().length | number }} / {{ JD_CHAR_CAP | number }}
+            <ng-container *ngIf="jdDescription().length > JD_CHAR_CAP"> — text beyond this limit is ignored</ng-container>
+          </span>
         </label>
         <div class="actions">
           <button class="primary" (click)="evaluate()"

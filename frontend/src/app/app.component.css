@@ -190,6 +190,16 @@
   box-sizing: border-box;
 }
 .text-area { resize: vertical; min-height: 160px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+
+.char-counter {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+}
+.char-counter--warn { color: #ca8a04; }
+.char-counter--over { color: #dc2626; font-weight: 500; }
 .text-input:focus,
 .text-area:focus { outline: none; border-color: var(--accent); }
 

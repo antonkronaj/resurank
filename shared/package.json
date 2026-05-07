@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./config.js"
+    ".": "./config.js",
+    "./constants": "./constants.js"
   }
 }

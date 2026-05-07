@@ -53,7 +53,7 @@ async function getEmbedder(): Promise<any> {
 async function embed(texts: string[]): Promise<number[][]> {
   if (texts.length === 0) return [];
   const embedder = await getEmbedder();
-  const output = await embedder(texts, { pooling: 'mean', normalize: true });
+  const output = await embedder(texts, { pooling: 'mean', normalize: true, truncation: true, max_length: 8192 });
   return output.tolist() as number[][];
 }
 

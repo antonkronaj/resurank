@@ -7,6 +7,7 @@ import {
   MatchResult,
   ModelStatus,
 } from './api.service';
+import { JOB_DESCRIPTION_CHAR_CAP } from '@shared/constants';
 
 import { SettingsDrawerComponent } from './settings-drawer/settings-drawer.component';
 import { StopwordsModalComponent } from './stopwords-modal/stopwords-modal.component';
@@ -31,6 +32,8 @@ export class AppComponent implements OnInit {
   resume = signal<ResumeInfo>({ uploaded: false });
   termBoosts = signal<Record<string, number>>({});
   stopwords = signal<string[]>([]);
+
+  readonly JD_CHAR_CAP = JOB_DESCRIPTION_CHAR_CAP;
 
   jdTitle = signal('');
   jdDescription = signal('');
