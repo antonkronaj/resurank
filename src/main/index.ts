@@ -10,7 +10,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const isDev = !app.isPackaged && process.env.JOBDASH_DEV === '1';
 
 async function startBackend(): Promise<number> {
-  const backendUrl = pathToFileURL(join(__dirname, '..', '..', 'backend', 'backend', 'index.js'));
+  const backendUrl = pathToFileURL(join(__dirname, '..', '..', 'backend', 'backend', 'app.js'));
   interface BackendModule {
     createApp: () => {
       listen: (port: number, host: string, cb: () => void) => import('node:http').Server;
