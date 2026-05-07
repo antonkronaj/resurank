@@ -31,6 +31,10 @@ class EmbeddingClient {
     return this.status;
   }
 
+  warmup(): void {
+    this.getWorker().catch(err => console.error('[EmbeddingClient] Warmup failed:', err));
+  }
+
   private async getWorker(): Promise<ChildProcess> {
     if (this.worker) return this.worker;
 

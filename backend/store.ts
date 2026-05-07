@@ -24,6 +24,8 @@ class Store {
   };
 
   constructor() {
+    console.log('Initializing store with DATA_DIR:', DATA_DIR);
+    console.log('Initializing store with paths:', this.paths);
     this.ensureDataDir();
     this.loadAll();
   }

@@ -40,5 +40,7 @@ export function createApp(): Express {
     res.status(404).json({ error: `Not Found: ${req.method} ${req.url}` });
   });
 
+  embeddingClient.warmup();
+
   return app;
 }
