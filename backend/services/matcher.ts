@@ -96,16 +96,11 @@ function getJobTermWeights(tfidf: any): Map<string, number> {
 }
 
 async function computeEmbeddingScore(resumeText: string, job: JobInput): Promise<number> {
-  try {
-    const resumeInput = resumeText.slice(0, RESUME_CHAR_CAP);
-    const jobText = `${job.title}. ${job.description.slice(0, JOB_DESCRIPTION_CHAR_CAP)}`;
-    const [resumeVec, jobVec] = await embeddingClient.embed([resumeInput, jobText]);
-    if (!resumeVec || !jobVec) return 0;
-    return Math.max(0, dotProduct(resumeVec, jobVec));
-  } catch (err) {
-    console.error('[matcher] embedding failed, falling back to TF-IDF only:', err);
-    return 0;
-  }
+  const resumeInput = resumeText.slice(0, RESUME_CHAR_CAP);
+  const jobText = `${job.title}. ${job.description.slice(0, JOB_DESCRIPTION_CHAR_CAP)}`;
+  const [resumeVec, jobVec] = await embeddingClient.embed([resumeInput, jobText]);
+  if (!resumeVec || !jobVec) return 0;
+  return Math.max(0, dotProduct(resumeVec, jobVec));
 }
 
 export async function scoreSingleJob(

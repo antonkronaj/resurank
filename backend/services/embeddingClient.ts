@@ -25,7 +25,7 @@ export interface ModelStatus {
 
 class EmbeddingClient {
   private worker: ChildProcess | null = null;
-  private pendingRequests: Map<string, (vectors: number[][]) => void> = new Map();
+  private pendingRequests: Map<string, { resolve: (v: number[][]) => void; reject: (e: Error) => void }> = new Map();
   private readyPromise: Promise<void> | null = null;
   private status: ModelStatus = { loading: false, ready: false };
 
@@ -105,13 +105,13 @@ class EmbeddingClient {
           this.status.loading = false;
           this.status.error = message.message;
         } else if (message.id && this.pendingRequests.has(message.id)) {
-          const resolveReq = this.pendingRequests.get(message.id)!;
+          const pending = this.pendingRequests.get(message.id)!;
           this.pendingRequests.delete(message.id);
           if (message.error) {
             console.error(`[EmbeddingClient] Worker error: ${message.error}`);
-            resolveReq([]);
+            pending.reject(new Error(message.error));
           } else {
-            resolveReq(message.vectors ?? []);
+            pending.resolve(message.vectors ?? []);
           }
         }
       });
@@ -124,6 +124,13 @@ class EmbeddingClient {
         } else if (code === null) {
           console.error('[EmbeddingClient] Worker exited with code null (process killed)');
         }
+
+        const exitErr = new Error(
+          signal ? `Embedding worker crashed (signal: ${signal})` : `Embedding worker exited (code: ${code})`
+        );
+        for (const { reject } of this.pendingRequests.values()) reject(exitErr);
+        this.pendingRequests.clear();
+
         this.worker = null;
         this.readyPromise = null;
         this.status.ready = false;
@@ -165,9 +172,9 @@ class EmbeddingClient {
         reject(new Error(`Embedding request ${id} timed out`));
       }, 60000);
 
-      this.pendingRequests.set(id, (vectors) => {
-        clearTimeout(timeout);
-        resolve(vectors);
+      this.pendingRequests.set(id, {
+        resolve: (vectors) => { clearTimeout(timeout); resolve(vectors); },
+        reject: (err) => { clearTimeout(timeout); reject(err); },
       });
 
       worker.send({ id, texts });
