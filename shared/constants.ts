@@ -10,8 +10,8 @@ export const EMBEDDING_CHAR_CAP = 6_000;
 
 // Final score blend. Must sum to 1. Embedding captures semantic similarity
 // (paraphrases, related concepts); TF-IDF anchors on shared keywords.
-export const EMBEDDING_WEIGHT = 0.70;
-export const TFIDF_WEIGHT = 0.30;
+export const EMBEDDING_WEIGHT = 0.60;
+export const TFIDF_WEIGHT = 0.40;
 
 // Of the resume's TF-IDF terms sorted by weight desc, how many count as
 // "high signal." Only terms in this top slice can show up as matched
@@ -32,3 +32,15 @@ export const TOP_TERMS_FOR_BREAKDOWN = 50;
 // ~0.67% until we hit 30, then no further gain.
 export const OVERLAP_BONUS_THRESHOLD = 30;
 export const OVERLAP_BONUS_MAX = 0.2;
+
+// Divergence penalty: when TF-IDF is near zero the embedding is likely a
+// false positive (abstract semantic overlap with no real keyword match).
+// Smoothly reduce the embedding weight as TF-IDF falls below the gate.
+// At tfidf >= GATE: normal weights (0.7/0.3) apply unchanged.
+// At tfidf = 0:     embedding weight drops to MIN_EMBEDDING_WEIGHT.
+export const DIVERGENCE_TFIDF_GATE = 0.15;
+export const DIVERGENCE_MIN_EMBEDDING_WEIGHT = 0.10;
+
+// Language detection: flag the JD as likely non-English when more than
+// this fraction of its alphabetic characters are non-ASCII.
+export const NON_ENGLISH_CHAR_RATIO = 0.03;

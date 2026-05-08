@@ -23,6 +23,7 @@ export interface MatchBreakdown {
   tfidfScore: number;
   embeddingScore: number;
   overlapBonus: number;
+  divergencePenalty: number;
 }
 
 export interface MatchResult {
@@ -31,6 +32,7 @@ export interface MatchResult {
   breakdown: MatchBreakdown;
   jobWeighted: TermWeight[];
   jobCounts: TermCount[];
+  languageWarning: boolean;
 }
 
 export interface ModelStatus {

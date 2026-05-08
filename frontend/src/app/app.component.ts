@@ -7,10 +7,11 @@ import {
   MatchResult,
   ModelStatus,
 } from './api.service';
-import { JOB_DESCRIPTION_CHAR_CAP } from '@shared/constants';
+import { JOB_DESCRIPTION_CHAR_CAP, EMBEDDING_WEIGHT, TFIDF_WEIGHT } from '@shared/constants';
 
 import { SettingsDrawerComponent } from './settings-drawer/settings-drawer.component';
 import { StopwordsModalComponent } from './stopwords-modal/stopwords-modal.component';
+import { ScoreInfoModalComponent } from './score-info-modal/score-info-modal.component';
 
 type BreakdownMode = 'weighted' | 'counts';
 
@@ -22,6 +23,7 @@ type BreakdownMode = 'weighted' | 'counts';
     FormsModule,
     SettingsDrawerComponent,
     StopwordsModalComponent,
+    ScoreInfoModalComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -35,6 +37,8 @@ export class AppComponent implements OnInit {
   recentlyExcluded = signal<Set<string>>(new Set());
 
   readonly JD_CHAR_CAP = JOB_DESCRIPTION_CHAR_CAP;
+  readonly EMBEDDING_WEIGHT = EMBEDDING_WEIGHT;
+  readonly TFIDF_WEIGHT = TFIDF_WEIGHT;
 
   jdTitle = signal('');
   jdDescription = signal('');
@@ -51,6 +55,7 @@ export class AppComponent implements OnInit {
 
   settingsOpen = signal(false);
   stopwordsOpen = signal(false);
+  scoreInfoOpen = signal(false);
   message = signal('');
 
   modelStatus = signal<ModelStatus | null>(null);

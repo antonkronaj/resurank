@@ -12,7 +12,10 @@ import {
   MAX_MATCHED_TERMS,
   TOP_TERMS_FOR_BREAKDOWN,
   OVERLAP_BONUS_THRESHOLD,
-  OVERLAP_BONUS_MAX
+  OVERLAP_BONUS_MAX,
+  DIVERGENCE_TFIDF_GATE,
+  DIVERGENCE_MIN_EMBEDDING_WEIGHT,
+  NON_ENGLISH_CHAR_RATIO,
 } from '../../shared/constants.js';
 
 export interface TermWeight {
@@ -29,6 +32,7 @@ export interface MatchBreakdown {
   tfidfScore: number;
   embeddingScore: number;
   overlapBonus: number;
+  divergencePenalty: number;
 }
 
 export interface MatchResult {
@@ -37,6 +41,7 @@ export interface MatchResult {
   breakdown: MatchBreakdown;
   jobWeighted: TermWeight[];
   jobCounts: TermCount[];
+  languageWarning: boolean;
 }
 
 export interface JobInput {
@@ -78,13 +83,6 @@ function buildResumeTermWeights(
     weights.set(t.term, t.tfidf * boost);
   });
 
-  // Inject boosted terms missing from the resume at the median baseline weight.
-  const sorted = [...weights.values()].sort((a, b) => a - b);
-  const baseline = sorted[Math.floor(sorted.length / 2)] ?? 1;
-  for (const [term, boost] of Object.entries(boosts)) {
-    if (!weights.has(term)) weights.set(term, baseline * boost);
-  }
-
   return weights;
 }
 
@@ -115,6 +113,13 @@ function sanitizeForEmbedding(text: string): string {
     // Collapse whitespace
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+function detectNonEnglish(text: string): boolean {
+  const letters = text.match(/\p{L}/gu) ?? [];
+  if (letters.length === 0) return false;
+  const nonAscii = letters.filter(c => c.charCodeAt(0) > 127).length;
+  return nonAscii / letters.length > NON_ENGLISH_CHAR_RATIO;
 }
 
 async function computeEmbeddingScore(resumeText: string, job: JobInput): Promise<number> {
@@ -160,7 +165,17 @@ export async function scoreSingleJob(
   const tfidfScore = Math.min(cosine + overlapBonus, 1);
 
   const embeddingScore = await computeEmbeddingScore(resumeText, job);
-  const score = Math.min(EMBEDDING_WEIGHT * embeddingScore + TFIDF_WEIGHT * tfidfScore, 1);
+
+  // As tfidfScore falls below the gate, smoothly reduce embedding weight so
+  // near-zero TF-IDF (no keyword overlap) can't be rescued by embedding alone.
+  const tfidfSignal = Math.min(tfidfScore / DIVERGENCE_TFIDF_GATE, 1);
+  const embeddingWeight = DIVERGENCE_MIN_EMBEDDING_WEIGHT + (EMBEDDING_WEIGHT - DIVERGENCE_MIN_EMBEDDING_WEIGHT) * tfidfSignal;
+  const adjustedScore = Math.min(Math.max(0, embeddingWeight * embeddingScore + (1 - embeddingWeight) * tfidfScore), 1);
+  const normalScore = Math.min(EMBEDDING_WEIGHT * embeddingScore + TFIDF_WEIGHT * tfidfScore, 1);
+  const divergencePenalty = Math.max(0, normalScore - adjustedScore);
+  const score = adjustedScore;
+
+  const languageWarning = detectNonEnglish(job.description);
 
   const userStops = getUserStopwords();
   const isExcluded = (term: string) => userStops.has(term) || EXTRA_STOPWORDS.has(term);
@@ -184,9 +199,10 @@ export async function scoreSingleJob(
   return {
     score,
     matchedTerms: [...matched].slice(0, MAX_MATCHED_TERMS),
-    breakdown: {tfidfScore, embeddingScore, overlapBonus},
+    breakdown: {tfidfScore, embeddingScore, overlapBonus, divergencePenalty},
     jobWeighted,
     jobCounts,
+    languageWarning,
   };
 }
 

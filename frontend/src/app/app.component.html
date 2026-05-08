@@ -14,7 +14,7 @@
     <main class="content">
       <div class="msg-bar" *ngIf="message()">{{ message() }}</div>
 
-      <div class="msg-bar model-download" *ngIf="modelStatus() as ms" [hidden]="!ms.loading">
+      <div class="msg-bar model-download" *ngIf="modelStatus() as ms" [hidden]="!ms.loading || ms.progress === undefined">
         <div class="model-download-content">
           <span class="spinner"></span>
           <span class="model-download-text">
@@ -64,13 +64,17 @@
 
       <section class="panel" *ngIf="result() as r">
         <h2 class="panel-title">Result</h2>
+        <div class="msg-bar lang-warning" *ngIf="r.languageWarning">
+          ⚠ Job description appears to be in a non-English language — score may be less accurate.
+        </div>
         <div class="score-row">
           <div class="score-big" [attr.data-tier]="scoreTier(r.score)">{{ scorePct(r.score) }}<span class="score-pct">%</span></div>
           <div class="score-breakdown text-muted small">
-            <div>Embedding: {{ scorePct(r.breakdown.embeddingScore) }}%</div>
-            <div>TF-IDF: {{ scorePct(r.breakdown.tfidfScore) }}%</div>
-            <div>Overlap bonus: +{{ scorePct(r.breakdown.overlapBonus) }}%</div>
+            <div>Embedding ({{ scorePct(r.breakdown.embeddingScore) }}%): {{ r.breakdown.embeddingScore * EMBEDDING_WEIGHT * 100 | number:'1.0-1' }}%</div>
+            <div>TF-IDF ({{ scorePct(r.breakdown.tfidfScore) }}%): {{ r.breakdown.tfidfScore * TFIDF_WEIGHT * 100 | number:'1.0-1' }}%</div>
+<div *ngIf="r.breakdown.divergencePenalty > 0" class="divergence-penalty">Divergence penalty: −{{ r.breakdown.divergencePenalty * 100 | number:'1.0-1' }}%</div>
           </div>
+          <button class="score-info-btn" type="button" (click)="scoreInfoOpen.set(true)" title="How is this score calculated?">ℹ</button>
         </div>
 
         <div class="matched-section">
@@ -154,5 +158,10 @@
     (close)="stopwordsOpen.set(false)"
     (save)="onSaveStopwords($event)">
   </app-stopwords-modal>
+
+  <app-score-info-modal
+    [isOpen]="scoreInfoOpen()"
+    (close)="scoreInfoOpen.set(false)">
+  </app-score-info-modal>
 
 </div>
