@@ -103,6 +103,9 @@ function getJobTermWeights(tfidf: any): Map<string, number> {
  */
 function sanitizeForEmbedding(text: string): string {
   return text
+    // HTML tags and entities
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&[a-z]+;|&#\d+;|&#x[\da-f]+;/gi, ' ')
     // URLs (http/https/ftp)
     .replace(/https?:\/\/\S+|ftp:\/\/\S+/gi, ' ')
     // Emoji (covers most Unicode emoji ranges including skin-tone modifiers)
