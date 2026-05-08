@@ -1,0 +1,34 @@
+Poznaj Onwelo
+
+Onwelo jest partnerem technologicznym, który dostarcza kompleksowe usługi, od strategii i architektury, przez wdrożenia, po utrzymanie, w obszarach transformacji cyfrowej, danych i automatyzacji. Nasz zespół liczy ponad 400 specjalistów z silnymi kompetencjami seniorskim, a na koncie mamy 300+ zrealizowanych projektów dla dużych organizacji w Polsce, Europie i USA. Działamy z kilku polskich miast oraz z biur w Niemczech, Szwajcarii i USA, łącząc lokalną obecność z globalnym zasięgiem.
+
+O projekcie
+
+Szukamy doświadczonego Senior Java Software Engineer, który wesprze nas w projektowaniu i rozwijaniu skalowalnych systemów backendowych opartych na mikroserwisach. Jeśli cenisz sobie jakość kodu, nowoczesne technologie i pracę w międzynarodowym środowisku – ta rola może być właśnie dla Ciebie.
+
+Twoje zadania
+
+Tworzenie mikroserwisów w języku Java 21
+Przeprowadzanie przeglądów kodu i dbanie o zgodność z najlepszymi praktykami
+Optymalizowanie wydajności i łatwości utrzymania rozproszonych usług
+Tworzenie dokumentacji technicznej
+Współpraca z zespołami produktowymi i technicznymi, dostarczając rozwiązania zorientowane na użytkownika
+Uczestniczenie w pełnym cyklu tworzenia oprogramowania
+Kogo szukamy
+
+Masz praktyczne doświadczenie z Java 21
+Znasz Spring Boot i umiesz budować mikroserwisy i projektujesz REST API
+Masz doświadczenie w automatyzacji testów
+Pracowałeś z systemami bankowymi, ubezpieczeniowymi lub finansowym
+Znasz język angielski (w mowie i piśmie) na poziomie B2
+Co oferujemy
+
+Elastyczne godziny oraz możliwość pracy zdalnej
+Udział w ciekawych projektach dla globalnych klientów
+Aż 80% awansów w naszej firmie odbywa się wewnętrznie
+90% kadry zarządzającej ma wykształcenie techniczne
+Dostęp do szkoleń wewnętrznych i ścieżek rozwojowych
+Udział w wydarzeniach zespołowych, firmowych spotkaniach i Town Hallach
+Wsparcie w budowaniu profesjonalnego wizerunku (personal branding)
+Dostęp do ubezpieczenia na życie oraz prywatnej opieki medycznej dla siebie i rodziny
+Karta MultiSport, która wspiera dbałość o zdrowie i kondycję

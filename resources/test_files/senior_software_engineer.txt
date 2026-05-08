@@ -1,0 +1,31 @@
+Senior Software Engineer — Backend Platform
+TechCorp | Portland, OR (Hybrid)
+
+We are looking for a Senior Software Engineer with deep Java/Spring Boot expertise to join our platform engineering team. You will own backend services on a multi-tenant SaaS platform serving enterprise clients in regulated industries, driving architecture decisions from design through production operations.
+
+Responsibilities
+
+Design and operate high-throughput, always-on backend services built on Java and Spring Boot
+Own message-driven pipelines built on RabbitMQ (AMQP), ensuring reliable processing at scale
+Partner with SRE on incident response, on-call rotations, and production observability
+Lead JVM and database performance tuning across distributed systems
+Drive CI/CD pipeline improvements using GitLab CI/CD and GitHub Actions
+Collaborate cross-functionally with engineering, product, and QA to deliver end-to-end features
+Write technical specs and conduct code reviews, mentoring engineers across the team
+Requirements
+
+10+ years of software engineering experience, with deep Java and Spring Boot expertise
+Experience building and operating multi-tenant SaaS platforms handling sensitive PII in regulated environments
+Hands-on experience with RabbitMQ or similar AMQP message brokers
+Strong knowledge of REST API design, JWT authentication, and enterprise security controls
+Proficiency with Docker, Kubernetes, and Linux-based infrastructure
+Experience with observability tooling such as Dynatrace, ELK/Kibana, or New Relic
+Familiarity with AWS services (IAM, SNS) and distributed systems patterns
+Experience with Angular or similar frontend frameworks a plus
+Comfortable with Agile, TDD, pair programming, and DevOps practices
+Nice to Have
+
+Elasticsearch or Couchbase experience
+TypeScript/JavaScript for full-stack contributions
+Experience migrating Java versions across production systems
+Kotlin experience or interest

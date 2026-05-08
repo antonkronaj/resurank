@@ -1,0 +1,59 @@
+We are seeking senior-level (Level 3) Software Engineers to design, develop, and support scalable enterprise applications. This role is ideal for a full-stack engineer with strong Angular expertise and hands-on Java experience who enjoys working in an Agile/SAFe environment.
+
+Engineers will support new feature development, product enhancements, and production support while collaborating closely with cross functional teams.
+
+Responsibilities
+
+Design, build, and support reliable, secure, and scalable software solutions
+Develop front-end applications using Angular and contribute to Java-based backend services
+Participate actively in Agile/SAFe ceremonies (standups, refinement, retrospectives, sprint and PI planning)
+Lead feature-level discussions and contribute to technical design decisions
+Write clean, maintainable code and participate in code reviews
+Contribute to CI/CD pipelines, automated testing, and quality standards
+Troubleshoot and resolve complex production issues
+Create clear technical documentation and design artifacts as needed
+Mentor and support junior and mid-level engineers
+Track work, status, and issues in a ticketing or tracking system
+Clearly communicate technical concepts to both technical and non-technical stakeholders
+Required Qualifications (Level 3)
+
+3-5+ years of professional software engineering experience
+Strong experience building modern applications with Angular
+Strong Java development skills; comfortable writing and running Java code independently
+Experience working in Agile or SAFe environments
+Solid understanding of software design principles and best practices
+Experience with RESTful services, APIs, and enterprise application development
+Ability to work independently, manage priorities, and deliver high-quality work
+Strong problem-solving, communication, and collaboration skills
+Nice to Have
+
+Experience with Spring or Spring Boot
+CI/CD pipelines and automated testing experience
+Experience producing technical diagrams or design documentation
+Experience supporting production systems
+Interview Process
+
+Technical interview (~90 minutes) including a live Java coding exercise using an IDE of your choice
+Beacon Hill is an equal opportunity employer and individuals with disabilities and/or protected veterans are encouraged to apply.
+
+California residents: Qualified applications with arrest or conviction records will be considered for employment in accordance with the Los Angeles County Fair Chance Ordinance for Employers and the California Fair Chance Act.
+
+If you would like to complete our voluntary self-identification form, please or copy and paste the following link into an open window in your browser: ;/p>
+
+Completion of this form is voluntary and will not affect your opportunity for employment, or the terms or conditions of your employment. This form will be used for reporting purposes only and will be kept separate from all other records.
+
+Company Profile:
+
+Beacon Hill Technologies, a premier National Information Technology Staffing Group, provides world class technology talent across all industries utilizing a complete suite of staffing services. Beacon Hill Technologies' dedicated team of recruiting and staffing experts consistently delivers quality IT professionals to solve our customers' technical and business needs.
+
+Beacon Hill Technologies covers a broad spectrum of IT positions, including Project Management and Business Analysis, Programming/Development, Database, Infrastructure, Quality Assurance, Production/Support and ERP roles.
+
+Learn more about Beacon Hill and our specialty divisions, Beacon Hill Associates, Beacon Hill Financial, Beacon Hill HR, Beacon Hill Legal, Beacon Hill Life Sciences and Beacon Hill Technologies by visiting .
+
+Benefits Information:
+
+Beacon Hill offers a robust benefit package including, but not limited to, medical, dental, vision, and federal and state leave programs as required by applicable agency regulations to those that meet eligibility. Upon successfully being hired, details will be provided related to our benefit offerings.
+
+We look forward to working with you.
+
+Beacon Hill. Employing the Future
