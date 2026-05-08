@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
   resume = signal<ResumeInfo>({ uploaded: false });
   termBoosts = signal<Record<string, number>>({});
   stopwords = signal<string[]>([]);
+  recentlyExcluded = signal<Set<string>>(new Set());
 
   readonly JD_CHAR_CAP = JOB_DESCRIPTION_CHAR_CAP;
 
@@ -109,6 +110,7 @@ export class AppComponent implements OnInit {
     }
     this.evaluating.set(true);
     this.message.set('Scoring…');
+    this.recentlyExcluded.set(new Set());
     this.api.match(this.jdTitle().trim(), description).subscribe({
       next: (r) => {
         this.result.set(r);
@@ -184,9 +186,22 @@ export class AppComponent implements OnInit {
     this.api.saveStopwords(updated).subscribe({
       next: () => {
         this.stopwords.set(updated);
+        this.recentlyExcluded.update(s => new Set([...s, term]));
         this.message.set(`"${term}" added to exclusions.`);
       },
       error: (err) => this.message.set(`Failed to add exclusion: ${err.error?.error ?? err.message ?? err}`),
+    });
+  }
+
+  undoExclusion(term: string): void {
+    const updated = this.stopwords().filter(w => w !== term);
+    this.api.saveStopwords(updated).subscribe({
+      next: () => {
+        this.stopwords.set(updated);
+        this.recentlyExcluded.update(s => { const n = new Set(s); n.delete(term); return n; });
+        this.message.set(`"${term}" removed from exclusions.`);
+      },
+      error: (err) => this.message.set(`Failed to undo exclusion: ${err.error?.error ?? err.message ?? err}`),
     });
   }
 }

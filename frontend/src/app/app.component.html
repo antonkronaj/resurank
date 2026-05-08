@@ -99,7 +99,12 @@
 
         <div class="kw-table" *ngIf="breakdownMode() === 'weighted'">
           <div class="kw-row" *ngFor="let w of r.jobWeighted" [class.kw-row--matched]="matchedTermsSet().has(w.term)">
-            <button class="kw-exclude-btn" (click)="addToExclusion(w.term)" [disabled]="stopwordsSet().has(w.term)" title="Add to exclusions">+</button>
+            <ng-container *ngIf="recentlyExcluded().has(w.term); else excludeBtnW">
+              <button class="kw-undo-btn" (click)="undoExclusion(w.term)" title="Undo exclusion">↩</button>
+            </ng-container>
+            <ng-template #excludeBtnW>
+              <button class="kw-exclude-btn" (click)="addToExclusion(w.term)" [disabled]="stopwordsSet().has(w.term)" title="Add to exclusions">−</button>
+            </ng-template>
             <span class="kw-term">{{ w.term }}</span>
             <span class="kw-bar">
               <span class="kw-bar-fill" [style.width.%]="(w.weight / (r.jobWeighted[0].weight || 1)) * 100"></span>
@@ -111,7 +116,12 @@
 
         <div class="kw-table" *ngIf="breakdownMode() === 'counts'">
           <div class="kw-row" *ngFor="let c of r.jobCounts" [class.kw-row--matched]="matchedTermsSet().has(c.term)">
-            <button class="kw-exclude-btn" (click)="addToExclusion(c.term)" [disabled]="stopwordsSet().has(c.term)" title="Add to exclusions">+</button>
+            <ng-container *ngIf="recentlyExcluded().has(c.term); else excludeBtnC">
+              <button class="kw-undo-btn" (click)="undoExclusion(c.term)" title="Undo exclusion">↩</button>
+            </ng-container>
+            <ng-template #excludeBtnC>
+              <button class="kw-exclude-btn" (click)="addToExclusion(c.term)" [disabled]="stopwordsSet().has(c.term)" title="Add to exclusions">−</button>
+            </ng-template>
             <span class="kw-term">{{ c.term }}</span>
             <span class="kw-bar">
               <span class="kw-bar-fill" [style.width.%]="(c.count / (r.jobCounts[0].count || 1)) * 100"></span>
