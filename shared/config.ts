@@ -6,12 +6,12 @@ const isDev = process.env.NODE_ENV !== 'production' && !process.env.DATABASE_PAT
 
 function getDefaultDataPath(): string {
   if (process.platform === 'darwin') {
-    return join(homedir(), 'Library', 'Application Support', 'jobmatch');
+    return join(homedir(), 'Library', 'Application Support', 'fitcheck');
   }
   if (process.platform === 'win32') {
-    return join(process.env.APPDATA || join(homedir(), 'AppData', 'Roaming'), 'jobmatch');
+    return join(process.env.APPDATA || join(homedir(), 'AppData', 'Roaming'), 'fitcheck');
   }
-  return join(homedir(), '.config', 'jobmatch');
+  return join(homedir(), '.config', 'fitcheck');
 }
 
 export const config = {

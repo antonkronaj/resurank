@@ -4,8 +4,8 @@ import type { ForgeConfig } from '@electron-forge/shared-types';
 
 const config: ForgeConfig = {
   packagerConfig: {
-    name: 'jobMatch',
-    appBundleId: 'dev.jobmatch.app',
+    name: 'FitCheck',
+    appBundleId: 'dev.fitcheck.app',
     icon: 'resources/icon',
     extraResource: ['app-update.yml'],
     asar: {

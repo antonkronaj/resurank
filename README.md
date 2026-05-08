@@ -1,4 +1,4 @@
-# jobMatch
+# FitCheck
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -19,7 +19,7 @@ Features:
 ## Structure
 
 ```
-jobmatch/
+fitcheck/
 ├── src/
 │   ├── main/        # Electron main process (starts backend, opens BrowserWindow)
 │   │   └── index.ts
@@ -116,7 +116,7 @@ Hybrid scoring: **70% semantic embedding + 30% TF-IDF cosine + overlap bonus**.
 - **TF-IDF**: cosine similarity over a two-document index (resume + job), plus a small bonus for term overlap with top resume terms. Matched terms surface as chips in the UI.
 - Final score: `0.7 × embedding + 0.3 × tfidf`, clamped to `[0, 1]`.
 
-> **First run** triggers a one-time download of the scoring model into `~/Library/Application Support/jobmatch/model-cache/`.
+> **First run** triggers a one-time download of the scoring model into `~/Library/Application Support/fitcheck/model-cache/`.
 
 ## API
 
@@ -130,6 +130,6 @@ The renderer talks to the backend over `http://127.0.0.1:<random port>` (port in
 
 ## Notes
 
-- **Data location**: `~/Library/Application Support/jobmatch/` (macOS) under Electron; `backend/data/` for the standalone backend.
+- **Data location**: `~/Library/Application Support/fitcheck/` (macOS) under Electron; `backend/data/` for the standalone backend.
 - **macOS builds are arm64 only** (Apple Silicon). `onnxruntime-node` and `@huggingface/transformers` are unpacked from the asar archive so their native binaries can be loaded at runtime.
 - **Security**: context isolation and sandboxing are enabled; a Content Security Policy is applied to all renderer responses; all renderer permission requests (mic, camera, notifications) are denied.
