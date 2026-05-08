@@ -10,8 +10,8 @@ export const EMBEDDING_CHAR_CAP = 6_000;
 
 // Final score blend. Must sum to 1. Embedding captures semantic similarity
 // (paraphrases, related concepts); TF-IDF anchors on shared keywords.
-export const EMBEDDING_WEIGHT = 0.75;
-export const TFIDF_WEIGHT = 0.25;
+export const EMBEDDING_WEIGHT = 0.70;
+export const TFIDF_WEIGHT = 0.30;
 
 // Of the resume's TF-IDF terms sorted by weight desc, how many count as
 // "high signal." Only terms in this top slice can show up as matched
