@@ -1,8 +1,12 @@
 
-// Char caps before sending text to the embedding model. jina-embeddings-v2
-// truncates at 8192 tokens (~32k chars in English), so we cap around there.
+// UI input cap — how much text the user can paste before the counter turns red.
 export const JOB_DESCRIPTION_CHAR_CAP = 32_000;
 export const RESUME_CHAR_CAP = 32_000;
+
+// Embedding cap — applied *after* sanitization (strip emoji, URLs, Markdown).
+// Emoji sequences and URLs tokenize far denser than plain English (~1 token per
+// 4 chars), so we keep a conservative limit to avoid ONNX WASM memory faults.
+export const EMBEDDING_CHAR_CAP = 6_000;
 
 // Final score blend. Must sum to 1. Embedding captures semantic similarity
 // (paraphrases, related concepts); TF-IDF anchors on shared keywords.

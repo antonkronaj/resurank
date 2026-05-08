@@ -5,6 +5,7 @@ import {embeddingClient} from './embeddingClient.js';
 import {
   JOB_DESCRIPTION_CHAR_CAP,
   RESUME_CHAR_CAP,
+  EMBEDDING_CHAR_CAP,
   EMBEDDING_WEIGHT,
   TFIDF_WEIGHT,
   TOP_TERMS_FOR_MATCHING,
@@ -95,9 +96,27 @@ function getJobTermWeights(tfidf: any): Map<string, number> {
   return weights;
 }
 
+/**
+ * Strip content that inflates token count without adding semantic signal:
+ * emoji sequences, URLs, Markdown syntax characters, and excess whitespace.
+ * Applied before embedding so the ONNX runtime never sees token-dense garbage.
+ */
+function sanitizeForEmbedding(text: string): string {
+  return text
+    // URLs (http/https/ftp)
+    .replace(/https?:\/\/\S+|ftp:\/\/\S+/gi, ' ')
+    // Emoji (covers most Unicode emoji ranges including skin-tone modifiers)
+    .replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}\u{FE00}-\u{FEFF}]/gu, ' ')
+    // Markdown formatting: **, *, __, _, ~~, `, #, >, |, --, ==
+    .replace(/[*_~`#>|=\-]{2,}|[*_~`#>|]/g, ' ')
+    // Collapse whitespace
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 async function computeEmbeddingScore(resumeText: string, job: JobInput): Promise<number> {
-  const resumeInput = resumeText.slice(0, RESUME_CHAR_CAP);
-  const jobText = `${job.title}. ${job.description.slice(0, JOB_DESCRIPTION_CHAR_CAP)}`;
+  const resumeInput = sanitizeForEmbedding(resumeText).slice(0, EMBEDDING_CHAR_CAP);
+  const jobText = sanitizeForEmbedding(`${job.title}. ${job.description}`).slice(0, EMBEDDING_CHAR_CAP);
   const [resumeVec, jobVec] = await embeddingClient.embed([resumeInput, jobText]);
   if (!resumeVec || !jobVec) return 0;
   return Math.max(0, dotProduct(resumeVec, jobVec));
