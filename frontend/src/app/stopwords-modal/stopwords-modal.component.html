@@ -34,6 +34,8 @@
     </div>
 
     <div class="modal-footer">
+      <input #fileInput type="file" accept=".txt,text/plain" (change)="onImportFile($event)" hidden />
+      <button class="file-btn" type="button" (click)="fileInput.click()" [disabled]="saving()">Import from file</button>
       <button class="file-btn" type="button" (click)="exportToArray()" [disabled]="saving() || !draft()">Export Array</button>
       <div style="flex: 1"></div>
       <button class="file-btn" type="button" (click)="onClose()" [disabled]="saving()">Cancel</button>

@@ -44,6 +44,21 @@ export class StopwordsModalComponent {
     this.save.emit(words);
   }
 
+  onImportFile(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const imported = this.parseWords(reader.result as string);
+      const existing = this.parseWords(this.draft());
+      const merged = [...new Set([...existing, ...imported])];
+      this.draft.set(merged.join(', '));
+    };
+    reader.readAsText(file);
+    input.value = '';
+  }
+
   exportToArray() {
     const words = this.parseWords(this.draft());
     window.electronAPI.writeToClipboard(JSON.stringify(words)).then(() => {
