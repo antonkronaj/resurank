@@ -59,22 +59,23 @@
           <span class="text-muted small" *ngIf="!resume().uploaded">
             Upload a resume first ↖
           </span>
+          <ng-container *ngIf="result() as r">
+            <div class="score-row">
+              <div class="score-big" [attr.data-tier]="scoreTier(r.score)">{{ scorePct(r.score) }}<span class="score-pct">%</span></div>
+              <div class="score-breakdown text-muted small">
+                <div>Embedding ({{ scorePct(r.breakdown.embeddingScore) }}%): {{ r.breakdown.embeddingScore * EMBEDDING_WEIGHT * 100 | number:'1.0-1' }}%</div>
+                <div>TF-IDF ({{ scorePct(r.breakdown.tfidfScore) }}%): {{ r.breakdown.tfidfScore * TFIDF_WEIGHT * 100 | number:'1.0-1' }}%</div>
+                <div *ngIf="r.breakdown.divergencePenalty > 0" class="divergence-penalty">Divergence penalty: −{{ r.breakdown.divergencePenalty * 100 | number:'1.0-1' }}%</div>
+              </div>
+              <button class="score-info-btn" type="button" (click)="scoreInfoOpen.set(true)" title="How is this score calculated?">ℹ</button>
+            </div>
+          </ng-container>
         </div>
       </section>
 
       <section class="panel" *ngIf="result() as r">
-        <h2 class="panel-title">Result</h2>
         <div class="msg-bar lang-warning" *ngIf="r.languageWarning">
           ⚠ Job description appears to be in a non-English language — score may be less accurate.
-        </div>
-        <div class="score-row">
-          <div class="score-big" [attr.data-tier]="scoreTier(r.score)">{{ scorePct(r.score) }}<span class="score-pct">%</span></div>
-          <div class="score-breakdown text-muted small">
-            <div>Embedding ({{ scorePct(r.breakdown.embeddingScore) }}%): {{ r.breakdown.embeddingScore * EMBEDDING_WEIGHT * 100 | number:'1.0-1' }}%</div>
-            <div>TF-IDF ({{ scorePct(r.breakdown.tfidfScore) }}%): {{ r.breakdown.tfidfScore * TFIDF_WEIGHT * 100 | number:'1.0-1' }}%</div>
-<div *ngIf="r.breakdown.divergencePenalty > 0" class="divergence-penalty">Divergence penalty: −{{ r.breakdown.divergencePenalty * 100 | number:'1.0-1' }}%</div>
-          </div>
-          <button class="score-info-btn" type="button" (click)="scoreInfoOpen.set(true)" title="How is this score calculated?">ℹ</button>
         </div>
 
         <div class="matched-section">
