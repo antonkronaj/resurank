@@ -4,6 +4,9 @@
   "private": true,
   "license": "AGPL-3.0-only",
   "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  },
   "exports": {
     ".": "./config.js",
     "./constants": "./constants.js"

@@ -30,35 +30,36 @@
   },
   "dependencies": {
     "@huggingface/transformers": "^4.2.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
     "electron-squirrel-startup": "^1.0.1",
     "electron-updater": "^6.8.3",
-    "express": "^4.21.1",
-    "multer": "^1.4.5-lts.1",
-    "natural": "^8.0.1",
-    "pdf-parse": "^1.1.1",
-    "rxjs": "~7.8.0"
+    "express": "^5.2.1",
+    "multer": "^2.1.1",
+    "natural": "^8.1.1",
+    "pdf-parse": "^2.4.5",
+    "rxjs": "^7.8.2"
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.11.1",
     "@electron-forge/maker-deb": "^7.11.1",
     "@electron-forge/maker-dmg": "^7.11.1",
     "@electron-forge/maker-rpm": "^7.11.1",
-    "@electron-forge/maker-squirrel": "^7.11.1",
     "@electron-forge/maker-zip": "^7.11.1",
     "@electron-forge/plugin-auto-unpack-natives": "^7.11.1",
     "@electron-forge/plugin-fuses": "^7.11.1",
     "@electron-forge/shared-types": "^7.11.1",
-    "@electron/fuses": "^1.8.0",
-    "@electron/rebuild": "^3.6.0",
-    "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.0",
-    "@types/multer": "^1.4.12",
-    "@types/node": "^22.9.0",
-    "@types/pdf-parse": "^1.1.4",
-    "electron": "^35.0.0",
-    "tsx": "^4.19.2",
-    "typescript": "^5.6.3"
+    "@electron/fuses": "^1.0.0",
+    "@electron/rebuild": "^4.0.4",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/multer": "^2.1.0",
+    "@types/node": "^25.6.2",
+    "electron": "^42.0.1",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  },
+  "overrides": {
+    "glob": "^13.0.6"
   }
 }

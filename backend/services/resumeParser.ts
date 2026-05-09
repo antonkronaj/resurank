@@ -1,4 +1,4 @@
-import pdfParse from 'pdf-parse';
+import { PDFParse } from 'pdf-parse';
 import natural from 'natural';
 import { getSetting } from '../db.js';
 import { EXTRA_STOPWORDS } from './stopwords.js';
@@ -34,7 +34,9 @@ export function reloadUserStopwords(): void {
 }
 
 export async function parseResumePdf(buffer: Buffer): Promise<string> {
-  const result = await pdfParse(buffer);
+  const parser = new PDFParse({ data: buffer });
+  const result = await parser.getText();
+  await parser.destroy();
   return result.text;
 }
 
