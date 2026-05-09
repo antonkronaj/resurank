@@ -12,8 +12,12 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  release-mac:
-    runs-on: macos-latest
+  release:
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -28,6 +32,7 @@ jobs:
           npm --prefix backend install
 
       - name: Import Developer ID certificate
+        if: runner.os == 'macOS'
         env:
           CSC_LINK: ${{ secrets.CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
@@ -40,7 +45,8 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
           rm certificate.p12
 
-      - name: Make & generate manifests
+      - name: Make & generate manifests (macOS)
+        if: runner.os == 'macOS'
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_ID_NAME: ${{ secrets.APPLE_ID_NAME }}
@@ -48,11 +54,16 @@ jobs:
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
         run: npm run dist
 
+      - name: Make & generate manifests (Windows / Linux)
+        if: runner.os != 'macOS'
+        run: npm run dist
+
       - name: Publish to GitHub Releases
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
           TAG="${{ github.ref_name }}"
-          gh release create "$TAG" --title "$TAG" --generate-notes --verify-tag
-          find out/make \( -name "*.dmg" -o -name "*.yml" \) -print0 \
-            | xargs -0 gh release upload "$TAG"
+          gh release create "$TAG" --title "$TAG" --generate-notes --verify-tag || true
+          find out/make \( -name "*.dmg" -o -name "*.exe" -o -name "*.zip" -o -name "*.yml" \) -print0 \
+            | xargs -0 gh release upload "$TAG" --clobber

@@ -212,9 +212,31 @@ The renderer talks to the backend over `http://127.0.0.1:<random port>` (port in
 - **macOS builds are arm64 only** (Apple Silicon). `onnxruntime-node` and `@huggingface/transformers` are unpacked from the asar archive so their native binaries can be loaded at runtime.
 - **Security**: context isolation and sandboxing are enabled; a Content Security Policy is applied to all renderer responses; all renderer permission requests (mic, camera, notifications) are denied.
 
+## GitHub Secrets (for releases)
 
-And I wm typing for this test I wam now talking whitl I am typing how does that go
-I now removed noise reduction. That may heva neemnmll alal iididuduj 
+Releases are published automatically when a `v*` tag is pushed. The workflow builds on macOS, Windows, and Linux in parallel. Before that works, configure the following secrets in **Settings → Secrets and variables → Actions**.
 
-ajhdkjhakjhf adfh ahdsfkjahsdfkjhaksjldhfkjlahsdfkljh jahjlkasdjf lathe hto -222t  thisis the thing that watntot 
-lsdp ahwiuht altlatkjasd
+### macOS code signing & notarization
+
+| Secret | What it is |
+|---|---|
+| `CSC_LINK` | Base64-encoded Developer ID Application `.p12` certificate |
+| `CSC_KEY_PASSWORD` | Password you set when exporting the `.p12` |
+| `APPLE_ID` | Your Apple ID email |
+| `APPLE_ID_NAME` | Your name exactly as shown on the Developer ID certificate |
+| `APPLE_TEAM_ID` | 10-character Team ID from [developer.apple.com/account](https://developer.apple.com/account) → Membership |
+| `APPLE_APP_SPECIFIC_PASSWORD` | App-specific password from [appleid.apple.com](https://appleid.apple.com) → Sign-In and Security → App-Specific Passwords |
+
+#### Exporting the certificate
+
+1. Open **Keychain Access** on your Mac.
+2. Under **My Certificates**, find your **Developer ID Application** certificate.
+3. Right-click → **Export** → save as a `.p12` file and choose a password.
+
+#### Converting the .p12 to base64 for `CSC_LINK`
+
+```bash
+base64 -i YourCertificate.p12 | pbcopy
+```
+
+This encodes the file and copies the result to your clipboard. Paste it as the `CSC_LINK` secret value.

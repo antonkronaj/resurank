@@ -5,15 +5,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const isMac = process.platform === 'darwin';
 const appleIdName = process.env['APPLE_ID_NAME'];
 const appleId = process.env['APPLE_ID'];
 const appleAppPass = process.env['APPLE_APP_SPECIFIC_PASSWORD'];
 const appleTeamId = process.env['APPLE_TEAM_ID'];
-console.log('appleIdName:', appleIdName);
-console.log('appleTeamId:', appleTeamId);
-console.log('appleId:', appleId);
-console.log('appleAppPass:', appleAppPass);
-if (!appleIdName || !appleTeamId || !appleId || !appleAppPass) {
+
+if (isMac && (!appleIdName || !appleTeamId || !appleId || !appleAppPass)) {
   throw new Error('Missing APPLE_ID_NAME or APPLE_TEAM_ID or APPLE_ID or APPLE_APP_SPECIFIC_PASSWORD for macOS code signing');
 }
 
@@ -26,17 +24,19 @@ const config: ForgeConfig = {
     asar: {
       unpack: '**/node_modules/{onnxruntime-node,@huggingface}/**/*',
     },
-    osxSign: {
-      identity: `Developer ID Application: ${appleIdName} (${appleTeamId})`,
-      hardenedRuntime: true,
-      entitlements: 'entitlements.plist',
-      entitlementsInherit: 'entitlements.plist',
-    } as NonNullable<ForgeConfig['packagerConfig']>['osxSign'],
-    osxNotarize: {
-      appleId: appleId ?? '',
-      appleIdPassword: appleAppPass ?? '',
-      teamId: appleTeamId ?? '',
-    },
+    ...(isMac && appleIdName && appleTeamId ? {
+      osxSign: {
+        identity: `Developer ID Application: ${appleIdName} (${appleTeamId})`,
+        hardenedRuntime: true,
+        entitlements: 'entitlements.plist',
+        entitlementsInherit: 'entitlements.plist',
+      } as NonNullable<ForgeConfig['packagerConfig']>['osxSign'],
+      osxNotarize: {
+        appleId: appleId ?? '',
+        appleIdPassword: appleAppPass ?? '',
+        teamId: appleTeamId ?? '',
+      },
+    } : {}),
     ignore: [
       /\.map$/,
       /\.ts$/,
