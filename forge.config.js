@@ -1,6 +1,5 @@
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
-import type { ForgeConfig } from '@electron-forge/shared-types';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -15,7 +14,7 @@ if (isMac && (!appleIdName || !appleTeamId || !appleId || !appleAppPass)) {
   throw new Error('Missing APPLE_ID_NAME or APPLE_TEAM_ID or APPLE_ID or APPLE_APP_SPECIFIC_PASSWORD for macOS code signing');
 }
 
-const config: ForgeConfig = {
+const config = {
   packagerConfig: {
     name: 'ResuRank',
     appBundleId: 'dev.resurank.app',
@@ -30,7 +29,7 @@ const config: ForgeConfig = {
         hardenedRuntime: true,
         entitlements: 'entitlements.plist',
         entitlementsInherit: 'entitlements.plist',
-      } as NonNullable<ForgeConfig['packagerConfig']>['osxSign'],
+      },
       osxNotarize: {
         appleId: appleId ?? '',
         appleIdPassword: appleAppPass ?? '',
@@ -66,10 +65,10 @@ const config: ForgeConfig = {
       const { readFileSync, writeFileSync, statSync } = await import('node:fs');
       const { basename, dirname } = await import('node:path');
 
-      const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url).pathname, 'utf8')) as { version: string };
+      const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url).pathname, 'utf8'));
       const releaseDate = new Date().toISOString();
 
-      const manifestName = (artifact: string): string | null => {
+      const manifestName = (artifact) => {
         if (artifact.endsWith('.dmg')) return 'latest-mac.yml';
         if (artifact.endsWith('.exe')) return 'latest.yml';
         if (artifact.endsWith('.deb') || artifact.endsWith('.rpm') || artifact.endsWith('.AppImage')) return 'latest-linux.yml';
