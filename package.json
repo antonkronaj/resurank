@@ -26,7 +26,6 @@
     "package": "electron-forge package",
     "dist": "electron-forge make",
     "publish": "electron-forge publish",
-    "postinstall": "electron-forge import || true",
     "make": "electron-forge make"
   },
   "dependencies": {
