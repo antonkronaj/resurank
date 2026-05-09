@@ -25,7 +25,7 @@ async function getEmbedder(): Promise<any> {
       _embedder = await pipeline('feature-extraction', 'Xenova/jina-embeddings-v2-small-en', {
         dtype: 'fp32',
         progress_callback: (progress: any) => {
-          console.log(`[EmbeddingWorker] Progress: ${progress.status} ${progress.file || ''} ${progress.progress || ''}`);
+          // console.log(`[EmbeddingWorker] Progress: ${progress.status} ${progress.file || ''} ${progress.progress || ''}`);
           if (progress.status === 'progress') {
             process.send?.({
               type: 'downloadProgress',

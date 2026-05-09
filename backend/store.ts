@@ -1,8 +1,9 @@
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join } from 'node:path';
 import { config } from '../shared/config.js';
 
-const DATA_DIR = dirname(config.databasePath);
+const DATA_DIR = config.databasePath;
+
 
 interface ResumeData {
   filename: string;

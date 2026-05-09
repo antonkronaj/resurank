@@ -1,0 +1,92 @@
+<div class="drawer-backdrop" *ngIf="isOpen()" (click)="onClose()"></div>
+<div class="modal-wrap" *ngIf="isOpen()">
+  <div class="modal" (click)="$event.stopPropagation()">
+
+    <div class="dw-header">
+      <span class="dw-title">
+        {{ mode() === 'exclusions' ? 'Exclusion words' : 'Term boosts' }}
+      </span>
+      <button class="dw-close" type="button" (click)="onClose()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <ng-container *ngIf="mode() === 'exclusions'; else boostsTpl">
+        <p class="intro">
+          <strong>Exclusion words</strong> are filtered out of both your resume and the pasted job description
+          before any scoring happens. They never reach the embedding model or the TF-IDF index.
+        </p>
+
+        <div class="step">
+          <div class="step-title">When to add a word</div>
+          <ul>
+            <li>Industry filler that pollutes every job description ("responsibilities", "requirements", "team").</li>
+            <li>Recruiter boilerplate ("equal opportunity", "competitive salary", "benefits").</li>
+            <li>Terms that consistently rank high in the <strong>Raw counts</strong> view but have no signal value.</li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <div class="step-title">How it interacts with scoring</div>
+          <p>
+            Removing a word lowers the noise floor — both texts shrink, so genuine matches make up a larger
+            share of what remains. This usually <em>increases</em> good scores and <em>decreases</em> noisy ones.
+          </p>
+          <p>
+            A built-in stopword list (common English words) is always applied. Your exclusions are added on top.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="step-title">Quick add</div>
+          <p>
+            You don't need to open this list to add a word — click the <strong>−</strong> button next to any term in the
+            keyword list to push it straight into your exclusions.
+          </p>
+        </div>
+      </ng-container>
+
+      <ng-template #boostsTpl>
+        <p class="intro">
+          <strong>Term boosts</strong> multiply the TF-IDF weight of specific terms — useful when you want
+          a particular skill to count for more than a generic word of the same frequency.
+        </p>
+
+        <div class="step">
+          <div class="step-title">How a boost is applied</div>
+          <p>
+            For every boosted term that appears in the job description, its TF-IDF weight is multiplied by the
+            number you set. So <code>java: 3</code> makes "java" contribute roughly 3× as much to the keyword
+            half of your match score as a normal term of the same frequency.
+          </p>
+          <p>
+            Boosts only take effect for terms that appear in <strong>both</strong> your resume and the job description —
+            you cannot conjure a match from nothing.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="step-title">When to use boosts</div>
+          <ul>
+            <li>To emphasise headline skills that you want any matching role to share.</li>
+            <li>To compensate for short resumes where a key term only appears once and gets a low TF.</li>
+            <li>To distinguish between similar terms — e.g. boost "kubernetes" if you don't want generic "cloud" to dominate.</li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <div class="step-title">Caveats</div>
+          <ul>
+            <li>Boosts only affect the <strong>TF-IDF</strong> half of the score, not the embedding half.</li>
+            <li>Setting a weight too high can make borderline matches look better than they are. Start at 2 and adjust.</li>
+            <li>Use lowercase — terms are normalised before lookup.</li>
+          </ul>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="modal-footer">
+      <button class="file-btn" type="button" (click)="onClose()">Close</button>
+    </div>
+
+  </div>
+</div>

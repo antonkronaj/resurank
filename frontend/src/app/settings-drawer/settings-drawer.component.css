@@ -78,6 +78,22 @@
   margin-bottom: 2px;
 }
 
+.dw-info-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--muted);
+  padding: 0 2px;
+  line-height: 1;
+  opacity: 0.6;
+  font-family: inherit;
+  text-transform: none;
+  letter-spacing: 0;
+  transition: opacity 0.1s;
+}
+.dw-info-btn:hover { opacity: 1; }
+
 .dw-field {
   display: flex;
   flex-direction: column;

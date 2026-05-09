@@ -24,7 +24,10 @@
     </div>
 
     <div class="dw-section">
-      <div class="dw-section-title">Exclusion words</div>
+      <div class="dw-section-title">
+        <span>Exclusion words</span>
+        <button class="dw-info-btn" type="button" (click)="openInfo('exclusions')" title="What are exclusion words?">ℹ</button>
+      </div>
       <p class="text-muted small">
         Words to ignore when scoring. These are filtered out of both the resume
         and the pasted job description before matching.
@@ -33,7 +36,10 @@
     </div>
 
     <div class="dw-section">
-      <div class="dw-section-title">Term boosts</div>
+      <div class="dw-section-title">
+        <span>Term boosts</span>
+        <button class="dw-info-btn" type="button" (click)="openInfo('boosts')" title="What are term boosts?">ℹ</button>
+      </div>
       <p class="text-muted small">
         Multiply the influence of specific terms. e.g. <b>java: 3</b> makes java
         matches count 3× a normal term. Affects the TF-IDF half of the score.
@@ -67,4 +73,10 @@
     </div>
 
   </div>
+
+  <app-settings-info-modal
+    [isOpen]="infoOpen()"
+    [mode]="infoMode()"
+    (close)="infoOpen.set(false)">
+  </app-settings-info-modal>
 </aside>

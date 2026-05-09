@@ -75,7 +75,7 @@ class EmbeddingClient {
           ...process.env,
           TSX_TSCONFIG_PATH: tsconfigPath,
           TRANSFORMERS_CACHE_DIR: process.env.DATABASE_PATH
-            ? path.join(path.dirname(process.env.DATABASE_PATH), 'model-cache')
+            ? path.join(process.env.DATABASE_PATH, 'model-cache')
             : undefined,
           OMP_NUM_THREADS: '1',
           MKL_NUM_THREADS: '1',
@@ -85,7 +85,7 @@ class EmbeddingClient {
       });
 
       this.worker.on('message', (message: WorkerMessage) => {
-        console.log('[EmbeddingClient] Received worker message:', JSON.stringify(message));
+        // console.log('[EmbeddingClient] Received worker message:', JSON.stringify(message));
         if (message.ready) {
           this.status.ready = true;
           this.status.loading = false;

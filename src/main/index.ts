@@ -1,5 +1,12 @@
 import { app, BrowserWindow, clipboard, dialog, ipcMain, session, shell } from 'electron';
 import { dirname, join } from 'node:path';
+
+// Set before importing the backend so config.ts picks up the correct writable path.
+// dirname() of this value becomes DATA_DIR in store.ts.
+if (app.isPackaged) {
+  process.env.DATABASE_PATH = app.getPath('userData');
+}
+
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import type { AddressInfo } from 'node:net';
 import pkg from 'electron-updater';
@@ -57,6 +64,7 @@ async function createWindow(port: number): Promise<void> {
 }
 
 function initUpdater(): void {
+  if (app.getPath('exe').includes('/Volumes/')) return;
   autoUpdater.logger = null;
   autoUpdater.autoDownload = true;
   autoUpdater.autoInstallOnAppQuit = true;
@@ -78,6 +86,11 @@ function initUpdater(): void {
   autoUpdater.checkForUpdates().catch((err) => {
     console.warn('[updater] check failed:', err);
   });
+}
+
+if (!app.requestSingleInstanceLock()) {
+  app.quit();
+  process.exit(0);
 }
 
 ipcMain.handle('get-app-version', () => app.getVersion());
@@ -103,7 +116,14 @@ app.whenReady().then(async () => {
     });
   });
 
-  const port = await startBackend();
+  let port: number;
+  try {
+    port = await startBackend();
+  } catch (err) {
+    console.error('[electron] backend failed to start:', err);
+    app.quit();
+    return;
+  }
   console.log(`[electron] backend bound to 127.0.0.1:${port}`);
   await createWindow(port);
 

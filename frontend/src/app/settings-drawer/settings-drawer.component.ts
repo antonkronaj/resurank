@@ -2,13 +2,14 @@ import { Component, input, output, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ResumeInfo } from '../api.service';
+import { SettingsInfoModalComponent, SettingsInfoMode } from '../settings-info-modal/settings-info-modal.component';
 
 interface BoostRow { term: string; weight: number; }
 
 @Component({
   selector: 'app-settings-drawer',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SettingsInfoModalComponent],
   templateUrl: './settings-drawer.component.html',
   styleUrl: './settings-drawer.component.css',
 })
@@ -32,6 +33,14 @@ export class SettingsDrawerComponent {
   }
 
   boostRows = signal<BoostRow[]>([]);
+
+  infoOpen = signal(false);
+  infoMode = signal<SettingsInfoMode>('exclusions');
+
+  openInfo(mode: SettingsInfoMode) {
+    this.infoMode.set(mode);
+    this.infoOpen.set(true);
+  }
 
   constructor() {
     effect(() => {

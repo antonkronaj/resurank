@@ -1,6 +1,21 @@
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
 import type { ForgeConfig } from '@electron-forge/shared-types';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const appleIdName = process.env['APPLE_ID_NAME'];
+const appleId = process.env['APPLE_ID'];
+const appleAppPass = process.env['APPLE_APP_SPECIFIC_PASSWORD'];
+const appleTeamId = process.env['APPLE_TEAM_ID'];
+console.log('appleIdName:', appleIdName);
+console.log('appleTeamId:', appleTeamId);
+console.log('appleId:', appleId);
+console.log('appleAppPass:', appleAppPass);
+if (!appleIdName || !appleTeamId || !appleId || !appleAppPass) {
+  throw new Error('Missing APPLE_ID_NAME or APPLE_TEAM_ID or APPLE_ID or APPLE_APP_SPECIFIC_PASSWORD for macOS code signing');
+}
 
 const config: ForgeConfig = {
   packagerConfig: {
@@ -12,12 +27,15 @@ const config: ForgeConfig = {
       unpack: '**/node_modules/{onnxruntime-node,@huggingface}/**/*',
     },
     osxSign: {
-      identity: 'Anton Kronaj (HSJNM2MG33)',
-    },
+      identity: `Developer ID Application: ${appleIdName} (${appleTeamId})`,
+      hardenedRuntime: true,
+      entitlements: 'entitlements.plist',
+      entitlementsInherit: 'entitlements.plist',
+    } as NonNullable<ForgeConfig['packagerConfig']>['osxSign'],
     osxNotarize: {
-      appleId: process.env['APPLE_ID'] ?? '',
-      appleIdPassword: process.env['APPLE_APP_SPECIFIC_PASSWORD'] ?? '',
-      teamId: 'HSJNM2MG33',
+      appleId: appleId ?? '',
+      appleIdPassword: appleAppPass ?? '',
+      teamId: appleTeamId ?? '',
     },
     ignore: [
       /\.map$/,

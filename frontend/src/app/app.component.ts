@@ -12,6 +12,7 @@ import { JOB_DESCRIPTION_CHAR_CAP, EMBEDDING_WEIGHT, TFIDF_WEIGHT } from '@share
 import { SettingsDrawerComponent } from './settings-drawer/settings-drawer.component';
 import { StopwordsModalComponent } from './stopwords-modal/stopwords-modal.component';
 import { ScoreInfoModalComponent } from './score-info-modal/score-info-modal.component';
+import { KeywordInfoModalComponent, KeywordInfoMode } from './keyword-info-modal/keyword-info-modal.component';
 
 type BreakdownMode = 'weighted' | 'counts';
 
@@ -24,6 +25,7 @@ type BreakdownMode = 'weighted' | 'counts';
     SettingsDrawerComponent,
     StopwordsModalComponent,
     ScoreInfoModalComponent,
+    KeywordInfoModalComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -56,7 +58,14 @@ export class AppComponent implements OnInit {
   settingsOpen = signal(false);
   stopwordsOpen = signal(false);
   scoreInfoOpen = signal(false);
+  keywordInfoOpen = signal(false);
+  keywordInfoMode = signal<KeywordInfoMode>('weighted');
   message = signal('');
+
+  openKeywordInfo(mode: KeywordInfoMode): void {
+    this.keywordInfoMode.set(mode);
+    this.keywordInfoOpen.set(true);
+  }
 
   modelStatus = signal<ModelStatus | null>(null);
 

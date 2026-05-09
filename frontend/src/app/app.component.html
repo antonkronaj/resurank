@@ -103,6 +103,10 @@
         </div>
 
         <div class="kw-table" *ngIf="breakdownMode() === 'weighted'">
+          <div class="kw-info-row">
+            <span class="text-muted small">Terms ranked by TF-IDF weight</span>
+            <button class="score-info-btn" type="button" (click)="openKeywordInfo('weighted')" title="What is the weighted list?">ℹ</button>
+          </div>
           <div class="kw-row" *ngFor="let w of r.jobWeighted" [class.kw-row--matched]="matchedTermsSet().has(w.term)">
             <ng-container *ngIf="recentlyExcluded().has(w.term); else excludeBtnW">
               <button class="kw-undo-btn" (click)="undoExclusion(w.term)" title="Undo exclusion">↩</button>
@@ -120,6 +124,10 @@
         </div>
 
         <div class="kw-table" *ngIf="breakdownMode() === 'counts'">
+          <div class="kw-info-row">
+            <span class="text-muted small">Terms ranked by raw occurrence count</span>
+            <button class="score-info-btn" type="button" (click)="openKeywordInfo('counts')" title="What is the raw count list?">ℹ</button>
+          </div>
           <div class="kw-row" *ngFor="let c of r.jobCounts" [class.kw-row--matched]="matchedTermsSet().has(c.term)">
             <ng-container *ngIf="recentlyExcluded().has(c.term); else excludeBtnC">
               <button class="kw-undo-btn" (click)="undoExclusion(c.term)" title="Undo exclusion">↩</button>
@@ -164,5 +172,11 @@
     [isOpen]="scoreInfoOpen()"
     (close)="scoreInfoOpen.set(false)">
   </app-score-info-modal>
+
+  <app-keyword-info-modal
+    [isOpen]="keywordInfoOpen()"
+    [mode]="keywordInfoMode()"
+    (close)="keywordInfoOpen.set(false)">
+  </app-keyword-info-modal>
 
 </div>

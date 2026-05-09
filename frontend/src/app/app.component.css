@@ -298,6 +298,14 @@
 }
 
 .kw-table { display: flex; flex-direction: column; gap: 4px; }
+.kw-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2px 4px 2px;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 4px;
+}
 .kw-row {
   display: grid;
   grid-template-columns: 20px 140px 1fr 60px;
