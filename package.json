@@ -1,6 +1,6 @@
 {
-  "name": "fitcheck",
-  "version": "0.2.4",
+  "name": "resurank",
+  "version": "0.1.0",
   "private": true,
   "description": "Resume to job-description matcher",
   "main": "dist/src/main/index.js",

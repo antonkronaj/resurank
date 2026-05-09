@@ -40,7 +40,7 @@ async function createWindow(port: number): Promise<void> {
   const win = new BrowserWindow({
     width: 1280,
     height: 860,
-    title: 'FitCheck',
+    title: 'ResuRank',
     webPreferences: {
       contextIsolation: true,
       sandbox: true,
@@ -75,7 +75,7 @@ function initUpdater(): void {
     dialog.showMessageBox({
       type: 'info',
       title: 'Update ready',
-      message: 'A new version of FitCheck has been downloaded. Restart now to apply it?',
+      message: 'A new version of ResuRank has been downloaded. Restart now to apply it?',
       buttons: ['Restart', 'Later'],
       defaultId: 0,
     }).then(({ response }) => {

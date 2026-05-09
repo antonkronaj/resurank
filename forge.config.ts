@@ -19,8 +19,8 @@ if (!appleIdName || !appleTeamId || !appleId || !appleAppPass) {
 
 const config: ForgeConfig = {
   packagerConfig: {
-    name: 'FitCheck',
-    appBundleId: 'dev.fitcheck.app',
+    name: 'ResuRank',
+    appBundleId: 'dev.resurank.app',
     icon: 'resources/icon',
     extraResource: ['app-update.yml'],
     asar: {

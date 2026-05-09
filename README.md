@@ -1,4 +1,4 @@
-# FitCheck
+# ResuRank
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -19,7 +19,7 @@ Features:
 ## Structure
 
 ```
-fitcheck/
+resurank/
 ├── src/
 │   ├── main/        # Electron main process (starts backend, opens BrowserWindow)
 │   │   └── index.ts
@@ -109,7 +109,7 @@ npm start          # http://localhost:4200
 
 ## How matching works
 
-FitCheck scores a job description against your resume using two independent methods — **semantic embedding** and **keyword TF-IDF** — then combines them into a single percentage. Each method captures something different; together they're more reliable than either alone.
+ResuRank scores a job description against your resume using two independent methods — **semantic embedding** and **keyword TF-IDF** — then combines them into a single percentage. Each method captures something different; together they're more reliable than either alone.
 
 ---
 
@@ -194,7 +194,7 @@ If more than 3% of the alphabetic characters in the job description are non-ASCI
 
 ---
 
-> **First run** triggers a one-time download of the scoring model into `~/Library/Application Support/fitcheck/model-cache/`.
+> **First run** triggers a one-time download of the scoring model into `~/Library/Application Support/resurank/model-cache/`.
 
 ## API
 
@@ -208,7 +208,7 @@ The renderer talks to the backend over `http://127.0.0.1:<random port>` (port in
 
 ## Notes
 
-- **Data location**: `~/Library/Application Support/fitcheck/` (macOS) under Electron; `backend/data/` for the standalone backend.
+- **Data location**: `~/Library/Application Support/resurank/` (macOS) under Electron; `backend/data/` for the standalone backend.
 - **macOS builds are arm64 only** (Apple Silicon). `onnxruntime-node` and `@huggingface/transformers` are unpacked from the asar archive so their native binaries can be loaded at runtime.
 - **Security**: context isolation and sandboxing are enabled; a Content Security Policy is applied to all renderer responses; all renderer permission requests (mic, camera, notifications) are denied.
 
