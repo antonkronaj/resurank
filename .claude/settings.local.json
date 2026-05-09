@@ -7,21 +7,7 @@
   },
   "permissions": {
     "allow": [
-      "WebFetch(domain:jobs.workable.com)",
-      "WebFetch(domain:findwork.dev)",
-      "WebSearch",
-      "Bash(curl -s -w '\\\\n%{http_code}' 'https://jobs.workable.com/api/v1/jobs?query=engineer&limit=50&workplace=remote' -H 'User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/124.0.0.0 Safari/537.36')",
-      "Bash(xargs basename *)",
-      "Bash(curl -s -X POST http://localhost:3001/api/jobs/refresh)",
-      "Bash(npm install *)",
-      "Bash(npm run *)",
-      "Bash(timeout 8 npx electron .)",
-      "Bash(echo \"exit: $?\")",
-      "Bash(npx electron-rebuild *)",
-      "Bash(npm --prefix backend install)",
-      "Bash(npx tsc *)",
-      "Bash(timeout 8 tsx src/index.ts)",
-      "Bash(node -e \"require\\('sharp'\\)\")"
+      "WebSearch"
     ]
   }
 }
