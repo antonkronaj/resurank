@@ -1,6 +1,10 @@
-import { FusesPlugin } from '@electron-forge/plugin-fuses';
-import { FuseV1Options, FuseVersion } from '@electron/fuses';
-import dotenv from 'dotenv';
+const { FusesPlugin } = require('@electron-forge/plugin-fuses');
+const { FuseV1Options, FuseVersion } = require('@electron/fuses');
+const dotenv = require('dotenv');
+const path = require('node:path');
+const fs = require('node:fs');
+const crypto = require('node:crypto');
+const child_process = require('node:child_process');
 
 dotenv.config();
 
@@ -54,18 +58,18 @@ const config = {
   ],
   hooks: {
     generateAssets: async () => {
-      const { execSync } = await import('node:child_process');
+      const { execSync } = child_process;
       execSync('npm run build:backend && npm run build:frontend && npm run build:electron', {
         stdio: 'inherit',
       });
     },
 
     postMake: async (_forgeConfig, makeResults) => {
-      const { createHash } = await import('node:crypto');
-      const { readFileSync, writeFileSync, statSync } = await import('node:fs');
-      const { basename, dirname } = await import('node:path');
+      const { createHash } = crypto;
+      const { readFileSync, writeFileSync, statSync } = fs;
+      const { basename, dirname } = path;
 
-      const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url).pathname, 'utf8'));
+      const pkg = JSON.parse(readFileSync(path.join(__dirname, 'package.json'), 'utf8'));
       const releaseDate = new Date().toISOString();
 
       const manifestName = (artifact) => {
@@ -114,4 +118,4 @@ const config = {
   ],
 };
 
-export default config;
+module.exports = config;
