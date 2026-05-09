@@ -69,7 +69,7 @@ const config = {
       const { readFileSync, writeFileSync, statSync } = fs;
       const { basename, dirname } = path;
 
-      const pkg = JSON.parse(readFileSync(path.join(__dirname, 'package.json'), 'utf8'));
+      const pkg = JSON.parse(readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
       const releaseDate = new Date().toISOString();
 
       const manifestName = (artifact) => {

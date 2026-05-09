@@ -28,7 +28,7 @@ resurank/
 ├── backend/         # Express API, matching engine, file-based storage
 ├── frontend/        # Angular UI
 ├── shared/          # Shared config (data dir resolution)
-└── forge.config.ts  # Electron Forge packaging config
+└── forge.config.cjs  # Electron Forge packaging config
 ```
 
 ## Setup
