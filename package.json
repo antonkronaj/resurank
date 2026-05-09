@@ -57,10 +57,9 @@
     "@types/node": "^25.6.2",
     "electron": "^42.0.1",
     "tsx": "^4.21.0",
-    "typescript": "6.0.3"
+    "typescript": "5.9.3"
   },
   "overrides": {
-    "typescript": "6.0.3",
     "karma": {
       "glob": "^7.2.3"
     }
