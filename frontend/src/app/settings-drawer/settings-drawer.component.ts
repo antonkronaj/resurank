@@ -1,4 +1,4 @@
-import { Component, input, output, signal, effect } from '@angular/core';
+import { Component, input, output, signal, effect, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ResumeInfo } from '../api.service';
@@ -13,7 +13,7 @@ interface BoostRow { term: string; weight: number; }
   templateUrl: './settings-drawer.component.html',
   styleUrl: './settings-drawer.component.css',
 })
-export class SettingsDrawerComponent {
+export class SettingsDrawerComponent implements OnInit {
   isOpen = input<boolean>(false);
   resume = input.required<ResumeInfo>();
   uploading = input<boolean>(false);
@@ -24,6 +24,8 @@ export class SettingsDrawerComponent {
   uploadResume = output<File>();
   saveTermBoosts = output<Record<string, number>>();
   openStopwords = output<void>();
+
+  appVersion = signal<string>('');
 
   onResumeSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -40,6 +42,14 @@ export class SettingsDrawerComponent {
   openInfo(mode: SettingsInfoMode) {
     this.infoMode.set(mode);
     this.infoOpen.set(true);
+  }
+
+  ngOnInit() {
+    if (window.electronAPI) {
+      window.electronAPI.getAppVersion().then(version => {
+        this.appVersion.set(version);
+      });
+    }
   }
 
   constructor() {

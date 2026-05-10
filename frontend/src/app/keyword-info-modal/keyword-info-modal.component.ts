@@ -1,12 +1,10 @@
 import { Component, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export type KeywordInfoMode = 'weighted' | 'counts';
 
 @Component({
   selector: 'app-keyword-info-modal',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './keyword-info-modal.component.html',
   styleUrl: './keyword-info-modal.component.css',
 })
