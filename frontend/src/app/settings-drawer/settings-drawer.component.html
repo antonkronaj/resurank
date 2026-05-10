@@ -1,4 +1,6 @@
-<div class="drawer-backdrop" *ngIf="isOpen()" (click)="onClose()"></div>
+@if (isOpen()) {
+  <div class="drawer-backdrop" (click)="onClose()"></div>
+}
 <aside class="settings-drawer" [class.open]="isOpen()">
   <div class="dw-header">
     <span class="dw-title">Settings</span>
@@ -8,15 +10,16 @@
 
     <div class="dw-section">
       <div class="dw-section-title">Resume</div>
-      <div class="resume-info" *ngIf="resume().uploaded; else noResume">
-        <span class="resume-name">{{ resume().filename }}</span>
-        <span class="text-muted small">
-          Uploaded {{ resume().uploadedAt | date: 'mediumDate' }} · {{ resume().chars }} chars
-        </span>
-      </div>
-      <ng-template #noResume>
+      @if (resume().uploaded) {
+        <div class="resume-info">
+          <span class="resume-name">{{ resume().filename }}</span>
+          <span class="text-muted small">
+            Uploaded {{ resume().uploadedAt | date: 'mediumDate' }} · {{ resume().chars }} chars
+          </span>
+        </div>
+      } @else {
         <p class="text-muted small">No resume uploaded yet.</p>
-      </ng-template>
+      }
       <label class="file-btn">
         <input type="file" accept="application/pdf" (change)="onResumeSelected($event)" hidden />
         {{ uploading() ? 'Uploading…' : (resume().uploaded ? 'Replace PDF' : 'Upload PDF') }}
@@ -62,7 +65,9 @@
             (ngModelChange)="updateBoostWeight(i, $event)" />
           <button class="boost-remove" type="button" (click)="removeBoostRow(i)" title="Remove">✕</button>
         </div>
-        <div class="text-muted small" *ngIf="boostRows().length === 0">No boosts yet.</div>
+        @if (boostRows().length === 0) {
+          <div class="text-muted small">No boosts yet.</div>
+        }
       </div>
       <div class="boost-actions">
         <button class="file-btn" type="button" (click)="addBoostRow()">+ Add</button>

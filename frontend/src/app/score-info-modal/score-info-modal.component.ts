@@ -1,10 +1,9 @@
 import { Component, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-score-info-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './score-info-modal.component.html',
   styleUrl: './score-info-modal.component.css',
 })

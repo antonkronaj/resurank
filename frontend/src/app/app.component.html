@@ -12,23 +12,29 @@
   <div class="body">
 
     <main class="content">
-      <div class="msg-bar" *ngIf="message()">{{ message() }}</div>
+      @if (message()) {
+        <div class="msg-bar">{{ message() }}</div>
+      }
 
-      <div class="msg-bar model-download" *ngIf="modelStatus() as ms" [hidden]="!ms.loading || ms.progress === undefined">
-        <div class="model-download-content">
-          <span class="spinner"></span>
-          <span class="model-download-text">
-            Downloading AI model (first run only)...
-            <ng-container *ngIf="ms.progress !== undefined">
-              {{ ms.progress | number: '1.0-0' }}%
-            </ng-container>
-          </span>
+      @if (modelStatus(); as ms) {
+        <div class="msg-bar model-download" [hidden]="!ms.loading || ms.progress === undefined">
+          <div class="model-download-content">
+            <span class="spinner"></span>
+            <span class="model-download-text">
+              Downloading AI model (first run only)...
+              @if (ms.progress !== undefined) {
+                {{ ms.progress | number: '1.0-0' }}%
+              }
+            </span>
+          </div>
         </div>
-      </div>
+      }
 
-      <div class="msg-bar model-error" *ngIf="modelStatus()?.error">
-        Model download failed — check your network connection and restart the app.
-      </div>
+      @if (modelStatus()?.error) {
+        <div class="msg-bar model-error">
+          Model download failed — check your network connection and restart the app.
+        </div>
+      }
 
       <section class="panel">
         <h2 class="panel-title">Job description</h2>
@@ -48,7 +54,9 @@
                     (ngModelChange)="jdDescription.set($event)"></textarea>
           <span class="char-counter" [class.char-counter--warn]="jdDescription().length > JD_CHAR_CAP * 0.9" [class.char-counter--over]="jdDescription().length > JD_CHAR_CAP">
             {{ jdDescription().length | number }} / {{ JD_CHAR_CAP | number }}
-            <ng-container *ngIf="jdDescription().length > JD_CHAR_CAP"> — text beyond this limit is ignored</ng-container>
+            @if (jdDescription().length > JD_CHAR_CAP) {
+              — text beyond this limit is ignored
+            }
           </span>
         </label>
         <div class="actions">
@@ -56,94 +64,111 @@
                   [disabled]="evaluating() || !resume().uploaded">
             {{ evaluating() ? 'Scoring…' : 'Evaluate match' }}
           </button>
-          <span class="text-muted small" *ngIf="!resume().uploaded">
-            Upload a resume first ↖
-          </span>
-          <ng-container *ngIf="result() as r">
+          @if (!resume().uploaded) {
+            <span class="text-muted small">
+              Upload a resume first ↖
+            </span>
+          }
+          @if (result(); as r) {
             <div class="score-row">
               <div class="score-big" [attr.data-tier]="scoreTier(r.score)">{{ scorePct(r.score) }}<span class="score-pct">%</span></div>
               <div class="score-breakdown text-muted small">
                 <div>Embedding ({{ scorePct(r.breakdown.embeddingScore) }}%): {{ r.breakdown.embeddingScore * EMBEDDING_WEIGHT * 100 | number:'1.0-1' }}%</div>
                 <div>TF-IDF ({{ scorePct(r.breakdown.tfidfScore) }}%): {{ r.breakdown.tfidfScore * TFIDF_WEIGHT * 100 | number:'1.0-1' }}%</div>
-                <div *ngIf="r.breakdown.divergencePenalty > 0" class="divergence-penalty">Divergence penalty: −{{ r.breakdown.divergencePenalty * 100 | number:'1.0-1' }}%</div>
+                @if (r.breakdown.divergencePenalty > 0) {
+                  <div class="divergence-penalty">Divergence penalty: −{{ r.breakdown.divergencePenalty * 100 | number:'1.0-1' }}%</div>
+                }
               </div>
               <button class="score-info-btn" type="button" (click)="scoreInfoOpen.set(true)" title="How is this score calculated?">ℹ</button>
             </div>
-          </ng-container>
+          }
         </div>
       </section>
 
-      <section class="panel" *ngIf="result() as r">
-        <div class="msg-bar lang-warning" *ngIf="r.languageWarning">
-          ⚠ Job description appears to be in a non-English language — score may be less accurate.
-        </div>
+      @if (result(); as r) {
+        <section class="panel">
+          @if (r.languageWarning) {
+            <div class="msg-bar lang-warning">
+              ⚠ Job description appears to be in a non-English language — score may be less accurate.
+            </div>
+          }
 
-        <div class="matched-section">
-          <h3 class="sub-title">Matched terms</h3>
-          <div class="chips" *ngIf="r.matchedTerms.length; else noMatched">
-            <span class="chip" *ngFor="let term of r.matchedTerms">{{ term }}</span>
+          <div class="matched-section">
+            <h3 class="sub-title">Matched terms</h3>
+            @if (r.matchedTerms.length) {
+              <div class="chips">
+                <span class="chip" *ngFor="let term of r.matchedTerms">{{ term }}</span>
+              </div>
+            } @else {
+              <p class="text-muted small">No high-signal terms matched.</p>
+            }
           </div>
-          <ng-template #noMatched>
-            <p class="text-muted small">No high-signal terms matched.</p>
-          </ng-template>
-        </div>
-      </section>
+        </section>
+      }
 
-      <section class="panel" *ngIf="result() as r">
-        <div class="panel-head">
-          <h2 class="panel-title">Job description keywords</h2>
-          <div class="seg">
-            <button class="seg-btn"
-                    [class.active]="breakdownMode() === 'weighted'"
-                    (click)="setBreakdownMode('weighted')">Weighted</button>
-            <button class="seg-btn"
-                    [class.active]="breakdownMode() === 'counts'"
-                    (click)="setBreakdownMode('counts')">Raw counts</button>
+      @if (result(); as r) {
+        <section class="panel">
+          <div class="panel-head">
+            <h2 class="panel-title">Job description keywords</h2>
+            <div class="seg">
+              <button class="seg-btn"
+                      [class.active]="breakdownMode() === 'weighted'"
+                      (click)="setBreakdownMode('weighted')">Weighted</button>
+              <button class="seg-btn"
+                      [class.active]="breakdownMode() === 'counts'"
+                      (click)="setBreakdownMode('counts')">Raw counts</button>
+            </div>
           </div>
-        </div>
 
-        <div class="kw-table" *ngIf="breakdownMode() === 'weighted'">
-          <div class="kw-info-row">
-            <span class="text-muted small">Terms ranked by TF-IDF weight</span>
-            <button class="score-info-btn" type="button" (click)="openKeywordInfo('weighted')" title="What is the weighted list?">ℹ</button>
-          </div>
-          <div class="kw-row" *ngFor="let w of r.jobWeighted" [class.kw-row--matched]="matchedTermsSet().has(w.term)">
-            <ng-container *ngIf="recentlyExcluded().has(w.term); else excludeBtnW">
-              <button class="kw-undo-btn" (click)="undoExclusion(w.term)" title="Undo exclusion">↩</button>
-            </ng-container>
-            <ng-template #excludeBtnW>
-              <button class="kw-exclude-btn" (click)="addToExclusion(w.term)" [disabled]="stopwordsSet().has(w.term)" title="Add to exclusions">−</button>
-            </ng-template>
-            <span class="kw-term">{{ w.term }}</span>
-            <span class="kw-bar">
-              <span class="kw-bar-fill" [style.width.%]="(w.weight / (r.jobWeighted[0].weight || 1)) * 100"></span>
-            </span>
-            <span class="kw-val text-muted small">{{ w.weight | number: '1.2-2' }}</span>
-          </div>
-          <p class="text-muted small" *ngIf="!r.jobWeighted.length">No terms extracted.</p>
-        </div>
+          @if (breakdownMode() === 'weighted') {
+            <div class="kw-table">
+              <div class="kw-info-row">
+                <span class="text-muted small">Terms ranked by TF-IDF weight</span>
+                <button class="score-info-btn" type="button" (click)="openKeywordInfo('weighted')" title="What is the weighted list?">ℹ</button>
+              </div>
+              <div class="kw-row" *ngFor="let w of r.jobWeighted" [class.kw-row--matched]="matchedTermsSet().has(w.term)">
+                @if (recentlyExcluded().has(w.term)) {
+                  <button class="kw-undo-btn" (click)="undoExclusion(w.term)" title="Undo exclusion">↩</button>
+                } @else {
+                  <button class="kw-exclude-btn" (click)="addToExclusion(w.term)" [disabled]="stopwordsSet().has(w.term)" title="Add to exclusions">−</button>
+                }
+                <span class="kw-term">{{ w.term }}</span>
+                <span class="kw-bar">
+                  <span class="kw-bar-fill" [style.width.%]="(w.weight / (r.jobWeighted[0].weight || 1)) * 100"></span>
+                </span>
+                <span class="kw-val text-muted small">{{ w.weight | number: '1.2-2' }}</span>
+              </div>
+              @if (!r.jobWeighted.length) {
+                <p class="text-muted small">No terms extracted.</p>
+              }
+            </div>
+          }
 
-        <div class="kw-table" *ngIf="breakdownMode() === 'counts'">
-          <div class="kw-info-row">
-            <span class="text-muted small">Terms ranked by raw occurrence count</span>
-            <button class="score-info-btn" type="button" (click)="openKeywordInfo('counts')" title="What is the raw count list?">ℹ</button>
-          </div>
-          <div class="kw-row" *ngFor="let c of r.jobCounts" [class.kw-row--matched]="matchedTermsSet().has(c.term)">
-            <ng-container *ngIf="recentlyExcluded().has(c.term); else excludeBtnC">
-              <button class="kw-undo-btn" (click)="undoExclusion(c.term)" title="Undo exclusion">↩</button>
-            </ng-container>
-            <ng-template #excludeBtnC>
-              <button class="kw-exclude-btn" (click)="addToExclusion(c.term)" [disabled]="stopwordsSet().has(c.term)" title="Add to exclusions">−</button>
-            </ng-template>
-            <span class="kw-term">{{ c.term }}</span>
-            <span class="kw-bar">
-              <span class="kw-bar-fill" [style.width.%]="(c.count / (r.jobCounts[0].count || 1)) * 100"></span>
-            </span>
-            <span class="kw-val text-muted small">{{ c.count }}</span>
-          </div>
-          <p class="text-muted small" *ngIf="!r.jobCounts.length">No terms extracted.</p>
-        </div>
-      </section>
+          @if (breakdownMode() === 'counts') {
+            <div class="kw-table">
+              <div class="kw-info-row">
+                <span class="text-muted small">Terms ranked by raw occurrence count</span>
+                <button class="score-info-btn" type="button" (click)="openKeywordInfo('counts')" title="What is the raw count list?">ℹ</button>
+              </div>
+              <div class="kw-row" *ngFor="let c of r.jobCounts" [class.kw-row--matched]="matchedTermsSet().has(c.term)">
+                @if (recentlyExcluded().has(c.term)) {
+                  <button class="kw-undo-btn" (click)="undoExclusion(c.term)" title="Undo exclusion">↩</button>
+                } @else {
+                  <button class="kw-exclude-btn" (click)="addToExclusion(c.term)" [disabled]="stopwordsSet().has(c.term)" title="Add to exclusions">−</button>
+                }
+                <span class="kw-term">{{ c.term }}</span>
+                <span class="kw-bar">
+                  <span class="kw-bar-fill" [style.width.%]="(c.count / (r.jobCounts[0].count || 1)) * 100"></span>
+                </span>
+                <span class="kw-val text-muted small">{{ c.count }}</span>
+              </div>
+              @if (!r.jobCounts.length) {
+                <p class="text-muted small">No terms extracted.</p>
+              }
+            </div>
+          }
+        </section>
+      }
 
     </main>
   </div>

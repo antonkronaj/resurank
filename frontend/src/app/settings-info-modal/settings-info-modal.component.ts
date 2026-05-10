@@ -1,12 +1,11 @@
 import { Component, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export type SettingsInfoMode = 'exclusions' | 'boosts';
 
 @Component({
   selector: 'app-settings-info-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './settings-info-modal.component.html',
   styleUrl: './settings-info-modal.component.css',
 })

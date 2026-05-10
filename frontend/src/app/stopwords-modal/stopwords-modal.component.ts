@@ -1,11 +1,10 @@
 import { Component, input, output, signal, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-stopwords-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './stopwords-modal.component.html',
   styleUrl: './stopwords-modal.component.css',
 })
