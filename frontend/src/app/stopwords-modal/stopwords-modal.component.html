@@ -1,52 +1,40 @@
-@if (isOpen()) {
-  <div class="drawer-backdrop" (click)="onClose()"></div>
-  <div class="modal-wrap">
-    <div class="modal" (click)="$event.stopPropagation()">
+<app-modal-shell [isOpen]="isOpen()" title="Exclusion words" (close)="close.emit()">
 
-      <div class="dw-header">
-        <span class="dw-title">Exclusion words</span>
-        <button class="dw-close" type="button" (click)="onClose()">✕</button>
-      </div>
+  <p class="text-muted small">
+    Words to ignore when scoring. These get filtered out of both the resume
+    and the pasted job description before matching. Type and press <b>Enter</b>
+    to add, or paste a comma/space-separated list.
+  </p>
 
-      <div class="modal-body">
-        <p class="text-muted small">
-          Words to ignore when scoring. These get filtered out of both the resume
-          and the pasted job description before matching. Type and press <b>Enter</b>
-          to add, or paste a comma/space-separated list.
-        </p>
-
-        @if (saving()) {
-          <div class="saving-banner">
-            <span class="spinner"></span>
-            Saving exclusion words…
-          </div>
-        }
-
-        <div class="input-container">
-          <textarea
-            class="words-textarea"
-            placeholder="e.g. experience, work, team…"
-            [ngModel]="draft()"
-            (ngModelChange)="draft.set($event)"
-            [disabled]="saving()"></textarea>
-        </div>
-
-        <div class="word-count text-muted small">
-          Comma separated words
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <input #fileInput type="file" accept=".txt,text/plain" (change)="onImportFile($event)" hidden />
-        <button class="file-btn" type="button" (click)="fileInput.click()" [disabled]="saving()">Import from file</button>
-        <button class="file-btn" type="button" (click)="exportToArray()" [disabled]="saving() || !draft()">Export Array</button>
-        <div style="flex: 1"></div>
-        <button class="file-btn" type="button" (click)="onClose()" [disabled]="saving()">Cancel</button>
-        <button class="primary sm" type="button" (click)="onSave()" [disabled]="saving()">
-          {{ saving() ? 'Saving…' : 'Save' }}
-        </button>
-      </div>
-
+  @if (saving()) {
+    <div class="saving-banner">
+      <span class="spinner"></span>
+      Saving exclusion words…
     </div>
+  }
+
+  <div class="input-container">
+    <textarea
+      class="words-textarea"
+      placeholder="e.g. experience, work, team…"
+      [ngModel]="draft()"
+      (ngModelChange)="draft.set($event)"
+      [disabled]="saving()"></textarea>
   </div>
-}
+
+  <div class="word-count text-muted small">
+    Comma separated words
+  </div>
+
+  <ng-container modal-footer>
+    <input #fileInput type="file" accept=".txt,text/plain" (change)="onImportFile($event)" hidden />
+    <button class="file-btn" type="button" (click)="fileInput.click()" [disabled]="saving()">Import from file</button>
+    <button class="file-btn" type="button" (click)="exportToArray()" [disabled]="saving() || !draft()">Export Array</button>
+    <div style="flex: 1"></div>
+    <button class="file-btn" type="button" (click)="close.emit()" [disabled]="saving()">Cancel</button>
+    <button class="primary sm" type="button" (click)="onSave()" [disabled]="saving()">
+      {{ saving() ? 'Saving…' : 'Save' }}
+    </button>
+  </ng-container>
+
+</app-modal-shell>

@@ -1,82 +1,71 @@
-@if (isOpen()) {
-  <div class="drawer-backdrop" (click)="onClose()"></div>
-  <div class="modal-wrap">
-    <div class="modal" (click)="$event.stopPropagation()">
+<app-modal-shell
+  [isOpen]="isOpen()"
+  [title]="mode() === 'weighted' ? 'Weighted keywords' : 'Raw keyword counts'"
+  (close)="close.emit()">
 
-      <div class="dw-header">
-        <span class="dw-title">
-          {{ mode() === 'weighted' ? 'Weighted keywords' : 'Raw keyword counts' }}
-        </span>
-        <button class="dw-close" type="button" (click)="onClose()">✕</button>
-      </div>
+  @if (mode() === 'weighted') {
+    <p class="intro">
+      The <strong>weighted</strong> view ranks each term in the job description by its
+      <strong>TF-IDF weight</strong> — a measure of how distinctive the term is, not just how often it appears.
+    </p>
 
-      <div class="modal-body">
-        @if (mode() === 'weighted') {
-          <p class="intro">
-            The <strong>weighted</strong> view ranks each term in the job description by its
-            <strong>TF-IDF weight</strong> — a measure of how distinctive the term is, not just how often it appears.
-          </p>
-
-          <div class="step">
-            <div class="step-title">How the weight is calculated</div>
-            <p>
-              Each term's weight combines two factors:
-            </p>
-            <ul>
-              <li><strong>Term frequency (TF):</strong> how often the term appears in the job description.</li>
-              <li><strong>Inverse document frequency (IDF):</strong> rarer terms across the resume + job pair get a
-                higher boost. Common words like "experience" score low; specific terms like "Kubernetes" score high.
-              </li>
-            </ul>
-            <p>
-              The bar length is relative to the top-ranked term. Any <strong>boosts</strong> you have configured are
-              also applied here.
-            </p>
-          </div>
-
-          <div class="step">
-            <div class="step-title">Why it matters</div>
-            <p>
-              This is the view that drives the <strong>TF-IDF component of your match score</strong>.
-              Highlighted rows are terms that also appear in your resume — those are the keywords
-              actually contributing to the overlap bonus.
-            </p>
-          </div>
-        } @else {
-          <p class="intro">
-            The <strong>raw counts</strong> view shows how many times each term literally appears in the job
-            description, after stopwords and your exclusions are removed.
-          </p>
-
-          <div class="step">
-            <div class="step-title">How it differs from weighted</div>
-            <p>
-              No IDF, no boosts — just occurrence counts. A common word that appears 10 times will rank above a rare,
-              distinctive term that appears once.
-            </p>
-          </div>
-
-          <div class="step">
-            <div class="step-title">When to use it</div>
-            <ul>
-              <li>To spot terms the job description <em>repeats</em> — often a signal of what the role really
-                emphasises.
-              </li>
-              <li>To find noisy filler terms worth adding to your <strong>exclusions</strong> so they stop polluting the
-                weighted view.
-              </li>
-            </ul>
-            <p>
-              Raw counts do <strong>not</strong> directly affect your match score; they are a diagnostic view.
-            </p>
-          </div>
-        }
-      </div>
-
-    <div class="modal-footer">
-      <button class="file-btn" type="button" (click)="onClose()">Close</button>
+    <div class="step">
+      <div class="step-title">How the weight is calculated</div>
+      <p>
+        Each term's weight combines two factors:
+      </p>
+      <ul>
+        <li><strong>Term frequency (TF):</strong> how often the term appears in the job description.</li>
+        <li><strong>Inverse document frequency (IDF):</strong> rarer terms across the resume + job pair get a
+          higher boost. Common words like "experience" score low; specific terms like "Kubernetes" score high.
+        </li>
+      </ul>
+      <p>
+        The bar length is relative to the top-ranked term. Any <strong>boosts</strong> you have configured are
+        also applied here.
+      </p>
     </div>
 
-  </div>
-</div>
-}
+    <div class="step">
+      <div class="step-title">Why it matters</div>
+      <p>
+        This is the view that drives the <strong>TF-IDF component of your match score</strong>.
+        Highlighted rows are terms that also appear in your resume — those are the keywords
+        actually contributing to the overlap bonus.
+      </p>
+    </div>
+  } @else {
+    <p class="intro">
+      The <strong>raw counts</strong> view shows how many times each term literally appears in the job
+      description, after stopwords and your exclusions are removed.
+    </p>
+
+    <div class="step">
+      <div class="step-title">How it differs from weighted</div>
+      <p>
+        No IDF, no boosts — just occurrence counts. A common word that appears 10 times will rank above a rare,
+        distinctive term that appears once.
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="step-title">When to use it</div>
+      <ul>
+        <li>To spot terms the job description <em>repeats</em> — often a signal of what the role really
+          emphasises.
+        </li>
+        <li>To find noisy filler terms worth adding to your <strong>exclusions</strong> so they stop polluting the
+          weighted view.
+        </li>
+      </ul>
+      <p>
+        Raw counts do <strong>not</strong> directly affect your match score; they are a diagnostic view.
+      </p>
+    </div>
+  }
+
+  <ng-container modal-footer>
+    <button class="file-btn" type="button" (click)="close.emit()">Close</button>
+  </ng-container>
+
+</app-modal-shell>

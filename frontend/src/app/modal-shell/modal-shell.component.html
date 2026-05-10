@@ -1,0 +1,17 @@
+@if (isOpen()) {
+  <div class="drawer-backdrop" (click)="close.emit()"></div>
+  <div class="modal-wrap">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="dw-header">
+        <span class="dw-title">{{ title() }}</span>
+        <button class="dw-close" type="button" (click)="close.emit()">✕</button>
+      </div>
+      <div class="modal-body">
+        <ng-content />
+      </div>
+      <div class="modal-footer">
+        <ng-content select="[modal-footer]" />
+      </div>
+    </div>
+  </div>
+}
