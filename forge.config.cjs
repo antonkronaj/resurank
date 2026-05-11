@@ -1,5 +1,5 @@
-const { FusesPlugin } = require('@electron-forge/plugin-fuses');
-const { FuseV1Options, FuseVersion } = require('@electron/fuses');
+const {FusesPlugin} = require('@electron-forge/plugin-fuses');
+const {FuseV1Options, FuseVersion} = require('@electron/fuses');
 const dotenv = require('dotenv');
 const path = require('node:path');
 const fs = require('node:fs');
@@ -9,13 +9,27 @@ const child_process = require('node:child_process');
 dotenv.config();
 
 const isMac = process.platform === 'darwin';
-const appleIdName = process.env['APPLE_ID_NAME'];
-const appleId = process.env['APPLE_ID'];
-const appleAppPass = process.env['APPLE_APP_SPECIFIC_PASSWORD'];
-const appleTeamId = process.env['APPLE_TEAM_ID'];
+const APPLE_ID_NAME_S = process.env['APPLE_ID_NAME'];
+const APPLE_ID_S = process.env['APPLE_ID'];
+const APPLE_APP_SPECIFIC_PASSWORD_S = process.env['APPLE_APP_SPECIFIC_PASSWORD'];
+const APPLE_TEAM_ID_S = process.env['APPLE_TEAM_ID'];
 
-if (isMac && (!appleIdName || !appleTeamId || !appleId || !appleAppPass)) {
-  throw new Error('Missing APPLE_ID_NAME or APPLE_TEAM_ID or APPLE_ID or APPLE_APP_SPECIFIC_PASSWORD for macOS code signing');
+if (isMac) {
+  let missing = '';
+  if (!APPLE_ID_NAME_S) {
+    missing += 'APPLE_ID_NAME';
+  }
+  if (!APPLE_ID_S) {
+    missing += 'APPLE_ID';
+  }
+  if (!APPLE_APP_SPECIFIC_PASSWORD_S) {
+    missing += 'APPLE_APP_SPECIFIC_PASSWORD';
+  }
+  if (!APPLE_TEAM_ID_S) {
+    missing += 'APPLE_TEAM_ID';
+  }
+
+  throw new Error(`Missing ${missing} for macOS code signing`);
 }
 
 const config = {
@@ -27,17 +41,17 @@ const config = {
     asar: {
       unpack: '**/node_modules/{onnxruntime-node,@huggingface}/**/*',
     },
-    ...(isMac && appleIdName && appleTeamId ? {
+    ...(isMac ? {
       osxSign: {
-        identity: `Developer ID Application: ${appleIdName} (${appleTeamId})`,
+        identity: `Developer ID Application: ${APPLE_ID_NAME_S} (${APPLE_TEAM_ID_S})`,
         hardenedRuntime: true,
         entitlements: 'entitlements.plist',
         entitlementsInherit: 'entitlements.plist',
       },
       osxNotarize: {
-        appleId: appleId ?? '',
-        appleIdPassword: appleAppPass ?? '',
-        teamId: appleTeamId ?? '',
+        appleId: APPLE_ID_S ?? '',
+        appleIdPassword: APPLE_APP_SPECIFIC_PASSWORD_S ?? '',
+        teamId: APPLE_TEAM_ID_S ?? '',
       },
     } : {}),
     ignore: [
@@ -48,13 +62,24 @@ const config = {
       /\/node_modules\/@types\//,
       /\/node_modules\/onnxruntime-web\/dist\/.*\.wasm$/,
       /\/node_modules\/wordnet-db\/dict\//,
+<<<<<<< Updated upstream
+=======
+      // workspace dev deps — not needed at runtime
+      /\/frontend\/node_modules\//,
+      /\/backend\/node_modules\//,
+      // test and doc cruft inside dependencies
+      /\/resources\/test_files\//,
+      /\/node_modules\/.*\/(test|tests|__tests__|spec|specs)\//,
+      /\/node_modules\/.*\/(example|examples|demo|demos|docs?)\//,
+      /\/node_modules\/.*\.(d\.ts\.map)$/,
+>>>>>>> Stashed changes
     ],
   },
   rebuildConfig: {},
   makers: [
-    { name: '@electron-forge/maker-dmg', platforms: ['darwin'] },
-    { name: '@electron-forge/maker-squirrel', platforms: ['win32'], config: {} },
-    { name: '@electron-forge/maker-zip', platforms: ['linux'] },
+    {name: '@electron-forge/maker-dmg', platforms: ['darwin']},
+    {name: '@electron-forge/maker-squirrel', platforms: ['win32'], config: {}},
+    {name: '@electron-forge/maker-zip', platforms: ['linux']},
   ],
   hooks: {
     generateAssets: async () => {
@@ -65,9 +90,9 @@ const config = {
     },
 
     postMake: async (_forgeConfig, makeResults) => {
-      const { createHash } = crypto;
-      const { readFileSync, writeFileSync, statSync } = fs;
-      const { basename, dirname } = path;
+      const {createHash} = crypto;
+      const {readFileSync, writeFileSync, statSync} = fs;
+      const {basename, dirname} = path;
 
       const pkg = JSON.parse(readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
       const releaseDate = new Date().toISOString();
@@ -84,7 +109,7 @@ const config = {
           const name = manifestName(artifact);
           if (!name) continue;
 
-          const { size } = statSync(artifact);
+          const {size} = statSync(artifact);
           const sha512 = createHash('sha512').update(readFileSync(artifact)).digest('base64');
           const filename = basename(artifact);
 
