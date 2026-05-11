@@ -28,8 +28,9 @@ if (isMac) {
   if (!APPLE_TEAM_ID_S) {
     missing += 'APPLE_TEAM_ID';
   }
-
-  throw new Error(`Missing ${missing} for macOS code signing`);
+  if(missing.length > 3) {
+    throw new Error(`Missing ${missing} for macOS code signing`);
+  }
 }
 
 const config = {
@@ -60,19 +61,35 @@ const config = {
       /tsconfig.*\.json$/,
       /\/node_modules\/typescript\//,
       /\/node_modules\/@types\//,
-      /\/node_modules\/onnxruntime-web\/dist\/.*\.wasm$/,
+      // onnxruntime-web is unused — app uses onnxruntime-node (native)
+      /\/node_modules\/onnxruntime-web\//,
       /\/node_modules\/wordnet-db\/dict\//,
-<<<<<<< Updated upstream
-=======
       // workspace dev deps — not needed at runtime
       /\/frontend\/node_modules\//,
       /\/backend\/node_modules\//,
+      // angular ecosystem — compiled into dist/frontend at build time
+      /\/node_modules\/@angular\//,
+      /\/node_modules\/@angular-devkit\//,
+      /\/node_modules\/@schematics\//,
+      // electron-forge toolchain — packaging only, never runs inside the app
+      /\/node_modules\/@electron-forge\//,
+      /\/node_modules\/electron-winstaller\//,
+      /\/node_modules\/postject\//,
+      // bundlers and transpilers used by the angular build pipeline
+      /\/node_modules\/@rolldown\//,
+      /\/node_modules\/@babel\//,
+      /\/node_modules\/esbuild-wasm\//,
+      /\/node_modules\/@esbuild\//,
+      /\/node_modules\/webpack\//,
+      // other dev-only tools
+      /\/node_modules\/prettier\//,
+      /\/node_modules\/sass\//,
+      /\/node_modules\/caniuse-lite\//,
       // test and doc cruft inside dependencies
       /\/resources\/test_files\//,
       /\/node_modules\/.*\/(test|tests|__tests__|spec|specs)\//,
       /\/node_modules\/.*\/(example|examples|demo|demos|docs?)\//,
       /\/node_modules\/.*\.(d\.ts\.map)$/,
->>>>>>> Stashed changes
     ],
   },
   rebuildConfig: {},
