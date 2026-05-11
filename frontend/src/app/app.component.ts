@@ -7,6 +7,7 @@ import {
   MatchResult,
   ModelStatus,
 } from './api.service';
+import { EmbeddingService } from './embedding.service';
 import { JOB_DESCRIPTION_CHAR_CAP, EMBEDDING_WEIGHT, TFIDF_WEIGHT } from '@shared/constants';
 
 import { SettingsDrawerComponent } from './settings-drawer/settings-drawer.component';
@@ -32,6 +33,7 @@ type BreakdownMode = 'weighted' | 'counts';
 })
 export class AppComponent implements OnInit {
   private api = inject(ApiService);
+  private embeddingService = inject(EmbeddingService);
 
   resume = signal<ResumeInfo>({ uploaded: false });
   termBoosts = signal<Record<string, number>>({});
@@ -67,31 +69,16 @@ export class AppComponent implements OnInit {
     this.keywordInfoOpen.set(true);
   }
 
-  modelStatus = signal<ModelStatus | null>(null);
+  readonly modelStatus = computed<ModelStatus | null>(() => this.embeddingService.status());
 
   ngOnInit(): void {
     this.loadAll();
-    this.checkModelStatus();
   }
 
   loadAll(): void {
     this.api.getResume().subscribe((r) => this.resume.set(r));
     this.api.getTermBoosts().subscribe((r) => this.termBoosts.set(r.boosts));
     this.api.getStopwords().subscribe((r) => this.stopwords.set(r.words));
-  }
-
-  checkModelStatus(): void {
-    this.api.getHealth().subscribe({
-      next: (r) => {
-        this.modelStatus.set(r.model);
-        if (!r.model.ready && !r.model.error) {
-          setTimeout(() => this.checkModelStatus(), r.model.loading ? 1000 : 2000);
-        }
-      },
-      error: () => {
-        setTimeout(() => this.checkModelStatus(), 5000);
-      }
-    });
   }
 
   onUploadResume(file: File): void {

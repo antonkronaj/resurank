@@ -39,9 +39,7 @@ const config = {
     appBundleId: 'dev.resurank.app',
     icon: 'resources/icon',
     extraResource: ['app-update.yml'],
-    asar: {
-      unpack: '**/node_modules/{onnxruntime-node,@huggingface,@napi-rs}/**/*',
-    },
+    asar: true,
     ...(isMac ? {
       osxSign: {
         identity: `Developer ID Application: ${APPLE_ID_NAME_S} (${APPLE_TEAM_ID_S})`,
@@ -56,17 +54,22 @@ const config = {
       },
     } : {}),
     ignore: [
+      /CLAUDE.md/,
+      /.gitignore/,
       /\.map$/,
       /\.ts$/,
+      /\.ts$/,
+      /\/data$/,
+      /\.\/.claude\//,
+      /\.\/.github\//,
+      /\.\/.idea\//,
+      /\.\/.out\//,
       /tsconfig.*\.json$/,
       /\/node_modules\/typescript\//,
       /\/node_modules\/@types\//,
-      // onnxruntime-web WASM binaries are large and unused — transformers falls back to JS runtime
-      /\/node_modules\/onnxruntime-web\/dist\/.*\.wasm$/,
       /\/node_modules\/wordnet-db\/dict\//,
       // workspace dev deps — not needed at runtime
       /\/frontend\/node_modules\//,
-      /\/backend\/node_modules\//,
       // angular ecosystem — compiled into dist/frontend at build time
       /\/node_modules\/@angular\//,
       /\/node_modules\/@angular-devkit\//,
@@ -127,7 +130,7 @@ const config = {
 
     generateAssets: async () => {
       const {execSync} = child_process;
-      execSync('npm run build:backend && npm run build:frontend && npm run build:electron', {
+      execSync('npm run build:frontend && npm run build:electron', {
         stdio: 'inherit',
       });
     },

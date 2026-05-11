@@ -53,6 +53,21 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "pdf.worker.mjs",
+                "input": "node_modules/pdfjs-dist/build",
+                "output": "assets"
+              },
+              {
+                "glob": "ort-wasm-simd-threaded.asyncify.mjs",
+                "input": "node_modules/onnxruntime-web/dist",
+                "output": "assets/ort"
+              },
+              {
+                "glob": "ort-wasm-simd-threaded.asyncify.wasm",
+                "input": "node_modules/onnxruntime-web/dist",
+                "output": "assets/ort"
               }
             ],
             "styles": [

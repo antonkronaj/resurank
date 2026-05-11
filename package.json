@@ -11,33 +11,24 @@
   },
   "workspaces": [
     "frontend",
-    "backend",
     "shared"
   ],
   "scripts": {
-    "rebuild:native": "electron-rebuild -m backend",
-    "build:backend": "npm --prefix backend run build",
     "build:frontend": "npm --prefix frontend run build -- --base-href=./",
     "build:electron": "tsc -p src/tsconfig.json",
-    "build": "npm run build:backend && npm run build:frontend && npm run build:electron",
+    "build": "npm run build:frontend && npm run build:electron",
     "dev:frontend": "npm --prefix frontend start",
-    "dev:electron": "JOBDASH_DEV=1 npm run build:backend && npm run build:electron && npm run rebuild:native && JOBDASH_DEV=1 electron .",
+    "dev:electron": "JOBDASH_DEV=1 npm run build:electron && JOBDASH_DEV=1 electron .",
     "start": "electron-forge start",
-    "package": "electron-forge package",
-    "dist": "electron-forge make",
+    "package": "npm run build && electron-forge package",
+    "dist": "npm run build && electron-forge make",
     "publish": "electron-forge publish",
     "make": "electron-forge make"
   },
   "dependencies": {
-    "@huggingface/transformers": "^4.2.0",
-    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "electron-squirrel-startup": "^1.0.1",
     "electron-updater": "^6.8.3",
-    "express": "^5.2.1",
-    "multer": "^2.1.1",
-    "natural": "^8.1.1",
-    "pdf-parse": "^2.4.5",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
@@ -47,17 +38,11 @@
     "@electron-forge/maker-rpm": "^7.11.1",
     "@electron-forge/maker-squirrel": "^7.11.1",
     "@electron-forge/maker-zip": "^7.11.1",
-    "@electron-forge/plugin-auto-unpack-natives": "^7.11.1",
     "@electron-forge/plugin-fuses": "^7.11.1",
     "@electron-forge/shared-types": "^7.11.1",
     "@electron/fuses": "^2.1.1",
-    "@electron/rebuild": "^4.0.4",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
-    "@types/multer": "^2.1.0",
     "@types/node": "^25.6.2",
     "electron": "^42.0.1",
-    "tsx": "^4.21.0",
     "typescript": "5.9.3"
   },
   "overrides": {
