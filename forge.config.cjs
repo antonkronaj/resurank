@@ -40,7 +40,7 @@ const config = {
     icon: 'resources/icon',
     extraResource: ['app-update.yml'],
     asar: {
-      unpack: '**/node_modules/{onnxruntime-node,@huggingface}/**/*',
+      unpack: '**/node_modules/{onnxruntime-node,@huggingface,@napi-rs}/**/*',
     },
     ...(isMac ? {
       osxSign: {
