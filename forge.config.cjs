@@ -28,7 +28,7 @@ if (isMac) {
   if (!APPLE_TEAM_ID_S) {
     missing += 'APPLE_TEAM_ID';
   }
-  if(missing.length > 3) {
+  if (missing.length > 3) {
     throw new Error(`Missing ${missing} for macOS code signing`);
   }
 }
@@ -61,8 +61,8 @@ const config = {
       /tsconfig.*\.json$/,
       /\/node_modules\/typescript\//,
       /\/node_modules\/@types\//,
-      // onnxruntime-web is unused — app uses onnxruntime-node (native)
-      /\/node_modules\/onnxruntime-web\//,
+      // onnxruntime-web WASM binaries are large and unused — transformers falls back to JS runtime
+      /\/node_modules\/onnxruntime-web\/dist\/.*\.wasm$/,
       /\/node_modules\/wordnet-db\/dict\//,
       // workspace dev deps — not needed at runtime
       /\/frontend\/node_modules\//,
@@ -99,8 +99,34 @@ const config = {
     {name: '@electron-forge/maker-zip', platforms: ['linux']},
   ],
   hooks: {
+    packageAfterCopy: async (_forgeConfig, buildPath) => {
+      const {readdirSync, writeFileSync, statSync} = fs;
+      const collect = (dir) => {
+        const entries = [];
+        for (const name of readdirSync(dir)) {
+          const full = path.join(dir, name);
+          if (statSync(full).isDirectory()) entries.push(...collect(full));
+          else entries.push(full.replace(buildPath, ''));
+        }
+        return entries;
+      };
+      const manifest = collect(buildPath).sort().join('\n');
+      const out = path.join(process.cwd(), 'package-manifest.txt');
+      writeFileSync(out, manifest);
+      console.log(`[packageAfterCopy] wrote ${out}`);
+
+      // Read the file
+      fs.readFile(out, 'utf8', (err, data) => {
+        if (err) {
+          console.error('Error reading file:', err);
+          return;
+        }
+        console.log('File content:', data);
+      });
+    },
+
     generateAssets: async () => {
-      const { execSync } = child_process;
+      const {execSync} = child_process;
       execSync('npm run build:backend && npm run build:frontend && npm run build:electron', {
         stdio: 'inherit',
       });

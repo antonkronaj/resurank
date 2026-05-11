@@ -9,3 +9,4 @@ out/
 # Electron build output
 src/electron/dist/
 release/
+package-manifest.txt
