@@ -59,10 +59,13 @@ jobs:
       - name: Make & generate manifests (Windows / Linux)
         if: runner.os != 'macOS'
         env:
-          DEBUG: ${{ vars.DEBUG }}
-          ELECTRON_FORGE_LISTR_RENDERER: ${{vars.ELECTRON_FORGE_LISTR_RENDERER}}
+          DEBUG: electron-forge:*,electron-packager
+          ELECTRON_FORGE_LISTR_RENDERER: verbose
           DEBUG_COLORS: '0'
-        run: npm run dist
+        run: |
+          echo "vars.DEBUG=${{ vars.DEBUG }}"
+          echo "vars.ELECTRON_FORGE_LISTR_RENDERER=${{ vars.ELECTRON_FORGE_LISTR_RENDERER }}"
+          npm run dist
 
       - name: Publish to GitHub Releases
         env:
