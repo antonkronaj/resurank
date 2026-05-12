@@ -60,6 +60,7 @@ jobs:
         if: runner.os != 'macOS'
         env:
           DEBUG: ${{ vars.DEBUG }}
+          ELECTRON_FORGE_LISTR_RENDERER: ${{vars.ELECTRON_FORGE_LISTR_RENDERER}}
           DEBUG_COLORS: '0'
         run: npm run dist
 
