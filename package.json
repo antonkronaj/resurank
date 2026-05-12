@@ -1,6 +1,6 @@
 {
   "name": "resurank",
-  "version": "0.1.12-test-08",
+  "version": "0.1.12-test-09",
   "private": true,
   "description": "Resume to job-description matcher",
   "license": "AGPL-3.0-only",
