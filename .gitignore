@@ -10,3 +10,4 @@ out/
 src/electron/dist/
 release/
 package-manifest.txt
+.env

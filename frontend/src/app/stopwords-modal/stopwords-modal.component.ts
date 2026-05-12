@@ -1,6 +1,6 @@
-import { Component, input, output, signal, effect } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ModalShellComponent } from '../modal-shell/modal-shell.component';
+import {Component, effect, input, output, signal} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {ModalShellComponent} from '../modal-shell/modal-shell.component';
 
 @Component({
   selector: 'app-stopwords-modal',
@@ -32,7 +32,7 @@ export class StopwordsModalComponent {
         this.draft.set(words.join(', '));
       }
       this.prevOpen = open;
-    }, { allowSignalWrites: true });
+    }, {allowSignalWrites: true});
   }
 
   onSave() {

@@ -27,7 +27,9 @@
       "webworker"
     ],
     "paths": {
-      "@shared/*": ["../shared/*"]
+      "@shared/*": [
+        "../shared/*"
+      ]
     }
   },
   "angularCompilerOptions": {

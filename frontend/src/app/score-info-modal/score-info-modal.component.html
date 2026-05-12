@@ -1,4 +1,4 @@
-<app-modal-shell [isOpen]="isOpen()" title="How scoring works" (close)="close.emit()">
+<app-modal-shell (close)="close.emit()" [isOpen]="isOpen()" title="How scoring works">
 
   <p class="intro">
     ResuRank scores a job description against your resume using two independent methods —
@@ -9,10 +9,18 @@
   <div class="step">
     <div class="step-title">Step 1 — Text preparation</div>
     <ul>
-      <li><strong>Stopwords are removed.</strong> Common words and any words in your personal exclusion list are stripped out.</li>
-      <li><strong>The job title gets extra weight.</strong> It is repeated twice before the description so title terms count more.</li>
-      <li><strong>Text is sanitised for the embedding model.</strong> HTML, URLs, emoji, and Markdown are stripped before sending to the AI model.</li>
-      <li><strong>Inputs are capped</strong> at 32,000 characters for the UI counter, and 6,000 characters (after sanitisation) before the embedding model.</li>
+      <li><strong>Stopwords are removed.</strong> Common words and any words in your personal exclusion list are
+        stripped out.
+      </li>
+      <li><strong>The job title gets extra weight.</strong> It is repeated twice before the description so title terms
+        count more.
+      </li>
+      <li><strong>Text is sanitised for the embedding model.</strong> HTML, URLs, emoji, and Markdown are stripped
+        before sending to the AI model.
+      </li>
+      <li><strong>Inputs are capped</strong> at 32,000 characters for the UI counter, and 6,000 characters (after
+        sanitisation) before the embedding model.
+      </li>
     </ul>
   </div>
 
@@ -20,11 +28,13 @@
     <div class="step-title">Step 2 — Embedding score (semantic similarity)</div>
     <p>Answers: <em>do these two texts mean the same thing, even if they use different words?</em></p>
     <p>
-      Both texts are passed through a local AI model (<code>jina-embeddings-v2-small-en</code>, ~25 MB, runs fully offline).
+      Both texts are passed through a local AI model (<code>jina-embeddings-v2-small-en</code>, ~25 MB, runs fully
+      offline).
       The model converts each text into a vector representing its meaning. The score is the
       <strong>cosine similarity</strong> between the two vectors.
     </p>
-    <p>Good at catching paraphrases ("led a team" ↔ "people management"), but can find abstract similarity even when texts share no keywords — which is why it is not used alone.</p>
+    <p>Good at catching paraphrases ("led a team" ↔ "people management"), but can find abstract similarity even when
+      texts share no keywords — which is why it is not used alone.</p>
   </div>
 
   <div class="step">
@@ -35,15 +45,20 @@
       Rare terms are weighted more than common ones ("Kubernetes" matters more than "experience").
     </p>
     <ul>
-      <li><strong>Overlap bonus:</strong> up to +20 percentage points when your top 100 resume terms appear in the job description.</li>
-      <li><strong>Term boosts:</strong> configured boost terms get their TF-IDF weight multiplied (only effective for terms already in your resume).</li>
+      <li><strong>Overlap bonus:</strong> up to +20 percentage points when your top 100 resume terms appear in the job
+        description.
+      </li>
+      <li><strong>Term boosts:</strong> configured boost terms get their TF-IDF weight multiplied (only effective for
+        terms already in your resume).
+      </li>
     </ul>
   </div>
 
   <div class="step">
     <div class="step-title">Step 4 — Combining the scores</div>
     <div class="formula">score = 0.60 × embedding + 0.40 × TF-IDF</div>
-    <p>The embedding gets more weight because it captures meaning. The TF-IDF anchors the score to actual shared vocabulary.</p>
+    <p>The embedding gets more weight because it captures meaning. The TF-IDF anchors the score to actual shared
+      vocabulary.</p>
   </div>
 
   <div class="step">
@@ -54,10 +69,13 @@
     </p>
     <ul>
       <li><strong>TF-IDF ≥ 15%</strong> — normal weights (60/40). No adjustment.</li>
-      <li><strong>TF-IDF near 0%</strong> — embedding drops to 10%, TF-IDF rises to 90%. Collapses the score toward near-zero TF-IDF.</li>
+      <li><strong>TF-IDF near 0%</strong> — embedding drops to 10%, TF-IDF rises to 90%. Collapses the score toward
+        near-zero TF-IDF.
+      </li>
       <li><strong>In between</strong> — smooth linear transition.</li>
     </ul>
-    <p>The "Divergence penalty" in the breakdown is the difference between the normal-weight score and the adjusted score.</p>
+    <p>The "Divergence penalty" in the breakdown is the difference between the normal-weight score and the adjusted
+      score.</p>
   </div>
 
   <div class="step">
@@ -72,19 +90,34 @@
     <div class="step-title">Score tiers</div>
     <table class="tiers-table">
       <thead>
-        <tr><th>Score</th><th>Tier</th></tr>
+      <tr>
+        <th>Score</th>
+        <th>Tier</th>
+      </tr>
       </thead>
       <tbody>
-        <tr><td>0–29%</td><td class="tier poor">Poor fit</td></tr>
-        <tr><td>30–49%</td><td class="tier fair">Fair</td></tr>
-        <tr><td>50–69%</td><td class="tier good">Good</td></tr>
-        <tr><td>70%+</td><td class="tier great">Great fit</td></tr>
+      <tr>
+        <td>0–29%</td>
+        <td class="tier poor">Poor fit</td>
+      </tr>
+      <tr>
+        <td>30–49%</td>
+        <td class="tier fair">Fair</td>
+      </tr>
+      <tr>
+        <td>50–69%</td>
+        <td class="tier good">Good</td>
+      </tr>
+      <tr>
+        <td>70%+</td>
+        <td class="tier great">Great fit</td>
+      </tr>
       </tbody>
     </table>
   </div>
 
   <ng-container modal-footer>
-    <button class="file-btn" type="button" (click)="close.emit()">Close</button>
+    <button (click)="close.emit()" class="file-btn" type="button">Close</button>
   </ng-container>
 
 </app-modal-shell>

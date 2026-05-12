@@ -54,4 +54,8 @@
   font-family: inherit;
   transition: all 0.1s;
 }
-.file-btn:hover { background: #e8e8ed; border-color: var(--border); }
+
+.file-btn:hover {
+  background: #e8e8ed;
+  border-color: var(--border);
+}

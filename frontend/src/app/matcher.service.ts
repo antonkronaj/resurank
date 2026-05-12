@@ -1,20 +1,20 @@
-import { Injectable } from '@angular/core';
-import { EXTRA_STOPWORDS } from '@shared/stopwords';
+import {Injectable} from '@angular/core';
+import {EXTRA_STOPWORDS} from '@shared/stopwords';
 import {
+  DIVERGENCE_MIN_EMBEDDING_WEIGHT,
+  DIVERGENCE_TFIDF_GATE,
   EMBEDDING_CHAR_CAP,
   EMBEDDING_WEIGHT,
-  TFIDF_WEIGHT,
-  TOP_TERMS_FOR_MATCHING,
   MAX_MATCHED_TERMS,
-  TOP_TERMS_FOR_BREAKDOWN,
-  OVERLAP_BONUS_THRESHOLD,
-  OVERLAP_BONUS_MAX,
-  DIVERGENCE_TFIDF_GATE,
-  DIVERGENCE_MIN_EMBEDDING_WEIGHT,
   NON_ENGLISH_CHAR_RATIO,
+  OVERLAP_BONUS_MAX,
+  OVERLAP_BONUS_THRESHOLD,
+  TFIDF_WEIGHT,
+  TOP_TERMS_FOR_BREAKDOWN,
+  TOP_TERMS_FOR_MATCHING,
 } from '@shared/constants';
-import { extractTerms } from './resume-parser.service';
-import { EmbeddingService } from './embedding.service';
+import {extractTerms} from './resume-parser.service';
+import {EmbeddingService} from './embedding.service';
 
 export interface TermWeight {
   term: string;
@@ -78,7 +78,7 @@ class TfIdf {
     for (const [term, tf] of doc) {
       const docsWithTerm = this.docs.filter(doc => (doc.get(term) ?? 0) > 0).length;
       const idf = 1 + Math.log(n / (1 + docsWithTerm));
-      results.push({ term, tfidf: tf * idf });
+      results.push({term, tfidf: tf * idf});
     }
     return results.sort((a, b) => b.tfidf - a.tfidf);
   }
@@ -109,9 +109,10 @@ function detectNonEnglish(text: string): boolean {
   return nonAscii / letters.length > NON_ENGLISH_CHAR_RATIO;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class MatcherService {
-  constructor(private embedding: EmbeddingService) {}
+  constructor(private embedding: EmbeddingService) {
+  }
 
   async scoreSingleJob(
     resumeText: string,
@@ -178,7 +179,7 @@ export class MatcherService {
       .filter(([term]) => !isExcluded(term))
       .sort((a, b) => b[1] - a[1])
       .slice(0, TOP_TERMS_FOR_BREAKDOWN)
-      .map(([term, weight]) => ({ term, weight }));
+      .map(([term, weight]) => ({term, weight}));
 
     const jobTokens = extractTerms(`${job.title} ${job.title} ${job.description}`, userStopwords);
     const countMap = new Map<string, number>();
@@ -188,12 +189,12 @@ export class MatcherService {
     }
     const jobCounts: TermCount[] = [...countMap.entries()]
       .sort((a, b) => b[1] - a[1])
-      .map(([term, count]) => ({ term, count }));
+      .map(([term, count]) => ({term, count}));
 
     return {
       score,
       matchedTerms: [...matched].slice(0, MAX_MATCHED_TERMS),
-      breakdown: { tfidfScore, embeddingScore, overlapBonus, divergencePenalty },
+      breakdown: {tfidfScore, embeddingScore, overlapBonus, divergencePenalty},
       jobWeighted,
       jobCounts,
       languageWarning,

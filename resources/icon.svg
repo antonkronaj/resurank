@@ -1,21 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<svg height="1024" viewBox="0 0 1024 1024" width="1024" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bgGrad" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+    <linearGradient gradientUnits="userSpaceOnUse" id="bgGrad" x1="0" x2="1024" y1="0" y2="1024">
       <stop offset="0%" stop-color="#7c3aed"/>
       <stop offset="100%" stop-color="#4338ca"/>
     </linearGradient>
   </defs>
 
   <!-- Background squircle -->
-  <rect width="1024" height="1024" rx="224" fill="url(#bgGrad)"/>
+  <rect fill="url(#bgGrad)" height="1024" rx="224" width="1024"/>
 
   <!-- "RR" monogram -->
   <text
-    x="512" y="690"
-    font-family="-apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif"
-    font-size="560"
-    font-weight="700"
-    fill="white"
-    text-anchor="middle"
-    letter-spacing="-24">RR</text>
+      fill="white" font-family="-apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif"
+      font-size="560"
+      font-weight="700"
+      letter-spacing="-24"
+      text-anchor="middle"
+      x="512"
+      y="690">RR
+  </text>
 </svg>

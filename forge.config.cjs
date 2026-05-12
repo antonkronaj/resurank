@@ -114,7 +114,44 @@ const config = {
     {name: '@electron-forge/maker-zip', platforms: ['linux']},
   ],
   hooks: {
+    generateAssets: async (_forgeConfig, platform, arch) => {
+      console.log(`[generateAssets] platform=${platform} arch=${arch} — running npm run build`);
+      const {execSync} = child_process;
+      execSync('npm run build', {stdio: 'inherit'});
+      console.log('[generateAssets] build complete');
+    },
+    readPackageJson: async (_forgeConfig, packageJson) => {
+      console.log(`[readPackageJson] name=${packageJson.name} version=${packageJson.version} main=${packageJson.main}`);
+    },
+    preStart: async () => {
+      console.log('[preStart] starting Electron app');
+    },
+    postStart: async (_forgeConfig, appProcess) => {
+      console.log(`[postStart] Electron process started pid=${appProcess.pid}`);
+      appProcess.on('exit', (code, signal) => {
+        console.log(`[postStart] Electron process exited code=${code} signal=${signal}`);
+      });
+    },
+    prePackage: async (_forgeConfig, platform, arch) => {
+      console.log(`[prePackage] platform=${platform} arch=${arch}`);
+    },
+    packageAfterExtract: async (_forgeConfig, buildPath, electronVersion, platform, arch) => {
+      console.log(`[packageAfterExtract] platform=${platform} arch=${arch} electronVersion=${electronVersion}`);
+      console.log(`[packageAfterExtract] buildPath=${buildPath}`);
+      const entries = fs.readdirSync(buildPath).map(name => {
+        const full = path.join(buildPath, name);
+        try {
+          const st = fs.lstatSync(full);
+          const kind = st.isDirectory() ? 'dir' : st.isSymbolicLink() ? 'symlink' : `file(${st.size}b)`;
+          return `  ${name} [${kind}]`;
+        } catch {
+          return `  ${name} [error]`;
+        }
+      });
+      console.log(`[packageAfterExtract] contents:\n${entries.join('\n')}`);
+    },
     packageAfterCopy: async (_forgeConfig, buildPath) => {
+      console.log(`[packageAfterCopy] buildPath=${buildPath}`);
       const {readdirSync, writeFileSync, lstatSync} = fs;
       const collect = (dir) => {
         const entries = [];
@@ -135,26 +172,36 @@ const config = {
       const manifest = collect(buildPath).sort().join('\n');
       const out = path.join(process.cwd(), 'package-manifest.txt');
       writeFileSync(out, manifest);
-      console.log(`[packageAfterCopy] wrote ${out}`);
-
-      // Read the file
+      // Do not remove. Print included files
       // fs.readFile(out, 'utf8', (err, data) => {
       //   if (err) {
       //     console.error('Error reading file:', err);
       //     return;
       //   }
-      //   console.log('File content:', data);
+      //   console.log('[packageAfterCopy] File:', data);
       // });
+      console.log(`[packageAfterCopy] wrote manifest (${manifest.split('\n').length} files) to ${out}`);
     },
-
-    generateAssets: async () => {
-      const {execSync} = child_process;
-      execSync('npm run build:frontend && npm run build:electron', {
-        stdio: 'inherit',
-      });
+    packageAfterPrune: async (_forgeConfig, buildPath, electronVersion, platform, arch) => {
+      console.log(`[packageAfterPrune] platform=${platform} arch=${arch} electronVersion=${electronVersion} buildPath=${buildPath}`);
+      const nodeModulesPath = path.join(buildPath, 'node_modules');
+      if (fs.existsSync(nodeModulesPath)) {
+        const topLevel = fs.readdirSync(nodeModulesPath);
+        console.log(`[packageAfterPrune] node_modules has ${topLevel.length} top-level entries`);
+      } else {
+        console.log('[packageAfterPrune] no node_modules present after prune');
+      }
     },
-
+    postPackage: async (_forgeConfig, packageResult) => {
+      const {platform, arch, outputPaths} = packageResult;
+      console.log(`[postPackage] platform=${platform} arch=${arch}`);
+      console.log(`[postPackage] outputPaths:\n${outputPaths.map(p => `  ${p}`).join('\n')}`);
+    },
+    preMake: async () => {
+      console.log('[preMake] starting make step');
+    },
     postMake: async (_forgeConfig, makeResults) => {
+      console.log(`[postMake] processing ${makeResults.length} make result(s)`);
       const {createHash} = crypto;
       const {readFileSync, writeFileSync, statSync} = fs;
       const {basename, dirname} = path;
@@ -170,9 +217,13 @@ const config = {
       };
 
       for (const result of makeResults) {
+        console.log(`[postMake] maker=${result.make} platform=${result.platform} arch=${result.arch} artifacts=${result.artifacts.join(', ')}`);
         for (const artifact of result.artifacts) {
           const name = manifestName(artifact);
-          if (!name) continue;
+          if (!name) {
+            console.log(`[postMake] skipping ${path.basename(artifact)} (no manifest mapping)`);
+            continue;
+          }
 
           const {size} = statSync(artifact);
           const sha512 = createHash('sha512').update(readFileSync(artifact)).digest('base64');
@@ -190,7 +241,7 @@ const config = {
           ].join('\n') + '\n';
 
           writeFileSync(`${dirname(artifact)}/${name}`, yaml);
-          console.log(`[postMake] wrote ${name} for ${filename}`);
+          console.log(`[postMake] wrote ${name} for ${filename} (${size} bytes)`);
         }
       }
     },

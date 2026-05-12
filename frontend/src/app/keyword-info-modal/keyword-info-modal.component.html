@@ -1,7 +1,7 @@
 <app-modal-shell
+  (close)="close.emit()"
   [isOpen]="isOpen()"
-  [title]="mode() === 'weighted' ? 'Weighted keywords' : 'Raw keyword counts'"
-  (close)="close.emit()">
+  [title]="mode() === 'weighted' ? 'Weighted keywords' : 'Raw keyword counts'">
 
   @if (mode() === 'weighted') {
     <p class="intro">
@@ -35,37 +35,37 @@
       </p>
     </div>
   } @else {
-    <p class="intro">
-      The <strong>raw counts</strong> view shows how many times each term literally appears in the job
-      description, after stopwords and your exclusions are removed.
+  <p class="intro">
+    The <strong>raw counts</strong> view shows how many times each term literally appears in the job
+    description, after stopwords and your exclusions are removed.
+  </p>
+
+  <div class="step">
+    <div class="step-title">How it differs from weighted</div>
+    <p>
+      No IDF, no boosts — just occurrence counts. A common word that appears 10 times will rank above a rare,
+      distinctive term that appears once.
     </p>
+  </div>
 
-    <div class="step">
-      <div class="step-title">How it differs from weighted</div>
-      <p>
-        No IDF, no boosts — just occurrence counts. A common word that appears 10 times will rank above a rare,
-        distinctive term that appears once.
-      </p>
-    </div>
-
-    <div class="step">
-      <div class="step-title">When to use it</div>
-      <ul>
-        <li>To spot terms the job description <em>repeats</em> — often a signal of what the role really
-          emphasises.
-        </li>
-        <li>To find noisy filler terms worth adding to your <strong>exclusions</strong> so they stop polluting the
-          weighted view.
-        </li>
-      </ul>
-      <p>
-        Raw counts do <strong>not</strong> directly affect your match score; they are a diagnostic view.
-      </p>
-    </div>
-  }
+  <div class="step">
+    <div class="step-title">When to use it</div>
+    <ul>
+      <li>To spot terms the job description <em>repeats</em> — often a signal of what the role really
+        emphasises.
+      </li>
+      <li>To find noisy filler terms worth adding to your <strong>exclusions</strong> so they stop polluting the
+        weighted view.
+      </li>
+    </ul>
+    <p>
+      Raw counts do <strong>not</strong> directly affect your match score; they are a diagnostic view.
+    </p>
+  </div>
+}
 
   <ng-container modal-footer>
-    <button class="file-btn" type="button" (click)="close.emit()">Close</button>
+    <button (click)="close.emit()" class="file-btn" type="button">Close</button>
   </ng-container>
 
 </app-modal-shell>

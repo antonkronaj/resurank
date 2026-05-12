@@ -2,11 +2,11 @@
 
   <header class="toolbar">
     <div class="app-brand">
-      <img src="icon.svg" class="app-icon" alt="ResuRank icon" />
+      <img alt="ResuRank icon" class="app-icon" src="icon.svg"/>
       <span class="app-name">ResuRank</span>
     </div>
     <div class="flex-1"></div>
-    <button class="tb-btn" (click)="settingsOpen.set(!settingsOpen())">⚙ Settings</button>
+    <button (click)="settingsOpen.set(!settingsOpen())" class="tb-btn">⚙ Settings</button>
   </header>
 
   <div class="body">
@@ -14,45 +14,42 @@
     <main class="content">
       @if (message()) {
         <div class="msg-bar">{{ message() }}</div>
-      }
-
-      @if (modelStatus(); as ms) {
-        <div class="msg-bar model-download" [hidden]="!ms.loading || ms.progress === undefined">
-          <div class="model-download-content">
-            <span class="spinner"></span>
-            <span class="model-download-text">
+      } @if (modelStatus(); as ms) {
+      <div [hidden]="!ms.loading || ms.progress === undefined" class="msg-bar model-download">
+        <div class="model-download-content">
+          <span class="spinner"></span>
+          <span class="model-download-text">
               Downloading AI model (first run only)...
-              @if (ms.progress !== undefined) {
-                {{ ms.progress | number: '1.0-0' }}%
-              }
+            @if (ms.progress !== undefined) {
+              {{ ms.progress | number: '1.0-0' }}%
+            }
             </span>
-          </div>
         </div>
-      }
-
-      @if (modelStatus()?.error) {
-        <div class="msg-bar model-error">
-          Model download failed — check your network connection and restart the app.
-        </div>
-      }
+      </div>
+    } @if (modelStatus()?.error) {
+      <div class="msg-bar model-error">
+        Model download failed — check your network connection and restart the app.
+      </div>
+    }
 
       <section class="panel">
         <h2 class="panel-title">Job description</h2>
         <label class="field">
           <span class="field-label">Title (optional)</span>
-          <input type="text" class="text-input"
+          <input (ngModelChange)="jdTitle.set($event)" [ngModel]="jdTitle()"
+                 class="text-input"
                  placeholder="Senior Software Engineer"
-                 [ngModel]="jdTitle()"
-                 (ngModelChange)="jdTitle.set($event)" />
+                 type="text"/>
         </label>
         <label class="field">
           <span class="field-label">Description</span>
-          <textarea class="text-area"
-                    rows="12"
-                    placeholder="Paste the job description here…"
+          <textarea (ngModelChange)="jdDescription.set($event)"
                     [ngModel]="jdDescription()"
-                    (ngModelChange)="jdDescription.set($event)"></textarea>
-          <span class="char-counter" [class.char-counter--warn]="jdDescription().length > JD_CHAR_CAP * 0.9" [class.char-counter--over]="jdDescription().length > JD_CHAR_CAP">
+                    class="text-area"
+                    placeholder="Paste the job description here…"
+                    rows="12"></textarea>
+          <span [class.char-counter--over]="jdDescription().length > JD_CHAR_CAP" [class.char-counter--warn]="jdDescription().length > JD_CHAR_CAP * 0.9"
+                class="char-counter">
             {{ jdDescription().length | number }} / {{ JD_CHAR_CAP | number }}
             @if (jdDescription().length > JD_CHAR_CAP) {
               — text beyond this limit is ignored
@@ -60,28 +57,36 @@
           </span>
         </label>
         <div class="actions">
-          <button class="primary" (click)="evaluate()"
-                  [disabled]="evaluating() || !resume().uploaded">
+          <button (click)="evaluate()" [disabled]="evaluating() || !resume().uploaded"
+                  class="primary">
             {{ evaluating() ? 'Scoring…' : 'Evaluate match' }}
           </button>
           @if (!resume().uploaded) {
             <span class="text-muted small">
               Upload a resume first ↖
             </span>
-          }
-          @if (result(); as r) {
-            <div class="score-row">
-              <div class="score-big" [attr.data-tier]="scoreTier(r.score)">{{ scorePct(r.score) }}<span class="score-pct">%</span></div>
-              <div class="score-breakdown text-muted small">
-                <div>Embedding ({{ scorePct(r.breakdown.embeddingScore) }}%): {{ r.breakdown.embeddingScore * EMBEDDING_WEIGHT * 100 | number:'1.0-1' }}%</div>
-                <div>TF-IDF ({{ scorePct(r.breakdown.tfidfScore) }}%): {{ r.breakdown.tfidfScore * TFIDF_WEIGHT * 100 | number:'1.0-1' }}%</div>
-                @if (r.breakdown.divergencePenalty > 0) {
-                  <div class="divergence-penalty">Divergence penalty: −{{ r.breakdown.divergencePenalty * 100 | number:'1.0-1' }}%</div>
-                }
-              </div>
-              <button class="score-info-btn" type="button" (click)="scoreInfoOpen.set(true)" title="How is this score calculated?">ℹ</button>
+          } @if (result(); as r) {
+          <div class="score-row">
+            <div [attr.data-tier]="scoreTier(r.score)" class="score-big">{{ scorePct(r.score) }}<span class="score-pct">%</span>
             </div>
-          }
+            <div class="score-breakdown text-muted small">
+              <div>Embedding ({{ scorePct(r.breakdown.embeddingScore) }}
+                %): {{ r.breakdown.embeddingScore * EMBEDDING_WEIGHT * 100 | number:'1.0-1' }}%
+              </div>
+              <div>TF-IDF ({{ scorePct(r.breakdown.tfidfScore) }}
+                %): {{ r.breakdown.tfidfScore * TFIDF_WEIGHT * 100 | number:'1.0-1' }}%
+              </div>
+              @if (r.breakdown.divergencePenalty > 0) {
+                <div class="divergence-penalty">Divergence penalty:
+                  −{{ r.breakdown.divergencePenalty * 100 | number:'1.0-1' }}%
+                </div>
+              }
+            </div>
+            <button (click)="scoreInfoOpen.set(true)" class="score-info-btn" title="How is this score calculated?"
+                    type="button">ℹ
+            </button>
+          </div>
+        }
         </div>
       </section>
 
@@ -97,111 +102,117 @@
             <h3 class="sub-title">Matched terms</h3>
             @if (r.matchedTerms.length) {
               <div class="chips">
-                <span class="chip" *ngFor="let term of r.matchedTerms">{{ term }}</span>
+                <span *ngFor="let term of r.matchedTerms" class="chip">{{ term }}</span>
               </div>
             } @else {
-              <p class="text-muted small">No high-signal terms matched.</p>
+            <p class="text-muted small">No high-signal terms matched.</p>
+          }
+          </div>
+        </section>
+      } @if (result(); as r) {
+      <section class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title">Job description keywords</h2>
+          <div class="seg">
+            <button (click)="setBreakdownMode('weighted')"
+                    [class.active]="breakdownMode() === 'weighted'"
+                    class="seg-btn">Weighted
+            </button>
+            <button (click)="setBreakdownMode('counts')"
+                    [class.active]="breakdownMode() === 'counts'"
+                    class="seg-btn">Raw counts
+            </button>
+          </div>
+        </div>
+
+        @if (breakdownMode() === 'weighted') {
+          <div class="kw-table">
+            <div class="kw-info-row">
+              <span class="text-muted small">Terms ranked by TF-IDF weight</span>
+              <button (click)="openKeywordInfo('weighted')" class="score-info-btn" title="What is the weighted list?"
+                      type="button">ℹ
+              </button>
+            </div>
+            <div *ngFor="let w of r.jobWeighted" [class.kw-row--matched]="matchedTermsSet().has(w.term)" class="kw-row">
+              @if (recentlyExcluded().has(w.term)) {
+                <button (click)="undoExclusion(w.term)" class="kw-undo-btn" title="Undo exclusion">↩</button>
+              } @else {
+              <button (click)="addToExclusion(w.term)" [disabled]="stopwordsSet().has(w.term)" class="kw-exclude-btn"
+                      title="Add to exclusions">−
+              </button>
+            }
+              <span class="kw-term">{{ w.term }}</span>
+              <span class="kw-bar">
+                  <span [style.width.%]="(w.weight / (r.jobWeighted[0].weight || 1)) * 100" class="kw-bar-fill"></span>
+                </span>
+              <span class="kw-val text-muted small">{{ w.weight | number: '1.2-2' }}</span>
+            </div>
+            @if (!r.jobWeighted.length) {
+              <p class="text-muted small">No terms extracted.</p>
             }
           </div>
-        </section>
-      }
-
-      @if (result(); as r) {
-        <section class="panel">
-          <div class="panel-head">
-            <h2 class="panel-title">Job description keywords</h2>
-            <div class="seg">
-              <button class="seg-btn"
-                      [class.active]="breakdownMode() === 'weighted'"
-                      (click)="setBreakdownMode('weighted')">Weighted</button>
-              <button class="seg-btn"
-                      [class.active]="breakdownMode() === 'counts'"
-                      (click)="setBreakdownMode('counts')">Raw counts</button>
-            </div>
+        } @if (breakdownMode() === 'counts') {
+        <div class="kw-table">
+          <div class="kw-info-row">
+            <span class="text-muted small">Terms ranked by raw occurrence count</span>
+            <button (click)="openKeywordInfo('counts')" class="score-info-btn" title="What is the raw count list?"
+                    type="button">ℹ
+            </button>
           </div>
-
-          @if (breakdownMode() === 'weighted') {
-            <div class="kw-table">
-              <div class="kw-info-row">
-                <span class="text-muted small">Terms ranked by TF-IDF weight</span>
-                <button class="score-info-btn" type="button" (click)="openKeywordInfo('weighted')" title="What is the weighted list?">ℹ</button>
-              </div>
-              <div class="kw-row" *ngFor="let w of r.jobWeighted" [class.kw-row--matched]="matchedTermsSet().has(w.term)">
-                @if (recentlyExcluded().has(w.term)) {
-                  <button class="kw-undo-btn" (click)="undoExclusion(w.term)" title="Undo exclusion">↩</button>
-                } @else {
-                  <button class="kw-exclude-btn" (click)="addToExclusion(w.term)" [disabled]="stopwordsSet().has(w.term)" title="Add to exclusions">−</button>
-                }
-                <span class="kw-term">{{ w.term }}</span>
-                <span class="kw-bar">
-                  <span class="kw-bar-fill" [style.width.%]="(w.weight / (r.jobWeighted[0].weight || 1)) * 100"></span>
-                </span>
-                <span class="kw-val text-muted small">{{ w.weight | number: '1.2-2' }}</span>
-              </div>
-              @if (!r.jobWeighted.length) {
-                <p class="text-muted small">No terms extracted.</p>
-              }
-            </div>
+          <div *ngFor="let c of r.jobCounts" [class.kw-row--matched]="matchedTermsSet().has(c.term)" class="kw-row">
+            @if (recentlyExcluded().has(c.term)) {
+              <button (click)="undoExclusion(c.term)" class="kw-undo-btn" title="Undo exclusion">↩</button>
+            } @else {
+            <button (click)="addToExclusion(c.term)" [disabled]="stopwordsSet().has(c.term)" class="kw-exclude-btn"
+                    title="Add to exclusions">−
+            </button>
           }
-
-          @if (breakdownMode() === 'counts') {
-            <div class="kw-table">
-              <div class="kw-info-row">
-                <span class="text-muted small">Terms ranked by raw occurrence count</span>
-                <button class="score-info-btn" type="button" (click)="openKeywordInfo('counts')" title="What is the raw count list?">ℹ</button>
-              </div>
-              <div class="kw-row" *ngFor="let c of r.jobCounts" [class.kw-row--matched]="matchedTermsSet().has(c.term)">
-                @if (recentlyExcluded().has(c.term)) {
-                  <button class="kw-undo-btn" (click)="undoExclusion(c.term)" title="Undo exclusion">↩</button>
-                } @else {
-                  <button class="kw-exclude-btn" (click)="addToExclusion(c.term)" [disabled]="stopwordsSet().has(c.term)" title="Add to exclusions">−</button>
-                }
-                <span class="kw-term">{{ c.term }}</span>
-                <span class="kw-bar">
-                  <span class="kw-bar-fill" [style.width.%]="(c.count / (r.jobCounts[0].count || 1)) * 100"></span>
+            <span class="kw-term">{{ c.term }}</span>
+            <span class="kw-bar">
+                  <span [style.width.%]="(c.count / (r.jobCounts[0].count || 1)) * 100" class="kw-bar-fill"></span>
                 </span>
-                <span class="kw-val text-muted small">{{ c.count }}</span>
-              </div>
-              @if (!r.jobCounts.length) {
-                <p class="text-muted small">No terms extracted.</p>
-              }
-            </div>
+            <span class="kw-val text-muted small">{{ c.count }}</span>
+          </div>
+          @if (!r.jobCounts.length) {
+            <p class="text-muted small">No terms extracted.</p>
           }
-        </section>
+        </div>
       }
+      </section>
+    }
 
     </main>
   </div>
 
   <app-settings-drawer
+    (close)="settingsOpen.set(false)"
+    (openStopwords)="openStopwordsModal()"
+    (saveTermBoosts)="onSaveTermBoosts($event)"
+    (uploadResume)="onUploadResume($event)"
     [isOpen]="settingsOpen()"
     [resume]="resume()"
-    [uploading]="uploading()"
-    [termBoosts]="termBoosts()"
     [savingBoosts]="savingBoosts()"
-    (close)="settingsOpen.set(false)"
-    (uploadResume)="onUploadResume($event)"
-    (saveTermBoosts)="onSaveTermBoosts($event)"
-    (openStopwords)="openStopwordsModal()">
+    [termBoosts]="termBoosts()"
+    [uploading]="uploading()">
   </app-settings-drawer>
 
   <app-stopwords-modal
-    [isOpen]="stopwordsOpen()"
-    [words]="stopwords()"
-    [saving]="savingStopwords()"
     (close)="stopwordsOpen.set(false)"
-    (save)="onSaveStopwords($event)">
+    (save)="onSaveStopwords($event)"
+    [isOpen]="stopwordsOpen()"
+    [saving]="savingStopwords()"
+    [words]="stopwords()">
   </app-stopwords-modal>
 
   <app-score-info-modal
-    [isOpen]="scoreInfoOpen()"
-    (close)="scoreInfoOpen.set(false)">
+    (close)="scoreInfoOpen.set(false)"
+    [isOpen]="scoreInfoOpen()">
   </app-score-info-modal>
 
   <app-keyword-info-modal
+    (close)="keywordInfoOpen.set(false)"
     [isOpen]="keywordInfoOpen()"
-    [mode]="keywordInfoMode()"
-    (close)="keywordInfoOpen.set(false)">
+    [mode]="keywordInfoMode()">
   </app-keyword-info-modal>
 
 </div>

@@ -1,14 +1,16 @@
 .drawer-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   z-index: 100;
   backdrop-filter: blur(1px);
 }
 
 .settings-drawer {
   position: fixed;
-  top: 0; right: 0; bottom: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
   width: 320px;
   background: var(--sidebar-bg);
   border-left: 1px solid var(--border);
@@ -18,7 +20,10 @@
   transform: translateX(100%);
   transition: transform 0.2s ease;
 }
-.settings-drawer.open { transform: translateX(0); }
+
+.settings-drawer.open {
+  transform: translateX(0);
+}
 
 .dw-header {
   display: flex;
@@ -30,20 +35,33 @@
   background: #fff;
   flex-shrink: 0;
 }
-.dw-title { font-weight: 600; font-size: 13px; }
+
+.dw-title {
+  font-weight: 600;
+  font-size: 13px;
+}
+
 .dw-close {
   background: #f5f5f7;
   border: 1px solid var(--border-light);
   cursor: pointer;
   font-size: 11px;
   color: var(--muted);
-  width: 24px; height: 24px;
+  width: 24px;
+  height: 24px;
   border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: inherit;
   transition: all 0.1s;
 }
-.dw-close:hover { background: #e8e8ed; color: #1d1d1f; border-color: var(--border); }
+
+.dw-close:hover {
+  background: #e8e8ed;
+  color: #1d1d1f;
+  border-color: var(--border);
+}
 
 .dw-body {
   flex: 1;
@@ -92,7 +110,10 @@
   letter-spacing: 0;
   transition: opacity 0.1s;
 }
-.dw-info-btn:hover { opacity: 1; }
+
+.dw-info-btn:hover {
+  opacity: 1;
+}
 
 .dw-field {
   display: flex;
@@ -103,6 +124,7 @@
   letter-spacing: 0.5px;
   color: var(--muted);
 }
+
 .dw-field input {
   background: #f5f5f7;
   border: 1px solid var(--border-light);
@@ -115,6 +137,7 @@
   letter-spacing: 0;
   transition: all 0.2s;
 }
+
 .dw-field input:focus {
   background: #fff;
   outline: 2px solid var(--accent);
@@ -134,7 +157,11 @@
   letter-spacing: 0;
   transition: color 0.1s;
 }
-.dw-check:hover { color: #1d1d1f; }
+
+.dw-check:hover {
+  color: #1d1d1f;
+}
+
 .dw-check input[type=checkbox] {
   width: 14px;
   height: 14px;
@@ -156,8 +183,15 @@ button.primary {
   font-weight: 500;
   transition: all 0.1s;
 }
-button.primary:hover { background: #0055aa; }
-button.primary.sm { font-size: 12px; padding: 5px 12px; }
+
+button.primary:hover {
+  background: #0055aa;
+}
+
+button.primary.sm {
+  font-size: 12px;
+  padding: 5px 12px;
+}
 
 button.danger {
   background: #c0392b;
@@ -172,8 +206,15 @@ button.danger {
   transition: all 0.1s;
   text-align: left;
 }
-button.danger:hover { background: #a93226; }
-button.danger.sm { font-size: 12px; padding: 5px 12px; }
+
+button.danger:hover {
+  background: #a93226;
+}
+
+button.danger.sm {
+  font-size: 12px;
+  padding: 5px 12px;
+}
 
 .bulk-delete-list {
   display: flex;
@@ -181,10 +222,27 @@ button.danger.sm { font-size: 12px; padding: 5px 12px; }
   gap: 8px;
 }
 
-.resume-info { display: flex; flex-direction: column; gap: 2px; }
-.resume-name { font-size: 13px; font-weight: 500; color: #1d1d1f; }
-.text-muted { color: var(--muted); font-size: 12px; }
-.text-muted.small, p.small { font-size: 11px; margin: 0; }
+.resume-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.resume-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1d1d1f;
+}
+
+.text-muted {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.text-muted.small, p.small {
+  font-size: 11px;
+  margin: 0;
+}
 
 .file-btn {
   display: inline-flex;
@@ -200,7 +258,11 @@ button.danger.sm { font-size: 12px; padding: 5px 12px; }
   font-weight: 500;
   transition: all 0.1s;
 }
-.file-btn:hover { background: #e8e8ed; border-color: var(--border); }
+
+.file-btn:hover {
+  background: #e8e8ed;
+  border-color: var(--border);
+}
 
 .key-status-inline {
   font-weight: 400;
@@ -209,8 +271,15 @@ button.danger.sm { font-size: 12px; padding: 5px 12px; }
   text-transform: none;
   white-space: nowrap;
 }
-.key-status-inline b { color: #e53e3e; font-weight: 600; }
-.key-status-inline b.ok { color: #38a169; }
+
+.key-status-inline b {
+  color: #e53e3e;
+  font-weight: 600;
+}
+
+.key-status-inline b.ok {
+  color: #38a169;
+}
 
 .key-grid {
   display: flex;
@@ -242,6 +311,7 @@ button.danger.sm { font-size: 12px; padding: 5px 12px; }
   transition: all 0.2s;
   min-width: 0;
 }
+
 .boost-row input:focus {
   background: #fff;
   outline: 2px solid var(--accent);
@@ -265,6 +335,7 @@ button.danger.sm { font-size: 12px; padding: 5px 12px; }
   padding: 0;
   transition: all 0.1s;
 }
+
 .boost-remove:hover {
   background: #fee;
   border-color: #fbb;

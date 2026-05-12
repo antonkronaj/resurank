@@ -11,10 +11,14 @@
     "rootDir": ".",
     "declaration": false,
     "sourceMap": true,
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@shared/*": ["./shared/*"]
+      "@shared/*": [
+        "./shared/*"
+      ]
     }
   }
 }

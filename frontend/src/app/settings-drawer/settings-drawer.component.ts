@@ -1,10 +1,13 @@
-import { Component, input, output, signal, effect, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ResumeInfo } from '../api.service';
-import { SettingsInfoModalComponent, SettingsInfoMode } from '../settings-info-modal/settings-info-modal.component';
+import {Component, effect, input, OnInit, output, signal} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {ResumeInfo} from '../api.service';
+import {SettingsInfoModalComponent, SettingsInfoMode} from '../settings-info-modal/settings-info-modal.component';
 
-interface BoostRow { term: string; weight: number; }
+interface BoostRow {
+  term: string;
+  weight: number;
+}
 
 @Component({
   selector: 'app-settings-drawer',
@@ -26,6 +29,19 @@ export class SettingsDrawerComponent implements OnInit {
   openStopwords = output<void>();
 
   appVersion = signal<string>('');
+  boostRows = signal<BoostRow[]>([]);
+  infoOpen = signal(false);
+  infoMode = signal<SettingsInfoMode>('exclusions');
+
+  constructor() {
+    effect(() => {
+      const map = this.termBoosts();
+      const rows = Object.entries(map)
+        .map(([term, weight]) => ({term, weight}))
+        .sort((a, b) => b.weight - a.weight);
+      this.boostRows.set(rows);
+    }, {allowSignalWrites: true});
+  }
 
   onResumeSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -33,11 +49,6 @@ export class SettingsDrawerComponent implements OnInit {
     if (file) this.uploadResume.emit(file);
     if (input) input.value = '';
   }
-
-  boostRows = signal<BoostRow[]>([]);
-
-  infoOpen = signal(false);
-  infoMode = signal<SettingsInfoMode>('exclusions');
 
   openInfo(mode: SettingsInfoMode) {
     this.infoMode.set(mode);
@@ -52,20 +63,12 @@ export class SettingsDrawerComponent implements OnInit {
     }
   }
 
-  constructor() {
-    effect(() => {
-      const map = this.termBoosts();
-      const rows = Object.entries(map)
-        .map(([term, weight]) => ({ term, weight }))
-        .sort((a, b) => b.weight - a.weight);
-      this.boostRows.set(rows);
-    }, { allowSignalWrites: true });
+  onClose() {
+    this.close.emit();
   }
 
-  onClose() { this.close.emit(); }
-
   addBoostRow() {
-    this.boostRows.update(rows => [...rows, { term: '', weight: 2 }]);
+    this.boostRows.update(rows => [...rows, {term: '', weight: 2}]);
   }
 
   removeBoostRow(index: number) {
@@ -73,21 +76,23 @@ export class SettingsDrawerComponent implements OnInit {
   }
 
   updateBoostTerm(index: number, term: string) {
-    this.boostRows.update(rows => rows.map((r, i) => i === index ? { ...r, term } : r));
+    this.boostRows.update(rows => rows.map((r, i) => i === index ? {...r, term} : r));
   }
 
   updateBoostWeight(index: number, weight: number) {
-    this.boostRows.update(rows => rows.map((r, i) => i === index ? { ...r, weight } : r));
+    this.boostRows.update(rows => rows.map((r, i) => i === index ? {...r, weight} : r));
   }
 
   onSaveBoosts() {
     const map: Record<string, number> = {};
-    for (const { term, weight } of this.boostRows()) {
+    for (const {term, weight} of this.boostRows()) {
       const t = term.trim().toLowerCase();
       if (t && Number.isFinite(weight) && weight > 0) map[t] = weight;
     }
     this.saveTermBoosts.emit(map);
   }
 
-  trackByIndex(index: number) { return index; }
+  trackByIndex(index: number) {
+    return index;
+  }
 }

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { EXTRA_STOPWORDS } from '@shared/stopwords';
+import {Injectable} from '@angular/core';
+import {EXTRA_STOPWORDS} from '@shared/stopwords';
 
 export function extractTerms(text: string, userStopwords: Set<string> = new Set()): string[] {
   const normalized = text
@@ -16,7 +16,7 @@ export function extractTerms(text: string, userStopwords: Set<string> = new Set(
   });
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ResumeParserService {
   async parsePdf(file: File): Promise<{ text: string; arrayBuffer: ArrayBuffer }> {
     const arrayBuffer = await file.arrayBuffer();
@@ -27,7 +27,7 @@ export class ResumeParserService {
     // Point the worker to the asset we copy into the build output
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/pdf.worker.mjs';
 
-    const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer.slice(0) });
+    const loadingTask = pdfjsLib.getDocument({data: arrayBuffer.slice(0)});
     const pdf = await loadingTask.promise;
 
     const pages: string[] = [];
@@ -41,6 +41,6 @@ export class ResumeParserService {
     }
 
     await pdf.destroy();
-    return { text: pages.join('\n'), arrayBuffer };
+    return {text: pages.join('\n'), arrayBuffer};
   }
 }

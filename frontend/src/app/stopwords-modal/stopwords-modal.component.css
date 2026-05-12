@@ -1,5 +1,12 @@
-.text-muted { color: var(--muted); font-size: 12px; }
-.text-muted.small, p.small { font-size: 11px; margin: 0; }
+.text-muted {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.text-muted.small, p.small {
+  font-size: 11px;
+  margin: 0;
+}
 
 .words-textarea {
   width: 100%;
@@ -29,7 +36,9 @@
   pointer-events: none;
 }
 
-.word-count { padding: 0 2px; }
+.word-count {
+  padding: 0 2px;
+}
 
 .saving-banner {
   display: flex;
@@ -55,7 +64,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .file-btn {
@@ -72,7 +83,11 @@
   font-family: inherit;
   transition: all 0.1s;
 }
-.file-btn:hover { background: #e8e8ed; border-color: var(--border); }
+
+.file-btn:hover {
+  background: #e8e8ed;
+  border-color: var(--border);
+}
 
 button.primary {
   background: var(--accent);
@@ -86,6 +101,17 @@ button.primary {
   font-weight: 500;
   transition: all 0.1s;
 }
-button.primary:hover { background: #0055aa; }
-button.primary.sm { font-size: 12px; padding: 5px 12px; }
-button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+button.primary:hover {
+  background: #0055aa;
+}
+
+button.primary.sm {
+  font-size: 12px;
+  padding: 5px 12px;
+}
+
+button.primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,4 +1,4 @@
-<app-modal-shell [isOpen]="isOpen()" title="Exclusion words" (close)="close.emit()">
+<app-modal-shell (close)="close.emit()" [isOpen]="isOpen()" title="Exclusion words">
 
   <p class="text-muted small">
     Words to ignore when scoring. These get filtered out of both the resume
@@ -15,11 +15,11 @@
 
   <div class="input-container">
     <textarea
-      class="words-textarea"
-      placeholder="e.g. experience, work, team…"
-      [ngModel]="draft()"
       (ngModelChange)="draft.set($event)"
-      [disabled]="saving()"></textarea>
+      [disabled]="saving()"
+      [ngModel]="draft()"
+      class="words-textarea"
+      placeholder="e.g. experience, work, team…"></textarea>
   </div>
 
   <div class="word-count text-muted small">
@@ -27,12 +27,13 @@
   </div>
 
   <ng-container modal-footer>
-    <input #fileInput type="file" accept=".txt,text/plain" (change)="onImportFile($event)" hidden />
-    <button class="file-btn" type="button" (click)="fileInput.click()" [disabled]="saving()">Import from file</button>
-    <button class="file-btn" type="button" (click)="exportToArray()" [disabled]="saving() || !draft()">Export Array</button>
+    <input #fileInput (change)="onImportFile($event)" accept=".txt,text/plain" hidden type="file"/>
+    <button (click)="fileInput.click()" [disabled]="saving()" class="file-btn" type="button">Import from file</button>
+    <button (click)="exportToArray()" [disabled]="saving() || !draft()" class="file-btn" type="button">Export Array
+    </button>
     <div style="flex: 1"></div>
-    <button class="file-btn" type="button" (click)="close.emit()" [disabled]="saving()">Cancel</button>
-    <button class="primary sm" type="button" (click)="onSave()" [disabled]="saving()">
+    <button (click)="close.emit()" [disabled]="saving()" class="file-btn" type="button">Cancel</button>
+    <button (click)="onSave()" [disabled]="saving()" class="primary sm" type="button">
       {{ saving() ? 'Saving…' : 'Save' }}
     </button>
   </ng-container>

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 export interface ResumeData {
   filename: string;
@@ -7,37 +7,21 @@ export interface ResumeData {
   uploadedAt: string;
 }
 
-interface StoreSnapshot {
+export interface StoreSnapshot {
   resume: ResumeData | null;
   stopwords: string[];
   termBoosts: Record<string, number>;
 }
 
-declare global {
-  interface Window {
-    electronAPI: {
-      getAppVersion(): Promise<string>;
-      platform: string;
-      onUpdateReady(cb: () => void): void;
-      writeToClipboard(text: string): Promise<void>;
-      getUserDataPath(): Promise<string>;
-      storeRead(): Promise<StoreSnapshot>;
-      storeWriteResume(data: ResumeData): Promise<void>;
-      storeSavePdf(buffer: ArrayBuffer): Promise<void>;
-      storeWriteStopwords(words: string[]): Promise<void>;
-      storeWriteTermBoosts(boosts: Record<string, number>): Promise<void>;
-    };
-  }
-}
-
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class StorageService {
   private cache: StoreSnapshot | null = null;
 
   async load(): Promise<StoreSnapshot> {
     if (this.cache) return this.cache;
-    this.cache = await window.electronAPI.storeRead();
-    return this.cache;
+    const snapshot = await window.electronAPI.storeRead();
+    this.cache = snapshot;
+    return snapshot;
   }
 
   async getResume(): Promise<ResumeData | null> {
@@ -50,7 +34,7 @@ export class StorageService {
       window.electronAPI.storeSavePdf(pdfBuffer),
     ]);
     if (this.cache) this.cache.resume = data;
-    else this.cache = { resume: data, stopwords: [], termBoosts: {} };
+    else this.cache = {resume: data, stopwords: [], termBoosts: {}};
   }
 
   async getStopwords(): Promise<string[]> {

@@ -1,7 +1,7 @@
 <app-modal-shell
+  (close)="close.emit()"
   [isOpen]="isOpen()"
-  [title]="mode() === 'exclusions' ? 'Exclusion words' : 'Term boosts'"
-  (close)="close.emit()">
+  [title]="mode() === 'exclusions' ? 'Exclusion words' : 'Term boosts'">
 
   @if (mode() === 'exclusions') {
     <p class="intro">
@@ -37,45 +37,47 @@
       </p>
     </div>
   } @else {
-    <p class="intro">
-      <strong>Term boosts</strong> multiply the TF-IDF weight of specific terms — useful when you want
-      a particular skill to count for more than a generic word of the same frequency.
+  <p class="intro">
+    <strong>Term boosts</strong> multiply the TF-IDF weight of specific terms — useful when you want
+    a particular skill to count for more than a generic word of the same frequency.
+  </p>
+
+  <div class="step">
+    <div class="step-title">How a boost is applied</div>
+    <p>
+      For every boosted term that appears in the job description, its TF-IDF weight is multiplied by the
+      number you set. So <code>java: 3</code> makes "java" contribute roughly 3× as much to the keyword
+      half of your match score as a normal term of the same frequency.
     </p>
+    <p>
+      Boosts only take effect for terms that appear in <strong>both</strong> your resume and the job description —
+      you cannot conjure a match from nothing.
+    </p>
+  </div>
 
-    <div class="step">
-      <div class="step-title">How a boost is applied</div>
-      <p>
-        For every boosted term that appears in the job description, its TF-IDF weight is multiplied by the
-        number you set. So <code>java: 3</code> makes "java" contribute roughly 3× as much to the keyword
-        half of your match score as a normal term of the same frequency.
-      </p>
-      <p>
-        Boosts only take effect for terms that appear in <strong>both</strong> your resume and the job description —
-        you cannot conjure a match from nothing.
-      </p>
-    </div>
+  <div class="step">
+    <div class="step-title">When to use boosts</div>
+    <ul>
+      <li>To emphasise headline skills that you want any matching role to share.</li>
+      <li>To compensate for short resumes where a key term only appears once and gets a low TF.</li>
+      <li>To distinguish between similar terms — e.g. boost "kubernetes" if you don't want generic "cloud" to
+        dominate.
+      </li>
+    </ul>
+  </div>
 
-    <div class="step">
-      <div class="step-title">When to use boosts</div>
-      <ul>
-        <li>To emphasise headline skills that you want any matching role to share.</li>
-        <li>To compensate for short resumes where a key term only appears once and gets a low TF.</li>
-        <li>To distinguish between similar terms — e.g. boost "kubernetes" if you don't want generic "cloud" to dominate.</li>
-      </ul>
-    </div>
-
-    <div class="step">
-      <div class="step-title">Caveats</div>
-      <ul>
-        <li>Boosts only affect the <strong>TF-IDF</strong> half of the score, not the embedding half.</li>
-        <li>Setting a weight too high can make borderline matches look better than they are. Start at 2 and adjust.</li>
-        <li>Use lowercase — terms are normalised before lookup.</li>
-      </ul>
-    </div>
-  }
+  <div class="step">
+    <div class="step-title">Caveats</div>
+    <ul>
+      <li>Boosts only affect the <strong>TF-IDF</strong> half of the score, not the embedding half.</li>
+      <li>Setting a weight too high can make borderline matches look better than they are. Start at 2 and adjust.</li>
+      <li>Use lowercase — terms are normalised before lookup.</li>
+    </ul>
+  </div>
+}
 
   <ng-container modal-footer>
-    <button class="file-btn" type="button" (click)="close.emit()">Close</button>
+    <button (click)="close.emit()" class="file-btn" type="button">Close</button>
   </ng-container>
 
 </app-modal-shell>

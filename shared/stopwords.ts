@@ -93,7 +93,7 @@ export const EXTRA_STOPWORDS = new Set([
   "words", "world", "would", "wouldn", "wouldnt", "wouldn't", "www", "x", "x1", "x2", "x3", "xf", "xi", "xj", "xk",
   "xl", "xn", "xo", "xs", "xt", "xv", "xx", "y", "y2", "yes", "yet", "yj", "yl", "you", "youd", "you'd", "you'll",
   "your", "youre", "you're", "yours", "yourself", "yourselves", "you've", "yr", "ys", "yt", "z", "zero", "zi", "zz",
-  "job", "hire", "status", "vacancy", "degree","contract",
+  "job", "hire", "status", "vacancy", "degree", "contract",
   "opportunity", "candidate", "original", "daughter", "mom", "dad", "great", "greatly", "high", "highly", "best",
   "better", "worst", "new", "less", "most", "other", "sister", "rather", "much", "said", "say", "says", "said",
   "salary", "committed", "allowing", "smoother", "skies", "amidst", "constant", "regular", "regularly", "regularly",

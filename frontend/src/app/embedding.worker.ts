@@ -1,7 +1,7 @@
 /// <reference lib="webworker" />
 
-import { pipeline, env } from '@huggingface/transformers';
-import { EMBEDDING_MAX_LENGTH } from '@shared/constants';
+import {env, pipeline} from '@huggingface/transformers';
+import {EMBEDDING_MAX_LENGTH} from '@shared/constants';
 
 env.allowRemoteModels = true;
 env.allowLocalModels = false;
@@ -27,11 +27,17 @@ async function getEmbedder(): Promise<any> {
       dtype: 'q8',
       progress_callback: (progress: any) => {
         if (progress.status === 'progress') {
-          self.postMessage({ type: 'downloadProgress', file: progress.file, progress: progress.progress, loaded: progress.loaded, total: progress.total });
+          self.postMessage({
+            type: 'downloadProgress',
+            file: progress.file,
+            progress: progress.progress,
+            loaded: progress.loaded,
+            total: progress.total
+          });
         } else if (progress.status === 'initiate') {
-          self.postMessage({ type: 'downloadStart', file: progress.file });
+          self.postMessage({type: 'downloadStart', file: progress.file});
         } else if (progress.status === 'done') {
-          self.postMessage({ type: 'downloadDone', file: progress.file });
+          self.postMessage({type: 'downloadDone', file: progress.file});
         }
       },
     });
@@ -42,7 +48,12 @@ async function getEmbedder(): Promise<any> {
 async function embed(texts: string[]): Promise<number[][]> {
   if (texts.length === 0) return [];
   const embedder = await getEmbedder();
-  const output = await embedder(texts, { pooling: 'mean', normalize: true, truncation: true, max_length: EMBEDDING_MAX_LENGTH });
+  const output = await embedder(texts, {
+    pooling: 'mean',
+    normalize: true,
+    truncation: true,
+    max_length: EMBEDDING_MAX_LENGTH
+  });
   return output.tolist() as number[][];
 }
 
@@ -54,19 +65,23 @@ self.addEventListener('message', async (event: MessageEvent) => {
     return;
   }
 
-  const { id, texts } = message;
+  const {id, texts} = message;
   try {
     const vectors = await embed(texts);
-    self.postMessage({ id, vectors });
+    self.postMessage({id, vectors});
   } catch (error) {
-    self.postMessage({ id, error: error instanceof Error ? error.message : String(error) });
+    self.postMessage({id, error: error instanceof Error ? error.message : String(error)});
   }
 });
 
 // Eagerly load model on startup
 getEmbedder()
-  .then(() => self.postMessage({ ready: true }))
+  .then(() => {
+    console.log('[EmbeddingWorker] Model Loaded');
+    self.postMessage({ready: true})
+  })
   .catch((err: unknown) => {
     const message = err instanceof Error ? err.message : String(err);
-    self.postMessage({ type: 'loadError', message });
+    console.log('[EmbeddingWorker] Error loading model:', err);
+    self.postMessage({type: 'loadError', message});
   });

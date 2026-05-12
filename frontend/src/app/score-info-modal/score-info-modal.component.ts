@@ -1,5 +1,5 @@
-import { Component, input, output } from '@angular/core';
-import { ModalShellComponent } from '../modal-shell/modal-shell.component';
+import {Component, input, output} from '@angular/core';
+import {ModalShellComponent} from '../modal-shell/modal-shell.component';
 
 @Component({
   selector: 'app-score-info-modal',

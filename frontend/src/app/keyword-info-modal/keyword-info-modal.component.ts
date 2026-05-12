@@ -1,5 +1,5 @@
-import { Component, input, output } from '@angular/core';
-import { ModalShellComponent } from '../modal-shell/modal-shell.component';
+import {Component, input, output} from '@angular/core';
+import {ModalShellComponent} from '../modal-shell/modal-shell.component';
 
 export type KeywordInfoMode = 'weighted' | 'counts';
 

@@ -1,12 +1,12 @@
-import { app, BrowserWindow, clipboard, dialog, ipcMain, net, protocol, session, shell } from 'electron';
-import { dirname, join, normalize } from 'node:path';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import {app, BrowserWindow, clipboard, dialog, ipcMain, net, protocol, session, shell} from 'electron';
+import {dirname, join, normalize} from 'node:path';
+import {existsSync, mkdirSync, readFileSync, writeFileSync} from 'node:fs';
+import {fileURLToPath, pathToFileURL} from 'node:url';
+import pkg from 'electron-updater';
 
 if (app.isPackaged) {
   process.env.DATABASE_PATH = app.getPath('userData');
 }
-
-import { fileURLToPath, pathToFileURL } from 'node:url';
 
 // Register custom scheme as privileged & secure BEFORE app is ready. Loading
 // the app via `app://` (instead of `file://`) gives us a secure context with
@@ -23,8 +23,8 @@ protocol.registerSchemesAsPrivileged([
     },
   },
 ]);
-import pkg from 'electron-updater';
-const { autoUpdater } = pkg;
+
+const {autoUpdater} = pkg;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const isDev = !app.isPackaged && process.env.JOBDASH_DEV === '1';
@@ -35,7 +35,7 @@ function getDataDir(): string {
 
 function ensureDataDir(): void {
   const dir = getDataDir();
-  if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
+  if (!existsSync(dir)) mkdirSync(dir, {recursive: true});
 }
 
 function readJson<T>(filePath: string): T | null {
@@ -59,14 +59,14 @@ async function createWindow(): Promise<void> {
     },
   });
 
-  win.webContents.setWindowOpenHandler(({ url }) => {
+  win.webContents.setWindowOpenHandler(({url}) => {
     shell.openExternal(url);
-    return { action: 'deny' };
+    return {action: 'deny'};
   });
 
   if (isDev) {
     await win.loadURL('http://localhost:4200/');
-    win.webContents.openDevTools({ mode: 'detach' });
+    win.webContents.openDevTools({mode: 'detach'});
   } else {
     await win.loadURL('app://localhost/index.html');
   }
@@ -87,7 +87,7 @@ function initUpdater(): void {
       message: 'A new version of ResuRank has been downloaded. Restart now to apply it?',
       buttons: ['Restart', 'Later'],
       defaultId: 0,
-    }).then(({ response }) => {
+    }).then(({response}) => {
       if (response === 0) autoUpdater.quitAndInstall();
     });
   });
@@ -103,7 +103,9 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 ipcMain.handle('get-app-version', () => app.getVersion());
-ipcMain.handle('write-clipboard', (_event, text: string) => { clipboard.writeText(text); });
+ipcMain.handle('write-clipboard', (_event, text: string) => {
+  clipboard.writeText(text);
+});
 ipcMain.handle('get-user-data-path', () => getDataDir());
 
 ipcMain.handle('store-read', () => {
@@ -151,7 +153,7 @@ app.whenReady().then(async () => {
       const url = new URL(req.url);
       // Strip leading slash, normalize, refuse escaping the root.
       const rel = normalize(decodeURIComponent(url.pathname)).replace(/^[/\\]+/, '');
-      if (rel.startsWith('..')) return new Response('forbidden', { status: 403 });
+      if (rel.startsWith('..')) return new Response('forbidden', {status: 403});
       const filePath = join(root, rel || 'index.html');
       const fileUrl = pathToFileURL(filePath).toString();
       const upstream = await net.fetch(fileUrl);
@@ -159,7 +161,7 @@ app.whenReady().then(async () => {
       headers.set('Content-Security-Policy', prodCsp);
       headers.set('Cross-Origin-Opener-Policy', 'same-origin');
       headers.set('Cross-Origin-Embedder-Policy', 'credentialless');
-      return new Response(upstream.body, { status: upstream.status, headers });
+      return new Response(upstream.body, {status: upstream.status, headers});
     });
   }
 

@@ -1,4 +1,3 @@
-
 // UI input cap — how much text the user can paste before the counter turns red.
 export const JOB_DESCRIPTION_CHAR_CAP = 32_000;
 export const RESUME_CHAR_CAP = 32_000;

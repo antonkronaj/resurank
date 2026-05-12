@@ -1,19 +1,14 @@
-import { Component, computed, inject, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import {
-  ApiService,
-  ResumeInfo,
-  MatchResult,
-  ModelStatus,
-} from './api.service';
-import { EmbeddingService } from './embedding.service';
-import { JOB_DESCRIPTION_CHAR_CAP, EMBEDDING_WEIGHT, TFIDF_WEIGHT } from '@shared/constants';
+import {Component, computed, inject, OnInit, signal} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {ApiService, MatchResult, ModelStatus, ResumeInfo,} from './api.service';
+import {EmbeddingService} from './embedding.service';
+import {EMBEDDING_WEIGHT, JOB_DESCRIPTION_CHAR_CAP, TFIDF_WEIGHT} from '@shared/constants';
 
-import { SettingsDrawerComponent } from './settings-drawer/settings-drawer.component';
-import { StopwordsModalComponent } from './stopwords-modal/stopwords-modal.component';
-import { ScoreInfoModalComponent } from './score-info-modal/score-info-modal.component';
-import { KeywordInfoModalComponent, KeywordInfoMode } from './keyword-info-modal/keyword-info-modal.component';
+import {SettingsDrawerComponent} from './settings-drawer/settings-drawer.component';
+import {StopwordsModalComponent} from './stopwords-modal/stopwords-modal.component';
+import {ScoreInfoModalComponent} from './score-info-modal/score-info-modal.component';
+import {KeywordInfoModalComponent, KeywordInfoMode} from './keyword-info-modal/keyword-info-modal.component';
 
 type BreakdownMode = 'weighted' | 'counts';
 
@@ -32,44 +27,37 @@ type BreakdownMode = 'weighted' | 'counts';
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  private api = inject(ApiService);
-  private embeddingService = inject(EmbeddingService);
-
-  resume = signal<ResumeInfo>({ uploaded: false });
+  resume = signal<ResumeInfo>({uploaded: false});
   termBoosts = signal<Record<string, number>>({});
   stopwords = signal<string[]>([]);
   recentlyExcluded = signal<Set<string>>(new Set());
-
   readonly JD_CHAR_CAP = JOB_DESCRIPTION_CHAR_CAP;
   readonly EMBEDDING_WEIGHT = EMBEDDING_WEIGHT;
   readonly TFIDF_WEIGHT = TFIDF_WEIGHT;
-
   jdTitle = signal('');
   jdDescription = signal('');
-
   result = signal<MatchResult | null>(null);
   matchedTermsSet = computed(() => new Set(this.result()?.matchedTerms ?? []));
   stopwordsSet = computed(() => new Set(this.stopwords()));
   breakdownMode = signal<BreakdownMode>('weighted');
-
   uploading = signal(false);
   evaluating = signal(false);
   savingBoosts = signal(false);
   savingStopwords = signal(false);
-
   settingsOpen = signal(false);
   stopwordsOpen = signal(false);
   scoreInfoOpen = signal(false);
   keywordInfoOpen = signal(false);
   keywordInfoMode = signal<KeywordInfoMode>('weighted');
   message = signal('');
+  private api = inject(ApiService);
+  private embeddingService = inject(EmbeddingService);
+  readonly modelStatus = computed<ModelStatus | null>(() => this.embeddingService.status());
 
   openKeywordInfo(mode: KeywordInfoMode): void {
     this.keywordInfoMode.set(mode);
     this.keywordInfoOpen.set(true);
   }
-
-  readonly modelStatus = computed<ModelStatus | null>(() => this.embeddingService.status());
 
   ngOnInit(): void {
     this.loadAll();
@@ -199,7 +187,11 @@ export class AppComponent implements OnInit {
     this.api.saveStopwords(updated).subscribe({
       next: () => {
         this.stopwords.set(updated);
-        this.recentlyExcluded.update(s => { const n = new Set(s); n.delete(term); return n; });
+        this.recentlyExcluded.update(s => {
+          const n = new Set(s);
+          n.delete(term);
+          return n;
+        });
         this.message.set(`"${term}" removed from exclusions.`);
       },
       error: (err) => this.message.set(`Failed to undo exclusion: ${err.error?.error ?? err.message ?? err}`),
