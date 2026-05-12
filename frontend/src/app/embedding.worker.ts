@@ -1,21 +1,22 @@
 /// <reference lib="webworker" />
 
 import { pipeline, env } from '@huggingface/transformers';
+import { EMBEDDING_MAX_LENGTH } from '@shared/constants';
 
 env.allowRemoteModels = true;
 env.allowLocalModels = false;
 env.useBrowserCache = false;
 
-// Serve WASM runtime from local assets instead of jsDelivr CDN.
-// wasmPaths must be { mjs, wasm } — transformers fetches both and converts
-// the .mjs to a blob URL before calling import(), bypassing script-src CSP.
+// Serve WASM runtime from local assets instead of jsDelivr CDN. String form is
+// the canonical ORT config; the threaded pre-loader resolves all variant
+// filenames against this base URL.
 if (env.backends.onnx.wasm) {
   const ortBase = new URL('assets/ort/', new URL('.', self.location.href).href).href;
-  (env.backends.onnx.wasm as any).wasmPaths = {
-    mjs: `${ortBase}ort-wasm-simd-threaded.asyncify.mjs`,
-    wasm: `${ortBase}ort-wasm-simd-threaded.asyncify.wasm`,
-  };
-  (env.backends.onnx.wasm as any).numThreads = 1;
+  (env.backends.onnx.wasm as any).wasmPaths = ortBase;
+  const isolated = (self as any).crossOriginIsolated === true;
+  const hwc = (self as any).navigator?.hardwareConcurrency ?? 4;
+  (env.backends.onnx.wasm as any).numThreads = isolated ? Math.min(4, hwc) : 1;
+  console.log('[EmbeddingWorker] crossOriginIsolated:', isolated, 'numThreads:', (env.backends.onnx.wasm as any).numThreads);
 }
 
 let _embedder: any = null;
@@ -41,7 +42,7 @@ async function getEmbedder(): Promise<any> {
 async function embed(texts: string[]): Promise<number[][]> {
   if (texts.length === 0) return [];
   const embedder = await getEmbedder();
-  const output = await embedder(texts, { pooling: 'mean', normalize: true, truncation: true, max_length: 8192 });
+  const output = await embedder(texts, { pooling: 'mean', normalize: true, truncation: true, max_length: EMBEDDING_MAX_LENGTH });
   return output.tolist() as number[][];
 }
 

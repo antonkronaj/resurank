@@ -134,6 +134,8 @@ app.whenReady().then(async () => {
             ? "default-src 'self' http://localhost:4200; connect-src http://localhost:4200 ws://localhost:* https://huggingface.co https://*.huggingface.co https://*.hf.co; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval' blob:; worker-src 'self' blob:;"
             : "default-src 'self'; connect-src https://huggingface.co https://*.huggingface.co https://*.hf.co; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; script-src 'self' 'wasm-unsafe-eval' blob:; worker-src 'self' blob:;",
         ],
+        'Cross-Origin-Opener-Policy': ['same-origin'],
+        'Cross-Origin-Embedder-Policy': ['credentialless'],
       },
     });
   });

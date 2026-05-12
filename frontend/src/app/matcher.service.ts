@@ -157,9 +157,9 @@ export class MatcherService {
 
     const resumeInput = sanitizeForEmbedding(resumeText).slice(0, EMBEDDING_CHAR_CAP);
     const jobText = sanitizeForEmbedding(`${job.title}. ${job.description}`).slice(0, EMBEDDING_CHAR_CAP);
-    const [resumeVec, [jobVec]] = await Promise.all([
+    const [resumeVec, jobVec] = await Promise.all([
       this.embedding.embedResume(resumeInput),
-      this.embedding.embed([jobText]),
+      this.embedding.embedJob(jobText),
     ]);
     const embeddingScore = resumeVec && jobVec ? Math.max(0, dotProduct(resumeVec, jobVec)) : 0;
 
