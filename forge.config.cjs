@@ -41,6 +41,7 @@ const config = {
     icon: 'resources/icon',
     extraResource: ['app-update.yml'],
     asar: true,
+    quiet: false,
     ...(isMac && !SKIP_SIGNING ? {
       osxSign: {
         identity: `Developer ID Application: ${APPLE_ID_NAME_S} (${APPLE_TEAM_ID_S})`,
