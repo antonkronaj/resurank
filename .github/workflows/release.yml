@@ -58,6 +58,9 @@ jobs:
 
       - name: Make & generate manifests (Windows / Linux)
         if: runner.os != 'macOS'
+        env:
+          DEBUG: electron-forge:*,electron-packager:*,@electron/asar:*,@electron/rebuild:*
+          DEBUG_COLORS: '0'
         run: npm run dist
 
       - name: Publish to GitHub Releases
