@@ -20,8 +20,8 @@
     "dev:frontend": "npm --prefix frontend start",
     "dev:electron": "JOBDASH_DEV=1 npm run build:electron && JOBDASH_DEV=1 electron .",
     "start": "electron-forge start",
-    "package": "npm run build && electron-forge package",
-    "dist": "npm run build && electron-forge make",
+    "package": "electron-forge package",
+    "dist": "electron-forge make",
     "publish": "electron-forge publish",
     "make": "electron-forge make"
   },
