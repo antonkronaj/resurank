@@ -1,8 +1,9 @@
 import {app, BrowserWindow, clipboard, dialog, ipcMain, net, protocol, session, shell} from 'electron';
-import {dirname, join, normalize} from 'node:path';
+import {dirname, join, normalize, resolve} from 'node:path';
 import {existsSync, mkdirSync, readFileSync, writeFileSync} from 'node:fs';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import pkg from 'electron-updater';
+import {config} from '../../shared/config.js';
 
 if (app.isPackaged) {
   process.env.DATABASE_PATH = app.getPath('userData');
@@ -28,6 +29,10 @@ const {autoUpdater} = pkg;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const isDev = !app.isPackaged && process.env.JOBDASH_DEV === '1';
+
+if (isDev) {
+  app.setPath('userData', resolve(config.databasePath));
+}
 
 function getDataDir(): string {
   return app.getPath('userData');

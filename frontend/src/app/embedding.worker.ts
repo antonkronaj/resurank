@@ -5,7 +5,7 @@ import {EMBEDDING_MAX_LENGTH} from '@shared/constants';
 
 env.allowRemoteModels = true;
 env.allowLocalModels = false;
-env.useBrowserCache = false;
+env.useBrowserCache = true;
 
 // Serve WASM runtime from local assets instead of jsDelivr CDN. String form is
 // the canonical ORT config; the threaded pre-loader resolves all variant
@@ -57,11 +57,28 @@ async function embed(texts: string[]): Promise<number[][]> {
   return output.tolist() as number[][];
 }
 
+let _eagerLoadStarted = false;
+function triggerEagerLoad() {
+  if (_eagerLoadStarted) return;
+  _eagerLoadStarted = true;
+  getEmbedder()
+    .then(() => {
+      console.log('[EmbeddingWorker] Model Loaded');
+      self.postMessage({ready: true});
+    })
+    .catch((err: unknown) => {
+      const message = err instanceof Error ? err.message : String(err);
+      console.log('[EmbeddingWorker] Error loading model:', err);
+      self.postMessage({type: 'loadError', message});
+    });
+}
+
 self.addEventListener('message', async (event: MessageEvent) => {
   const message = event.data;
 
   if (message.type === 'setCacheDir') {
     env.cacheDir = message.cacheDir;
+    triggerEagerLoad();
     return;
   }
 
@@ -74,14 +91,5 @@ self.addEventListener('message', async (event: MessageEvent) => {
   }
 });
 
-// Eagerly load model on startup
-getEmbedder()
-  .then(() => {
-    console.log('[EmbeddingWorker] Model Loaded');
-    self.postMessage({ready: true})
-  })
-  .catch((err: unknown) => {
-    const message = err instanceof Error ? err.message : String(err);
-    console.log('[EmbeddingWorker] Error loading model:', err);
-    self.postMessage({type: 'loadError', message});
-  });
+// Fallback: if setCacheDir is never received (e.g. IPC failure), load anyway
+setTimeout(triggerEagerLoad, 500);
