@@ -9,12 +9,13 @@ const child_process = require('node:child_process');
 dotenv.config();
 
 const isMac = process.platform === 'darwin';
+const SKIP_SIGNING = process.env['SKIP_SIGNING'] === '1';
 const APPLE_ID_NAME_S = process.env['APPLE_ID_NAME'];
 const APPLE_ID_S = process.env['APPLE_ID'];
 const APPLE_APP_SPECIFIC_PASSWORD_S = process.env['APPLE_APP_SPECIFIC_PASSWORD'];
 const APPLE_TEAM_ID_S = process.env['APPLE_TEAM_ID'];
 
-if (isMac) {
+if (isMac && !SKIP_SIGNING) {
   let missing = '';
   if (!APPLE_ID_NAME_S) {
     missing += 'APPLE_ID_NAME';
@@ -40,7 +41,7 @@ const config = {
     icon: 'resources/icon',
     extraResource: ['app-update.yml'],
     asar: true,
-    ...(isMac ? {
+    ...(isMac && !SKIP_SIGNING ? {
       osxSign: {
         identity: `Developer ID Application: ${APPLE_ID_NAME_S} (${APPLE_TEAM_ID_S})`,
         hardenedRuntime: true,
@@ -70,6 +71,17 @@ const config = {
       /\/node_modules\/wordnet-db\/dict\//,
       // workspace dev deps — not needed at runtime
       /\/frontend\/node_modules\//,
+      // angular build cache — only used to accelerate subsequent ng builds
+      /\/frontend\/\.angular\//,
+      // angular sources — only the built output under frontend/dist is loaded at runtime
+      /\/frontend\/src\//,
+      /\/frontend\/public\//,
+      /\/frontend\/\.vscode\//,
+      /\/frontend\/\.editorconfig$/,
+      /\/frontend\/README\.md$/,
+      // build-time logs and manifests that accidentally got swept in
+      /^\/dist\.log$/,
+      /^\/package-manifest\.txt$/,
       // angular ecosystem — compiled into dist/frontend at build time
       /\/node_modules\/@angular\//,
       /\/node_modules\/@angular-devkit\//,
@@ -103,12 +115,19 @@ const config = {
   ],
   hooks: {
     packageAfterCopy: async (_forgeConfig, buildPath) => {
-      const {readdirSync, writeFileSync, statSync} = fs;
+      const {readdirSync, writeFileSync, lstatSync} = fs;
       const collect = (dir) => {
         const entries = [];
         for (const name of readdirSync(dir)) {
           const full = path.join(dir, name);
-          if (statSync(full).isDirectory()) entries.push(...collect(full));
+          let st;
+          try {
+            st = lstatSync(full);
+          } catch {
+            continue;
+          }
+          if (st.isSymbolicLink()) entries.push(full.replace(buildPath, '') + ' -> (symlink)');
+          else if (st.isDirectory()) entries.push(...collect(full));
           else entries.push(full.replace(buildPath, ''));
         }
         return entries;

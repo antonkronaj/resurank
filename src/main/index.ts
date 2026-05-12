@@ -1,12 +1,28 @@
-import { app, BrowserWindow, clipboard, dialog, ipcMain, session, shell } from 'electron';
-import { dirname, join } from 'node:path';
+import { app, BrowserWindow, clipboard, dialog, ipcMain, net, protocol, session, shell } from 'electron';
+import { dirname, join, normalize } from 'node:path';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 if (app.isPackaged) {
   process.env.DATABASE_PATH = app.getPath('userData');
 }
 
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+
+// Register custom scheme as privileged & secure BEFORE app is ready. Loading
+// the app via `app://` (instead of `file://`) gives us a secure context with
+// real response headers — required for crossOriginIsolated and threaded WASM.
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'app',
+    privileges: {
+      standard: true,
+      secure: true,
+      supportFetchAPI: true,
+      corsEnabled: true,
+      stream: true,
+    },
+  },
+]);
 import pkg from 'electron-updater';
 const { autoUpdater } = pkg;
 
@@ -52,8 +68,7 @@ async function createWindow(): Promise<void> {
     await win.loadURL('http://localhost:4200/');
     win.webContents.openDevTools({ mode: 'detach' });
   } else {
-    const indexFile = join(__dirname, '..', '..', '..', 'frontend', 'dist', 'frontend', 'browser', 'index.html');
-    await win.loadFile(indexFile);
+    await win.loadURL('app://localhost/index.html');
   }
 }
 
@@ -125,20 +140,42 @@ app.whenReady().then(async () => {
     callback(false);
   });
 
-  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-    callback({
-      responseHeaders: {
-        ...details.responseHeaders,
-        'Content-Security-Policy': [
-          isDev
-            ? "default-src 'self' http://localhost:4200; connect-src http://localhost:4200 ws://localhost:* https://huggingface.co https://*.huggingface.co https://*.hf.co; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval' blob:; worker-src 'self' blob:;"
-            : "default-src 'self'; connect-src https://huggingface.co https://*.huggingface.co https://*.hf.co; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; script-src 'self' 'wasm-unsafe-eval' blob:; worker-src 'self' blob:;",
-        ],
-        'Cross-Origin-Opener-Policy': ['same-origin'],
-        'Cross-Origin-Embedder-Policy': ['credentialless'],
-      },
+  const prodCsp = "default-src 'self' app:; connect-src 'self' app: https://huggingface.co https://*.huggingface.co https://*.hf.co; style-src 'self' app: 'unsafe-inline'; img-src 'self' app: data: blob:; script-src 'self' app: 'wasm-unsafe-eval' blob:; worker-src 'self' app: blob:;";
+  const devCsp = "default-src 'self' http://localhost:4200; connect-src 'self' http://localhost:4200 ws://localhost:* https://huggingface.co https://*.huggingface.co https://*.hf.co; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval' blob:; worker-src 'self' blob:;";
+
+  if (!isDev) {
+    // Serve the built frontend over a privileged custom scheme so responses
+    // carry real headers (COOP/COEP/CSP) and the context is secure.
+    const root = join(__dirname, '..', '..', '..', 'frontend', 'dist', 'frontend', 'browser');
+    protocol.handle('app', async (req) => {
+      const url = new URL(req.url);
+      // Strip leading slash, normalize, refuse escaping the root.
+      const rel = normalize(decodeURIComponent(url.pathname)).replace(/^[/\\]+/, '');
+      if (rel.startsWith('..')) return new Response('forbidden', { status: 403 });
+      const filePath = join(root, rel || 'index.html');
+      const fileUrl = pathToFileURL(filePath).toString();
+      const upstream = await net.fetch(fileUrl);
+      const headers = new Headers(upstream.headers);
+      headers.set('Content-Security-Policy', prodCsp);
+      headers.set('Cross-Origin-Opener-Policy', 'same-origin');
+      headers.set('Cross-Origin-Embedder-Policy', 'credentialless');
+      return new Response(upstream.body, { status: upstream.status, headers });
     });
-  });
+  }
+
+  // Dev (http://localhost:4200) still needs headers injected on the dev server's responses.
+  if (isDev) {
+    session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+      callback({
+        responseHeaders: {
+          ...details.responseHeaders,
+          'Content-Security-Policy': [devCsp],
+          'Cross-Origin-Opener-Policy': ['same-origin'],
+          'Cross-Origin-Embedder-Policy': ['credentialless'],
+        },
+      });
+    });
+  }
 
   await createWindow();
 
