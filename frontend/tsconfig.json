@@ -22,7 +22,9 @@
     "module": "ES2022",
     "lib": [
       "ES2022",
-      "dom"
+      "dom",
+      "dom.iterable",
+      "webworker"
     ],
     "paths": {
       "@shared/*": ["../shared/*"]

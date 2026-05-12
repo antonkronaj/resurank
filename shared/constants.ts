@@ -8,6 +8,12 @@ export const RESUME_CHAR_CAP = 32_000;
 // 4 chars), so we keep a conservative limit to avoid ONNX WASM memory faults.
 export const EMBEDDING_CHAR_CAP = 6_000;
 
+// Token cap passed to the embedding model. Inputs are pre-truncated at
+// EMBEDDING_CHAR_CAP characters (~1.5k tokens worst case), so 2048 is the
+// smallest power-of-two ceiling that never truncates real content. Attention
+// is O(n²), so keeping this tight matters.
+export const EMBEDDING_MAX_LENGTH = 2048;
+
 // Final score blend. Must sum to 1. Embedding captures semantic similarity
 // (paraphrases, related concepts); TF-IDF anchors on shared keywords.
 export const EMBEDDING_WEIGHT = 0.60;

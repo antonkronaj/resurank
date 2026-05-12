@@ -1,5 +1,5 @@
-const { FusesPlugin } = require('@electron-forge/plugin-fuses');
-const { FuseV1Options, FuseVersion } = require('@electron/fuses');
+const {FusesPlugin} = require('@electron-forge/plugin-fuses');
+const {FuseV1Options, FuseVersion} = require('@electron/fuses');
 const dotenv = require('dotenv');
 const path = require('node:path');
 const fs = require('node:fs');
@@ -9,13 +9,29 @@ const child_process = require('node:child_process');
 dotenv.config();
 
 const isMac = process.platform === 'darwin';
-const appleIdName = process.env['APPLE_ID_NAME'];
-const appleId = process.env['APPLE_ID'];
-const appleAppPass = process.env['APPLE_APP_SPECIFIC_PASSWORD'];
-const appleTeamId = process.env['APPLE_TEAM_ID'];
+const SKIP_SIGNING = process.env['SKIP_SIGNING'] === '1';
+const APPLE_ID_NAME_S = process.env['APPLE_ID_NAME'];
+const APPLE_ID_S = process.env['APPLE_ID'];
+const APPLE_APP_SPECIFIC_PASSWORD_S = process.env['APPLE_APP_SPECIFIC_PASSWORD'];
+const APPLE_TEAM_ID_S = process.env['APPLE_TEAM_ID'];
 
-if (isMac && (!appleIdName || !appleTeamId || !appleId || !appleAppPass)) {
-  throw new Error('Missing APPLE_ID_NAME or APPLE_TEAM_ID or APPLE_ID or APPLE_APP_SPECIFIC_PASSWORD for macOS code signing');
+if (isMac && !SKIP_SIGNING) {
+  let missing = '';
+  if (!APPLE_ID_NAME_S) {
+    missing += 'APPLE_ID_NAME';
+  }
+  if (!APPLE_ID_S) {
+    missing += 'APPLE_ID';
+  }
+  if (!APPLE_APP_SPECIFIC_PASSWORD_S) {
+    missing += 'APPLE_APP_SPECIFIC_PASSWORD';
+  }
+  if (!APPLE_TEAM_ID_S) {
+    missing += 'APPLE_TEAM_ID';
+  }
+  if (missing.length > 3) {
+    throw new Error(`Missing ${missing} for macOS code signing`);
+  }
 }
 
 const config = {
@@ -24,50 +40,124 @@ const config = {
     appBundleId: 'dev.resurank.app',
     icon: 'resources/icon',
     extraResource: ['app-update.yml'],
-    asar: {
-      unpack: '**/node_modules/{onnxruntime-node,@huggingface}/**/*',
-    },
-    ...(isMac && appleIdName && appleTeamId ? {
+    asar: true,
+    ...(isMac && !SKIP_SIGNING ? {
       osxSign: {
-        identity: `Developer ID Application: ${appleIdName} (${appleTeamId})`,
+        identity: `Developer ID Application: ${APPLE_ID_NAME_S} (${APPLE_TEAM_ID_S})`,
         hardenedRuntime: true,
         entitlements: 'entitlements.plist',
         entitlementsInherit: 'entitlements.plist',
       },
       osxNotarize: {
-        appleId: appleId ?? '',
-        appleIdPassword: appleAppPass ?? '',
-        teamId: appleTeamId ?? '',
+        appleId: APPLE_ID_S ?? '',
+        appleIdPassword: APPLE_APP_SPECIFIC_PASSWORD_S ?? '',
+        teamId: APPLE_TEAM_ID_S ?? '',
       },
     } : {}),
     ignore: [
+      /CLAUDE.md/,
+      /.gitignore/,
       /\.map$/,
       /\.ts$/,
+      /\.ts$/,
+      /\/data$/,
+      /\.\/.claude\//,
+      /\.\/.github\//,
+      /\.\/.idea\//,
+      /\.\/.out\//,
       /tsconfig.*\.json$/,
       /\/node_modules\/typescript\//,
       /\/node_modules\/@types\//,
-      /\/node_modules\/onnxruntime-web\/dist\/.*\.wasm$/,
       /\/node_modules\/wordnet-db\/dict\//,
+      // workspace dev deps — not needed at runtime
+      /\/frontend\/node_modules\//,
+      // angular build cache — only used to accelerate subsequent ng builds
+      /\/frontend\/\.angular\//,
+      // angular sources — only the built output under frontend/dist is loaded at runtime
+      /\/frontend\/src\//,
+      /\/frontend\/public\//,
+      /\/frontend\/\.vscode\//,
+      /\/frontend\/\.editorconfig$/,
+      /\/frontend\/README\.md$/,
+      // build-time logs and manifests that accidentally got swept in
+      /^\/dist\.log$/,
+      /^\/package-manifest\.txt$/,
+      // angular ecosystem — compiled into dist/frontend at build time
+      /\/node_modules\/@angular\//,
+      /\/node_modules\/@angular-devkit\//,
+      /\/node_modules\/@schematics\//,
+      // electron-forge toolchain — packaging only, never runs inside the app
+      /\/node_modules\/@electron-forge\//,
+      /\/node_modules\/electron-winstaller\//,
+      /\/node_modules\/postject\//,
+      // bundlers and transpilers used by the angular build pipeline
+      /\/node_modules\/@rolldown\//,
+      /\/node_modules\/@babel\//,
+      /\/node_modules\/esbuild-wasm\//,
+      /\/node_modules\/@esbuild\//,
+      /\/node_modules\/webpack\//,
+      // other dev-only tools
+      /\/node_modules\/prettier\//,
+      /\/node_modules\/sass\//,
+      /\/node_modules\/caniuse-lite\//,
+      // test and doc cruft inside dependencies
+      /\/resources\/test_files\//,
+      /\/node_modules\/.*\/(test|tests|__tests__|spec|specs)\//,
+      /\/node_modules\/.*\/(example|examples|demo|demos|docs?)\//,
+      /\/node_modules\/.*\.(d\.ts\.map)$/,
     ],
   },
   rebuildConfig: {},
   makers: [
-    { name: '@electron-forge/maker-dmg', platforms: ['darwin'] },
-    { name: '@electron-forge/maker-squirrel', platforms: ['win32'], config: {} },
-    { name: '@electron-forge/maker-zip', platforms: ['linux'] },
+    {name: '@electron-forge/maker-dmg', platforms: ['darwin']},
+    {name: '@electron-forge/maker-squirrel', platforms: ['win32'], config: {}},
+    {name: '@electron-forge/maker-zip', platforms: ['linux']},
   ],
   hooks: {
+    packageAfterCopy: async (_forgeConfig, buildPath) => {
+      const {readdirSync, writeFileSync, lstatSync} = fs;
+      const collect = (dir) => {
+        const entries = [];
+        for (const name of readdirSync(dir)) {
+          const full = path.join(dir, name);
+          let st;
+          try {
+            st = lstatSync(full);
+          } catch {
+            continue;
+          }
+          if (st.isSymbolicLink()) entries.push(full.replace(buildPath, '') + ' -> (symlink)');
+          else if (st.isDirectory()) entries.push(...collect(full));
+          else entries.push(full.replace(buildPath, ''));
+        }
+        return entries;
+      };
+      const manifest = collect(buildPath).sort().join('\n');
+      const out = path.join(process.cwd(), 'package-manifest.txt');
+      writeFileSync(out, manifest);
+      console.log(`[packageAfterCopy] wrote ${out}`);
+
+      // Read the file
+      // fs.readFile(out, 'utf8', (err, data) => {
+      //   if (err) {
+      //     console.error('Error reading file:', err);
+      //     return;
+      //   }
+      //   console.log('File content:', data);
+      // });
+    },
+
     generateAssets: async () => {
-      const { execSync } = child_process;
-      execSync('npm run build:backend && npm run build:frontend && npm run build:electron', {
+      const {execSync} = child_process;
+      execSync('npm run build:frontend && npm run build:electron', {
         stdio: 'inherit',
       });
     },
 
     postMake: async (_forgeConfig, makeResults) => {
-      const { createHash } = crypto;
-      const { readFileSync, writeFileSync, statSync } = fs;
-      const { basename, dirname } = path;
+      const {createHash} = crypto;
+      const {readFileSync, writeFileSync, statSync} = fs;
+      const {basename, dirname} = path;
 
       const pkg = JSON.parse(readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
       const releaseDate = new Date().toISOString();
@@ -84,7 +174,7 @@ const config = {
           const name = manifestName(artifact);
           if (!name) continue;
 
-          const { size } = statSync(artifact);
+          const {size} = statSync(artifact);
           const sha512 = createHash('sha512').update(readFileSync(artifact)).digest('base64');
           const filename = basename(artifact);
 

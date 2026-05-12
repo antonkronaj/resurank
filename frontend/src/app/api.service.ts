@@ -1,6 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, from } from 'rxjs';
+import { StorageService } from './storage.service';
+import { ResumeParserService, extractTerms } from './resume-parser.service';
+import { EmbeddingService, ModelStatus } from './embedding.service';
+import { MatcherService, MatchResult, TermWeight, TermCount, MatchBreakdown } from './matcher.service';
+
+export type { TermWeight, TermCount, MatchBreakdown, MatchResult };
 
 export interface ResumeInfo {
   uploaded: boolean;
@@ -9,90 +14,76 @@ export interface ResumeInfo {
   chars?: number;
 }
 
-export interface TermWeight {
-  term: string;
-  weight: number;
-}
-
-export interface TermCount {
-  term: string;
-  count: number;
-}
-
-export interface MatchBreakdown {
-  tfidfScore: number;
-  embeddingScore: number;
-  overlapBonus: number;
-  divergencePenalty: number;
-}
-
-export interface MatchResult {
-  score: number;
-  matchedTerms: string[];
-  breakdown: MatchBreakdown;
-  jobWeighted: TermWeight[];
-  jobCounts: TermCount[];
-  languageWarning: boolean;
-}
-
-export interface ModelStatus {
-  loading: boolean;
-  ready: boolean;
-  progress?: number;
-  file?: string;
-  error?: string;
-}
-
 export interface HealthResponse {
   ok: boolean;
   model: ModelStatus;
 }
 
-function resolveApiBase(): string {
-  if (typeof window !== 'undefined') {
-    const port = new URLSearchParams(window.location.search).get('apiPort');
-    if (port) return `http://127.0.0.1:${port}/api`;
-  }
-  return 'http://localhost:3001/api';
-}
-
-const API = resolveApiBase();
+export type { ModelStatus };
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private http = inject(HttpClient);
+  constructor(
+    private storage: StorageService,
+    private parser: ResumeParserService,
+    private embedding: EmbeddingService,
+    private matcher: MatcherService,
+  ) {}
 
   getResume(): Observable<ResumeInfo> {
-    return this.http.get<ResumeInfo>(`${API}/resume`);
+    return from(this.storage.getResume().then(r => r
+      ? { uploaded: true, filename: r.filename, uploadedAt: r.uploadedAt, chars: r.text.length }
+      : { uploaded: false }
+    ));
   }
 
   getHealth(): Observable<HealthResponse> {
-    return this.http.get<HealthResponse>(`${API}/health`);
+    return new Observable(subscriber => {
+      subscriber.next({ ok: true, model: this.embedding.status() });
+      subscriber.complete();
+    });
   }
 
   uploadResume(file: File): Observable<{ ok: boolean; chars: number; termCount: number }> {
-    const fd = new FormData();
-    fd.append('resume', file);
-    return this.http.post<{ ok: boolean; chars: number; termCount: number }>(`${API}/resume`, fd);
+    return from((async () => {
+      const stopwords = new Set(await this.storage.getStopwords());
+      const { text, arrayBuffer } = await this.parser.parsePdf(file);
+      const terms = extractTerms(text, stopwords);
+      const data = {
+        filename: file.name,
+        text,
+        terms,
+        uploadedAt: new Date().toISOString(),
+      };
+      await this.storage.saveResume(data, arrayBuffer);
+      this.embedding.invalidateResumeCache();
+      return { ok: true, chars: text.length, termCount: terms.length };
+    })());
   }
 
   match(title: string, description: string): Observable<MatchResult> {
-    return this.http.post<MatchResult>(`${API}/match`, { title, description });
+    return from((async () => {
+      const resume = await this.storage.getResume();
+      if (!resume) throw new Error('No resume uploaded');
+      const boosts = await this.storage.getTermBoosts();
+      const stopwords = new Set(await this.storage.getStopwords());
+      return this.matcher.scoreSingleJob(resume.text, { title, description }, boosts, stopwords);
+    })());
   }
 
   getTermBoosts(): Observable<{ boosts: Record<string, number> }> {
-    return this.http.get<{ boosts: Record<string, number> }>(`${API}/settings/term-boosts`);
+    return from(this.storage.getTermBoosts().then(boosts => ({ boosts })));
   }
 
   saveTermBoosts(boosts: Record<string, number>): Observable<{ ok: boolean }> {
-    return this.http.put<{ ok: boolean }>(`${API}/settings/term-boosts`, { boosts });
+    return from(this.storage.saveTermBoosts(boosts).then(() => ({ ok: true })));
   }
 
   getStopwords(): Observable<{ words: string[] }> {
-    return this.http.get<{ words: string[] }>(`${API}/settings/stopwords`);
+    return from(this.storage.getStopwords().then(words => ({ words })));
   }
 
   saveStopwords(words: string[]): Observable<{ ok: boolean; count: number }> {
-    return this.http.put<{ ok: boolean; count: number }>(`${API}/settings/stopwords`, { words });
+    return from(this.storage.saveStopwords(words).then(() => ({ ok: true, count: words.length })));
   }
 }

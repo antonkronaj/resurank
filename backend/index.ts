@@ -1,8 +1,0 @@
-import { createApp } from './app.js';
-import { config } from '../shared/config.js';
-
-const app = createApp();
-
-app.listen(config.port, () => {
-  console.log(`resurank backend listening on http://localhost:${config.port}`);
-});
