@@ -58,7 +58,7 @@ jobs:
 
       - name: Make & generate manifests (Windows / Linux)
         if: runner.os != 'macOS'
-        timeout-minutes: 5
+        timeout-minutes: 30
         env:
           DEBUG: ${{vars.DEBUG}}
           ELECTRON_FORGE_LISTR_RENDERER: ${{ vars.ELECTRON_FORGE_LISTR_RENDERER }}
