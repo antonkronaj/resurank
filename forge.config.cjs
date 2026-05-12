@@ -56,8 +56,10 @@ const config = {
     } : {}),
     ignore: [
       /CLAUDE.md/,
-      /.gitignore/,
+      /\.gitignore/,
+      /\.claudeignore/,
       /\.map$/,
+      /\.env$/,
       /\.ts$/,
       /\.ts$/,
       /\/data$/,
