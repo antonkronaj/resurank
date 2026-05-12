@@ -27,8 +27,6 @@ export class EmbeddingService {
   private pendingRequests = new Map<string, { resolve: (v: number[][]) => void; reject: (e: Error) => void }>();
   private readyPromise: Promise<void> | null = null;
   private resumeCache: { text: string; vector: number[] } | null = null;
-  private jobCache = new Map<string, number[]>();
-  private readonly JOB_CACHE_MAX = 500;
 
   constructor(private storage: StorageService) {
   }
@@ -49,23 +47,8 @@ export class EmbeddingService {
   }
 
   async embedJob(text: string): Promise<number[]> {
-    const hit = this.jobCache.get(text);
-    if (hit) {
-      this.jobCache.delete(text);
-      this.jobCache.set(text, hit);
-      return hit;
-    }
     const [vector] = await this.embed([text]);
-    this.jobCache.set(text, vector);
-    if (this.jobCache.size > this.JOB_CACHE_MAX) {
-      const oldest = this.jobCache.keys().next().value;
-      if (oldest !== undefined) this.jobCache.delete(oldest);
-    }
     return vector;
-  }
-
-  invalidateJobCache(): void {
-    this.jobCache.clear();
   }
 
   async embed(texts: string[]): Promise<number[][]> {
