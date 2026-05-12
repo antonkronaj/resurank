@@ -138,13 +138,13 @@ const config = {
       console.log(`[packageAfterCopy] wrote ${out}`);
 
       // Read the file
-      fs.readFile(out, 'utf8', (err, data) => {
-        if (err) {
-          console.error('Error reading file:', err);
-          return;
-        }
-        console.log('File content:', data);
-      });
+      // fs.readFile(out, 'utf8', (err, data) => {
+      //   if (err) {
+      //     console.error('Error reading file:', err);
+      //     return;
+      //   }
+      //   console.log('File content:', data);
+      // });
     },
 
     generateAssets: async () => {
