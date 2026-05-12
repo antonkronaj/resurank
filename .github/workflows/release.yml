@@ -59,7 +59,7 @@ jobs:
       - name: Make & generate manifests (Windows / Linux)
         if: runner.os != 'macOS'
         env:
-          DEBUG: electron-forge:*,electron-packager:*,@electron/asar:*,@electron/rebuild:*
+          DEBUG: ${{ env.DEBUG }}
           DEBUG_COLORS: '0'
         run: npm run dist
 
