@@ -115,16 +115,21 @@ jobs:
           }
           if (Test-Path 'app-update.yml') { Copy-Item -Path 'app-update.yml' -Destination $stage }
 
-          # Slim package.json: drop workspaces + devDependencies so the stage's
-          # npm install only pulls our four runtime deps and doesn't try to
-          # resolve frontend/shared.
+          # Forge will run from inside the stage, so it needs its config and
+          # any signing entitlements present at the new cwd.
+          Copy-Item -Path 'forge.config.cjs' -Destination $stage
+          if (Test-Path 'entitlements.plist') { Copy-Item -Path 'entitlements.plist' -Destination $stage }
+
+          # Slim package.json: drop workspaces so the stage's npm install
+          # doesn't resolve frontend/shared. Keep devDependencies — forge runs
+          # inside the stage and needs @electron-forge/cli, the makers,
+          # plugin-fuses, @electron/fuses, electron, etc.
           $pkg = Get-Content package.json -Raw | ConvertFrom-Json
           $pkg.PSObject.Properties.Remove('workspaces')
-          $pkg.PSObject.Properties.Remove('devDependencies')
           $pkg | ConvertTo-Json -Depth 100 | Set-Content (Join-Path $stage 'package.json') -Encoding utf8
 
           Push-Location $stage
-          npm install --omit=dev --no-audit --no-fund --no-package-lock
+          npm install --no-audit --no-fund --no-package-lock --prefer-offline
           Pop-Location
 
           "STAGE_DIR=$stage" | Out-File -Append -FilePath $env:GITHUB_ENV -Encoding utf8
@@ -141,10 +146,14 @@ jobs:
           DEBUG_COLORS: '0'
         run: |
           $ErrorActionPreference = 'Continue'
-          $workdir = $PWD.Path
+          $rootDir = $PWD.Path
+          $stage = $env:STAGE_DIR
+          if (-not $stage) { throw "STAGE_DIR not set — pre-stage step did not run" }
+          Write-Host "rootDir=$rootDir stage=$stage"
 
-          # Write the watchdog as a separate script so escaping stays sane
-          $watchdogScript = Join-Path $workdir 'watchdog.ps1'
+          # Watchdog + tee'd logs live at the repo root so the upload step
+          # finds them at known paths regardless of where forge runs.
+          $watchdogScript = Join-Path $rootDir 'watchdog.ps1'
           @'
           param([string]$LogPath)
           while ($true) {
@@ -160,24 +169,44 @@ jobs:
           }
           '@ | Set-Content -Path $watchdogScript -Encoding utf8
 
-          $watchdogLog = Join-Path $workdir 'watchdog.log'
+          $watchdogLog = Join-Path $rootDir 'watchdog.log'
+          $distLog = Join-Path $rootDir 'dist.log'
           $watchdog = Start-Process pwsh -ArgumentList '-NoProfile','-ExecutionPolicy','Bypass','-File',$watchdogScript,'-LogPath',$watchdogLog -PassThru -WindowStyle Hidden
-          Write-Host "watchdog pid=$($watchdog.Id) → $watchdogLog"
+          Write-Host "watchdog pid=$($watchdog.Id) -> $watchdogLog"
 
           try {
-            Write-Host "::group::electron-forge package"
-            npm run package 2>&1 | Tee-Object -FilePath dist.log -Append
-            $packageExit = $LASTEXITCODE
-            Write-Host "::endgroup::"
-            Write-Host "==electron-forge package exit=$packageExit=="
-            if ($packageExit -ne 0) { exit $packageExit }
+            # Run forge from inside the stage so process.cwd() (which forge
+            # uses to set packager opts.dir) is the small staged tree.
+            Push-Location $stage
+            try {
+              Write-Host "::group::electron-forge package (cwd=$stage)"
+              npm run package 2>&1 | Tee-Object -FilePath $distLog -Append
+              $packageExit = $LASTEXITCODE
+              Write-Host "::endgroup::"
+              Write-Host "==electron-forge package exit=$packageExit=="
+              if ($packageExit -ne 0) { exit $packageExit }
 
-            Write-Host "::group::electron-forge make --skip-package"
-            npm run make -- --skip-package 2>&1 | Tee-Object -FilePath dist.log -Append
-            $makeExit = $LASTEXITCODE
-            Write-Host "::endgroup::"
-            Write-Host "==electron-forge make exit=$makeExit=="
-            if ($makeExit -ne 0) { exit $makeExit }
+              Write-Host "::group::electron-forge make --skip-package (cwd=$stage)"
+              npm run make -- --skip-package 2>&1 | Tee-Object -FilePath $distLog -Append
+              $makeExit = $LASTEXITCODE
+              Write-Host "::endgroup::"
+              Write-Host "==electron-forge make exit=$makeExit=="
+              if ($makeExit -ne 0) { exit $makeExit }
+            } finally {
+              Pop-Location
+            }
+
+            # Move the staged out/ to the repo root so the upload + publish
+            # steps find the artifacts at their expected location.
+            $stagedOut = Join-Path $stage 'out'
+            $rootOut = Join-Path $rootDir 'out'
+            if (Test-Path $stagedOut) {
+              if (Test-Path $rootOut) { Remove-Item -Recurse -Force $rootOut }
+              Move-Item -Path $stagedOut -Destination $rootOut
+              Write-Host "moved $stagedOut -> $rootOut"
+            } else {
+              Write-Host "warning: $stagedOut not found"
+            }
           } finally {
             Stop-Process -Id $watchdog.Id -ErrorAction SilentlyContinue
           }
