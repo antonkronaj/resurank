@@ -42,6 +42,14 @@ const config = {
     extraResource: ['app-update.yml'],
     asar: true,
     quiet: false,
+    // electron-packager defaults to dereferencing symlinks during the
+    // user-app copy. npm-workspaces and npm's .bin shims plant symlinks
+    // and junctions across node_modules that, on Windows, defeat
+    // fs-extra's cycle detection and cause copyApp + npm rebuild to
+    // walk multi-GB phantom trees. Setting this to false copies any
+    // symlinks as symlinks (none of our four runtime deps depend on
+    // resolving them at runtime).
+    derefSymlinks: false,
     ...(isMac && !SKIP_SIGNING ? {
       osxSign: {
         identity: `Developer ID Application: ${APPLE_ID_NAME_S} (${APPLE_TEAM_ID_S})`,

@@ -150,7 +150,10 @@ jobs:
         if: always() && runner.os == 'Windows'
         shell: pwsh
         run: |
-          Get-ChildItem -Recurse -Path "$env:RUNNER_TEMP\electron-packager" -ErrorAction SilentlyContinue |
+          # electron-packager writes to the user's local Temp, not $RUNNER_TEMP
+          $packagerTemp = Join-Path $env:LOCALAPPDATA 'Temp\electron-packager'
+          Write-Host "scanning $packagerTemp"
+          Get-ChildItem -Recurse -Path $packagerTemp -ErrorAction SilentlyContinue |
             Select-Object FullName, Length, LastWriteTime |
             Format-Table -AutoSize |
             Out-String -Width 300 |
