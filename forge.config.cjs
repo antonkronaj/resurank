@@ -72,6 +72,13 @@ const config = {
       /\/node_modules\/typescript\//,
       /\/node_modules\/@types\//,
       /\/node_modules\/wordnet-db\/dict\//,
+      // workspace junctions: npm-workspaces creates node_modules/frontend and
+      // node_modules/shared as junctions back to ./frontend and ./shared. With
+      // electron-packager's default derefSymlinks=true these get walked twice
+      // and on Windows can loop because junctions defeat cycle detection.
+      // The real frontend/ and shared/ trees are still copied directly.
+      /\/node_modules\/frontend(\/|$)/,
+      /\/node_modules\/shared(\/|$)/,
       // workspace dev deps — not needed at runtime
       /\/frontend\/node_modules\//,
       // angular build cache — only used to accelerate subsequent ng builds

@@ -59,6 +59,8 @@ jobs:
               Write-Host "could not exclude $p - $_"
             }
           }
+          Write-Host "==active Defender ExclusionPath entries=="
+          (Get-MpPreference).ExclusionPath | ForEach-Object { Write-Host "  $_" }
 
       - name: Install dependencies
         run: |
