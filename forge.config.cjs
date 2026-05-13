@@ -36,6 +36,13 @@ if (isMac && !SKIP_SIGNING) {
 
 const config = {
   packagerConfig: {
+    // When STAGE_DIR is set (Windows CI pre-stage), point electron-packager
+    // at the pre-staged tree instead of the live workspace root. The stage
+    // contains only compiled output + the four runtime deps, sidestepping
+    // the multi-GB hoisted node_modules walk that hangs electron-packager
+    // on Windows. On other platforms STAGE_DIR is unset and we package from
+    // the project root as before.
+    dir: process.env['STAGE_DIR'] || process.cwd(),
     name: 'ResuRank',
     appBundleId: 'dev.resurank.app',
     icon: 'resources/icon',
@@ -134,6 +141,14 @@ const config = {
   hooks: {
     generateAssets: async (_forgeConfig, platform, arch) => {
       console.time('[generateAssets] elapsed');
+      if (process.env['STAGE_DIR']) {
+        // The pre-stage workflow step already ran `npm run build` and copied
+        // the artifacts into STAGE_DIR; rebuilding here would just re-emit to
+        // the project root and the stage wouldn't pick it up.
+        console.log('[generateAssets] STAGE_DIR set, build already complete in stage');
+        console.timeEnd('[generateAssets] elapsed');
+        return;
+      }
       console.log(`[generateAssets] platform=${platform} arch=${arch} — running npm run build`);
       const {execSync} = child_process;
       execSync('npm run build', {stdio: 'inherit'});

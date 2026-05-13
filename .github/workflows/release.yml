@@ -95,6 +95,42 @@ jobs:
         timeout-minutes: 10
         run: npm run dist
 
+      - name: Pre-stage app for Windows packaging
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          # Build first so dist/ and frontend/dist/ are populated.
+          npm run build
+
+          $stage = Join-Path $env:RUNNER_TEMP 'app-stage'
+          if (Test-Path $stage) { Remove-Item -Recurse -Force $stage }
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+
+          foreach ($d in 'dist','resources') {
+            if (Test-Path $d) { Copy-Item -Recurse -Path $d -Destination $stage }
+          }
+          New-Item -ItemType Directory -Force -Path (Join-Path $stage 'frontend') | Out-Null
+          if (Test-Path 'frontend/dist') {
+            Copy-Item -Recurse -Path 'frontend/dist' -Destination (Join-Path $stage 'frontend/dist')
+          }
+          if (Test-Path 'app-update.yml') { Copy-Item -Path 'app-update.yml' -Destination $stage }
+
+          # Slim package.json: drop workspaces + devDependencies so the stage's
+          # npm install only pulls our four runtime deps and doesn't try to
+          # resolve frontend/shared.
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          $pkg.PSObject.Properties.Remove('workspaces')
+          $pkg.PSObject.Properties.Remove('devDependencies')
+          $pkg | ConvertTo-Json -Depth 100 | Set-Content (Join-Path $stage 'package.json') -Encoding utf8
+
+          Push-Location $stage
+          npm install --omit=dev --no-audit --no-fund --no-package-lock
+          Pop-Location
+
+          "STAGE_DIR=$stage" | Out-File -Append -FilePath $env:GITHUB_ENV -Encoding utf8
+          $count = (Get-ChildItem -Recurse $stage -ErrorAction SilentlyContinue | Measure-Object).Count
+          Write-Host "stage ready at $stage with $count entries"
+
       - name: Make & generate manifests (Windows)
         if: runner.os == 'Windows'
         timeout-minutes: 20
