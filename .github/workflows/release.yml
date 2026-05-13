@@ -63,12 +63,68 @@ jobs:
 
       - name: Make & generate manifests (Windows)
         if: runner.os == 'Windows'
-        timeout-minutes: 45
+        timeout-minutes: 10
+        shell: pwsh
         env:
-          DEBUG: 'electron-forge:*,electron-packager:*,electron-winstaller:*'
+          DEBUG: 'electron-*'
           ELECTRON_FORGE_LISTR_RENDERER: verbose
           DEBUG_COLORS: '0'
-        run: npm run dist
+        run: |
+          $ErrorActionPreference = 'Continue'
+          $workdir = $PWD.Path
+
+          # Write the watchdog as a separate script so escaping stays sane
+          $watchdogScript = Join-Path $workdir 'watchdog.ps1'
+          @'
+          param([string]$LogPath)
+          while ($true) {
+            try {
+              "==WATCHDOG== $((Get-Date).ToString('s'))" | Out-File -FilePath $LogPath -Append -Encoding utf8
+              Get-Process -ErrorAction SilentlyContinue |
+                Where-Object { $_.ProcessName -match '^(node|electron|Squirrel|signtool|7z|nuget|cmd|pwsh|powershell)' } |
+                Format-Table Id, ProcessName, @{Name='CPU'; Expression={[math]::Round($_.CPU, 1)}}, @{Name='WS_MB'; Expression={[math]::Round($_.WorkingSet64/1MB, 1)}} -AutoSize |
+                Out-String -Width 200 |
+                Out-File -FilePath $LogPath -Append -Encoding utf8
+            } catch { "watchdog error: $_" | Out-File -FilePath $LogPath -Append -Encoding utf8 }
+            Start-Sleep -Seconds 15
+          }
+          '@ | Set-Content -Path $watchdogScript -Encoding utf8
+
+          $watchdogLog = Join-Path $workdir 'watchdog.log'
+          $watchdog = Start-Process pwsh -ArgumentList '-NoProfile','-ExecutionPolicy','Bypass','-File',$watchdogScript,'-LogPath',$watchdogLog -PassThru -WindowStyle Hidden
+          Write-Host "watchdog pid=$($watchdog.Id) → $watchdogLog"
+
+          try {
+            Write-Host "::group::electron-forge package"
+            npm run package 2>&1 | Tee-Object -FilePath dist.log -Append
+            $packageExit = $LASTEXITCODE
+            Write-Host "::endgroup::"
+            Write-Host "==electron-forge package exit=$packageExit=="
+            if ($packageExit -ne 0) { exit $packageExit }
+
+            Write-Host "::group::electron-forge make --skip-package"
+            npm run make -- --skip-package 2>&1 | Tee-Object -FilePath dist.log -Append
+            $makeExit = $LASTEXITCODE
+            Write-Host "::endgroup::"
+            Write-Host "==electron-forge make exit=$makeExit=="
+            if ($makeExit -ne 0) { exit $makeExit }
+          } finally {
+            Stop-Process -Id $watchdog.Id -ErrorAction SilentlyContinue
+          }
+
+      - name: Snapshot Windows build state
+        if: always() && runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Get-ChildItem -Recurse -Path "$env:RUNNER_TEMP\electron-packager" -ErrorAction SilentlyContinue |
+            Select-Object FullName, Length, LastWriteTime |
+            Format-Table -AutoSize |
+            Out-String -Width 300 |
+            Out-File temp-tree.txt -Encoding utf8
+          Write-Host "==tail of dist.log=="
+          if (Test-Path dist.log) { Get-Content dist.log -Tail 100 } else { Write-Host "dist.log not found" }
+          Write-Host "==tail of watchdog.log=="
+          if (Test-Path watchdog.log) { Get-Content watchdog.log -Tail 80 } else { Write-Host "watchdog.log not found" }
 
       - name: Upload Windows build diagnostics
         if: always() && runner.os == 'Windows'
@@ -77,8 +133,10 @@ jobs:
           name: windows-build-debug-${{ github.run_id }}
           path: |
             out/
-            package-manifest.txt
-            ${{ runner.temp }}/electron-packager/**/*.log
+            dist.log
+            watchdog.log
+            watchdog.ps1
+            temp-tree.txt
           if-no-files-found: ignore
           retention-days: 7
 
