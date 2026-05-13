@@ -56,17 +56,31 @@ jobs:
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
         run: npm run dist
 
-      - name: Make & generate manifests (Windows / Linux)
-        if: runner.os != 'macOS'
-        timeout-minutes: 30
+      - name: Make & generate manifests (Linux)
+        if: runner.os == 'Linux'
+        timeout-minutes: 10
+        run: npm run dist
+
+      - name: Make & generate manifests (Windows)
+        if: runner.os == 'Windows'
+        timeout-minutes: 45
         env:
-          DEBUG: ${{vars.DEBUG}}
-          ELECTRON_FORGE_LISTR_RENDERER: ${{ vars.ELECTRON_FORGE_LISTR_RENDERER }}
+          DEBUG: 'electron-forge:*,electron-packager:*,electron-winstaller:*'
+          ELECTRON_FORGE_LISTR_RENDERER: verbose
           DEBUG_COLORS: '0'
-        run: |
-          echo "vars.DEBUG=${{ vars.DEBUG }}"
-          echo "vars.ELECTRON_FORGE_LISTR_RENDERER=${{ vars.ELECTRON_FORGE_LISTR_RENDERER }}"
-          npm run dist
+        run: npm run dist
+
+      - name: Upload Windows build diagnostics
+        if: always() && runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build-debug-${{ github.run_id }}
+          path: |
+            out/
+            package-manifest.txt
+            ${{ runner.temp }}/electron-packager/**/*.log
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Publish to GitHub Releases
         if: always()

@@ -118,27 +118,38 @@ const config = {
   ],
   hooks: {
     generateAssets: async (_forgeConfig, platform, arch) => {
+      console.time('[generateAssets] elapsed');
       console.log(`[generateAssets] platform=${platform} arch=${arch} — running npm run build`);
       const {execSync} = child_process;
       execSync('npm run build', {stdio: 'inherit'});
       console.log('[generateAssets] build complete');
+      console.timeEnd('[generateAssets] elapsed');
     },
     readPackageJson: async (_forgeConfig, packageJson) => {
+      console.time('[readPackageJson] elapsed');
       console.log(`[readPackageJson] name=${packageJson.name} version=${packageJson.version} main=${packageJson.main}`);
+      console.timeEnd('[readPackageJson] elapsed');
     },
     preStart: async () => {
+      console.time('[preStart] elapsed');
       console.log('[preStart] starting Electron app');
+      console.timeEnd('[preStart] elapsed');
     },
     postStart: async (_forgeConfig, appProcess) => {
+      console.time('[postStart] elapsed');
       console.log(`[postStart] Electron process started pid=${appProcess.pid}`);
       appProcess.on('exit', (code, signal) => {
         console.log(`[postStart] Electron process exited code=${code} signal=${signal}`);
       });
+      console.timeEnd('[postStart] elapsed');
     },
     prePackage: async (_forgeConfig, platform, arch) => {
+      console.time('[prePackage] elapsed');
       console.log(`[prePackage] platform=${platform} arch=${arch}`);
+      console.timeEnd('[prePackage] elapsed');
     },
     packageAfterExtract: async (_forgeConfig, buildPath, electronVersion, platform, arch) => {
+      console.time('[packageAfterExtract] elapsed');
       console.log(`[packageAfterExtract] platform=${platform} arch=${arch} electronVersion=${electronVersion}`);
       console.log(`[packageAfterExtract] buildPath=${buildPath}`);
       const entries = fs.readdirSync(buildPath).map(name => {
@@ -152,40 +163,38 @@ const config = {
         }
       });
       console.log(`[packageAfterExtract] contents:\n${entries.join('\n')}`);
+      console.timeEnd('[packageAfterExtract] elapsed');
     },
-    packageAfterCopy: async (_forgeConfig, buildPath) => {
-      console.log(`[packageAfterCopy] buildPath=${buildPath}`);
-      const {readdirSync, writeFileSync, lstatSync} = fs;
-      const collect = (dir) => {
-        const entries = [];
-        for (const name of readdirSync(dir)) {
-          const full = path.join(dir, name);
-          let st;
-          try {
-            st = lstatSync(full);
-          } catch {
-            continue;
-          }
-          if (st.isSymbolicLink()) entries.push(full.replace(buildPath, '') + ' -> (symlink)');
-          else if (st.isDirectory()) entries.push(...collect(full));
-          else entries.push(full.replace(buildPath, ''));
-        }
-        return entries;
-      };
-      const manifest = collect(buildPath).sort().join('\n');
-      const out = path.join(process.cwd(), 'package-manifest.txt');
-      writeFileSync(out, manifest);
-      // Do not remove. Print included files
-      // fs.readFile(out, 'utf8', (err, data) => {
-      //   if (err) {
-      //     console.error('Error reading file:', err);
-      //     return;
+    packageAfterCopy: async (_forgeConfig, buildPath, electronVersion, platform, arch) => {
+      console.time('[packageAfterCopy] elapsed');
+      console.log(`[packageAfterCopy] reached — buildPath=${buildPath} platform=${platform} arch=${arch} electronVersion=${electronVersion}`);
+      // Temporarily disabled while diagnosing Windows build hang — we want to
+      // confirm execution reaches this hook before re-enabling the full walk.
+      // const {readdirSync, writeFileSync, lstatSync} = fs;
+      // const collect = (dir) => {
+      //   const entries = [];
+      //   for (const name of readdirSync(dir)) {
+      //     const full = path.join(dir, name);
+      //     let st;
+      //     try {
+      //       st = lstatSync(full);
+      //     } catch {
+      //       continue;
+      //     }
+      //     if (st.isSymbolicLink()) entries.push(full.replace(buildPath, '') + ' -> (symlink)');
+      //     else if (st.isDirectory()) entries.push(...collect(full));
+      //     else entries.push(full.replace(buildPath, ''));
       //   }
-      //   console.log('[packageAfterCopy] File:', data);
-      // });
-      console.log(`[packageAfterCopy] wrote manifest (${manifest.split('\n').length} files) to ${out}`);
+      //   return entries;
+      // };
+      // const manifest = collect(buildPath).sort().join('\n');
+      // const out = path.join(process.cwd(), 'package-manifest.txt');
+      // writeFileSync(out, manifest);
+      // console.log(`[packageAfterCopy] wrote manifest (${manifest.split('\n').length} files) to ${out}`);
+      console.timeEnd('[packageAfterCopy] elapsed');
     },
     packageAfterPrune: async (_forgeConfig, buildPath, electronVersion, platform, arch) => {
+      console.time('[packageAfterPrune] elapsed');
       console.log(`[packageAfterPrune] platform=${platform} arch=${arch} electronVersion=${electronVersion} buildPath=${buildPath}`);
       const nodeModulesPath = path.join(buildPath, 'node_modules');
       if (fs.existsSync(nodeModulesPath)) {
@@ -194,16 +203,22 @@ const config = {
       } else {
         console.log('[packageAfterPrune] no node_modules present after prune');
       }
+      console.timeEnd('[packageAfterPrune] elapsed');
     },
     postPackage: async (_forgeConfig, packageResult) => {
+      console.time('[postPackage] elapsed');
       const {platform, arch, outputPaths} = packageResult;
       console.log(`[postPackage] platform=${platform} arch=${arch}`);
       console.log(`[postPackage] outputPaths:\n${outputPaths.map(p => `  ${p}`).join('\n')}`);
+      console.timeEnd('[postPackage] elapsed');
     },
     preMake: async () => {
+      console.time('[preMake] elapsed');
       console.log('[preMake] starting make step');
+      console.timeEnd('[preMake] elapsed');
     },
     postMake: async (_forgeConfig, makeResults) => {
+      console.time('[postMake] elapsed');
       console.log(`[postMake] processing ${makeResults.length} make result(s)`);
       const {createHash} = crypto;
       const {readFileSync, writeFileSync, statSync} = fs;
@@ -247,6 +262,7 @@ const config = {
           console.log(`[postMake] wrote ${name} for ${filename} (${size} bytes)`);
         }
       }
+      console.timeEnd('[postMake] elapsed');
     },
   },
   plugins: [
