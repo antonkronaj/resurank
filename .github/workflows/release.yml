@@ -28,10 +28,42 @@ jobs:
         with:
           node-version: 22
 
+      - name: Cache npm and electron downloads
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.cache/electron
+            ~/Library/Caches/electron
+            ~/AppData/Local/electron/Cache
+          key: ${{ runner.os }}-node22-${{ hashFiles('package-lock.json', 'frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node22-
+
+      - name: Configure Windows Defender exclusions
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $paths = @(
+            $env:GITHUB_WORKSPACE,
+            $env:RUNNER_TEMP,
+            "$env:LOCALAPPDATA\electron",
+            "$env:LOCALAPPDATA\electron-builder",
+            "$env:APPDATA\npm-cache"
+          )
+          foreach ($p in $paths) {
+            try {
+              Add-MpPreference -ExclusionPath $p -ErrorAction Stop
+              Write-Host "excluded $p"
+            } catch {
+              Write-Host "could not exclude $p - $_"
+            }
+          }
+
       - name: Install dependencies
         run: |
-          npm install
-          npm --prefix frontend install
+          npm install --no-audit --no-fund --prefer-offline
+          npm --prefix frontend install --no-audit --no-fund --prefer-offline
 
       - name: Import Developer ID certificate
         if: runner.os == 'macOS'
@@ -63,7 +95,7 @@ jobs:
 
       - name: Make & generate manifests (Windows)
         if: runner.os == 'Windows'
-        timeout-minutes: 10
+        timeout-minutes: 20
         shell: pwsh
         env:
           DEBUG: 'electron-*'
