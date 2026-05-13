@@ -36,27 +36,12 @@ if (isMac && !SKIP_SIGNING) {
 
 const config = {
   packagerConfig: {
-    // When STAGE_DIR is set (Windows CI pre-stage), point electron-packager
-    // at the pre-staged tree instead of the live workspace root. The stage
-    // contains only compiled output + the four runtime deps, sidestepping
-    // the multi-GB hoisted node_modules walk that hangs electron-packager
-    // on Windows. On other platforms STAGE_DIR is unset and we package from
-    // the project root as before.
-    dir: process.env['STAGE_DIR'] || process.cwd(),
     name: 'ResuRank',
     appBundleId: 'dev.resurank.app',
     icon: 'resources/icon',
     extraResource: ['app-update.yml'],
     asar: true,
     quiet: false,
-    // electron-packager defaults to dereferencing symlinks during the
-    // user-app copy. npm-workspaces and npm's .bin shims plant symlinks
-    // and junctions across node_modules that, on Windows, defeat
-    // fs-extra's cycle detection and cause copyApp + npm rebuild to
-    // walk multi-GB phantom trees. Setting this to false copies any
-    // symlinks as symlinks (none of our four runtime deps depend on
-    // resolving them at runtime).
-    derefSymlinks: false,
     ...(isMac && !SKIP_SIGNING ? {
       osxSign: {
         identity: `Developer ID Application: ${APPLE_ID_NAME_S} (${APPLE_TEAM_ID_S})`,
@@ -77,7 +62,6 @@ const config = {
       /\.map$/,
       /\.env$/,
       /\.ts$/,
-      /\.ts$/,
       /\/data$/,
       /\.\/.claude\//,
       /\.\/.github\//,
@@ -87,13 +71,6 @@ const config = {
       /\/node_modules\/typescript\//,
       /\/node_modules\/@types\//,
       /\/node_modules\/wordnet-db\/dict\//,
-      // workspace junctions: npm-workspaces creates node_modules/frontend and
-      // node_modules/shared as junctions back to ./frontend and ./shared. With
-      // electron-packager's default derefSymlinks=true these get walked twice
-      // and on Windows can loop because junctions defeat cycle detection.
-      // The real frontend/ and shared/ trees are still copied directly.
-      /\/node_modules\/frontend(\/|$)/,
-      /\/node_modules\/shared(\/|$)/,
       // workspace dev deps — not needed at runtime
       /\/frontend\/node_modules\//,
       // angular build cache — only used to accelerate subsequent ng builds
@@ -104,9 +81,6 @@ const config = {
       /\/frontend\/\.vscode\//,
       /\/frontend\/\.editorconfig$/,
       /\/frontend\/README\.md$/,
-      // build-time logs and manifests that accidentally got swept in
-      /^\/dist\.log$/,
-      /^\/package-manifest\.txt$/,
       // angular ecosystem — compiled into dist/frontend at build time
       /\/node_modules\/@angular\//,
       /\/node_modules\/@angular-devkit\//,
@@ -139,117 +113,18 @@ const config = {
     {name: '@electron-forge/maker-zip', platforms: ['linux']},
   ],
   hooks: {
-    generateAssets: async (_forgeConfig, platform, arch) => {
-      console.time('[generateAssets] elapsed');
-      if (process.env['STAGE_DIR']) {
-        // The pre-stage workflow step already ran `npm run build` and copied
-        // the artifacts into STAGE_DIR; rebuilding here would just re-emit to
-        // the project root and the stage wouldn't pick it up.
-        console.log('[generateAssets] STAGE_DIR set, build already complete in stage');
-        console.timeEnd('[generateAssets] elapsed');
-        return;
-      }
-      console.log(`[generateAssets] platform=${platform} arch=${arch} — running npm run build`);
-      const {execSync} = child_process;
-      execSync('npm run build', {stdio: 'inherit'});
-      console.log('[generateAssets] build complete');
-      console.timeEnd('[generateAssets] elapsed');
-    },
-    readPackageJson: async (_forgeConfig, packageJson) => {
-      console.time('[readPackageJson] elapsed');
-      console.log(`[readPackageJson] name=${packageJson.name} version=${packageJson.version} main=${packageJson.main}`);
-      console.timeEnd('[readPackageJson] elapsed');
-    },
-    preStart: async () => {
-      console.time('[preStart] elapsed');
-      console.log('[preStart] starting Electron app');
-      console.timeEnd('[preStart] elapsed');
-    },
-    postStart: async (_forgeConfig, appProcess) => {
-      console.time('[postStart] elapsed');
-      console.log(`[postStart] Electron process started pid=${appProcess.pid}`);
-      appProcess.on('exit', (code, signal) => {
-        console.log(`[postStart] Electron process exited code=${code} signal=${signal}`);
-      });
-      console.timeEnd('[postStart] elapsed');
-    },
-    prePackage: async (_forgeConfig, platform, arch) => {
-      console.time('[prePackage] elapsed');
-      console.log(`[prePackage] platform=${platform} arch=${arch}`);
-      console.timeEnd('[prePackage] elapsed');
-    },
-    packageAfterExtract: async (_forgeConfig, buildPath, electronVersion, platform, arch) => {
-      console.time('[packageAfterExtract] elapsed');
-      console.log(`[packageAfterExtract] platform=${platform} arch=${arch} electronVersion=${electronVersion}`);
-      console.log(`[packageAfterExtract] buildPath=${buildPath}`);
-      const entries = fs.readdirSync(buildPath).map(name => {
-        const full = path.join(buildPath, name);
-        try {
-          const st = fs.lstatSync(full);
-          const kind = st.isDirectory() ? 'dir' : st.isSymbolicLink() ? 'symlink' : `file(${st.size}b)`;
-          return `  ${name} [${kind}]`;
-        } catch {
-          return `  ${name} [error]`;
-        }
-      });
-      console.log(`[packageAfterExtract] contents:\n${entries.join('\n')}`);
-      console.timeEnd('[packageAfterExtract] elapsed');
-    },
-    packageAfterCopy: async (_forgeConfig, buildPath, electronVersion, platform, arch) => {
-      console.time('[packageAfterCopy] elapsed');
-      console.log(`[packageAfterCopy] reached — buildPath=${buildPath} platform=${platform} arch=${arch} electronVersion=${electronVersion}`);
-      // Temporarily disabled while diagnosing Windows build hang — we want to
-      // confirm execution reaches this hook before re-enabling the full walk.
-      // const {readdirSync, writeFileSync, lstatSync} = fs;
-      // const collect = (dir) => {
-      //   const entries = [];
-      //   for (const name of readdirSync(dir)) {
-      //     const full = path.join(dir, name);
-      //     let st;
-      //     try {
-      //       st = lstatSync(full);
-      //     } catch {
-      //       continue;
-      //     }
-      //     if (st.isSymbolicLink()) entries.push(full.replace(buildPath, '') + ' -> (symlink)');
-      //     else if (st.isDirectory()) entries.push(...collect(full));
-      //     else entries.push(full.replace(buildPath, ''));
-      //   }
-      //   return entries;
-      // };
-      // const manifest = collect(buildPath).sort().join('\n');
-      // const out = path.join(process.cwd(), 'package-manifest.txt');
-      // writeFileSync(out, manifest);
-      // console.log(`[packageAfterCopy] wrote manifest (${manifest.split('\n').length} files) to ${out}`);
-      console.timeEnd('[packageAfterCopy] elapsed');
-    },
-    packageAfterPrune: async (_forgeConfig, buildPath, electronVersion, platform, arch) => {
-      console.time('[packageAfterPrune] elapsed');
-      console.log(`[packageAfterPrune] platform=${platform} arch=${arch} electronVersion=${electronVersion} buildPath=${buildPath}`);
-      const nodeModulesPath = path.join(buildPath, 'node_modules');
-      if (fs.existsSync(nodeModulesPath)) {
-        const topLevel = fs.readdirSync(nodeModulesPath);
-        console.log(`[packageAfterPrune] node_modules has ${topLevel.length} top-level entries`);
-      } else {
-        console.log('[packageAfterPrune] no node_modules present after prune');
-      }
-      console.timeEnd('[packageAfterPrune] elapsed');
-    },
-    postPackage: async (_forgeConfig, packageResult) => {
-      console.time('[postPackage] elapsed');
-      const {platform, arch, outputPaths} = packageResult;
-      console.log(`[postPackage] platform=${platform} arch=${arch}`);
-      console.log(`[postPackage] outputPaths:\n${outputPaths.map(p => `  ${p}`).join('\n')}`);
-      console.timeEnd('[postPackage] elapsed');
-    },
-    preMake: async () => {
-      console.time('[preMake] elapsed');
-      console.log('[preMake] starting make step');
-      console.timeEnd('[preMake] elapsed');
+    generateAssets: async () => {
+      // When STAGE_DIR is set, the workflow pre-stage step has already run
+      // `npm run build` at the project root and copied the artifacts into
+      // the stage. Re-running it here would emit to the project root, not
+      // the stage cwd forge is now running from.
+      if (process.env['STAGE_DIR']) return;
+      child_process.execSync('npm run build', {stdio: 'inherit'});
     },
     postMake: async (_forgeConfig, makeResults) => {
-      console.time('[postMake] elapsed');
-      console.log(`[postMake] processing ${makeResults.length} make result(s)`);
+      // Emit latest.yml / latest-mac.yml / latest-linux.yml manifests next
+      // to each artifact so electron-updater can resolve them on GitHub
+      // Releases.
       const {createHash} = crypto;
       const {readFileSync, writeFileSync, statSync} = fs;
       const {basename, dirname} = path;
@@ -265,13 +140,9 @@ const config = {
       };
 
       for (const result of makeResults) {
-        console.log(`[postMake] maker=${result.make} platform=${result.platform} arch=${result.arch} artifacts=${result.artifacts.join(', ')}`);
         for (const artifact of result.artifacts) {
           const name = manifestName(artifact);
-          if (!name) {
-            console.log(`[postMake] skipping ${path.basename(artifact)} (no manifest mapping)`);
-            continue;
-          }
+          if (!name) continue;
 
           const {size} = statSync(artifact);
           const sha512 = createHash('sha512').update(readFileSync(artifact)).digest('base64');
@@ -289,10 +160,8 @@ const config = {
           ].join('\n') + '\n';
 
           writeFileSync(`${dirname(artifact)}/${name}`, yaml);
-          console.log(`[postMake] wrote ${name} for ${filename} (${size} bytes)`);
         }
       }
-      console.timeEnd('[postMake] elapsed');
     },
   },
   plugins: [

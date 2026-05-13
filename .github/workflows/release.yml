@@ -44,23 +44,9 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $paths = @(
-            $env:GITHUB_WORKSPACE,
-            $env:RUNNER_TEMP,
-            "$env:LOCALAPPDATA\electron",
-            "$env:LOCALAPPDATA\electron-builder",
-            "$env:APPDATA\npm-cache"
-          )
-          foreach ($p in $paths) {
-            try {
-              Add-MpPreference -ExclusionPath $p -ErrorAction Stop
-              Write-Host "excluded $p"
-            } catch {
-              Write-Host "could not exclude $p - $_"
-            }
+          foreach ($p in @($env:GITHUB_WORKSPACE, $env:RUNNER_TEMP, "$env:LOCALAPPDATA\electron")) {
+            Add-MpPreference -ExclusionPath $p -ErrorAction SilentlyContinue
           }
-          Write-Host "==active Defender ExclusionPath entries=="
-          (Get-MpPreference).ExclusionPath | ForEach-Object { Write-Host "  $_" }
 
       - name: Install dependencies
         run: |
@@ -99,7 +85,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          # Build first so dist/ and frontend/dist/ are populated.
+          # Build at the project root so dist/ and frontend/dist/ are populated.
           npm run build
 
           $stage = Join-Path $env:RUNNER_TEMP 'app-stage'
@@ -115,15 +101,15 @@ jobs:
           }
           if (Test-Path 'app-update.yml') { Copy-Item -Path 'app-update.yml' -Destination $stage }
 
-          # Forge will run from inside the stage, so it needs its config and
-          # any signing entitlements present at the new cwd.
+          # Forge will run from inside the stage, so it needs its config (and
+          # any signing entitlements) present at the new cwd.
           Copy-Item -Path 'forge.config.cjs' -Destination $stage
           if (Test-Path 'entitlements.plist') { Copy-Item -Path 'entitlements.plist' -Destination $stage }
 
-          # Slim package.json: drop workspaces so the stage's npm install
-          # doesn't resolve frontend/shared. Keep devDependencies — forge runs
-          # inside the stage and needs @electron-forge/cli, the makers,
-          # plugin-fuses, @electron/fuses, electron, etc.
+          # Slim package.json: drop workspaces so the stage install doesn't
+          # try to resolve frontend/shared. Keep devDependencies — forge
+          # itself runs inside the stage and needs @electron-forge/cli, the
+          # makers, plugin-fuses, @electron/fuses, and electron.
           $pkg = Get-Content package.json -Raw | ConvertFrom-Json
           $pkg.PSObject.Properties.Remove('workspaces')
           $pkg | ConvertTo-Json -Depth 100 | Set-Content (Join-Path $stage 'package.json') -Encoding utf8
@@ -133,114 +119,29 @@ jobs:
           Pop-Location
 
           "STAGE_DIR=$stage" | Out-File -Append -FilePath $env:GITHUB_ENV -Encoding utf8
-          $count = (Get-ChildItem -Recurse $stage -ErrorAction SilentlyContinue | Measure-Object).Count
-          Write-Host "stage ready at $stage with $count entries"
 
       - name: Make & generate manifests (Windows)
         if: runner.os == 'Windows'
         timeout-minutes: 20
         shell: pwsh
-        env:
-          DEBUG: 'electron-*'
-          ELECTRON_FORGE_LISTR_RENDERER: verbose
-          DEBUG_COLORS: '0'
         run: |
-          $ErrorActionPreference = 'Continue'
           $rootDir = $PWD.Path
-          $stage = $env:STAGE_DIR
-          if (-not $stage) { throw "STAGE_DIR not set — pre-stage step did not run" }
-          Write-Host "rootDir=$rootDir stage=$stage"
-
-          # Watchdog + tee'd logs live at the repo root so the upload step
-          # finds them at known paths regardless of where forge runs.
-          $watchdogScript = Join-Path $rootDir 'watchdog.ps1'
-          @'
-          param([string]$LogPath)
-          while ($true) {
-            try {
-              "==WATCHDOG== $((Get-Date).ToString('s'))" | Out-File -FilePath $LogPath -Append -Encoding utf8
-              Get-Process -ErrorAction SilentlyContinue |
-                Where-Object { $_.ProcessName -match '^(node|electron|Squirrel|signtool|7z|nuget|cmd|pwsh|powershell)' } |
-                Format-Table Id, ProcessName, @{Name='CPU'; Expression={[math]::Round($_.CPU, 1)}}, @{Name='WS_MB'; Expression={[math]::Round($_.WorkingSet64/1MB, 1)}} -AutoSize |
-                Out-String -Width 200 |
-                Out-File -FilePath $LogPath -Append -Encoding utf8
-            } catch { "watchdog error: $_" | Out-File -FilePath $LogPath -Append -Encoding utf8 }
-            Start-Sleep -Seconds 15
-          }
-          '@ | Set-Content -Path $watchdogScript -Encoding utf8
-
-          $watchdogLog = Join-Path $rootDir 'watchdog.log'
-          $distLog = Join-Path $rootDir 'dist.log'
-          $watchdog = Start-Process pwsh -ArgumentList '-NoProfile','-ExecutionPolicy','Bypass','-File',$watchdogScript,'-LogPath',$watchdogLog -PassThru -WindowStyle Hidden
-          Write-Host "watchdog pid=$($watchdog.Id) -> $watchdogLog"
-
+          Push-Location $env:STAGE_DIR
           try {
-            # Run forge from inside the stage so process.cwd() (which forge
-            # uses to set packager opts.dir) is the small staged tree.
-            Push-Location $stage
-            try {
-              Write-Host "::group::electron-forge package (cwd=$stage)"
-              npm run package 2>&1 | Tee-Object -FilePath $distLog -Append
-              $packageExit = $LASTEXITCODE
-              Write-Host "::endgroup::"
-              Write-Host "==electron-forge package exit=$packageExit=="
-              if ($packageExit -ne 0) { exit $packageExit }
-
-              Write-Host "::group::electron-forge make --skip-package (cwd=$stage)"
-              npm run make -- --skip-package 2>&1 | Tee-Object -FilePath $distLog -Append
-              $makeExit = $LASTEXITCODE
-              Write-Host "::endgroup::"
-              Write-Host "==electron-forge make exit=$makeExit=="
-              if ($makeExit -ne 0) { exit $makeExit }
-            } finally {
-              Pop-Location
-            }
-
-            # Move the staged out/ to the repo root so the upload + publish
-            # steps find the artifacts at their expected location.
-            $stagedOut = Join-Path $stage 'out'
-            $rootOut = Join-Path $rootDir 'out'
-            if (Test-Path $stagedOut) {
-              if (Test-Path $rootOut) { Remove-Item -Recurse -Force $rootOut }
-              Move-Item -Path $stagedOut -Destination $rootOut
-              Write-Host "moved $stagedOut -> $rootOut"
-            } else {
-              Write-Host "warning: $stagedOut not found"
-            }
+            npm run dist
+            $forgeExit = $LASTEXITCODE
           } finally {
-            Stop-Process -Id $watchdog.Id -ErrorAction SilentlyContinue
+            Pop-Location
           }
+          if ($forgeExit -ne 0) { exit $forgeExit }
 
-      - name: Snapshot Windows build state
-        if: always() && runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          # electron-packager writes to the user's local Temp, not $RUNNER_TEMP
-          $packagerTemp = Join-Path $env:LOCALAPPDATA 'Temp\electron-packager'
-          Write-Host "scanning $packagerTemp"
-          Get-ChildItem -Recurse -Path $packagerTemp -ErrorAction SilentlyContinue |
-            Select-Object FullName, Length, LastWriteTime |
-            Format-Table -AutoSize |
-            Out-String -Width 300 |
-            Out-File temp-tree.txt -Encoding utf8
-          Write-Host "==tail of dist.log=="
-          if (Test-Path dist.log) { Get-Content dist.log -Tail 100 } else { Write-Host "dist.log not found" }
-          Write-Host "==tail of watchdog.log=="
-          if (Test-Path watchdog.log) { Get-Content watchdog.log -Tail 80 } else { Write-Host "watchdog.log not found" }
-
-      - name: Upload Windows build diagnostics
-        if: always() && runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-build-debug-${{ github.run_id }}
-          path: |
-            out/
-            dist.log
-            watchdog.log
-            watchdog.ps1
-            temp-tree.txt
-          if-no-files-found: ignore
-          retention-days: 7
+          # Move staged out/ to the repo root so the publish step finds it.
+          $stagedOut = Join-Path $env:STAGE_DIR 'out'
+          $rootOut = Join-Path $rootDir 'out'
+          if (Test-Path $stagedOut) {
+            if (Test-Path $rootOut) { Remove-Item -Recurse -Force $rootOut }
+            Move-Item -Path $stagedOut -Destination $rootOut
+          }
 
       - name: Publish to GitHub Releases
         if: always()
