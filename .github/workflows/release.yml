@@ -2,10 +2,12 @@ name: Release
 
 on:
   push:
+    branches:
+      - '**'
+      - '!dependabot/**'
+      - '!renovate/**'
     tags:
       - 'v*'
-    branches:
-      - 'test'
 
 permissions:
   contents: write
@@ -28,13 +30,33 @@ jobs:
         with:
           node-version: 22
 
+      - name: Cache npm and electron downloads
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.cache/electron
+            ~/Library/Caches/electron
+            ~/AppData/Local/electron/Cache
+          key: ${{ runner.os }}-node22-${{ hashFiles('package-lock.json', 'frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node22-
+
+      - name: Configure Windows Defender exclusions
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          foreach ($p in @($env:GITHUB_WORKSPACE, $env:RUNNER_TEMP, "$env:LOCALAPPDATA\electron")) {
+            Add-MpPreference -ExclusionPath $p -ErrorAction SilentlyContinue
+          }
+
       - name: Install dependencies
         run: |
-          npm install
-          npm --prefix frontend install
+          npm install --no-audit --no-fund --prefer-offline
+          npm --prefix frontend install --no-audit --no-fund --prefer-offline
 
       - name: Import Developer ID certificate
-        if: runner.os == 'macOS'
+        if: runner.os == 'macOS' && startsWith(github.ref, 'refs/tags/v')
         env:
           CSC_LINK: ${{ secrets.CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
@@ -54,22 +76,81 @@ jobs:
           APPLE_ID_NAME: ${{ secrets.APPLE_ID_NAME }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          # Sign + notarize only on v* tag pushes. Branch pushes produce an
+          # unsigned .dmg for verification; forge.config.cjs respects
+          # SKIP_SIGNING=1 by omitting osxSign/osxNotarize from packagerConfig.
+          SKIP_SIGNING: ${{ startsWith(github.ref, 'refs/tags/v') && '0' || '1' }}
         run: npm run dist
 
-      - name: Make & generate manifests (Windows / Linux)
-        if: runner.os != 'macOS'
-        timeout-minutes: 30
-        env:
-          DEBUG: ${{vars.DEBUG}}
-          ELECTRON_FORGE_LISTR_RENDERER: ${{ vars.ELECTRON_FORGE_LISTR_RENDERER }}
-          DEBUG_COLORS: '0'
+      - name: Make & generate manifests (Linux)
+        if: runner.os == 'Linux'
+        timeout-minutes: 10
+        run: npm run dist
+
+      - name: Pre-stage app for Windows packaging
+        if: runner.os == 'Windows'
+        shell: pwsh
         run: |
-          echo "vars.DEBUG=${{ vars.DEBUG }}"
-          echo "vars.ELECTRON_FORGE_LISTR_RENDERER=${{ vars.ELECTRON_FORGE_LISTR_RENDERER }}"
-          npm run dist
+          # Build at the project root so dist/ and frontend/dist/ are populated.
+          npm run build
+
+          $stage = Join-Path $env:RUNNER_TEMP 'app-stage'
+          if (Test-Path $stage) { Remove-Item -Recurse -Force $stage }
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+
+          foreach ($d in 'dist','resources') {
+            if (Test-Path $d) { Copy-Item -Recurse -Path $d -Destination $stage }
+          }
+          New-Item -ItemType Directory -Force -Path (Join-Path $stage 'frontend') | Out-Null
+          if (Test-Path 'frontend/dist') {
+            Copy-Item -Recurse -Path 'frontend/dist' -Destination (Join-Path $stage 'frontend/dist')
+          }
+          if (Test-Path 'app-update.yml') { Copy-Item -Path 'app-update.yml' -Destination $stage }
+
+          # Forge will run from inside the stage, so it needs its config (and
+          # any signing entitlements) present at the new cwd.
+          Copy-Item -Path 'forge.config.cjs' -Destination $stage
+          if (Test-Path 'entitlements.plist') { Copy-Item -Path 'entitlements.plist' -Destination $stage }
+
+          # Slim package.json: drop workspaces so the stage install doesn't
+          # try to resolve frontend/shared. Keep devDependencies — forge
+          # itself runs inside the stage and needs @electron-forge/cli, the
+          # makers, plugin-fuses, @electron/fuses, and electron.
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          $pkg.PSObject.Properties.Remove('workspaces')
+          $pkg | ConvertTo-Json -Depth 100 | Set-Content (Join-Path $stage 'package.json') -Encoding utf8
+
+          Push-Location $stage
+          npm install --no-audit --no-fund --no-package-lock --prefer-offline
+          Pop-Location
+
+          "STAGE_DIR=$stage" | Out-File -Append -FilePath $env:GITHUB_ENV -Encoding utf8
+
+      - name: Make & generate manifests (Windows)
+        if: runner.os == 'Windows'
+        timeout-minutes: 20
+        shell: pwsh
+        run: |
+          $rootDir = $PWD.Path
+          Push-Location $env:STAGE_DIR
+          try {
+            npm run dist
+            $forgeExit = $LASTEXITCODE
+          } finally {
+            Pop-Location
+          }
+          if ($forgeExit -ne 0) { exit $forgeExit }
+
+          # Move staged out/ to the repo root so the publish step finds it.
+          $stagedOut = Join-Path $env:STAGE_DIR 'out'
+          $rootOut = Join-Path $rootDir 'out'
+          if (Test-Path $stagedOut) {
+            if (Test-Path $rootOut) { Remove-Item -Recurse -Force $rootOut }
+            Move-Item -Path $stagedOut -Destination $rootOut
+          }
 
       - name: Publish to GitHub Releases
-        if: always()
+        if: always() && startsWith(github.ref, 'refs/tags/v')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
