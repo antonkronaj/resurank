@@ -59,18 +59,15 @@ npm run dev:electron
 
 `dev:electron` sets `JOBDASH_DEV=1`, builds the main process and preload, then opens Electron with DevTools detached.
 
-## Build distributable installers
+## Build distributable installers locally
 
 ```bash
-npm run dist       # runs electron-forge make
+npm run dist       # runs electron-forge make for the current platform
 ```
 
-Outputs to `out/` — `.dmg` on macOS, `.exe` (Squirrel) on Windows,
-`.zip` on Linux. Packaging config (icon, app ID, signing, asar unpack) lives in [`forge.config.ts`](forge.config.ts).
+Outputs to `out/` — `.dmg` on macOS, `.exe` (Squirrel) on Windows, `.zip` on Linux. Packaging config (icon, app ID, signing, asar unpack) lives in [`forge.config.cjs`](forge.config.cjs).
 
-```bash
-npm run publish    # build + publish a GitHub release
-```
+Releases ship via the CI workflow on `v*` tag pushes — see [CI & Releases](#ci--releases) below. The `npm run publish` script in `package.json` isn't wired to an electron-forge publisher; CI handles publishing.
 
 ## Env vars
 
@@ -210,13 +207,54 @@ The renderer talks to the main process via `window.electronAPI` (contextBridge).
 - **Custom protocol**: the packaged app is served over `app://localhost/` (a privileged custom scheme) rather than `file://`, so `crossOriginIsolated` headers can be set and `SharedArrayBuffer` / threaded WASM are available.
 - **Security**: context isolation and sandboxing are enabled; a Content Security Policy is applied to all renderer responses; all renderer permission requests (mic, camera, notifications) are denied.
 
-## GitHub Secrets (for releases)
+## CI & Releases
 
-Releases are published automatically when a
-`v*` tag is pushed. The workflow builds on macOS, Windows, and Linux in parallel. Before that works, configure the following secrets in
-**Settings → Secrets and variables → Actions**.
+The release workflow lives at [`.github/workflows/release.yml`](.github/workflows/release.yml). It runs a 3-OS matrix (`macos-latest`, `windows-latest`, `ubuntu-latest`) on every push and on `v*` tag pushes. `dependabot/**` and `renovate/**` branches are excluded so bot branches don't burn matrix runs.
 
-### macOS code signing & notarization
+### Trigger behavior
+
+| Trigger              | Build runs?       | macOS signed + notarized? | Published to GitHub Releases? |
+|----------------------|-------------------|----------------------------|--------------------------------|
+| Push to any branch   | yes               | no (`SKIP_SIGNING=1`)      | no                             |
+| Push of a `v*` tag   | yes               | yes                        | yes                            |
+
+Branch pushes give you a "does it build" signal on all three OSes without paying the cost of macOS notarization (which can add several minutes per run waiting on Apple's notary service). Only `v*` tag pushes import the signing cert, sign + notarize the dmg, and upload artifacts to the GitHub release matching the tag.
+
+### Per-OS build path
+
+- **macOS** — `npm run dist`. On tag pushes the Developer ID Application cert is imported into a temporary keychain and the dmg is signed + notarized. On branch pushes `SKIP_SIGNING=1` is set; `forge.config.cjs` then strips `osxSign` / `osxNotarize` from `packagerConfig` and bypasses the APPLE_* env-var presence check.
+- **Linux** — straightforward `npm run dist`, produces a `.zip` via `@electron-forge/maker-zip`.
+- **Windows** — uses a *pre-stage* approach (see below) to dodge a >20-minute hang in `electron-packager`'s copy phase against the workspace-hoisted `node_modules`.
+
+### Windows pre-staging
+
+`electron-packager`'s default behavior is to copy the entire project directory (filtered by `packagerConfig.ignore`) into a staging area. On Windows that walk over a workspace-hoisted `node_modules/` (Angular, esbuild, @rolldown, forge tooling, @types, plus the `node_modules/frontend` and `node_modules/shared` junctions that npm-workspaces creates) consistently pegs the runner at ~3 cores for 20+ minutes and never reaches the `afterCopy` hook. Defender exclusions, npm/electron caches, `derefSymlinks: false`, and workspace-junction ignore patterns didn't move the needle.
+
+The workflow sidesteps it by:
+
+1. Running `npm run build` at the project root.
+2. Copying only `dist/`, `frontend/dist/`, `resources/`, `app-update.yml`, `forge.config.cjs`, and (if present) `entitlements.plist` into `$RUNNER_TEMP/app-stage`.
+3. Writing a slim `package.json` to the stage that drops the `workspaces` key. The `dependencies` and `devDependencies` are kept so forge's CLI, makers, plugin-fuses, `@electron/fuses`, and `electron` install alongside the four runtime deps.
+4. Running `npm install` in the stage — pulls a few hundred packages instead of the workspace's ~1000+.
+5. `Push-Location $STAGE_DIR` and running `npm run dist` from there. Forge resolves `process.cwd()` to the slim stage, so electron-packager copies ~5k files instead of ~100k+ and completes in seconds.
+6. Moving `$STAGE_DIR/out` to `<root>/out` so the publish step finds the artifacts where it expects them.
+
+`forge.config.cjs`'s `generateAssets` hook short-circuits when `STAGE_DIR` is set, since the pre-stage step already ran the build at the project root.
+
+### Cutting a release
+
+1. Bump `version` in `package.json` and commit.
+2. Push the commit — the matrix builds unsigned to verify everything compiles.
+3. Tag the commit and push the tag:
+   ```bash
+   git tag v0.1.17
+   git push origin v0.1.17
+   ```
+4. The workflow re-runs on the tag with signing enabled and publishes `*.dmg`, `*.exe`, `*.zip`, and the `latest*.yml` manifests to the GitHub release matching the tag.
+
+### GitHub Secrets
+
+Configure these in **Settings → Secrets and variables → Actions**. None are needed for branch builds; all are required for `v*` tag releases to produce a signed, notarized macOS dmg.
 
 | Secret                        | What it is                                                                                                                |
 |-------------------------------|---------------------------------------------------------------------------------------------------------------------------|
