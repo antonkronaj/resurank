@@ -1,7 +1,7 @@
 {
   "name": "resurank",
   "author": "Anton Kronaj <developer@kronaj.com>",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "Resume to job-description matcher",
   "license": "AGPL-3.0-only",
