@@ -1,7 +1,7 @@
 import {Component, input, output} from '@angular/core';
 import {ModalShellComponent} from '../modal-shell/modal-shell.component';
 
-export type SettingsInfoMode = 'exclusions' | 'boosts';
+export type SettingsInfoMode = 'exclusions' | 'boosts' | 'missing';
 
 @Component({
   selector: 'app-settings-info-modal',

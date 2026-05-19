@@ -6,15 +6,18 @@ import {
   EMBEDDING_CHAR_CAP,
   EMBEDDING_WEIGHT,
   MAX_MATCHED_TERMS,
+  MAX_MISSING_TERMS,
   NON_ENGLISH_CHAR_RATIO,
   OVERLAP_BONUS_MAX,
   OVERLAP_BONUS_THRESHOLD,
+  PIN_IMPORTANCE_MULTIPLIERS,
   TFIDF_WEIGHT,
   TOP_TERMS_FOR_BREAKDOWN,
   TOP_TERMS_FOR_MATCHING,
 } from '@shared/constants';
 import {extractTerms} from './resume-parser.service';
 import {EmbeddingService} from './embedding.service';
+import {MissingKeywordSettings} from './storage.service';
 
 export interface TermWeight {
   term: string;
@@ -31,11 +34,14 @@ export interface MatchBreakdown {
   embeddingScore: number;
   overlapBonus: number;
   divergencePenalty: number;
+  missingKeywordPenalty: number;
 }
 
 export interface MatchResult {
   score: number;
   matchedTerms: string[];
+  missingTerms: TermWeight[];
+  pinnedNotInJob: string[];
   breakdown: MatchBreakdown;
   jobWeighted: TermWeight[];
   jobCounts: TermCount[];
@@ -119,6 +125,7 @@ export class MatcherService {
     job: JobInput,
     termBoosts: Record<string, number> = {},
     userStopwords: Set<string> = new Set(),
+    missingSettings: MissingKeywordSettings = {enabled: false, maxPenalty: 0, pinnedTerms: []},
   ): Promise<MatchResult> {
     const boosts = normalizeBoosts(termBoosts);
     const tfidf = buildTfIdf(resumeText, job);
@@ -169,7 +176,6 @@ export class MatcherService {
     const adjustedScore = Math.min(Math.max(0, embeddingWeight * embeddingScore + (1 - embeddingWeight) * tfidfScore), 1);
     const normalScore = Math.min(EMBEDDING_WEIGHT * embeddingScore + TFIDF_WEIGHT * tfidfScore, 1);
     const divergencePenalty = Math.max(0, normalScore - adjustedScore);
-    const score = adjustedScore;
 
     const languageWarning = detectNonEnglish(job.description);
 
@@ -180,6 +186,14 @@ export class MatcherService {
       .sort((a, b) => b[1] - a[1])
       .slice(0, TOP_TERMS_FOR_BREAKDOWN)
       .map(([term, weight]) => ({term, weight}));
+
+    const {missingKeywordPenalty, missingTerms, pinnedNotInJob} = computeMissingKeywordPenalty(
+      missingSettings,
+      jobWeights,
+      resumeWeights,
+      isExcluded,
+    );
+    const score = Math.max(0, adjustedScore - missingKeywordPenalty);
 
     const jobTokens = extractTerms(`${job.title} ${job.title} ${job.description}`, userStopwords);
     const countMap = new Map<string, number>();
@@ -194,10 +208,70 @@ export class MatcherService {
     return {
       score,
       matchedTerms: [...matched].slice(0, MAX_MATCHED_TERMS),
-      breakdown: {tfidfScore, embeddingScore, overlapBonus, divergencePenalty},
+      missingTerms,
+      pinnedNotInJob,
+      breakdown: {tfidfScore, embeddingScore, overlapBonus, divergencePenalty, missingKeywordPenalty},
       jobWeighted,
       jobCounts,
       languageWarning,
     };
   }
+}
+
+function computeMissingKeywordPenalty(
+  settings: MissingKeywordSettings,
+  jobWeights: Map<string, number>,
+  resumeWeights: Map<string, number>,
+  isExcluded: (term: string) => boolean,
+): {missingKeywordPenalty: number; missingTerms: TermWeight[]; pinnedNotInJob: string[]} {
+  if (!settings.enabled || settings.maxPenalty <= 0) {
+    return {missingKeywordPenalty: 0, missingTerms: [], pinnedNotInJob: []};
+  }
+
+  // Collapse duplicates while keeping the highest importance.
+  const importanceRank = {low: 0, medium: 1, high: 2} as const;
+  const normalizedPins = new Map<string, keyof typeof importanceRank>();
+  for (const pin of settings.pinnedTerms) {
+    const term = pin.term.trim().toLowerCase();
+    if (!term) continue;
+    const existing = normalizedPins.get(term);
+    if (!existing || importanceRank[pin.importance] > importanceRank[existing]) {
+      normalizedPins.set(term, pin.importance);
+    }
+  }
+
+  const candidates = new Map<string, number>();
+  const pinnedNotInJob: string[] = [];
+  for (const [term, importance] of normalizedPins) {
+    if (isExcluded(term)) continue;
+    const jw = jobWeights.get(term);
+    if (jw === undefined) {
+      pinnedNotInJob.push(term);
+      continue;
+    }
+    candidates.set(term, jw * PIN_IMPORTANCE_MULTIPLIERS[importance]);
+  }
+
+  let sumTotalWeight = 0;
+  let sumMissingWeight = 0;
+  const missing: TermWeight[] = [];
+  for (const [term, weight] of candidates) {
+    sumTotalWeight += weight;
+    if (!resumeWeights.has(term)) {
+      sumMissingWeight += weight;
+      missing.push({term, weight});
+    }
+  }
+
+  if (sumTotalWeight === 0) {
+    return {missingKeywordPenalty: 0, missingTerms: [], pinnedNotInJob};
+  }
+
+  const coverageGap = sumMissingWeight / sumTotalWeight;
+  const missingKeywordPenalty = coverageGap * settings.maxPenalty;
+  const missingTerms = missing
+    .sort((a, b) => b.weight - a.weight)
+    .slice(0, MAX_MISSING_TERMS);
+
+  return {missingKeywordPenalty, missingTerms, pinnedNotInJob};
 }

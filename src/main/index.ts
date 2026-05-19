@@ -115,10 +115,41 @@ ipcMain.handle('get-user-data-path', () => getDataDir());
 
 ipcMain.handle('store-read', () => {
   const dir = getDataDir();
+  type RawPin = string | {term?: unknown; importance?: unknown};
+  const rawMissing = readJson<{
+    enabled?: boolean;
+    autoEnabled?: boolean;
+    pinnedEnabled?: boolean;
+    maxPenalty?: number;
+    pinnedTerms?: RawPin[];
+  }>(join(dir, 'missing_keyword_settings.json'));
+  // Earlier shapes were `{enabled}` (single toggle) and
+  // `{autoEnabled, pinnedEnabled}` (split). Both reduce to the current
+  // pinned-only toggle: enable if the user previously had pinned-side
+  // (or the single combined) penalty turned on. pinnedTerms used to be
+  // `string[]` — promote to objects with default importance.
+  const validImportance = new Set(['low', 'medium', 'high']);
+  const pinnedTerms = (rawMissing?.pinnedTerms ?? []).flatMap((entry) => {
+    if (typeof entry === 'string') {
+      return entry.trim() ? [{term: entry, importance: 'medium' as const}] : [];
+    }
+    const term = typeof entry?.term === 'string' ? entry.term : '';
+    if (!term.trim()) return [];
+    const importance = typeof entry?.importance === 'string' && validImportance.has(entry.importance)
+      ? entry.importance as 'low' | 'medium' | 'high'
+      : 'medium' as const;
+    return [{term, importance}];
+  });
+  const missingKeywordSettings = {
+    enabled: rawMissing?.pinnedEnabled ?? rawMissing?.enabled ?? false,
+    maxPenalty: rawMissing?.maxPenalty ?? 0.25,
+    pinnedTerms,
+  };
   return {
     resume: readJson(join(dir, 'resume.json')),
     stopwords: readJson<string[]>(join(dir, 'stopwords.json')) ?? [],
     termBoosts: readJson<Record<string, number>>(join(dir, 'term_boosts.json')) ?? {},
+    missingKeywordSettings,
   };
 });
 
@@ -140,6 +171,11 @@ ipcMain.handle('store-write-stopwords', (_event, words: string[]) => {
 ipcMain.handle('store-write-term-boosts', (_event, boosts: Record<string, number>) => {
   ensureDataDir();
   writeFileSync(join(getDataDir(), 'term_boosts.json'), JSON.stringify(boosts, null, 2), 'utf8');
+});
+
+ipcMain.handle('store-write-missing-keyword-settings', (_event, settings: unknown) => {
+  ensureDataDir();
+  writeFileSync(join(getDataDir(), 'missing_keyword_settings.json'), JSON.stringify(settings, null, 2), 'utf8');
 });
 
 app.whenReady().then(async () => {

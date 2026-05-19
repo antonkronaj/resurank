@@ -79,6 +79,69 @@
     </div>
 
     <div class="dw-section">
+      <div class="dw-section-title">
+        <span>Critical missing keywords</span>
+        <button (click)="openInfo('missing')" class="dw-info-btn" title="What are critical missing keywords?" type="button">ℹ</button>
+      </div>
+      <p class="text-muted small">
+        Reduce the score when a term you've marked as critical appears in the job
+        description but not in your resume. List terms below, or use the ⚑ button on
+        any keyword in the JD keywords panel to add one inline.
+      </p>
+      <label class="missing-toggle">
+        <input
+          (ngModelChange)="onMissingEnabledChange($event)"
+          [ngModel]="missingEnabled()"
+          type="checkbox"/>
+        <span>Enable penalty</span>
+      </label>
+      <div class="missing-slider-row">
+        <label class="missing-slider-label">
+          <span>Max reduction</span>
+          <span class="missing-slider-val">{{ missingMaxPenalty() * 100 | number:'1.0-0' }}%</span>
+        </label>
+        <input
+          (change)="onMissingMaxPenaltyCommit()"
+          (ngModelChange)="onMissingMaxPenaltyChange($event)"
+          [disabled]="!missingEnabled()"
+          [max]="MISSING_PENALTY_LIMIT"
+          [ngModel]="missingMaxPenalty()"
+          class="missing-slider"
+          min="0"
+          step="0.01"
+          type="range"/>
+      </div>
+      <div class="dw-subsection-title">Critical keywords</div>
+      <div class="boost-rows">
+        <div *ngFor="let row of pinnedRows(); let i = index; trackBy: trackByIndex" class="pinned-row">
+          <input
+            (ngModelChange)="updatePinnedTerm(i, $event)"
+            [ngModel]="row.term"
+            class="pinned-term"
+            placeholder="term (e.g. c#)"
+            type="text"/>
+          <select
+            (ngModelChange)="updatePinnedImportance(i, $event)"
+            [ngModel]="row.importance"
+            class="pinned-importance"
+            title="Importance: how much this term contributes to the penalty">
+            <option *ngFor="let level of IMPORTANCE_OPTIONS" [value]="level">{{ level | titlecase }}</option>
+          </select>
+          <button (click)="removePinnedRow(i)" class="boost-remove" title="Remove" type="button">✕</button>
+        </div>
+        @if (pinnedRows().length === 0) {
+          <div class="text-muted small">No critical terms yet.</div>
+        }
+      </div>
+      <div class="boost-actions">
+        <button (click)="addPinnedRow()" class="file-btn" type="button">+ Add</button>
+        <button (click)="onSavePinned()" [disabled]="savingMissingSettings()" class="primary sm" type="button">
+          {{ savingMissingSettings() ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="dw-section">
       <div class="dw-section-title">About</div>
       <div class="text-muted small">
         Version: {{ appVersion() }}

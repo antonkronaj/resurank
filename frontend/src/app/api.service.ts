@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {from, Observable} from 'rxjs';
-import {StorageService} from './storage.service';
+import {MissingKeywordSettings, StorageService} from './storage.service';
 import {extractTerms, ResumeParserService} from './resume-parser.service';
 import {EmbeddingService, ModelStatus} from './embedding.service';
 import {MatchBreakdown, MatcherService, MatchResult, TermCount, TermWeight} from './matcher.service';
 
-export type {TermWeight, TermCount, MatchBreakdown, MatchResult};
+export type {TermWeight, TermCount, MatchBreakdown, MatchResult, MissingKeywordSettings};
 
 export interface ResumeInfo {
   uploaded: boolean;
@@ -68,7 +68,8 @@ export class ApiService {
       if (!resume) throw new Error('No resume uploaded');
       const boosts = await this.storage.getTermBoosts();
       const stopwords = new Set(await this.storage.getStopwords());
-      return this.matcher.scoreSingleJob(resume.text, {title, description}, boosts, stopwords);
+      const missingSettings = await this.storage.getMissingKeywordSettings();
+      return this.matcher.scoreSingleJob(resume.text, {title, description}, boosts, stopwords, missingSettings);
     })());
   }
 
@@ -86,5 +87,13 @@ export class ApiService {
 
   saveStopwords(words: string[]): Observable<{ ok: boolean; count: number }> {
     return from(this.storage.saveStopwords(words).then(() => ({ok: true, count: words.length})));
+  }
+
+  getMissingKeywordSettings(): Observable<MissingKeywordSettings> {
+    return from(this.storage.getMissingKeywordSettings());
+  }
+
+  saveMissingKeywordSettings(settings: MissingKeywordSettings): Observable<{ ok: boolean }> {
+    return from(this.storage.saveMissingKeywordSettings(settings).then(() => ({ok: true})));
   }
 }

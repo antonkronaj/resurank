@@ -1,4 +1,4 @@
-import {ResumeData, StoreSnapshot} from './app/storage.service';
+import {MissingKeywordSettings, ResumeData, StoreSnapshot} from './app/storage.service';
 
 export {};
 
@@ -15,6 +15,7 @@ declare global {
       storeSavePdf(buffer: ArrayBuffer): Promise<void>;
       storeWriteStopwords(words: string[]): Promise<void>;
       storeWriteTermBoosts(boosts: Record<string, number>): Promise<void>;
+      storeWriteMissingKeywordSettings(settings: MissingKeywordSettings): Promise<void>;
     };
   }
 }

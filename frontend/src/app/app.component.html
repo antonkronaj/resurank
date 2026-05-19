@@ -81,6 +81,11 @@
                   −{{ r.breakdown.divergencePenalty * 100 | number:'1.0-1' }}%
                 </div>
               }
+              @if (r.breakdown.missingKeywordPenalty > 0) {
+                <div class="divergence-penalty">Missing critical keywords:
+                  −{{ r.breakdown.missingKeywordPenalty * 100 | number:'1.0-1' }}%
+                </div>
+              }
             </div>
             <button (click)="scoreInfoOpen.set(true)" class="score-info-btn" title="How is this score calculated?"
                     type="button">ℹ
@@ -108,6 +113,23 @@
             <p class="text-muted small">No high-signal terms matched.</p>
           }
           </div>
+
+          @if (r.missingTerms.length || r.pinnedNotInJob.length) {
+            <div class="matched-section">
+              <h3 class="sub-title">Missing critical keywords</h3>
+              @if (r.missingTerms.length) {
+                <div class="chips">
+                  <span *ngFor="let t of r.missingTerms" class="chip chip--missing">{{ t.term }}</span>
+                </div>
+              }
+              @if (r.pinnedNotInJob.length) {
+                <p class="text-muted small">
+                  Critical terms not in this JD:
+                  <span *ngFor="let term of r.pinnedNotInJob" class="chip chip--ghost">{{ term }}</span>
+                </p>
+              }
+            </div>
+          }
         </section>
       } @if (result(); as r) {
       <section class="panel">
@@ -141,6 +163,10 @@
                       title="Add to exclusions">−
               </button>
             }
+              <button (click)="togglePin(w.term)" [class.kw-pin-btn--active]="pinnedSet().has(w.term)" class="kw-pin-btn"
+                      [title]="pinnedSet().has(w.term) ? 'Remove from critical keywords' : 'Mark as critical keyword'"
+                      type="button">⚑
+              </button>
               <span class="kw-term">{{ w.term }}</span>
               <span class="kw-bar">
                   <span [style.width.%]="(w.weight / (r.jobWeighted[0].weight || 1)) * 100" class="kw-bar-fill"></span>
@@ -167,6 +193,10 @@
                     title="Add to exclusions">−
             </button>
           }
+            <button (click)="togglePin(c.term)" [class.kw-pin-btn--active]="pinnedSet().has(c.term)" class="kw-pin-btn"
+                    [title]="pinnedSet().has(c.term) ? 'Remove from critical keywords' : 'Mark as critical keyword'"
+                    type="button">⚑
+            </button>
             <span class="kw-term">{{ c.term }}</span>
             <span class="kw-bar">
                   <span [style.width.%]="(c.count / (r.jobCounts[0].count || 1)) * 100" class="kw-bar-fill"></span>
@@ -188,11 +218,14 @@
     (close)="settingsOpen.set(false)"
     (openStopwords)="openStopwordsModal()"
     (saveTermBoosts)="onSaveTermBoosts($event)"
+    (saveMissingSettings)="onSaveMissingSettings($event)"
     (uploadResume)="onUploadResume($event)"
     [isOpen]="settingsOpen()"
     [resume]="resume()"
     [savingBoosts]="savingBoosts()"
     [termBoosts]="termBoosts()"
+    [missingSettings]="missingSettings()"
+    [savingMissingSettings]="savingMissingSettings()"
     [uploading]="uploading()">
   </app-settings-drawer>
 

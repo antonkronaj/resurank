@@ -79,6 +79,33 @@
   </div>
 
   <div class="step">
+    <div class="step-title">Step 6 — Critical missing keywords (optional)</div>
+    <p>
+      Off by default. The cosine and embedding steps already account for missing words indirectly,
+      but they treat every keyword equally. This step lets you mark specific terms as <strong>critical</strong>
+      so their absence from your resume actively reduces the score — useful when one missing keyword
+      (e.g. "C#") is a real deal-breaker for the role.
+    </p>
+    <ul>
+      <li><strong>Critical terms:</strong> add them in Settings, or mark any job-description keyword with the
+        ⚑ button on its row in the keywords panel. The same list applies to every job description you score.
+      </li>
+      <li><strong>Importance tiers:</strong> each critical term is tagged Low, Medium (default), or High,
+        which scales its weight in the penalty by <strong>0.5×, 1×, or 2×</strong> respectively. Use this to
+        say "C# matters more than Python" without changing the slider.
+      </li>
+      <li><strong>Formula:</strong> for the critical terms that appear in the current JD,
+        <code>penalty = (missing_weight ÷ total_weight) × max_reduction</code>, where each term's weight is
+        its JD-side TF-IDF multiplied by the importance tier.
+        The "max reduction" slider in Settings caps how aggressive the penalty is (0–50%).
+      </li>
+      <li>Critical terms that do not appear in the current JD are listed separately and do not affect the
+        score.
+      </li>
+    </ul>
+  </div>
+
+  <div class="step">
     <div class="step-title">Language detection</div>
     <p>
       If more than 3% of alphabetic characters in the job description are non-ASCII, a warning is shown.

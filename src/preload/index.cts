@@ -7,10 +7,22 @@ interface ResumeData {
   uploadedAt: string;
 }
 
+interface PinnedTerm {
+  term: string;
+  importance: 'low' | 'medium' | 'high';
+}
+
+interface MissingKeywordSettings {
+  enabled: boolean;
+  maxPenalty: number;
+  pinnedTerms: PinnedTerm[];
+}
+
 interface StoreSnapshot {
   resume: ResumeData | null;
   stopwords: string[];
   termBoosts: Record<string, number>;
+  missingKeywordSettings: MissingKeywordSettings;
 }
 
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -26,4 +38,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   storeSavePdf: (buffer: ArrayBuffer): Promise<void> => ipcRenderer.invoke('store-save-pdf', buffer),
   storeWriteStopwords: (words: string[]): Promise<void> => ipcRenderer.invoke('store-write-stopwords', words),
   storeWriteTermBoosts: (boosts: Record<string, number>): Promise<void> => ipcRenderer.invoke('store-write-term-boosts', boosts),
+  storeWriteMissingKeywordSettings: (settings: MissingKeywordSettings): Promise<void> => ipcRenderer.invoke('store-write-missing-keyword-settings', settings),
 });

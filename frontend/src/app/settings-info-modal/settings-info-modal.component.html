@@ -1,7 +1,7 @@
 <app-modal-shell
   (close)="close.emit()"
   [isOpen]="isOpen()"
-  [title]="mode() === 'exclusions' ? 'Exclusion words' : 'Term boosts'">
+  [title]="mode() === 'exclusions' ? 'Exclusion words' : mode() === 'boosts' ? 'Term boosts' : 'Critical missing keywords'">
 
   @if (mode() === 'exclusions') {
     <p class="intro">
@@ -36,7 +36,7 @@
         keyword list to push it straight into your exclusions.
       </p>
     </div>
-  } @else {
+  } @else if (mode() === 'boosts') {
   <p class="intro">
     <strong>Term boosts</strong> multiply the TF-IDF weight of specific terms — useful when you want
     a particular skill to count for more than a generic word of the same frequency.
@@ -73,6 +73,57 @@
       <li>Setting a weight too high can make borderline matches look better than they are. Start at 2 and adjust.</li>
       <li>Use lowercase — terms are normalised before lookup.</li>
     </ul>
+  </div>
+} @else {
+  <p class="intro">
+    <strong>Critical missing keywords</strong> reduce your match score when a term you've flagged
+    appears in the job description but is absent from your resume. It's a one-sided penalty —
+    flagged terms you <em>do</em> have add nothing; flagged terms you <em>don't</em> have take points away.
+  </p>
+
+  <div class="step">
+    <div class="step-title">How the penalty is computed</div>
+    <p>
+      Only flagged terms that appear in the current job description count. Each contributes a
+      <em>weight</em> equal to its JD-side TF-IDF score multiplied by its importance tier.
+    </p>
+    <p>
+      <code>penalty = (missing_weight ÷ total_weight) × max_reduction</code>
+    </p>
+    <p>
+      The <strong>Max reduction</strong> slider below sets the <code>max_reduction</code> term directly.
+      Example: if half of your flagged terms (by weight) are missing and the slider is at 25%,
+      the final score drops by 12.5 percentage points.
+    </p>
+  </div>
+
+  <div class="step">
+    <div class="step-title">Importance tiers</div>
+    <ul>
+      <li><strong>Low</strong> — 0.5× weight. Nice-to-have terms.</li>
+      <li><strong>Medium</strong> (default) — 1× weight.</li>
+      <li><strong>High</strong> — 2× weight. Deal-breaker terms.</li>
+    </ul>
+    <p>
+      Tiers are symmetric around medium, so a "medium" flag behaves identically to an unweighted flag.
+    </p>
+  </div>
+
+  <div class="step">
+    <div class="step-title">Max reduction</div>
+    <p>
+      Caps how much the penalty can drop the score. Defaults to <strong>25%</strong> and can go up
+      to <strong>50%</strong>. A JD where every flagged term is missing hits the cap; partial misses
+      scale proportionally.
+    </p>
+  </div>
+
+  <div class="step">
+    <div class="step-title">Quick add</div>
+    <p>
+      You don't have to type terms here — click the <strong>⚑</strong> button next to any keyword in
+      the JD keywords panel to flag it inline. The same list applies to every job description you score.
+    </p>
   </div>
 }
 

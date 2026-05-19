@@ -427,7 +427,7 @@
 
 .kw-row {
   display: grid;
-  grid-template-columns: 20px 140px 1fr 60px;
+  grid-template-columns: 20px 20px 140px 1fr 60px;
   align-items: center;
   gap: 10px;
   padding: 4px 0;
@@ -541,5 +541,53 @@
 
 .divergence-penalty {
   color: #dc2626;
+}
+
+.chip--missing {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.chip--ghost {
+  background: #f3f4f6;
+  color: #6b7280;
+  border-color: #e5e7eb;
+  margin-left: 4px;
+}
+
+.kw-pin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.1s, color 0.1s, border-color 0.1s, background 0.1s;
+  font-family: inherit;
+}
+
+.kw-row:hover .kw-pin-btn {
+  opacity: 1;
+}
+
+.kw-pin-btn:hover {
+  color: #d97706;
+  border-color: #d97706;
+}
+
+.kw-pin-btn--active {
+  opacity: 1;
+  background: #fef3c7;
+  color: #b45309;
+  border-color: #fbbf24;
 }
 

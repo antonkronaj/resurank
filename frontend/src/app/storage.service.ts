@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {MISSING_KEYWORD_PENALTY_DEFAULT, PinImportance} from '@shared/constants';
 
 export interface ResumeData {
   filename: string;
@@ -7,10 +8,28 @@ export interface ResumeData {
   uploadedAt: string;
 }
 
+export interface PinnedTerm {
+  term: string;
+  importance: PinImportance;
+}
+
+export interface MissingKeywordSettings {
+  enabled: boolean;
+  maxPenalty: number;
+  pinnedTerms: PinnedTerm[];
+}
+
+export const DEFAULT_MISSING_KEYWORD_SETTINGS: MissingKeywordSettings = {
+  enabled: false,
+  maxPenalty: MISSING_KEYWORD_PENALTY_DEFAULT,
+  pinnedTerms: [],
+};
+
 export interface StoreSnapshot {
   resume: ResumeData | null;
   stopwords: string[];
   termBoosts: Record<string, number>;
+  missingKeywordSettings: MissingKeywordSettings;
 }
 
 @Injectable({providedIn: 'root'})
@@ -34,7 +53,12 @@ export class StorageService {
       window.electronAPI.storeSavePdf(pdfBuffer),
     ]);
     if (this.cache) this.cache.resume = data;
-    else this.cache = {resume: data, stopwords: [], termBoosts: {}};
+    else this.cache = {
+      resume: data,
+      stopwords: [],
+      termBoosts: {},
+      missingKeywordSettings: {...DEFAULT_MISSING_KEYWORD_SETTINGS},
+    };
   }
 
   async getStopwords(): Promise<string[]> {
@@ -53,6 +77,15 @@ export class StorageService {
   async saveTermBoosts(boosts: Record<string, number>): Promise<void> {
     await window.electronAPI.storeWriteTermBoosts(boosts);
     if (this.cache) this.cache.termBoosts = boosts;
+  }
+
+  async getMissingKeywordSettings(): Promise<MissingKeywordSettings> {
+    return (await this.load()).missingKeywordSettings;
+  }
+
+  async saveMissingKeywordSettings(settings: MissingKeywordSettings): Promise<void> {
+    await window.electronAPI.storeWriteMissingKeywordSettings(settings);
+    if (this.cache) this.cache.missingKeywordSettings = settings;
   }
 
   async getUserDataPath(): Promise<string> {
