@@ -49,3 +49,26 @@ export const DIVERGENCE_MIN_EMBEDDING_WEIGHT = 0.10;
 // Language detection: flag the JD as likely non-English when more than
 // this fraction of its alphabetic characters are non-ASCII.
 export const NON_ENGLISH_CHAR_RATIO = 0.03;
+
+// Critical-keyword penalty: default slider value (used when no settings
+// file exists yet) and hard upper bound. The penalty is
+// `coverageGap * maxPenalty`, so a value of 0.25 means a JD where every
+// critical term is missing from the resume drops the final score by up
+// to 25 percentage points.
+export const MISSING_KEYWORD_PENALTY_DEFAULT = 0.25;
+export const MISSING_KEYWORD_PENALTY_LIMIT = 0.5;
+
+// Display cap on the missing-keyword chips shown next to matched chips.
+// Cosmetic only — doesn't affect the score.
+export const MAX_MISSING_TERMS = 25;
+
+// Per-pin importance multiplier. Symmetric around 1 so a "medium" pin
+// behaves identically to the original unweighted pins — turning a pin
+// to "high" doubles its contribution, "low" halves it.
+export type PinImportance = 'low' | 'medium' | 'high';
+export const PIN_IMPORTANCE_MULTIPLIERS: Record<PinImportance, number> = {
+  low: 0.5,
+  medium: 1,
+  high: 2,
+};
+export const DEFAULT_PIN_IMPORTANCE: PinImportance = 'medium';

@@ -7,6 +7,7 @@ Personal resume-to-job-description matcher desktop app. Upload your resume PDF, 
 Features:
 - **Local Scoring**: Uses a small (~25 MB) ONNX model running locally. No data leaves your machine.
 - **Term Boosting**: Boost specific keywords (e.g. "Rust", "Security") to influence matching scores.
+- **Critical Missing Keywords**: Flag must-have terms — their absence from your resume reduces the score, with adjustable importance tiers and a configurable cap.
 - **Stopword Exclusion**: Customize the list of words ignored during scoring.
 - **Privacy First**: All data (resume, settings) stays in a local directory.
 
@@ -50,11 +51,8 @@ npm start          # launches Electron, loads built bundle
 ## Dev mode (Angular hot reload + DevTools)
 
 ```bash
-# terminal 1 — Angular dev server on :4200
-npm run dev:frontend
-
-# terminal 2 — Electron pointed at the dev server
-npm run dev:electron
+npm run dev:frontend # terminal 1 — Angular dev server on :4200
+npm run dev:electron # terminal 2 — Electron pointed at the dev server
 ```
 
 `dev:electron` sets `JOBDASH_DEV=1`, builds the main process and preload, then opens Electron with DevTools detached.
@@ -162,6 +160,24 @@ To correct for this, the embedding weight is **smoothly reduced as TF-IDF approa
 - **In between** — A smooth linear transition between those two extremes.
 
 The "Divergence penalty" shown in the score breakdown is the difference between what the score would have been at normal weights and what it actually is after adjustment. A large penalty means TF-IDF was very low and the embedding was likely detecting false similarity.
+
+---
+
+### Step 6 — Critical missing keywords (optional)
+
+Off by default. The cosine and TF-IDF steps already account for missing words indirectly, but they treat every keyword as equally replaceable. This step lets you flag specific terms as **critical** so their absence from your resume actively reduces the score — useful when one missing keyword (e.g. "C#") is a real deal-breaker for the role.
+
+- **Flagging terms.** Add them in Settings, or click the ⚑ button next to any keyword in the JD keywords panel. The same list applies to every job description you score.
+- **Importance tiers.** Each flagged term is tagged Low, Medium (default), or High, which scales its contribution to the penalty by **0.5×, 1×, or 2×** respectively. Tiers are symmetric around medium, so a Medium flag behaves identically to an unweighted flag.
+- **Formula.** Only flagged terms that appear in the current JD count. For each one, its *weight* is its JD-side TF-IDF score multiplied by its importance tier. The penalty is then:
+
+  ```
+  penalty = (missing_weight ÷ total_weight) × max_reduction
+  ```
+
+- **Max reduction slider.** Sets the `max_reduction` term in the formula above. Defaults to **25%** and is capped at **50%**. A JD where every flagged term is missing hits the cap; partial misses scale proportionally. The 50% ceiling exists so the penalty can't single-handedly dominate the score.
+
+The penalty is applied after the divergence adjustment, as a final reduction on the combined score.
 
 ---
 

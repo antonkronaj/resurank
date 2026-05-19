@@ -1,7 +1,9 @@
 import {Component, effect, input, OnInit, output, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {ResumeInfo} from '../api.service';
+import {MissingKeywordSettings, ResumeInfo} from '../api.service';
+import {DEFAULT_MISSING_KEYWORD_SETTINGS, PinnedTerm} from '../storage.service';
+import {DEFAULT_PIN_IMPORTANCE, MISSING_KEYWORD_PENALTY_LIMIT, PinImportance} from '@shared/constants';
 import {SettingsInfoModalComponent, SettingsInfoMode} from '../settings-info-modal/settings-info-modal.component';
 
 interface BoostRow {
@@ -22,16 +24,25 @@ export class SettingsDrawerComponent implements OnInit {
   uploading = input<boolean>(false);
   termBoosts = input<Record<string, number>>({});
   savingBoosts = input<boolean>(false);
+  missingSettings = input<MissingKeywordSettings>({...DEFAULT_MISSING_KEYWORD_SETTINGS});
+  savingMissingSettings = input<boolean>(false);
 
   close = output<void>();
   uploadResume = output<File>();
   saveTermBoosts = output<Record<string, number>>();
+  saveMissingSettings = output<MissingKeywordSettings>();
   openStopwords = output<void>();
 
   appVersion = signal<string>('');
   boostRows = signal<BoostRow[]>([]);
   infoOpen = signal(false);
   infoMode = signal<SettingsInfoMode>('exclusions');
+
+  missingEnabled = signal(false);
+  missingMaxPenalty = signal(0);
+  pinnedRows = signal<PinnedTerm[]>([]);
+  readonly MISSING_PENALTY_LIMIT = MISSING_KEYWORD_PENALTY_LIMIT;
+  readonly IMPORTANCE_OPTIONS: PinImportance[] = ['low', 'medium', 'high'];
 
   constructor() {
     effect(() => {
@@ -41,6 +52,68 @@ export class SettingsDrawerComponent implements OnInit {
         .sort((a, b) => b.weight - a.weight);
       this.boostRows.set(rows);
     }, {allowSignalWrites: true});
+
+    effect(() => {
+      const s = this.missingSettings();
+      this.missingEnabled.set(s.enabled);
+      this.missingMaxPenalty.set(s.maxPenalty);
+      this.pinnedRows.set(s.pinnedTerms.map(p => ({...p})));
+    }, {allowSignalWrites: true});
+  }
+
+  onMissingEnabledChange(enabled: boolean) {
+    this.missingEnabled.set(enabled);
+    this.emitMissingSettings();
+  }
+
+  onMissingMaxPenaltyChange(value: number) {
+    const clamped = Math.max(0, Math.min(this.MISSING_PENALTY_LIMIT, Number(value) || 0));
+    this.missingMaxPenalty.set(clamped);
+  }
+
+  onMissingMaxPenaltyCommit() {
+    this.emitMissingSettings();
+  }
+
+  private emitMissingSettings() {
+    this.saveMissingSettings.emit({
+      enabled: this.missingEnabled(),
+      maxPenalty: this.missingMaxPenalty(),
+      pinnedTerms: this.missingSettings().pinnedTerms,
+    });
+  }
+
+  addPinnedRow() {
+    this.pinnedRows.update(rows => [...rows, {term: '', importance: DEFAULT_PIN_IMPORTANCE}]);
+  }
+
+  removePinnedRow(index: number) {
+    this.pinnedRows.update(rows => rows.filter((_, i) => i !== index));
+  }
+
+  updatePinnedTerm(index: number, term: string) {
+    this.pinnedRows.update(rows => rows.map((r, i) => i === index ? {...r, term} : r));
+  }
+
+  updatePinnedImportance(index: number, importance: PinImportance) {
+    this.pinnedRows.update(rows => rows.map((r, i) => i === index ? {...r, importance} : r));
+  }
+
+  onSavePinned() {
+    const seen = new Set<string>();
+    const cleaned: PinnedTerm[] = [];
+    for (const row of this.pinnedRows()) {
+      const t = row.term.trim().toLowerCase();
+      if (!t || seen.has(t)) continue;
+      seen.add(t);
+      cleaned.push({term: t, importance: row.importance});
+    }
+    this.pinnedRows.set(cleaned);
+    this.saveMissingSettings.emit({
+      enabled: this.missingEnabled(),
+      maxPenalty: this.missingMaxPenalty(),
+      pinnedTerms: cleaned,
+    });
   }
 
   onResumeSelected(event: Event) {

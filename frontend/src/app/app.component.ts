@@ -1,7 +1,9 @@
 import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {ApiService, MatchResult, ModelStatus, ResumeInfo,} from './api.service';
+import {ApiService, MatchResult, MissingKeywordSettings, ModelStatus, ResumeInfo,} from './api.service';
+import {DEFAULT_MISSING_KEYWORD_SETTINGS} from './storage.service';
+import {DEFAULT_PIN_IMPORTANCE} from '@shared/constants';
 import {EmbeddingService} from './embedding.service';
 import {EMBEDDING_WEIGHT, JOB_DESCRIPTION_CHAR_CAP, TFIDF_WEIGHT} from '@shared/constants';
 
@@ -31,6 +33,9 @@ export class AppComponent implements OnInit {
   termBoosts = signal<Record<string, number>>({});
   stopwords = signal<string[]>([]);
   recentlyExcluded = signal<Set<string>>(new Set());
+  missingSettings = signal<MissingKeywordSettings>({...DEFAULT_MISSING_KEYWORD_SETTINGS});
+  pinnedSet = computed(() => new Set(this.missingSettings().pinnedTerms.map(p => p.term)));
+  savingMissingSettings = signal(false);
   readonly JD_CHAR_CAP = JOB_DESCRIPTION_CHAR_CAP;
   readonly EMBEDDING_WEIGHT = EMBEDDING_WEIGHT;
   readonly TFIDF_WEIGHT = TFIDF_WEIGHT;
@@ -67,6 +72,7 @@ export class AppComponent implements OnInit {
     this.api.getResume().subscribe((r) => this.resume.set(r));
     this.api.getTermBoosts().subscribe((r) => this.termBoosts.set(r.boosts));
     this.api.getStopwords().subscribe((r) => this.stopwords.set(r.words));
+    this.api.getMissingKeywordSettings().subscribe((s) => this.missingSettings.set(s));
   }
 
   onUploadResume(file: File): void {
@@ -195,6 +201,39 @@ export class AppComponent implements OnInit {
         this.message.set(`"${term}" removed from exclusions.`);
       },
       error: (err) => this.message.set(`Failed to undo exclusion: ${err.error?.error ?? err.message ?? err}`),
+    });
+  }
+
+  togglePin(term: string): void {
+    const normalized = term.trim().toLowerCase();
+    if (!normalized) return;
+    const current = this.missingSettings();
+    const existing = current.pinnedTerms.find(p => p.term === normalized);
+    const nextPinned = existing
+      ? current.pinnedTerms.filter(p => p.term !== normalized)
+      : [...current.pinnedTerms, {term: normalized, importance: DEFAULT_PIN_IMPORTANCE}];
+    const next: MissingKeywordSettings = {...current, pinnedTerms: nextPinned};
+    this.missingSettings.set(next);
+    this.api.saveMissingKeywordSettings(next).subscribe({
+      error: (err) => {
+        this.missingSettings.set(current);
+        this.message.set(`Failed to update pin: ${err.error?.error ?? err.message ?? err}`);
+      },
+    });
+  }
+
+  onSaveMissingSettings(settings: MissingKeywordSettings): void {
+    this.savingMissingSettings.set(true);
+    this.api.saveMissingKeywordSettings(settings).subscribe({
+      next: () => {
+        this.savingMissingSettings.set(false);
+        this.missingSettings.set(settings);
+        this.message.set('Missing-keyword settings saved.');
+      },
+      error: (err) => {
+        this.savingMissingSettings.set(false);
+        this.message.set(`Failed to save: ${err.error?.error ?? err.message ?? err}`);
+      },
     });
   }
 }
