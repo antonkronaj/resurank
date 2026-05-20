@@ -109,6 +109,7 @@ const config = {
   rebuildConfig: {},
   makers: [
     {name: '@electron-forge/maker-dmg', platforms: ['darwin']},
+    {name: '@electron-forge/maker-zip', platforms: ['darwin']},
     {name: '@electron-forge/maker-squirrel', platforms: ['win32'], config: {}},
     {name: '@electron-forge/maker-zip', platforms: ['linux']},
   ],
@@ -133,7 +134,9 @@ const config = {
       const releaseDate = new Date().toISOString();
 
       const manifestName = (artifact) => {
-        if (artifact.endsWith('.dmg')) return 'latest-mac.yml';
+        // electron-updater consumes a .zip on macOS (DMGs are for fresh
+        // installs only), so latest-mac.yml must describe the .zip artifact.
+        if (artifact.endsWith('.zip') && artifact.includes('darwin')) return 'latest-mac.yml';
         if (artifact.endsWith('.exe')) return 'latest.yml';
         if (artifact.endsWith('.deb') || artifact.endsWith('.rpm') || artifact.endsWith('.AppImage')) return 'latest-linux.yml';
         return null;
