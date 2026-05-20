@@ -1,9 +1,18 @@
-import {app, BrowserWindow, clipboard, dialog, ipcMain, net, protocol, session, shell} from 'electron';
+import {app, autoUpdater as squirrelUpdater, BrowserWindow, clipboard, dialog, ipcMain, net, protocol, session, shell} from 'electron';
 import {dirname, join, normalize, resolve} from 'node:path';
 import {existsSync, mkdirSync, readFileSync, writeFileSync} from 'node:fs';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import pkg from 'electron-updater';
+import squirrelStartup from 'electron-squirrel-startup';
 import {config} from '../../shared/config.js';
+
+// Squirrel.Windows re-launches the app with special argv during install /
+// update / uninstall so it can create shortcuts and finish housekeeping. The
+// app must exit immediately when that happens; the helper returns true and
+// performs the housekeeping itself.
+if (squirrelStartup) {
+  app.quit();
+}
 
 if (app.isPackaged) {
   process.env.DATABASE_PATH = app.getPath('userData');
@@ -77,24 +86,48 @@ async function createWindow(): Promise<void> {
   }
 }
 
+function promptRestart(quitAndInstall: () => void): void {
+  BrowserWindow.getAllWindows().forEach(w => w.webContents.send('update-ready'));
+
+  dialog.showMessageBox({
+    type: 'info',
+    title: 'Update ready',
+    message: 'A new version of ResuRank has been downloaded. Restart now to apply it?',
+    buttons: ['Restart', 'Later'],
+    defaultId: 0,
+  }).then(({response}) => {
+    if (response === 0) quitAndInstall();
+  });
+}
+
 function initUpdater(): void {
+  // Skip when the app is running from a mounted DMG (macOS first-run scenario).
   if (app.getPath('exe').includes('/Volumes/')) return;
+
+  if (process.platform === 'win32') {
+    // Windows ships as Squirrel.Windows (RELEASES + .nupkg). Electron's
+    // built-in autoUpdater speaks that format natively; electron-updater
+    // expects NSIS instead, so we use the native one here.
+    squirrelUpdater.setFeedURL({
+      url: 'https://github.com/antonkronaj/resurank/releases/latest/download',
+    });
+    squirrelUpdater.on('update-downloaded', () => {
+      promptRestart(() => squirrelUpdater.quitAndInstall());
+    });
+    squirrelUpdater.on('error', (err) => {
+      console.warn('[updater] win check failed:', err);
+    });
+    squirrelUpdater.checkForUpdates();
+    return;
+  }
+
+  // macOS (and Linux fallback, though the Linux maker is .zip-only).
   autoUpdater.logger = null;
   autoUpdater.autoDownload = true;
   autoUpdater.autoInstallOnAppQuit = true;
 
   autoUpdater.on('update-downloaded', () => {
-    BrowserWindow.getAllWindows().forEach(w => w.webContents.send('update-ready'));
-
-    dialog.showMessageBox({
-      type: 'info',
-      title: 'Update ready',
-      message: 'A new version of ResuRank has been downloaded. Restart now to apply it?',
-      buttons: ['Restart', 'Later'],
-      defaultId: 0,
-    }).then(({response}) => {
-      if (response === 0) autoUpdater.quitAndInstall();
-    });
+    promptRestart(() => autoUpdater.quitAndInstall());
   });
 
   autoUpdater.checkForUpdates().catch((err) => {

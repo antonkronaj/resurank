@@ -157,5 +157,5 @@ jobs:
         run: |
           TAG="${{ github.ref_name }}"
           gh release create "$TAG" --title "$TAG" --generate-notes --verify-tag || true
-          find out/make \( -name "*.dmg" -o -name "*.exe" -o -name "*.zip" -o -name "*.yml" \) -print0 \
+          find out/make \( -name "*.dmg" -o -name "*.exe" -o -name "*.zip" -o -name "*.yml" -o -name "*.nupkg" -o -name "RELEASES" \) -print0 \
             | xargs -0 gh release upload "$TAG" --clobber
