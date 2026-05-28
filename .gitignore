@@ -5,6 +5,7 @@ out/
 .DS_Store
 *.log
 .idea/
+.claude
 
 # Electron build output
 src/electron/dist/
