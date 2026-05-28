@@ -1,8 +1,8 @@
 import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {ApiService, MatchResult, MissingKeywordSettings, ModelStatus, ResumeInfo,} from './api.service';
-import {DEFAULT_MISSING_KEYWORD_SETTINGS} from './storage.service';
+import {ApiService, MatchResult, MissingKeywordSettings, ModelStatus, PreferenceMismatchSettings, ResumeInfo,} from './api.service';
+import {DEFAULT_MISSING_KEYWORD_SETTINGS, DEFAULT_PREFERENCE_MISMATCH_SETTINGS} from './storage.service';
 import {DEFAULT_PIN_IMPORTANCE} from '@shared/constants';
 import {EmbeddingService} from './embedding.service';
 import {EMBEDDING_WEIGHT, JOB_DESCRIPTION_CHAR_CAP, TFIDF_WEIGHT} from '@shared/constants';
@@ -36,6 +36,8 @@ export class AppComponent implements OnInit {
   missingSettings = signal<MissingKeywordSettings>({...DEFAULT_MISSING_KEYWORD_SETTINGS});
   pinnedSet = computed(() => new Set(this.missingSettings().pinnedTerms.map(p => p.term)));
   savingMissingSettings = signal(false);
+  preferenceSettings = signal<PreferenceMismatchSettings>({...DEFAULT_PREFERENCE_MISMATCH_SETTINGS});
+  savingPreferenceSettings = signal(false);
   readonly JD_CHAR_CAP = JOB_DESCRIPTION_CHAR_CAP;
   readonly EMBEDDING_WEIGHT = EMBEDDING_WEIGHT;
   readonly TFIDF_WEIGHT = TFIDF_WEIGHT;
@@ -73,6 +75,7 @@ export class AppComponent implements OnInit {
     this.api.getTermBoosts().subscribe((r) => this.termBoosts.set(r.boosts));
     this.api.getStopwords().subscribe((r) => this.stopwords.set(r.words));
     this.api.getMissingKeywordSettings().subscribe((s) => this.missingSettings.set(s));
+    this.api.getPreferenceMismatchSettings().subscribe((s) => this.preferenceSettings.set(s));
   }
 
   onUploadResume(file: File): void {
@@ -232,6 +235,25 @@ export class AppComponent implements OnInit {
       },
       error: (err) => {
         this.savingMissingSettings.set(false);
+        this.message.set(`Failed to save: ${err.error?.error ?? err.message ?? err}`);
+      },
+    });
+  }
+
+  onSavePreferenceSettings(settings: PreferenceMismatchSettings): void {
+    const previous = this.preferenceSettings();
+    this.savingPreferenceSettings.set(true);
+    this.api.savePreferenceMismatchSettings(settings).subscribe({
+      next: () => {
+        this.savingPreferenceSettings.set(false);
+        if (settings.text !== previous.text) {
+          this.embeddingService.invalidatePreferenceCache();
+        }
+        this.preferenceSettings.set(settings);
+        this.message.set('Preference settings saved.');
+      },
+      error: (err) => {
+        this.savingPreferenceSettings.set(false);
         this.message.set(`Failed to save: ${err.error?.error ?? err.message ?? err}`);
       },
     });

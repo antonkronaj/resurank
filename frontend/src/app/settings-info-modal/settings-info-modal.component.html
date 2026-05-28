@@ -1,7 +1,7 @@
 <app-modal-shell
   (close)="close.emit()"
   [isOpen]="isOpen()"
-  [title]="mode() === 'exclusions' ? 'Exclusion words' : mode() === 'boosts' ? 'Term boosts' : 'Critical missing keywords'">
+  [title]="mode() === 'exclusions' ? 'Exclusion words' : mode() === 'boosts' ? 'Term boosts' : mode() === 'preference' ? 'Preference mismatch' : 'Critical missing keywords'">
 
   @if (mode() === 'exclusions') {
     <p class="intro">
@@ -73,6 +73,65 @@
       <li>Setting a weight too high can make borderline matches look better than they are. Start at 2 and adjust.</li>
       <li>Use lowercase — terms are normalised before lookup.</li>
     </ul>
+  </div>
+} @else if (mode() === 'preference') {
+  <p class="intro">
+    <strong>Preference mismatch</strong> runs in the opposite direction to the rest of ResuRank.
+    Every other step asks <em>does this job fit your resume?</em> — this one asks
+    <em>does this job carry traits you'd rather avoid?</em> and subtracts from the score when it does.
+  </p>
+
+  <div class="step">
+    <div class="step-title">A note on scope</div>
+    <p>
+      ResuRank was built to measure how well your resume matches a job description — an
+      <strong>objective fit signal</strong>. This feature layers a <strong>subjective preference</strong>
+      on top of that. Treat the penalty as a personal nudge for ranking jobs, not as part of the
+      resume-to-JD fit itself. If you want the unbiased fit score, leave this turned off.
+    </p>
+  </div>
+
+  <div class="step">
+    <div class="step-title">How to use it</div>
+    <ul>
+      <li>Enable the penalty, then describe the traits you want to avoid in plain language —
+        e.g. "fast-paced startup with frequent on-call rotations and long hours".
+      </li>
+      <li><strong>Describe the trait, not its negation.</strong> Write "on-call rotations", not
+        "no on-call" — the model matches on topic, so a "no" still pulls the unwanted topic in.
+      </li>
+      <li>The whole box is read as a <strong>single description</strong>, not a keyword list.
+        Commas and quotes don't matter; one coherent paragraph works best.
+      </li>
+      <li>Click <strong>Save</strong> after editing the text. The toggle and slider apply
+        immediately, but the text only re-embeds when you save.
+      </li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <div class="step-title">How the penalty is computed</div>
+    <p>
+      Your text is embedded once and compared to the job description's embedding using
+      <strong>cosine similarity</strong>.
+    </p>
+    <p>
+      <code>penalty = max(0, (similarity − 0.55) ÷ (1 − 0.55)) × max_reduction</code>
+    </p>
+    <ul>
+      <li><strong>Baseline floor (0.55):</strong> any two pieces of English prose share a
+        non-trivial similarity just for being professional text. Similarity below the floor is
+        ignored; the rest is rescaled to 0–1.
+      </li>
+      <li><strong>Max reduction:</strong> the slider below caps the penalty, 0–50% (default 25%).
+        A job whose description closely matches your avoid-text approaches the cap; weaker
+        matches scale down proportionally.
+      </li>
+    </ul>
+    <p>
+      The penalty is subtracted from the final score, after the embedding/TF-IDF blend and any
+      missing-keyword penalty.
+    </p>
   </div>
 } @else {
   <p class="intro">

@@ -142,6 +142,54 @@
     </div>
 
     <div class="dw-section">
+      <div class="dw-section-title">
+        <span>Preference mismatch</span>
+        <button (click)="openInfo('preference')" class="dw-info-btn" title="What is preference mismatch?" type="button">ℹ</button>
+      </div>
+      <p class="text-muted small">
+        Describe job traits you want to <b>avoid</b> in plain language (e.g. "fast-paced
+        startup with on-call rotations"). Jobs whose description is semantically similar
+        to this text have their score reduced. Don't phrase it as a negation — describe
+        the trait itself, since the model matches on topic, not on "not".
+      </p>
+      <label class="missing-toggle">
+        <input
+          (ngModelChange)="onPreferenceEnabledChange($event)"
+          [ngModel]="preferenceEnabled()"
+          type="checkbox"/>
+        <span>Enable penalty</span>
+      </label>
+      <div class="missing-slider-row">
+        <label class="missing-slider-label">
+          <span>Max reduction</span>
+          <span class="missing-slider-val">{{ preferenceMaxPenalty() * 100 | number:'1.0-0' }}%</span>
+        </label>
+        <input
+          (change)="onPreferenceMaxPenaltyCommit()"
+          (ngModelChange)="onPreferenceMaxPenaltyChange($event)"
+          [disabled]="!preferenceEnabled()"
+          [max]="PREFERENCE_PENALTY_LIMIT"
+          [ngModel]="preferenceMaxPenalty()"
+          class="missing-slider"
+          min="0"
+          step="0.01"
+          type="range"/>
+      </div>
+      <div class="dw-subsection-title">Traits to avoid</div>
+      <textarea
+        (ngModelChange)="onPreferenceTextChange($event)"
+        [ngModel]="preferenceText()"
+        class="preference-text"
+        placeholder="e.g. fast-paced startup environment with frequent on-call rotations and long hours"
+        rows="4"></textarea>
+      <div class="boost-actions">
+        <button (click)="onSavePreferenceText()" [disabled]="savingPreferenceSettings()" class="primary sm" type="button">
+          {{ savingPreferenceSettings() ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="dw-section">
       <div class="dw-section-title">About</div>
       <div class="text-muted small">
         Version: {{ appVersion() }}

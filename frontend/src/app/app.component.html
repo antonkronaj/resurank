@@ -86,6 +86,11 @@
                   −{{ r.breakdown.missingKeywordPenalty * 100 | number:'1.0-1' }}%
                 </div>
               }
+              @if (r.breakdown.preferenceMismatchPenalty > 0) {
+                <div class="divergence-penalty">Preference mismatch:
+                  −{{ r.breakdown.preferenceMismatchPenalty * 100 | number:'1.0-1' }}%
+                </div>
+              }
             </div>
             <button (click)="scoreInfoOpen.set(true)" class="score-info-btn" title="How is this score calculated?"
                     type="button">ℹ
@@ -219,6 +224,7 @@
     (openStopwords)="openStopwordsModal()"
     (saveTermBoosts)="onSaveTermBoosts($event)"
     (saveMissingSettings)="onSaveMissingSettings($event)"
+    (savePreferenceSettings)="onSavePreferenceSettings($event)"
     (uploadResume)="onUploadResume($event)"
     [isOpen]="settingsOpen()"
     [resume]="resume()"
@@ -226,6 +232,8 @@
     [termBoosts]="termBoosts()"
     [missingSettings]="missingSettings()"
     [savingMissingSettings]="savingMissingSettings()"
+    [preferenceSettings]="preferenceSettings()"
+    [savingPreferenceSettings]="savingPreferenceSettings()"
     [uploading]="uploading()">
   </app-settings-drawer>
 

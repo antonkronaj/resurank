@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {MISSING_KEYWORD_PENALTY_DEFAULT, PinImportance} from '@shared/constants';
+import {MISSING_KEYWORD_PENALTY_DEFAULT, PREFERENCE_MISMATCH_PENALTY_DEFAULT, PinImportance} from '@shared/constants';
 
 export interface ResumeData {
   filename: string;
@@ -25,11 +25,24 @@ export const DEFAULT_MISSING_KEYWORD_SETTINGS: MissingKeywordSettings = {
   pinnedTerms: [],
 };
 
+export interface PreferenceMismatchSettings {
+  enabled: boolean;
+  maxPenalty: number;
+  text: string;
+}
+
+export const DEFAULT_PREFERENCE_MISMATCH_SETTINGS: PreferenceMismatchSettings = {
+  enabled: false,
+  maxPenalty: PREFERENCE_MISMATCH_PENALTY_DEFAULT,
+  text: '',
+};
+
 export interface StoreSnapshot {
   resume: ResumeData | null;
   stopwords: string[];
   termBoosts: Record<string, number>;
   missingKeywordSettings: MissingKeywordSettings;
+  preferenceMismatchSettings: PreferenceMismatchSettings;
 }
 
 @Injectable({providedIn: 'root'})
@@ -58,6 +71,7 @@ export class StorageService {
       stopwords: [],
       termBoosts: {},
       missingKeywordSettings: {...DEFAULT_MISSING_KEYWORD_SETTINGS},
+      preferenceMismatchSettings: {...DEFAULT_PREFERENCE_MISMATCH_SETTINGS},
     };
   }
 
@@ -86,6 +100,15 @@ export class StorageService {
   async saveMissingKeywordSettings(settings: MissingKeywordSettings): Promise<void> {
     await window.electronAPI.storeWriteMissingKeywordSettings(settings);
     if (this.cache) this.cache.missingKeywordSettings = settings;
+  }
+
+  async getPreferenceMismatchSettings(): Promise<PreferenceMismatchSettings> {
+    return (await this.load()).preferenceMismatchSettings;
+  }
+
+  async savePreferenceMismatchSettings(settings: PreferenceMismatchSettings): Promise<void> {
+    await window.electronAPI.storeWritePreferenceMismatchSettings(settings);
+    if (this.cache) this.cache.preferenceMismatchSettings = settings;
   }
 
   async getUserDataPath(): Promise<string> {

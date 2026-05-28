@@ -27,6 +27,7 @@ export class EmbeddingService {
   private pendingRequests = new Map<string, { resolve: (v: number[][]) => void; reject: (e: Error) => void }>();
   private readyPromise: Promise<void> | null = null;
   private resumeCache: { text: string; vector: number[] } | null = null;
+  private preferenceCache: { text: string; vector: number[] } | null = null;
 
   constructor(private storage: StorageService) {
   }
@@ -44,6 +45,17 @@ export class EmbeddingService {
 
   invalidateResumeCache(): void {
     this.resumeCache = null;
+  }
+
+  async embedPreference(text: string): Promise<number[]> {
+    if (this.preferenceCache?.text === text) return this.preferenceCache.vector;
+    const [vector] = await this.embed([text]);
+    this.preferenceCache = {text, vector};
+    return vector;
+  }
+
+  invalidatePreferenceCache(): void {
+    this.preferenceCache = null;
   }
 
   async embedJob(text: string): Promise<number[]> {

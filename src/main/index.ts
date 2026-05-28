@@ -178,11 +178,24 @@ ipcMain.handle('store-read', () => {
     maxPenalty: rawMissing?.maxPenalty ?? 0.25,
     pinnedTerms,
   };
+
+  const rawPreference = readJson<{
+    enabled?: boolean;
+    maxPenalty?: number;
+    text?: string;
+  }>(join(dir, 'preference_mismatch_settings.json'));
+  const preferenceMismatchSettings = {
+    enabled: rawPreference?.enabled ?? false,
+    maxPenalty: rawPreference?.maxPenalty ?? 0.25,
+    text: typeof rawPreference?.text === 'string' ? rawPreference.text : '',
+  };
+
   return {
     resume: readJson(join(dir, 'resume.json')),
     stopwords: readJson<string[]>(join(dir, 'stopwords.json')) ?? [],
     termBoosts: readJson<Record<string, number>>(join(dir, 'term_boosts.json')) ?? {},
     missingKeywordSettings,
+    preferenceMismatchSettings,
   };
 });
 
@@ -209,6 +222,11 @@ ipcMain.handle('store-write-term-boosts', (_event, boosts: Record<string, number
 ipcMain.handle('store-write-missing-keyword-settings', (_event, settings: unknown) => {
   ensureDataDir();
   writeFileSync(join(getDataDir(), 'missing_keyword_settings.json'), JSON.stringify(settings, null, 2), 'utf8');
+});
+
+ipcMain.handle('store-write-preference-mismatch-settings', (_event, settings: unknown) => {
+  ensureDataDir();
+  writeFileSync(join(getDataDir(), 'preference_mismatch_settings.json'), JSON.stringify(settings, null, 2), 'utf8');
 });
 
 app.whenReady().then(async () => {

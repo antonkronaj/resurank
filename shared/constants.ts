@@ -62,6 +62,20 @@ export const MISSING_KEYWORD_PENALTY_LIMIT = 0.5;
 // Cosmetic only — doesn't affect the score.
 export const MAX_MISSING_TERMS = 25;
 
+// Preference-mismatch penalty: the user describes job traits they DON'T want
+// in free text. We embed that text and compare it to the JD embedding; high
+// similarity means the job carries traits the user wants to avoid, so we
+// subtract a penalty. DEFAULT is the initial slider value, LIMIT the upper
+// bound — same pair as the missing-keyword penalty for a consistent slider.
+export const PREFERENCE_MISMATCH_PENALTY_DEFAULT = 0.25;
+export const PREFERENCE_MISMATCH_PENALTY_LIMIT = 0.5;
+
+// Baseline-similarity gate. jina-v2-small assigns any two pieces of English
+// prose a non-trivial cosine (~0.4–0.6) just for being "professional text,"
+// so we ignore similarity below the floor and rescale the remaining range to
+// 0–1. Below FLOOR: zero penalty. At cosine 1.0: full maxPenalty.
+export const PREFERENCE_MISMATCH_FLOOR = 0.55;
+
 // Per-pin importance multiplier. Symmetric around 1 so a "medium" pin
 // behaves identically to the original unweighted pins — turning a pin
 // to "high" doubles its contribution, "low" halves it.

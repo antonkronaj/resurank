@@ -1,4 +1,4 @@
-import {MissingKeywordSettings, ResumeData, StoreSnapshot} from './app/storage.service';
+import {MissingKeywordSettings, PreferenceMismatchSettings, ResumeData, StoreSnapshot} from './app/storage.service';
 
 export {};
 
@@ -16,6 +16,7 @@ declare global {
       storeWriteStopwords(words: string[]): Promise<void>;
       storeWriteTermBoosts(boosts: Record<string, number>): Promise<void>;
       storeWriteMissingKeywordSettings(settings: MissingKeywordSettings): Promise<void>;
+      storeWritePreferenceMismatchSettings(settings: PreferenceMismatchSettings): Promise<void>;
     };
   }
 }

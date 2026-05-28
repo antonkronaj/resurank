@@ -18,11 +18,18 @@ interface MissingKeywordSettings {
   pinnedTerms: PinnedTerm[];
 }
 
+interface PreferenceMismatchSettings {
+  enabled: boolean;
+  maxPenalty: number;
+  text: string;
+}
+
 interface StoreSnapshot {
   resume: ResumeData | null;
   stopwords: string[];
   termBoosts: Record<string, number>;
   missingKeywordSettings: MissingKeywordSettings;
+  preferenceMismatchSettings: PreferenceMismatchSettings;
 }
 
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -39,4 +46,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   storeWriteStopwords: (words: string[]): Promise<void> => ipcRenderer.invoke('store-write-stopwords', words),
   storeWriteTermBoosts: (boosts: Record<string, number>): Promise<void> => ipcRenderer.invoke('store-write-term-boosts', boosts),
   storeWriteMissingKeywordSettings: (settings: MissingKeywordSettings): Promise<void> => ipcRenderer.invoke('store-write-missing-keyword-settings', settings),
+  storeWritePreferenceMismatchSettings: (settings: PreferenceMismatchSettings): Promise<void> => ipcRenderer.invoke('store-write-preference-mismatch-settings', settings),
 });

@@ -11,13 +11,14 @@ import {
   OVERLAP_BONUS_MAX,
   OVERLAP_BONUS_THRESHOLD,
   PIN_IMPORTANCE_MULTIPLIERS,
+  PREFERENCE_MISMATCH_FLOOR,
   TFIDF_WEIGHT,
   TOP_TERMS_FOR_BREAKDOWN,
   TOP_TERMS_FOR_MATCHING,
 } from '@shared/constants';
 import {extractTerms} from './resume-parser.service';
 import {EmbeddingService} from './embedding.service';
-import {MissingKeywordSettings} from './storage.service';
+import {DEFAULT_PREFERENCE_MISMATCH_SETTINGS, MissingKeywordSettings, PreferenceMismatchSettings} from './storage.service';
 
 export interface TermWeight {
   term: string;
@@ -35,6 +36,7 @@ export interface MatchBreakdown {
   overlapBonus: number;
   divergencePenalty: number;
   missingKeywordPenalty: number;
+  preferenceMismatchPenalty: number;
 }
 
 export interface MatchResult {
@@ -126,6 +128,7 @@ export class MatcherService {
     termBoosts: Record<string, number> = {},
     userStopwords: Set<string> = new Set(),
     missingSettings: MissingKeywordSettings = {enabled: false, maxPenalty: 0, pinnedTerms: []},
+    preferenceSettings: PreferenceMismatchSettings = DEFAULT_PREFERENCE_MISMATCH_SETTINGS,
   ): Promise<MatchResult> {
     const boosts = normalizeBoosts(termBoosts);
     const tfidf = buildTfIdf(resumeText, job);
@@ -193,7 +196,13 @@ export class MatcherService {
       resumeWeights,
       isExcluded,
     );
-    const score = Math.max(0, adjustedScore - missingKeywordPenalty);
+
+    const preferenceMismatchPenalty = await this.computePreferenceMismatchPenalty(
+      preferenceSettings,
+      jobVec,
+    );
+
+    const score = Math.max(0, adjustedScore - missingKeywordPenalty - preferenceMismatchPenalty);
 
     const jobTokens = extractTerms(`${job.title} ${job.title} ${job.description}`, userStopwords);
     const countMap = new Map<string, number>();
@@ -210,11 +219,27 @@ export class MatcherService {
       matchedTerms: [...matched].slice(0, MAX_MATCHED_TERMS),
       missingTerms,
       pinnedNotInJob,
-      breakdown: {tfidfScore, embeddingScore, overlapBonus, divergencePenalty, missingKeywordPenalty},
+      breakdown: {tfidfScore, embeddingScore, overlapBonus, divergencePenalty, missingKeywordPenalty, preferenceMismatchPenalty},
       jobWeighted,
       jobCounts,
       languageWarning,
     };
+  }
+
+  private async computePreferenceMismatchPenalty(
+    settings: PreferenceMismatchSettings,
+    jobVec: number[] | null | undefined,
+  ): Promise<number> {
+    if (!settings.enabled || settings.maxPenalty <= 0 || !jobVec) return 0;
+    const prefInput = sanitizeForEmbedding(settings.text).slice(0, EMBEDDING_CHAR_CAP);
+    if (!prefInput) return 0;
+
+    const prefVec = await this.embedding.embedPreference(prefInput);
+    if (!prefVec) return 0;
+
+    const sim = Math.max(0, dotProduct(prefVec, jobVec));
+    const gap = Math.max(0, sim - PREFERENCE_MISMATCH_FLOOR) / (1 - PREFERENCE_MISMATCH_FLOOR);
+    return gap * settings.maxPenalty;
   }
 }
 
