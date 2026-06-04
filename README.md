@@ -8,6 +8,7 @@ Features:
 - **Local Scoring**: Uses a small (~25 MB) ONNX model running locally. No data leaves your machine.
 - **Term Boosting**: Boost specific keywords (e.g. "Rust", "Security") to influence matching scores.
 - **Critical Missing Keywords**: Flag must-have terms — their absence from your resume reduces the score, with adjustable importance tiers and a configurable cap.
+- **Preference Mismatch Penalty**: Describe traits you don't want in a role; if a job description matches those traits, the score is reduced proportionally.
 - **Stopword Exclusion**: Customize the list of words ignored during scoring.
 - **Privacy First**: All data (resume, settings) stays in a local directory.
 
@@ -15,7 +16,7 @@ Features:
 
 - **Desktop shell**: Electron 42 (ESM main process, Node 22), packaged with [Electron Forge](https://www.electronforge.io/)
 - **Main process**: TypeScript, file-based local storage (JSON files in the user-data dir), `ipcMain` handlers for all storage and clipboard operations. No HTTP server.
-- **Frontend**: Angular 19 (standalone components, signals). All communication with the main process goes through `contextBridge`/`ipcRenderer` via `window.electronAPI`. The scoring engine runs entirely in the renderer — TF-IDF in the main thread, embedding inference in a dedicated `Worker`.
+- **Frontend**: Angular 21 (standalone components, signals). All communication with the main process goes through `contextBridge`/`ipcRenderer` via `window.electronAPI`. The scoring engine runs entirely in the renderer — TF-IDF in the main thread, embedding inference in a dedicated `Worker`.
 - **Embedding model**: [`Xenova/jina-embeddings-v2-small-en`](https://huggingface.co/Xenova/jina-embeddings-v2-small-en) (~25 MB ONNX, quantized) loaded via `@huggingface/transformers` inside a web worker. Downloaded on first run and cached in the user-data directory.
 
 ## Structure
@@ -181,6 +182,17 @@ The penalty is applied after the divergence adjustment, as a final reduction on 
 
 ---
 
+### Step 7 — Preference mismatch penalty (optional)
+
+Off by default. This step lets you describe traits you *don't* want in a role — e.g. "on-call rotations", "enterprise bureaucracy", or any language that characterises jobs you want to filter out. The text is embedded with the same local AI model and compared to the job description's embedding.
+
+- **Formula.** Cosine similarity between the preference text and the job description is computed. Similarity below a fixed floor has no effect; above the floor the penalty scales linearly up to the configured maximum.
+- **Max penalty slider.** Defaults to **25%** and is capped at **50%**. A job whose description strongly matches your unwanted-trait text hits the cap; partial matches scale proportionally.
+
+The penalty is applied after the divergence adjustment and after the missing keyword penalty, as the final reduction on the combined score.
+
+---
+
 ### Language detection
 
 If more than 3% of the alphabetic characters in the job description are non-ASCII (accented letters, Cyrillic, Chinese characters, etc.), a warning is shown. The embedding model has some cross-lingual capability, so it may find similarity between an English resume and a non-English job description even when there is little real overlap. The divergence adjustment also helps here since TF-IDF will typically be near zero for a foreign-language job.
@@ -214,6 +226,8 @@ The renderer talks to the main process via `window.electronAPI` (contextBridge).
 | `store-save-pdf` | renderer → main | Persists the raw PDF buffer to `resume.pdf` |
 | `store-write-stopwords` | renderer → main | Persists stopword list to `stopwords.json` |
 | `store-write-term-boosts` | renderer → main | Persists term boost map to `term_boosts.json` |
+| `store-write-missing-keyword-settings` | renderer → main | Persists critical missing keyword settings to `missing_keyword_settings.json` |
+| `store-write-preference-mismatch-settings` | renderer → main | Persists preference mismatch settings to `preference_mismatch_settings.json` |
 | `update-ready` (push) | main → renderer | Fired when a new version has been downloaded |
 
 ## Notes
