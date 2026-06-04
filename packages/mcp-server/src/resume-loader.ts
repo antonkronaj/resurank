@@ -1,5 +1,20 @@
 import {readFile} from 'node:fs/promises';
+import {createRequire} from 'node:module';
 import {extname} from 'node:path';
+import {pathToFileURL} from 'node:url';
+
+const require = createRequire(import.meta.url);
+
+// Resolve the bundled pdf.js worker once at module load. pdfjs-dist requires
+// GlobalWorkerOptions.workerSrc to be set before getDocument() can be called,
+// even in Node. The legacy/build/pdf.worker.mjs file ships in the package.
+let pdfWorkerSrc: string | null = null;
+function resolvePdfWorkerSrc(): string {
+  if (pdfWorkerSrc) return pdfWorkerSrc;
+  const resolved = require.resolve('pdfjs-dist/legacy/build/pdf.worker.mjs');
+  pdfWorkerSrc = pathToFileURL(resolved).href;
+  return pdfWorkerSrc;
+}
 
 export async function loadResumeText(path: string): Promise<string> {
   const ext = extname(path).toLowerCase();
@@ -22,6 +37,9 @@ export async function loadResumeText(path: string): Promise<string> {
 async function loadPdf(path: string): Promise<string> {
   const data = await readFile(path);
   const pdfjs: any = await import('pdfjs-dist/legacy/build/pdf.mjs');
+  if (!pdfjs.GlobalWorkerOptions.workerSrc) {
+    pdfjs.GlobalWorkerOptions.workerSrc = resolvePdfWorkerSrc();
+  }
   const loadingTask = pdfjs.getDocument({
     data: new Uint8Array(data),
     useSystemFonts: true,
