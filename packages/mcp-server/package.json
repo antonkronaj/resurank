@@ -42,6 +42,9 @@
     "test": "npm run build && npm run build:test && node --test build-test/test/*.test.js",
     "start": "node dist/index.js",
     "clean": "rm -rf dist build build-test dist-dxt",
+    "version:patch": "npm version --tag-version-prefix=mcp-v patch",
+    "version:minor": "npm version --tag-version-prefix=mcp-v minor",
+    "version:major": "npm version --tag-version-prefix=mcp-v major",
     "prepublishOnly": "npm run clean && npm run build && npm test"
   },
   "engines": {

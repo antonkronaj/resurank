@@ -50,6 +50,9 @@
     "build:test": "tsc -p tsconfig.test.json",
     "test": "npm run build && npm run build:test && node --test build-test/test/*.test.js",
     "clean": "rm -rf dist build-test",
+    "version:patch": "npm version --tag-version-prefix=scoring-v patch",
+    "version:minor": "npm version --tag-version-prefix=scoring-v minor",
+    "version:major": "npm version --tag-version-prefix=scoring-v major",
     "prepublishOnly": "npm run clean && npm run build && npm test"
   },
   "engines": {
