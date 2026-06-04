@@ -37,6 +37,14 @@ export async function loadResumeText(path: string): Promise<string> {
 async function loadPdf(path: string): Promise<string> {
   const data = await readFile(path);
   const pdfjs: any = await import('pdfjs-dist/legacy/build/pdf.mjs');
+
+  // pdfjs writes warnings/infos to console.log, which goes to stdout in Node
+  // — and stdout is reserved for the MCP JSON-RPC frame. Anything else there
+  // corrupts the protocol. We must set verbosity = 0.
+  // We use GlobalWorkerOptions.verbosity because the top-level pdfjs object
+  // might be frozen in some builds.
+  pdfjs.GlobalWorkerOptions.verbosity = 0;
+
   if (!pdfjs.GlobalWorkerOptions.workerSrc) {
     pdfjs.GlobalWorkerOptions.workerSrc = resolvePdfWorkerSrc();
   }
@@ -44,6 +52,7 @@ async function loadPdf(path: string): Promise<string> {
     data: new Uint8Array(data),
     useSystemFonts: true,
     isEvalSupported: false,
+    verbosity: 0,
   });
   const pdf = await loadingTask.promise;
   const pages: string[] = [];

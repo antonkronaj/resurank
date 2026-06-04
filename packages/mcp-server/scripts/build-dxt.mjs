@@ -21,6 +21,7 @@ import {execSync} from 'node:child_process';
 import {cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {platform} from 'node:os';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG_ROOT = resolve(__dirname, '..');
@@ -104,10 +105,33 @@ function main() {
   // 3. Install prod deps in the staging server dir.
   run('npm install --omit=dev --no-audit --no-fund --no-package-lock', {cwd: SERVER_DIR});
 
-  // 4. Copy manifest into the staging root (sibling to server/).
+  // 4. macOS fix: Strip code signatures from native binaries.
+  // Claude Desktop (Anthropic signed) refuses to load the bundled onnxruntime_binding.node
+  // if it has Microsoft's signature (Library Validation Policy). Removing the
+  // signature makes it "ad-hoc" signed, which works.
+  if (platform() === 'darwin') {
+    const onnxBinding = join(
+      SERVER_DIR,
+      'node_modules',
+      'onnxruntime-node',
+      'bin',
+      'napi-v6',
+      'darwin',
+      'arm64',
+      'onnxruntime_binding.node'
+    );
+    if (existsSync(onnxBinding)) {
+      log('stripping signature from', onnxBinding);
+      run(`codesign --remove-signature "${onnxBinding}"`);
+    } else {
+      log('warn: could not find onnxruntime_binding.node at', onnxBinding);
+    }
+  }
+
+  // 5. Copy manifest into the staging root (sibling to server/).
   cpSync(MANIFEST_SRC, join(STAGING, 'manifest.json'));
 
-  // 5. Zip the staging contents into the .dxt file.
+  // 6. Zip the staging contents into the .dxt file.
   ensureDir(OUT_DIR);
   if (existsSync(OUT_FILE)) rmSync(OUT_FILE);
   // Use system `zip`. macOS and Linux ship it; Windows users can use
