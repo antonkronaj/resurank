@@ -1,20 +1,5 @@
 import {Injectable} from '@angular/core';
-import {EXTRA_STOPWORDS} from '@shared/stopwords';
-
-export function extractTerms(text: string, userStopwords: Set<string> = new Set()): string[] {
-  const normalized = text
-    .toLowerCase()
-    .replace(/[^a-z0-9+#.\-\s]/g, ' ')
-    .replace(/\s+/g, ' ');
-
-  const tokens = normalized.split(' ').filter(Boolean);
-  return tokens.filter((t) => {
-    if (t.length < 2) return false;
-    if (EXTRA_STOPWORDS.has(t) || userStopwords.has(t)) return false;
-    if (/^\d+$/.test(t)) return false;
-    return true;
-  });
-}
+export {extractTerms} from '@resurank/scoring';
 
 @Injectable({providedIn: 'root'})
 export class ResumeParserService {

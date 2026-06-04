@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MissingKeywordSettings, PreferenceMismatchSettings, ResumeInfo} from '../api.service';
 import {DEFAULT_MISSING_KEYWORD_SETTINGS, DEFAULT_PREFERENCE_MISMATCH_SETTINGS, PinnedTerm} from '../storage.service';
-import {DEFAULT_PIN_IMPORTANCE, MISSING_KEYWORD_PENALTY_LIMIT, PREFERENCE_MISMATCH_PENALTY_LIMIT, PinImportance} from '@shared/constants';
+import {DEFAULT_PIN_IMPORTANCE, MISSING_KEYWORD_PENALTY_LIMIT, PREFERENCE_MISMATCH_PENALTY_LIMIT, PinImportance} from '@resurank/scoring/constants';
 import {SettingsInfoModalComponent, SettingsInfoMode} from '../settings-info-modal/settings-info-modal.component';
 
 interface BoostRow {

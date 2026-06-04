@@ -27,8 +27,11 @@
       "webworker"
     ],
     "paths": {
-      "@shared/*": [
-        "../shared/*"
+      "@resurank/scoring": [
+        "../packages/scoring/src/index.ts"
+      ],
+      "@resurank/scoring/*": [
+        "../packages/scoring/src/*"
       ]
     }
   },

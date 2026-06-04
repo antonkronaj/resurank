@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {MISSING_KEYWORD_PENALTY_DEFAULT, PREFERENCE_MISMATCH_PENALTY_DEFAULT, PinImportance} from '@shared/constants';
+import {MISSING_KEYWORD_PENALTY_DEFAULT, PREFERENCE_MISMATCH_PENALTY_DEFAULT, PinImportance} from '@resurank/scoring/constants';
 
 export interface ResumeData {
   filename: string;

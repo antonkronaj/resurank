@@ -28,6 +28,8 @@ export class EmbeddingService {
   private readyPromise: Promise<void> | null = null;
   private resumeCache: { text: string; vector: number[] } | null = null;
   private preferenceCache: { text: string; vector: number[] } | null = null;
+  private readonly TEXT_CACHE_MAX = 16;
+  private textCache = new Map<string, number[]>();
 
   constructor(private storage: StorageService) {
   }
@@ -45,6 +47,7 @@ export class EmbeddingService {
 
   invalidateResumeCache(): void {
     this.resumeCache = null;
+    this.textCache.clear();
   }
 
   async embedPreference(text: string): Promise<number[]> {
@@ -56,6 +59,7 @@ export class EmbeddingService {
 
   invalidatePreferenceCache(): void {
     this.preferenceCache = null;
+    this.textCache.clear();
   }
 
   async embedJob(text: string): Promise<number[]> {
@@ -66,14 +70,44 @@ export class EmbeddingService {
   async embed(texts: string[]): Promise<number[][]> {
     if (texts.length === 0) return [];
 
-    const BATCH_SIZE = 10;
-    const results: number[][] = [];
-    for (let i = 0; i < texts.length; i += BATCH_SIZE) {
-      const batch = texts.slice(i, i + BATCH_SIZE);
-      const batchResults = await this.embedBatch(batch);
-      results.push(...batchResults);
+    const out: (number[] | undefined)[] = new Array(texts.length);
+    const missIndices: number[] = [];
+    const missTexts: string[] = [];
+    for (let i = 0; i < texts.length; i++) {
+      const cached = this.textCache.get(texts[i]);
+      if (cached) {
+        out[i] = cached;
+      } else {
+        missIndices.push(i);
+        missTexts.push(texts[i]);
+      }
     }
-    return results;
+
+    if (missTexts.length > 0) {
+      const BATCH_SIZE = 10;
+      const fetched: number[][] = [];
+      for (let i = 0; i < missTexts.length; i += BATCH_SIZE) {
+        const batch = missTexts.slice(i, i + BATCH_SIZE);
+        const batchResults = await this.embedBatch(batch);
+        fetched.push(...batchResults);
+      }
+      for (let k = 0; k < missIndices.length; k++) {
+        out[missIndices[k]] = fetched[k];
+        this.cachePut(missTexts[k], fetched[k]);
+      }
+    }
+
+    return out as number[][];
+  }
+
+  private cachePut(text: string, vector: number[]): void {
+    if (this.textCache.has(text)) this.textCache.delete(text);
+    this.textCache.set(text, vector);
+    while (this.textCache.size > this.TEXT_CACHE_MAX) {
+      const oldest = this.textCache.keys().next().value;
+      if (oldest === undefined) break;
+      this.textCache.delete(oldest);
+    }
   }
 
   private async getWorker(): Promise<Worker> {

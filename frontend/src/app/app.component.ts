@@ -3,9 +3,8 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ApiService, MatchResult, MissingKeywordSettings, ModelStatus, PreferenceMismatchSettings, ResumeInfo,} from './api.service';
 import {DEFAULT_MISSING_KEYWORD_SETTINGS, DEFAULT_PREFERENCE_MISMATCH_SETTINGS} from './storage.service';
-import {DEFAULT_PIN_IMPORTANCE} from '@shared/constants';
+import {DEFAULT_PIN_IMPORTANCE, EMBEDDING_WEIGHT, JOB_DESCRIPTION_CHAR_CAP, TFIDF_WEIGHT} from '@resurank/scoring/constants';
 import {EmbeddingService} from './embedding.service';
-import {EMBEDDING_WEIGHT, JOB_DESCRIPTION_CHAR_CAP, TFIDF_WEIGHT} from '@shared/constants';
 
 import {SettingsDrawerComponent} from './settings-drawer/settings-drawer.component';
 import {StopwordsModalComponent} from './stopwords-modal/stopwords-modal.component';

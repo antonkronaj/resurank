@@ -12,7 +12,8 @@
   },
   "workspaces": [
     "frontend",
-    "shared"
+    "packages/scoring",
+    "packages/mcp-server"
   ],
   "scripts": {
     "build:frontend": "npm --prefix frontend run build -- --base-href=./",
