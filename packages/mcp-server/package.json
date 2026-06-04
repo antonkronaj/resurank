@@ -1,6 +1,6 @@
 {
   "name": "resurank-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Local-stdio MCP server that scores how well your resume matches a job description. Runs on-device via Transformers.js — no API keys, nothing uploaded.",
   "license": "AGPL-3.0-only",
   "author": "Anton Kronaj <developer@kronaj.com>",
