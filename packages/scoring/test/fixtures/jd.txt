@@ -1,0 +1,17 @@
+We're hiring a Senior Backend Engineer to design and ship scalable
+TypeScript services on our distributed platform. You'll own backend
+APIs, work closely with frontend teams, and contribute to our
+event-driven architecture.
+
+Required:
+- 5+ years of backend engineering with TypeScript or Java
+- Strong experience with REST APIs and Postgres
+- Comfortable with Docker and CI/CD pipelines
+- Excellent communication; comfortable mentoring junior engineers
+
+Nice to have:
+- Kafka or another streaming platform
+- Kubernetes experience
+- Spring Boot exposure
+
+We use GitHub Actions for CI and ship multiple times a day.

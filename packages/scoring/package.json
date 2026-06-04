@@ -1,8 +1,28 @@
 {
   "name": "@resurank/scoring",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "Framework-free resume / job-description scoring engine. Hybrid 60% semantic + 40% TF-IDF, runs locally via Transformers.js. Powers the ResuRank desktop app and the resurank-mcp MCP server.",
   "license": "AGPL-3.0-only",
+  "author": "Anton Kronaj <developer@kronaj.com>",
+  "homepage": "https://github.com/antonkronaj/resurank/tree/main/packages/scoring",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonkronaj/resurank.git",
+    "directory": "packages/scoring"
+  },
+  "bugs": {
+    "url": "https://github.com/antonkronaj/resurank/issues"
+  },
+  "keywords": [
+    "resume",
+    "job-description",
+    "scoring",
+    "tf-idf",
+    "embeddings",
+    "transformers",
+    "local",
+    "on-device"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -22,11 +42,18 @@
   },
   "files": [
     "dist",
-    "src"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "clean": "rm -rf dist"
+    "build:test": "tsc -p tsconfig.test.json",
+    "test": "npm run build && npm run build:test && node --test build-test/test/*.test.js",
+    "clean": "rm -rf dist build-test",
+    "prepublishOnly": "npm run clean && npm run build && npm test"
+  },
+  "engines": {
+    "node": ">=22"
   },
   "peerDependencies": {
     "@huggingface/transformers": "^4.2.0"
@@ -38,6 +65,7 @@
   },
   "devDependencies": {
     "@huggingface/transformers": "^4.2.0",
+    "@types/node": "^25.6.2",
     "typescript": "5.9.3"
   }
 }

@@ -8,6 +8,8 @@
   </div>
   <div class="dw-body">
 
+    <app-claude-desktop-card [resumeRev]="resume()"/>
+
     <div class="dw-section">
       <div class="dw-section-title">Resume</div>
       @if (resume().uploaded) {

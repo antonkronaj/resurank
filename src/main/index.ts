@@ -5,6 +5,7 @@ import {fileURLToPath, pathToFileURL} from 'node:url';
 import pkg from 'electron-updater';
 import squirrelStartup from 'electron-squirrel-startup';
 import {config} from '../../shared/config.js';
+import * as claudeDesktop from './claude-desktop.js';
 
 // Squirrel.Windows re-launches the app with special argv during install /
 // update / uninstall so it can create shortcuts and finish housekeeping. The
@@ -227,6 +228,22 @@ ipcMain.handle('store-write-missing-keyword-settings', (_event, settings: unknow
 ipcMain.handle('store-write-preference-mismatch-settings', (_event, settings: unknown) => {
   ensureDataDir();
   writeFileSync(join(getDataDir(), 'preference_mismatch_settings.json'), JSON.stringify(settings, null, 2), 'utf8');
+});
+
+function readResumeText(): string | null {
+  const data = readJson<{text?: unknown}>(join(getDataDir(), 'resume.json'));
+  return typeof data?.text === 'string' && data.text.length > 0 ? data.text : null;
+}
+
+ipcMain.handle('claude-desktop-status', () => claudeDesktop.getStatus());
+ipcMain.handle('claude-desktop-connect', () => {
+  return claudeDesktop.connect({resumeText: readResumeText()});
+});
+ipcMain.handle('claude-desktop-disconnect', () => claudeDesktop.disconnect());
+ipcMain.handle('claude-desktop-sync-resume', () => {
+  const text = readResumeText();
+  if (text === null) return null;
+  return claudeDesktop.syncResumeFile(text);
 });
 
 app.whenReady().then(async () => {

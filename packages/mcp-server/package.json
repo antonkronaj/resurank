@@ -1,28 +1,56 @@
 {
   "name": "resurank-mcp",
-  "version": "0.1.0",
-  "description": "Local stdio MCP server for ResuRank resume/job scoring",
+  "version": "1.0.0",
+  "description": "Local-stdio MCP server that scores how well your resume matches a job description. Runs on-device via Transformers.js — no API keys, nothing uploaded.",
   "license": "AGPL-3.0-only",
+  "author": "Anton Kronaj <developer@kronaj.com>",
+  "homepage": "https://github.com/antonkronaj/resurank/tree/main/packages/mcp-server",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonkronaj/resurank.git",
+    "directory": "packages/mcp-server"
+  },
+  "bugs": {
+    "url": "https://github.com/antonkronaj/resurank/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "claude",
+    "claude-desktop",
+    "resume",
+    "job-description",
+    "scoring",
+    "local",
+    "on-device"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
     "resurank-mcp": "./dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "build:dxt": "node scripts/build-dxt.mjs",
     "start": "node dist/index.js",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist build dist-dxt",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "engines": {
+    "node": ">=22"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0",
-    "@resurank/scoring": "*",
     "@huggingface/transformers": "^4.2.0",
-    "pdfjs-dist": "^4.10.38",
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@resurank/scoring": "^1.0.0",
     "mammoth": "^1.8.0",
-    "zod": "^3.23.8"
+    "pdfjs-dist": "^4.10.38"
   },
   "devDependencies": {
     "@types/node": "^25.6.2",

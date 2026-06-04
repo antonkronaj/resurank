@@ -2,6 +2,24 @@ import {MissingKeywordSettings, PreferenceMismatchSettings, ResumeData, StoreSna
 
 export {};
 
+export interface ClaudeDesktopStatus {
+  configPath: string;
+  configExists: boolean;
+  connected: boolean;
+  resumePath: string | null;
+  resumeExists: boolean;
+  nodePath: string | null;
+  mcpServerPath: string | null;
+  warnings: string[];
+  resumeFilenameForDisplay: string;
+}
+
+export interface ClaudeDesktopConnectResult {
+  ok: boolean;
+  wrote: boolean;
+  status: ClaudeDesktopStatus;
+}
+
 declare global {
   interface Window {
     electronAPI: {
@@ -17,6 +35,10 @@ declare global {
       storeWriteTermBoosts(boosts: Record<string, number>): Promise<void>;
       storeWriteMissingKeywordSettings(settings: MissingKeywordSettings): Promise<void>;
       storeWritePreferenceMismatchSettings(settings: PreferenceMismatchSettings): Promise<void>;
+      claudeDesktopStatus(): Promise<ClaudeDesktopStatus>;
+      claudeDesktopConnect(): Promise<ClaudeDesktopConnectResult>;
+      claudeDesktopDisconnect(): Promise<ClaudeDesktopConnectResult>;
+      claudeDesktopSyncResume(): Promise<string | null>;
     };
   }
 }
