@@ -53,7 +53,7 @@
   "dependencies": {
     "@huggingface/transformers": "^4.2.0",
     "@modelcontextprotocol/sdk": "^1.0.0",
-    "@resurank/scoring": "^1.0.0",
+    "@resurank/scoring": "^1.0.2",
     "mammoth": "^1.8.0",
     "pdfjs-dist": "^4.10.38"
   },
