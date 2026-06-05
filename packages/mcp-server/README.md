@@ -21,6 +21,23 @@ they share the same scoring engine via [`@resurank/scoring`](../scoring).
 
 ---
 
+## One-command install (macOS / Linux)
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/antonkronaj/resurank/main/packages/mcp-server/install.sh)
+```
+
+The script checks for Node.js and Claude Desktop, prompts for your resume
+path, and writes the config. Pass the path as an argument to skip the prompt:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/antonkronaj/resurank/main/packages/mcp-server/install.sh) /path/to/resume.pdf
+```
+
+Then restart Claude Desktop and you're done. Windows users see Option 1 below.
+
+---
+
 ## Setup
 
 ### Option 1 — npx (no app required)

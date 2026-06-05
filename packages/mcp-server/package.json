@@ -32,6 +32,7 @@
   },
   "files": [
     "dist",
+    "install.sh",
     "README.md",
     "LICENSE"
   ],
