@@ -15,14 +15,7 @@ they share the same scoring engine via [`@resurank/scoring`](../scoring).
 
 ## Quick start
 
-### Option 1: One-click via Desktop Extension (DXT)
-
-1. Download `resurank-mcp.dxt` from the [Releases page](https://github.com/antonkronaj/resurank/releases).
-2. Double-click it. Claude Desktop opens an install dialog.
-3. Pick your resume file (`.pdf`, `.docx`, `.txt`, or `.md`).
-4. Done. Start a chat and ask Claude to score a job posting.
-
-### Option 2: npx
+### Option 1: npx (recommended)
 
 Add this to `~/Library/Application Support/Claude/claude_desktop_config.json`
 (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
@@ -42,7 +35,7 @@ Add this to `~/Library/Application Support/Claude/claude_desktop_config.json`
 Restart Claude Desktop. The first scoring call downloads the embedding model
 (~25 MB); subsequent calls are sub-second.
 
-### Option 3: From inside the ResuRank desktop app
+### Option 2: From inside the ResuRank desktop app
 
 If you have the [ResuRank Electron app](https://github.com/antonkronaj/resurank)
 installed, open **Settings → Claude Desktop integration → Connect**. The app
@@ -165,18 +158,7 @@ exposes UI for them. See [`@resurank/scoring`](../scoring) for the math.
 ## Distribution
 
 - **npm:** [`resurank-mcp`](https://www.npmjs.com/package/resurank-mcp), `npx -y resurank-mcp`
-- **DXT:** download `resurank-mcp.dxt` from the [GitHub Releases page](https://github.com/antonkronaj/resurank/releases)
 - **Source:** [github.com/antonkronaj/resurank](https://github.com/antonkronaj/resurank)
-
-To build the DXT yourself:
-
-```bash
-npm -w resurank-mcp run build:dxt
-# → packages/mcp-server/dist-dxt/resurank-mcp.dxt
-```
-
-Requires `zip` on PATH (macOS, Linux, WSL, git-bash). The resulting `.dxt` is
-~150 MB because it bundles the ONNX runtime that powers the embedding model.
 
 ## Local registration (during development)
 

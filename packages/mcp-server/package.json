@@ -38,10 +38,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build:test": "tsc -p tsconfig.test.json",
-    "build:dxt": "node scripts/build-dxt.mjs",
     "test": "npm run build && npm run build:test && node --test build-test/test/*.test.js",
     "start": "node dist/index.js",
-    "clean": "rm -rf dist build build-test dist-dxt",
+    "clean": "rm -rf dist build-test",
     "version:patch": "npm version --tag-version-prefix=mcp-v patch",
     "version:minor": "npm version --tag-version-prefix=mcp-v minor",
     "version:major": "npm version --tag-version-prefix=mcp-v major",
