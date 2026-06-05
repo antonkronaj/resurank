@@ -37,6 +37,16 @@ describe('loadResumeText', () => {
     assert.match(normalized, /Kafka/i, 'PDF parse missing "Kafka"');
   });
 
+  it('extracts text from .docx files', async () => {
+    const text = await loadResumeText(join(fixtures, 'resume.docx'));
+    // mammoth returns paragraphs separated by newlines; collapse whitespace before asserting.
+    const normalized = text.replace(/\s+/g, ' ').trim();
+    assert.match(normalized, /Jane Doe/, 'docx parse missing "Jane Doe"');
+    assert.match(normalized, /TypeScript/i, 'docx parse missing "TypeScript"');
+    assert.match(normalized, /Kafka/i, 'docx parse missing "Kafka"');
+    assert.match(normalized, /Postgres/i, 'docx parse missing "Postgres"');
+  });
+
   it('rejects unsupported extensions with a clear error', async () => {
     await assert.rejects(
       () => loadResumeText('/tmp/not-a-real-resume.xyz'),
