@@ -210,6 +210,47 @@ foreign-language job.
 
 ---
 
+## Publishing a new version
+
+**Always use the package scripts to bump the version** — do not use
+`npm version -w packages/scoring` from the repo root. The workspace `-w` flag
+ignores the package-local `.npmrc` and has a git-repo detection bug that can
+silently fail.
+
+**1. Bump the version**
+
+```bash
+# From the repo root — pick the appropriate bump:
+npm -w @resurank/scoring run version:patch   # 1.0.0 → 1.0.1
+npm -w @resurank/scoring run version:minor   # 1.0.0 → 1.1.0
+npm -w @resurank/scoring run version:major   # 1.0.0 → 2.0.0
+```
+
+This updates `version` in `package.json` only. The commit and tag must be
+created manually:
+
+```bash
+git add packages/scoring/package.json
+git commit -m "scoring-v1.0.1"
+git tag scoring-v1.0.1
+git push && git push --tags
+```
+
+**2. Set your npm token**
+
+```bash
+export NPM_TOKEN=xxxx
+```
+
+**3. Publish**
+
+```bash
+cd packages/scoring && npm publish
+```
+
+`prepublishOnly` runs `clean → build → test` automatically before the publish
+goes out. If any test fails, the publish is aborted.
+
 ## License
 
 [AGPL-3.0-only](./LICENSE).

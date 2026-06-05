@@ -352,6 +352,52 @@ exposes UI for them. See [`@resurank/scoring`](../scoring) for the math.
 - **npm:** [`resurank-mcp`](https://www.npmjs.com/package/resurank-mcp), `npx -y resurank-mcp`
 - **Source:** [github.com/antonkronaj/resurank](https://github.com/antonkronaj/resurank)
 
+## Publishing a new version
+
+**Always use the package scripts to bump the version** — do not use
+`npm version -w packages/mcp-server` from the repo root. The workspace `-w`
+flag ignores the package-local `.npmrc` and has a git-repo detection bug that
+can silently fail.
+
+**1. Bump the version**
+
+```bash
+# From the repo root — pick the appropriate bump:
+npm -w resurank-mcp run version:patch   # 1.0.2 → 1.0.3
+npm -w resurank-mcp run version:minor   # 1.0.2 → 1.1.0
+npm -w resurank-mcp run version:major   # 1.0.2 → 2.0.0
+```
+
+This updates `version` in `package.json` only. The commit and tag must be
+created manually:
+
+```bash
+git add packages/mcp-server/package.json
+git commit -m "mcp-v1.0.3"
+git tag mcp-v1.0.3
+git push && git push --tags
+```
+
+**2. Set your npm token**
+
+```bash
+export NPM_TOKEN=xxxx
+```
+
+**3. Publish**
+
+```bash
+cd packages/mcp-server && npm publish
+```
+
+`prepublishOnly` runs `clean → build → test` automatically before the publish
+goes out. If any test fails, the publish is aborted.
+
+If you also updated `@resurank/scoring`, publish that first — the mcp-server
+depends on it and `prepublishOnly` installs from the registry.
+
+---
+
 ## Local registration (during development)
 
 ```bash
