@@ -44,6 +44,30 @@ and gives you a Disconnect button when you're done.
 
 ---
 
+## Starting a scoring session
+
+Claude Desktop loads MCP tools lazily — they aren't automatically active in every
+conversation. There are two ways to wake the tool up:
+
+**Option A — Use the built-in prompt (easiest)**
+
+The server exposes a prompt called **"score-resume"** that Claude Desktop surfaces
+in its prompt picker (the `+` or `/` menu, depending on your version). Selecting it
+injects a ready-made opener that tells Claude to ask you for the job posting and
+call the tool immediately.
+
+**Option B — Use a priming phrase**
+
+If the prompt picker isn't visible, open a new conversation and say something like:
+
+> "Use the resurank tool to score my resume against this job posting."
+> "Score this job description against my resume."
+> "How well does my resume match this role?"
+
+Any of these is enough for Claude to search its tool list and find `resurank_score`.
+
+---
+
 ## What you'll see in chat
 
 > **You:** Score this against my resume. Title is Senior Backend Engineer.

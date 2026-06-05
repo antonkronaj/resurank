@@ -4,6 +4,8 @@ import {Server} from '@modelcontextprotocol/sdk/server/index.js';
 import {StdioServerTransport} from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
   CallToolRequestSchema,
+  GetPromptRequestSchema,
+  ListPromptsRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
 import {scoreResumeAgainstJob} from '@resurank/scoring';
@@ -156,9 +158,11 @@ function buildResumeNote(source: ResumeSource): string {
   }
 }
 
+const PROMPT_NAME = 'score-resume';
+
 const server = new Server(
   {name: 'resurank', version: '0.1.0'},
-  {capabilities: {tools: {}}},
+  {capabilities: {tools: {}, prompts: {}}},
 );
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
@@ -243,6 +247,40 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     },
   ],
 }));
+
+server.setRequestHandler(ListPromptsRequestSchema, async () => ({
+  prompts: [
+    {
+      name: PROMPT_NAME,
+      description:
+        'Start a resume-scoring session. Prompts Claude to ask you for a job title ' +
+        'and job description, then scores your resume against them using the ' +
+        'resurank_score tool. Use this to kick off the tool in a fresh conversation.',
+    },
+  ],
+}));
+
+server.setRequestHandler(GetPromptRequestSchema, async (request) => {
+  if (request.params.name !== PROMPT_NAME) {
+    throw new Error(`Unknown prompt: ${request.params.name}`);
+  }
+  return {
+    description: 'Score your resume against a job posting',
+    messages: [
+      {
+        role: 'user',
+        content: {
+          type: 'text',
+          text:
+            "I'd like to score my resume against a job posting. Please use the " +
+            'resurank_score tool. Ask me for the job title and the full job ' +
+            'description (paste it in) if I haven\'t provided them yet, then ' +
+            'run the score and explain the results.',
+        },
+      },
+    ],
+  };
+});
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   if (request.params.name !== TOOL_NAME) {
