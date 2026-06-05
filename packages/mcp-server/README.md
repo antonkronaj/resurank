@@ -13,12 +13,38 @@ they share the same scoring engine via [`@resurank/scoring`](../scoring).
 
 ---
 
-## Quick start
+## Prerequisites
 
-### Option 1: npx (recommended)
+- **Claude Desktop** — [download from claude.ai/download](https://claude.ai/download) (macOS or Windows)
+- **Node.js v22 or later** — [download from nodejs.org](https://nodejs.org) (only needed for Option 1)
+- **A resume file** — `.pdf`, `.docx`, `.txt`, or `.md`; note the absolute path
 
-Add this to `~/Library/Application Support/Claude/claude_desktop_config.json`
-(macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+---
+
+## Setup
+
+### Option 1 — npx (no app required)
+
+**1. Locate the Claude Desktop config file**
+
+| Platform | Path |
+|---|---|
+| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
+
+The file may not exist yet — create it if so. On macOS you can open it in one
+step:
+
+```bash
+open -a TextEdit ~/Library/Application\ Support/Claude/claude_desktop_config.json
+```
+
+On Windows, press `Win + R`, paste `%APPDATA%\Claude`, press Enter, and open
+`claude_desktop_config.json` in Notepad.
+
+**2. Add the resurank server entry**
+
+If the file is empty or doesn't exist yet:
 
 ```json
 {
@@ -32,15 +58,140 @@ Add this to `~/Library/Application Support/Claude/claude_desktop_config.json`
 }
 ```
 
-Restart Claude Desktop. The first scoring call downloads the embedding model
-(~25 MB); subsequent calls are sub-second.
+If the file already has other MCP servers, add only the `"resurank"` key inside
+the existing `"mcpServers"` object — don't replace the whole file:
 
-### Option 2: From inside the ResuRank desktop app
+```json
+{
+  "mcpServers": {
+    "some-other-server": { "...": "..." },
+    "resurank": {
+      "command": "npx",
+      "args": ["-y", "resurank-mcp"],
+      "env": { "RESUME_PATH": "/absolute/path/to/your/resume.pdf" }
+    }
+  }
+}
+```
+
+**3. Set `RESUME_PATH` to your actual resume**
+
+Replace `/absolute/path/to/your/resume.pdf` with the real path. It must be
+absolute (starting with `/` on macOS/Linux, or `C:\` on Windows). Relative
+paths won't work. Example:
+
+```
+/Users/jane/Documents/resume.pdf
+C:\Users\jane\Documents\resume.pdf
+```
+
+**4. Restart Claude Desktop**
+
+Quit completely (Cmd-Q on macOS, or right-click the taskbar icon → Quit on
+Windows) and relaunch. Claude Desktop reads the config once at startup.
+
+**5. Verify** — see [Verifying it works](#verifying-it-works) below.
+
+---
+
+### Option 2 — ResuRank desktop app (automatic)
 
 If you have the [ResuRank Electron app](https://github.com/antonkronaj/resurank)
-installed, open **Settings → Claude Desktop integration → Connect**. The app
-writes the MCP config for you, syncs the resume automatically when you edit it,
-and gives you a Disconnect button when you're done.
+installed, the app writes and maintains the config for you.
+
+**1. Open ResuRank and add your resume**
+
+Paste or import your resume text in the main view. The app stores it locally.
+
+**2. Open Settings → Claude Desktop integration**
+
+Click the gear icon to open Settings, then find the **Claude Desktop
+integration** card.
+
+**3. Click Connect**
+
+ResuRank will:
+- Locate your Node.js installation
+- Write the `resurank` entry to `claude_desktop_config.json`
+- Export your resume to a managed file and point `RESUME_PATH` at it
+
+The card shows a ✓ Connected status when done. If the button is disabled,
+hover over the warning — it will tell you what's missing (Claude Desktop not
+found, Node.js not installed, etc.).
+
+**4. Restart Claude Desktop**
+
+Quit completely and relaunch so it picks up the new config.
+
+**Auto-sync:** whenever you update your resume in ResuRank, the exported file
+updates automatically. No reconnecting or restarting required — the server
+reloads the file on the next score call.
+
+**5. Verify** — see below.
+
+---
+
+## Verifying it works
+
+Open a new conversation in Claude Desktop and type:
+
+> Use the resurank tool to score my resume against a job posting.
+
+Claude should ask you for a job title and description. If it does, the server
+is running. (The very first score call downloads the ~25 MB embedding model
+— allow 10–30 seconds depending on your connection. Subsequent calls are
+sub-second.)
+
+If the tool isn't found, see [Troubleshooting](#troubleshooting) below.
+
+---
+
+## Troubleshooting
+
+**The tool doesn't appear / Claude says it has no resume tool**
+
+Claude Desktop loads MCP tools lazily. Use a priming phrase to surface it:
+> "Use the resurank tool to score my resume."
+
+If that still doesn't work, check that you restarted Claude Desktop *after*
+editing the config.
+
+**First score is very slow (30+ seconds)**
+
+Normal — the embedding model is downloading for the first time (~25 MB from
+Hugging Face). Progress appears in the server log. Subsequent calls are fast.
+
+**"Resume parsed to N characters (minimum 100)"**
+
+The resume file loaded but contained almost no extractable text. Common causes:
+- **Image-only PDF** — the PDF is a scan without an OCR text layer. Convert
+  it to a searchable PDF first, or use the `.txt` fallback.
+- **Wrong path** — double-check that `RESUME_PATH` points to the right file.
+- **Unsupported format** — only `.pdf`, `.docx`, `.txt`, and `.md` are supported.
+
+**"npx: command not found" or the server fails to start**
+
+Claude Desktop couldn't find `npx`. Try using the full path to npx instead:
+
+```bash
+# Find the path on macOS/Linux:
+which npx
+```
+
+Then replace `"npx"` in the config with the full path (e.g.
+`/opt/homebrew/bin/npx` or `/usr/local/bin/npx`).
+
+**Checking the server log**
+
+```bash
+# macOS
+tail -f ~/Library/Logs/Claude/mcp-server-resurank.log
+```
+
+On Windows: `%APPDATA%\Claude\logs\mcp-server-resurank.log`
+
+The log shows model download progress, resume load/reload events, embed
+timing, and any startup errors.
 
 ---
 
