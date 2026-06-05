@@ -1,0 +1,21 @@
+Jane Doe
+Senior Backend Engineer
+
+EXPERIENCE
+Senior Backend Engineer, Acme Corp, 2021–present
+Built and maintained TypeScript microservices on Node.js and Postgres.
+Designed REST APIs serving 500k requests/day.
+Migrated legacy Java services to TypeScript; reduced p99 latency by 40%.
+Mentored four mid-level engineers through structured pairing.
+
+Backend Engineer, Globex, 2018–2021
+Built event-driven systems with Kafka, Redis, and Spring Boot.
+Owned CI/CD pipelines (GitHub Actions, Docker).
+Wrote integration tests in JUnit; raised coverage from 30% to 70%.
+
+SKILLS
+TypeScript, Node.js, Java, Spring Boot, Postgres, Redis, Kafka,
+REST, GraphQL, Docker, Kubernetes, GitHub Actions, JUnit.
+
+EDUCATION
+BSc Computer Science, State University, 2018.

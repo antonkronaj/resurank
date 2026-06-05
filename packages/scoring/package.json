@@ -1,0 +1,74 @@
+{
+  "name": "@resurank/scoring",
+  "version": "1.0.2",
+  "description": "Framework-free resume / job-description scoring engine. Hybrid 60% semantic + 40% TF-IDF, runs locally via Transformers.js. Powers the ResuRank desktop app and the resurank-mcp MCP server.",
+  "license": "AGPL-3.0-only",
+  "author": "Anton Kronaj <developer@kronaj.com>",
+  "homepage": "https://github.com/antonkronaj/resurank/tree/main/packages/scoring",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonkronaj/resurank.git",
+    "directory": "packages/scoring"
+  },
+  "bugs": {
+    "url": "https://github.com/antonkronaj/resurank/issues"
+  },
+  "keywords": [
+    "resume",
+    "job-description",
+    "scoring",
+    "tf-idf",
+    "embeddings",
+    "transformers",
+    "local",
+    "on-device"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./node-embedder": {
+      "types": "./dist/node-embedder.d.ts",
+      "default": "./dist/node-embedder.js"
+    },
+    "./constants": {
+      "types": "./dist/constants.d.ts",
+      "default": "./dist/constants.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:test": "tsc -p tsconfig.test.json",
+    "test": "npm run build && npm run build:test && node --test build-test/test/*.test.js",
+    "clean": "rm -rf dist build-test",
+    "version:patch": "npm version --tag-version-prefix=scoring-v patch",
+    "version:minor": "npm version --tag-version-prefix=scoring-v minor",
+    "version:major": "npm version --tag-version-prefix=scoring-v major",
+    "prepublishOnly": "npm run clean && npm run build && npm test"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "peerDependencies": {
+    "@huggingface/transformers": "^4.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@huggingface/transformers": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@huggingface/transformers": "^4.2.0",
+    "@types/node": "^25.6.2",
+    "typescript": "5.9.3"
+  }
+}

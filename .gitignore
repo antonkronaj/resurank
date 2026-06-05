@@ -1,10 +1,14 @@
 node_modules/
 data/
 dist/
+build/
+build-test/
+dist-dxt/
 out/
 .DS_Store
 *.log
 .idea/
+.claude
 
 # Electron build output
 src/electron/dist/

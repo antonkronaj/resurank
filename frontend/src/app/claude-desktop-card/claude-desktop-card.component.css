@@ -1,0 +1,142 @@
+.cd-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 8px 0 16px;
+  background: var(--surface);
+}
+
+.cd-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.cd-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.cd-pill {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cd-pill-on {
+  background: rgba(52, 211, 153, 0.12);
+  color: #34d399;
+}
+
+.cd-pill-off {
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+.cd-body {
+  margin: 4px 0 10px;
+  color: var(--text);
+}
+
+.cd-warnings {
+  margin: 6px 0;
+  padding-left: 16px;
+  color: #d97706;
+}
+
+.cd-error {
+  margin: 6px 0;
+  padding: 6px 8px;
+  background: rgba(248, 113, 113, 0.08);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  border-radius: 4px;
+}
+
+.cd-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.cd-btn {
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-weight: 500;
+  transition: all 0.1s;
+}
+
+.cd-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cd-btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.cd-btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.cd-btn-secondary {
+  background: var(--surface-2);
+  color: var(--accent);
+  border-color: var(--border);
+}
+
+.cd-btn-secondary:hover:not(:disabled) {
+  background: var(--row-hover);
+}
+
+.cd-restart-hint {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.cd-details {
+  margin-top: 8px;
+}
+
+.cd-details summary {
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.cd-meta {
+  margin: 6px 0 0;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 12px;
+}
+
+.cd-meta dt {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.cd-meta dd {
+  margin: 0;
+  word-break: break-all;
+  color: var(--text);
+}
+
+.cd-meta code {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 0.78rem;
+  background: var(--surface-2);
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: var(--text);
+}

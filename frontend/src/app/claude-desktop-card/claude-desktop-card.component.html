@@ -1,0 +1,72 @@
+<div class="cd-card">
+  <div class="cd-header">
+    <span class="cd-title">Claude Desktop integration</span>
+    <span class="cd-pill" [class.cd-pill-on]="connected()" [class.cd-pill-off]="!connected()">
+      {{ connected() ? 'Connected' : 'Not connected' }}
+    </span>
+  </div>
+
+  <p class="cd-body small text-muted">
+    Score your resume against job descriptions from inside Claude Desktop chat.
+    Connecting writes a local MCP server entry to your Claude Desktop config.
+    Your resume stays on your machine — nothing is uploaded.
+  </p>
+
+  @if (warnings().length > 0) {
+    <ul class="cd-warnings small">
+      @for (w of warnings(); track w) {
+        <li>⚠ {{ w }}</li>
+      }
+    </ul>
+  }
+
+  @if (lastError()) {
+    <div class="cd-error small">{{ lastError() }}</div>
+  }
+
+  <div class="cd-actions">
+    @if (!connected()) {
+      <button
+        type="button"
+        class="cd-btn cd-btn-primary"
+        [disabled]="busy() || warnings().length > 0"
+        (click)="onConnect()">
+        {{ busy() ? 'Connecting…' : 'Connect to Claude Desktop' }}
+      </button>
+    } @else {
+      <button
+        type="button"
+        class="cd-btn cd-btn-secondary"
+        [disabled]="busy()"
+        (click)="onDisconnect()">
+        {{ busy() ? 'Disconnecting…' : 'Disconnect' }}
+      </button>
+    }
+  </div>
+
+  @if (connected()) {
+    <p class="small text-muted cd-restart-hint">
+      Restart Claude Desktop (Cmd-Q then relaunch) to activate the connection.
+    </p>
+  }
+
+  @if (status()?.configPath) {
+    <details class="cd-details small">
+      <summary>Show details</summary>
+      <dl class="cd-meta">
+        <dt>Config file</dt>
+        <dd><code>{{ status()?.configPath }}</code></dd>
+        <dt>Resume path</dt>
+        <dd><code>{{ status()?.resumePath ?? status()?.resumeFilenameForDisplay }}</code></dd>
+        @if (status()?.nodePath) {
+          <dt>node</dt>
+          <dd><code>{{ status()?.nodePath }}</code></dd>
+        }
+        @if (status()?.mcpServerPath) {
+          <dt>Server</dt>
+          <dd><code>{{ status()?.mcpServerPath }}</code></dd>
+        }
+      </dl>
+    </details>
+  }
+</div>

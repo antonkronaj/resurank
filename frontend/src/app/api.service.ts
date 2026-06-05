@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {from, Observable} from 'rxjs';
-import {MissingKeywordSettings, StorageService} from './storage.service';
+import {MissingKeywordSettings, PreferenceMismatchSettings, StorageService} from './storage.service';
 import {extractTerms, ResumeParserService} from './resume-parser.service';
 import {EmbeddingService, ModelStatus} from './embedding.service';
 import {MatchBreakdown, MatcherService, MatchResult, TermCount, TermWeight} from './matcher.service';
 
-export type {TermWeight, TermCount, MatchBreakdown, MatchResult, MissingKeywordSettings};
+export type {TermWeight, TermCount, MatchBreakdown, MatchResult, MissingKeywordSettings, PreferenceMismatchSettings};
 
 export interface ResumeInfo {
   uploaded: boolean;
@@ -69,7 +69,8 @@ export class ApiService {
       const boosts = await this.storage.getTermBoosts();
       const stopwords = new Set(await this.storage.getStopwords());
       const missingSettings = await this.storage.getMissingKeywordSettings();
-      return this.matcher.scoreSingleJob(resume.text, {title, description}, boosts, stopwords, missingSettings);
+      const preferenceSettings = await this.storage.getPreferenceMismatchSettings();
+      return this.matcher.scoreSingleJob(resume.text, {title, description}, boosts, stopwords, missingSettings, preferenceSettings);
     })());
   }
 
@@ -95,5 +96,13 @@ export class ApiService {
 
   saveMissingKeywordSettings(settings: MissingKeywordSettings): Observable<{ ok: boolean }> {
     return from(this.storage.saveMissingKeywordSettings(settings).then(() => ({ok: true})));
+  }
+
+  getPreferenceMismatchSettings(): Observable<PreferenceMismatchSettings> {
+    return from(this.storage.getPreferenceMismatchSettings());
+  }
+
+  savePreferenceMismatchSettings(settings: PreferenceMismatchSettings): Observable<{ ok: boolean }> {
+    return from(this.storage.savePreferenceMismatchSettings(settings).then(() => ({ok: true})));
   }
 }

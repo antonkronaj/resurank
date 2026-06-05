@@ -1,7 +1,7 @@
 {
   "name": "resurank",
   "author": "Anton Kronaj <developer@kronaj.com>",
-  "version": "0.3.2",
+  "version": "0.4.1",
   "private": true,
   "description": "Resume to job-description matcher",
   "license": "AGPL-3.0-only",
@@ -12,12 +12,14 @@
   },
   "workspaces": [
     "frontend",
-    "shared"
+    "packages/scoring",
+    "packages/mcp-server"
   ],
   "scripts": {
+    "build:scoring": "npm --prefix packages/scoring run build",
     "build:frontend": "npm --prefix frontend run build -- --base-href=./",
     "build:electron": "tsc -p src/tsconfig.json",
-    "build": "npm run build:frontend && npm run build:electron",
+    "build": "npm run build:scoring && npm run build:frontend && npm run build:electron",
     "dev:frontend": "npm --prefix frontend start",
     "dev:electron": "JOBDASH_DEV=1 npm run build:electron && JOBDASH_DEV=1 electron .",
     "start": "electron-forge start",

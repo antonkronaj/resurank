@@ -1,0 +1,64 @@
+{
+  "name": "resurank-mcp",
+  "version": "1.0.3",
+  "description": "Local-stdio MCP server that scores how well your resume matches a job description. Runs on-device via Transformers.js — no API keys, nothing uploaded.",
+  "license": "AGPL-3.0-only",
+  "author": "Anton Kronaj <developer@kronaj.com>",
+  "homepage": "https://github.com/antonkronaj/resurank/tree/main/packages/mcp-server",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonkronaj/resurank.git",
+    "directory": "packages/mcp-server"
+  },
+  "bugs": {
+    "url": "https://github.com/antonkronaj/resurank/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "claude",
+    "claude-desktop",
+    "resume",
+    "job-description",
+    "scoring",
+    "local",
+    "on-device"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "resurank-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "install.sh",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:test": "tsc -p tsconfig.test.json",
+    "test": "npm run build && npm run build:test && node --test build-test/test/*.test.js",
+    "start": "node dist/index.js",
+    "clean": "rm -rf dist build-test",
+    "version:patch": "npm version --tag-version-prefix=mcp-v patch",
+    "version:minor": "npm version --tag-version-prefix=mcp-v minor",
+    "version:major": "npm version --tag-version-prefix=mcp-v major",
+    "prepublishOnly": "npm run clean && npm run build && npm test"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.2.0",
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@resurank/scoring": "^1.0.2",
+    "mammoth": "^1.8.0",
+    "pdfjs-dist": "^4.10.38"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.2",
+    "typescript": "5.9.3"
+  }
+}

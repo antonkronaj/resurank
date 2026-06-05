@@ -6,6 +6,7 @@
       <span class="app-name">ResuRank</span>
     </div>
     <div class="flex-1"></div>
+    <button (click)="toggleTheme()" [title]="theme() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'" class="tb-btn tb-theme-btn">{{ theme() === 'dark' ? '☀' : '◗' }}</button>
     <button (click)="settingsOpen.set(!settingsOpen())" class="tb-btn">⚙ Settings</button>
   </header>
 
@@ -67,7 +68,10 @@
             </span>
           } @if (result(); as r) {
           <div class="score-row">
-            <div [attr.data-tier]="scoreTier(r.score)" class="score-big">{{ scorePct(r.score) }}<span class="score-pct">%</span>
+            <div class="score-ring" [style.--pct]="r.score" [attr.data-tier]="scoreTier(r.score)">
+              <div class="score-ring-face">
+                <span class="score-num">{{ scorePct(r.score) }}</span><span class="score-pct-sym">%</span>
+              </div>
             </div>
             <div class="score-breakdown text-muted small">
               <div>Embedding ({{ scorePct(r.breakdown.embeddingScore) }}
@@ -84,6 +88,11 @@
               @if (r.breakdown.missingKeywordPenalty > 0) {
                 <div class="divergence-penalty">Missing critical keywords:
                   −{{ r.breakdown.missingKeywordPenalty * 100 | number:'1.0-1' }}%
+                </div>
+              }
+              @if (r.breakdown.preferenceMismatchPenalty > 0) {
+                <div class="divergence-penalty">Preference mismatch:
+                  −{{ r.breakdown.preferenceMismatchPenalty * 100 | number:'1.0-1' }}%
                 </div>
               }
             </div>
@@ -219,6 +228,7 @@
     (openStopwords)="openStopwordsModal()"
     (saveTermBoosts)="onSaveTermBoosts($event)"
     (saveMissingSettings)="onSaveMissingSettings($event)"
+    (savePreferenceSettings)="onSavePreferenceSettings($event)"
     (uploadResume)="onUploadResume($event)"
     [isOpen]="settingsOpen()"
     [resume]="resume()"
@@ -226,6 +236,8 @@
     [termBoosts]="termBoosts()"
     [missingSettings]="missingSettings()"
     [savingMissingSettings]="savingMissingSettings()"
+    [preferenceSettings]="preferenceSettings()"
+    [savingPreferenceSettings]="savingPreferenceSettings()"
     [uploading]="uploading()">
   </app-settings-drawer>
 

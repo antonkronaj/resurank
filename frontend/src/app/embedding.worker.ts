@@ -1,7 +1,7 @@
 /// <reference lib="webworker" />
 
 import {env, pipeline} from '@huggingface/transformers';
-import {EMBEDDING_MAX_LENGTH} from '@shared/constants';
+import {EMBEDDING_MAX_LENGTH} from '@resurank/scoring/constants';
 
 env.allowRemoteModels = true;
 env.allowLocalModels = false;

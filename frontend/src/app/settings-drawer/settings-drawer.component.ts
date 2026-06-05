@@ -1,10 +1,11 @@
 import {Component, effect, input, OnInit, output, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {MissingKeywordSettings, ResumeInfo} from '../api.service';
-import {DEFAULT_MISSING_KEYWORD_SETTINGS, PinnedTerm} from '../storage.service';
-import {DEFAULT_PIN_IMPORTANCE, MISSING_KEYWORD_PENALTY_LIMIT, PinImportance} from '@shared/constants';
+import {MissingKeywordSettings, PreferenceMismatchSettings, ResumeInfo} from '../api.service';
+import {DEFAULT_MISSING_KEYWORD_SETTINGS, DEFAULT_PREFERENCE_MISMATCH_SETTINGS, PinnedTerm} from '../storage.service';
+import {DEFAULT_PIN_IMPORTANCE, MISSING_KEYWORD_PENALTY_LIMIT, PREFERENCE_MISMATCH_PENALTY_LIMIT, PinImportance} from '@resurank/scoring/constants';
 import {SettingsInfoModalComponent, SettingsInfoMode} from '../settings-info-modal/settings-info-modal.component';
+import {ClaudeDesktopCardComponent} from '../claude-desktop-card/claude-desktop-card.component';
 
 interface BoostRow {
   term: string;
@@ -14,7 +15,7 @@ interface BoostRow {
 @Component({
   selector: 'app-settings-drawer',
   standalone: true,
-  imports: [CommonModule, FormsModule, SettingsInfoModalComponent],
+  imports: [CommonModule, FormsModule, SettingsInfoModalComponent, ClaudeDesktopCardComponent],
   templateUrl: './settings-drawer.component.html',
   styleUrl: './settings-drawer.component.css',
 })
@@ -26,11 +27,14 @@ export class SettingsDrawerComponent implements OnInit {
   savingBoosts = input<boolean>(false);
   missingSettings = input<MissingKeywordSettings>({...DEFAULT_MISSING_KEYWORD_SETTINGS});
   savingMissingSettings = input<boolean>(false);
+  preferenceSettings = input<PreferenceMismatchSettings>({...DEFAULT_PREFERENCE_MISMATCH_SETTINGS});
+  savingPreferenceSettings = input<boolean>(false);
 
   close = output<void>();
   uploadResume = output<File>();
   saveTermBoosts = output<Record<string, number>>();
   saveMissingSettings = output<MissingKeywordSettings>();
+  savePreferenceSettings = output<PreferenceMismatchSettings>();
   openStopwords = output<void>();
 
   appVersion = signal<string>('');
@@ -43,6 +47,11 @@ export class SettingsDrawerComponent implements OnInit {
   pinnedRows = signal<PinnedTerm[]>([]);
   readonly MISSING_PENALTY_LIMIT = MISSING_KEYWORD_PENALTY_LIMIT;
   readonly IMPORTANCE_OPTIONS: PinImportance[] = ['low', 'medium', 'high'];
+
+  preferenceEnabled = signal(false);
+  preferenceMaxPenalty = signal(0);
+  preferenceText = signal('');
+  readonly PREFERENCE_PENALTY_LIMIT = PREFERENCE_MISMATCH_PENALTY_LIMIT;
 
   constructor() {
     effect(() => {
@@ -58,6 +67,13 @@ export class SettingsDrawerComponent implements OnInit {
       this.missingEnabled.set(s.enabled);
       this.missingMaxPenalty.set(s.maxPenalty);
       this.pinnedRows.set(s.pinnedTerms.map(p => ({...p})));
+    }, {allowSignalWrites: true});
+
+    effect(() => {
+      const s = this.preferenceSettings();
+      this.preferenceEnabled.set(s.enabled);
+      this.preferenceMaxPenalty.set(s.maxPenalty);
+      this.preferenceText.set(s.text);
     }, {allowSignalWrites: true});
   }
 
@@ -80,6 +96,38 @@ export class SettingsDrawerComponent implements OnInit {
       enabled: this.missingEnabled(),
       maxPenalty: this.missingMaxPenalty(),
       pinnedTerms: this.missingSettings().pinnedTerms,
+    });
+  }
+
+  onPreferenceEnabledChange(enabled: boolean) {
+    this.preferenceEnabled.set(enabled);
+    this.emitPreferenceSettings(this.preferenceSettings().text);
+  }
+
+  onPreferenceMaxPenaltyChange(value: number) {
+    const clamped = Math.max(0, Math.min(this.PREFERENCE_PENALTY_LIMIT, Number(value) || 0));
+    this.preferenceMaxPenalty.set(clamped);
+  }
+
+  onPreferenceMaxPenaltyCommit() {
+    this.emitPreferenceSettings(this.preferenceSettings().text);
+  }
+
+  onPreferenceTextChange(text: string) {
+    this.preferenceText.set(text);
+  }
+
+  onSavePreferenceText() {
+    const text = this.preferenceText().trim();
+    this.preferenceText.set(text);
+    this.emitPreferenceSettings(text);
+  }
+
+  private emitPreferenceSettings(text: string) {
+    this.savePreferenceSettings.emit({
+      enabled: this.preferenceEnabled(),
+      maxPenalty: this.preferenceMaxPenalty(),
+      text,
     });
   }
 

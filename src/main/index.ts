@@ -5,6 +5,7 @@ import {fileURLToPath, pathToFileURL} from 'node:url';
 import pkg from 'electron-updater';
 import squirrelStartup from 'electron-squirrel-startup';
 import {config} from '../../shared/config.js';
+import * as claudeDesktop from './claude-desktop.js';
 
 // Squirrel.Windows re-launches the app with special argv during install /
 // update / uninstall so it can create shortcuts and finish housekeeping. The
@@ -178,11 +179,24 @@ ipcMain.handle('store-read', () => {
     maxPenalty: rawMissing?.maxPenalty ?? 0.25,
     pinnedTerms,
   };
+
+  const rawPreference = readJson<{
+    enabled?: boolean;
+    maxPenalty?: number;
+    text?: string;
+  }>(join(dir, 'preference_mismatch_settings.json'));
+  const preferenceMismatchSettings = {
+    enabled: rawPreference?.enabled ?? false,
+    maxPenalty: rawPreference?.maxPenalty ?? 0.25,
+    text: typeof rawPreference?.text === 'string' ? rawPreference.text : '',
+  };
+
   return {
     resume: readJson(join(dir, 'resume.json')),
     stopwords: readJson<string[]>(join(dir, 'stopwords.json')) ?? [],
     termBoosts: readJson<Record<string, number>>(join(dir, 'term_boosts.json')) ?? {},
     missingKeywordSettings,
+    preferenceMismatchSettings,
   };
 });
 
@@ -209,6 +223,27 @@ ipcMain.handle('store-write-term-boosts', (_event, boosts: Record<string, number
 ipcMain.handle('store-write-missing-keyword-settings', (_event, settings: unknown) => {
   ensureDataDir();
   writeFileSync(join(getDataDir(), 'missing_keyword_settings.json'), JSON.stringify(settings, null, 2), 'utf8');
+});
+
+ipcMain.handle('store-write-preference-mismatch-settings', (_event, settings: unknown) => {
+  ensureDataDir();
+  writeFileSync(join(getDataDir(), 'preference_mismatch_settings.json'), JSON.stringify(settings, null, 2), 'utf8');
+});
+
+function readResumeText(): string | null {
+  const data = readJson<{text?: unknown}>(join(getDataDir(), 'resume.json'));
+  return typeof data?.text === 'string' && data.text.length > 0 ? data.text : null;
+}
+
+ipcMain.handle('claude-desktop-status', () => claudeDesktop.getStatus());
+ipcMain.handle('claude-desktop-connect', () => {
+  return claudeDesktop.connect({resumeText: readResumeText()});
+});
+ipcMain.handle('claude-desktop-disconnect', () => claudeDesktop.disconnect());
+ipcMain.handle('claude-desktop-sync-resume', () => {
+  const text = readResumeText();
+  if (text === null) return null;
+  return claudeDesktop.syncResumeFile(text);
 });
 
 app.whenReady().then(async () => {

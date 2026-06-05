@@ -106,6 +106,34 @@
   </div>
 
   <div class="step">
+    <div class="step-title">Step 7 — Preference mismatch (optional)</div>
+    <p>
+      Off by default. The other steps all ask <em>does this resume fit the job?</em>
+      This one asks the inverse: <em>does the job carry traits you want to avoid?</em>
+      In Settings you describe those traits in free text (e.g. "fast-paced startup with
+      on-call rotations"). That text is embedded once and compared directly to the job
+      description's embedding.
+    </p>
+    <ul>
+      <li><strong>Why a separate input:</strong> adding "anti-preferences" to your resume
+        would backfire — the embedding model can't represent negation, so the unwanted
+        topic would actually pull the score <em>up</em>. Keeping the preference text on its
+        own lets us subtract instead of add.
+      </li>
+      <li><strong>Baseline floor:</strong> any two pieces of English prose share a non-trivial
+        cosine just for being professional text, so similarity below ~0.55 is ignored and the
+        remaining range is rescaled to 0–1.
+      </li>
+      <li><strong>Formula:</strong> <code>penalty = max(0, (similarity − 0.55) ÷ (1 − 0.55)) × max_reduction</code>.
+        The "max reduction" slider caps how aggressive the penalty is (0–50%).
+      </li>
+      <li>Describe the trait itself, not its negation — the model matches on topic, not on the
+        word "not".
+      </li>
+    </ul>
+  </div>
+
+  <div class="step">
     <div class="step-title">Language detection</div>
     <p>
       If more than 3% of alphabetic characters in the job description are non-ASCII, a warning is shown.

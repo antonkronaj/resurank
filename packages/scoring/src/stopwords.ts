@@ -103,5 +103,50 @@ export const EXTRA_STOPWORDS = new Set([
   "purpose", "hold", "accountable", "time.", "position", "logic", "seamless", "robust", "measures.", "efficient", "java.",
   "solutions.", "storage", "elements.", "conduct", "adherence", "ensure", "do.", "join", "bigger", "helping", "simplify",
   "person", "family", "community", "culture", "folks", "ta", "e.g.", "work.", "minimal", "www.linkedin.com", "set", "tackle",
-  "artists", "#", "##", "ensuring", "###", "understanding", "massive", "scale.", "it."
+  "artists", "#", "##", "ensuring", "###", "understanding", "massive", "scale.", "it.",
+
+  // ── Recruiter / EEO / benefits boilerplate ──────────────────────────────────
+  // Words that appear with high TF-IDF weight in job postings but virtually
+  // never represent technical skills on a resume. They were polluting
+  // critical_gaps with terms like "beacon", "voluntary", "chance", "interview".
+  //
+  // Tradeoff: a few of these (medical, dental, vision, health) can legitimately
+  // appear on resumes for healthcare workers. ResuRank is primarily aimed at
+  // tech roles; for healthcare use, prune this section.
+
+  // EEO / fair-chance / disability boilerplate
+  "equal", "opportunity", "employer", "employers", "disability", "disabilities",
+  "veteran", "veterans", "applicant", "applicants", "encouraged", "ordinance",
+  "conviction", "arrest", "fair", "chance", "voluntary", "eeo", "protected",
+  "accommodation", "accommodations", "identification", "ethnicity", "gender",
+  "race", "sexual", "orientation", "religion", "religious", "diversity",
+  "inclusion", "inclusive", "minority", "affirmative",
+
+  // Benefits / compensation boilerplate
+  "benefit", "benefits", "medical", "dental", "vision", "leave", "leaves",
+  "eligibility", "eligible", "package", "packages", "regulations", "regulation",
+  "agency", "agencies", "hired", "parental", "retirement", "401k", "pto",
+  "compensation", "salary", "stipend", "stipends", "insurance",
+
+  // Recruiter / staffing / hiring process
+  "staffing", "recruiting", "recruiter", "recruiters", "recruit", "recruits",
+  "interview", "interviews", "interviewing", "hiring", "hire", "hires",
+  "candidate", "candidates", "application", "applications", "submit", "submitted",
+  "posting", "postings", "posted", "position", "positions", "employment",
+  "employed", "employee", "employees",
+
+  // JD self-reference words (high TF-IDF, low signal)
+  "seeking", "ideal", "enjoys", "enjoy", "passionate", "looking",
+  "qualifications", "qualified", "qualify", "professional", "professionally",
+  "professionals", "level",
+
+  // Legal / jurisdiction boilerplate (common in US job postings)
+  "california", "federal", "applicable",
+
+  // Form / document references in JD footers
+  "form", "complete", "completion", "voluntary",
+
+  // Generic process / governance verbs that flood JDs
+  "participate", "participating", "participation", "contribute", "contributes",
+  "contributing",
 ]);

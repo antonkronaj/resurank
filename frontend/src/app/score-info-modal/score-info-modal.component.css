@@ -22,7 +22,7 @@
 .step p {
   margin: 0;
   font-size: 12px;
-  color: #1d1d1f;
+  color: var(--text);
   line-height: 1.5;
 }
 
@@ -36,26 +36,27 @@
 
 .step li {
   font-size: 12px;
-  color: #1d1d1f;
+  color: var(--text);
   line-height: 1.5;
 }
 
 .step code {
-  font-family: ui-monospace, monospace;
+  font-family: 'DM Mono', ui-monospace, monospace;
   font-size: 11px;
-  background: #f5f5f7;
+  background: var(--surface-2);
   padding: 1px 4px;
   border-radius: 3px;
+  color: var(--text);
 }
 
 .formula {
-  font-family: ui-monospace, monospace;
+  font-family: 'DM Mono', ui-monospace, monospace;
   font-size: 13px;
-  background: #f5f5f7;
+  background: var(--surface-2);
   border: 1px solid var(--border-light);
   border-radius: 6px;
   padding: 8px 12px;
-  color: #1d1d1f;
+  color: var(--text);
 }
 
 .tiers-table {
@@ -75,6 +76,7 @@
 .tiers-table td {
   padding: 5px 8px;
   border-bottom: 1px solid var(--border-light);
+  color: var(--text);
 }
 
 .tiers-table tr:last-child td {
@@ -86,37 +88,37 @@
 }
 
 .tier.poor {
-  color: #dc2626;
+  color: #f87171;
 }
 
 .tier.fair {
-  color: #eab308;
+  color: #fbbf24;
 }
 
 .tier.good {
-  color: #16a34a;
+  color: #34d399;
 }
 
 .tier.great {
-  color: #7c3aed;
+  color: #a78bfa;
 }
 
 .file-btn {
   display: inline-flex;
   align-items: center;
-  background: #f5f5f7;
-  border: 1px solid var(--border-light);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
   padding: 5px 12px;
   border-radius: 6px;
   font-size: 12px;
   cursor: pointer;
-  color: #1d1d1f;
+  color: var(--text);
   font-weight: 500;
   font-family: inherit;
   transition: all 0.1s;
 }
 
 .file-btn:hover {
-  background: #e8e8ed;
+  background: var(--row-hover);
   border-color: var(--border);
 }
