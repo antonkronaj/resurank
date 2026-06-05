@@ -56,6 +56,31 @@ function getResumeExportPath(): string {
 }
 
 /**
+ * Return true if Claude Desktop appears to be installed on this machine.
+ *
+ * Checks well-known install locations per platform. Returns true on Linux
+ * because Claude Desktop's install path there is not standardised — we
+ * can't reliably detect absence, so we default to allowing the connect.
+ */
+function isClaudeDesktopInstalled(): boolean {
+  const h = homedir();
+  switch (platform()) {
+    case 'darwin':
+      return (
+        existsSync('/Applications/Claude.app') ||
+        existsSync(join(h, 'Applications', 'Claude.app'))
+      );
+    case 'win32': {
+      const localAppData = process.env['LOCALAPPDATA'] ?? join(h, 'AppData', 'Local');
+      return existsSync(join(localAppData, 'Programs', 'Claude', 'Claude.exe'));
+    }
+    default:
+      // Linux install path is not standardised; don't block.
+      return true;
+  }
+}
+
+/**
  * Resolve the built mcp-server entry point.
  *
  * In dev / source-checkout mode this is the workspace dist/ directory.
@@ -214,6 +239,11 @@ export function getStatus(): ClaudeDesktopStatus {
   const resumePath = entry?.env?.RESUME_PATH ?? null;
   const warnings: string[] = [];
 
+  if (!isClaudeDesktopInstalled()) {
+    warnings.push(
+      'Claude Desktop does not appear to be installed. Download it from claude.ai/download, then connect.',
+    );
+  }
   if (parseError) {
     warnings.push(
       'claude_desktop_config.json exists but is not valid JSON. Connecting will not overwrite it — fix the file manually first.',
