@@ -6,6 +6,7 @@
       <span class="app-name">ResuRank</span>
     </div>
     <div class="flex-1"></div>
+    <button (click)="toggleTheme()" [title]="theme() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'" class="tb-btn tb-theme-btn">{{ theme() === 'dark' ? '☀' : '◗' }}</button>
     <button (click)="settingsOpen.set(!settingsOpen())" class="tb-btn">⚙ Settings</button>
   </header>
 
@@ -67,7 +68,10 @@
             </span>
           } @if (result(); as r) {
           <div class="score-row">
-            <div [attr.data-tier]="scoreTier(r.score)" class="score-big">{{ scorePct(r.score) }}<span class="score-pct">%</span>
+            <div class="score-ring" [style.--pct]="r.score" [attr.data-tier]="scoreTier(r.score)">
+              <div class="score-ring-face">
+                <span class="score-num">{{ scorePct(r.score) }}</span><span class="score-pct-sym">%</span>
+              </div>
             </div>
             <div class="score-breakdown text-muted small">
               <div>Embedding ({{ scorePct(r.breakdown.embeddingScore) }}

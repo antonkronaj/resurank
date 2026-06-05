@@ -13,11 +13,11 @@
   min-height: 200px;
   max-height: 400px;
   padding: 12px;
-  background: #f5f5f7;
-  border: 1px solid var(--border-light);
+  background: var(--bg);
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 13px;
-  color: #1d1d1f;
+  color: var(--text);
   font-family: inherit;
   line-height: 1.6;
   resize: vertical;
@@ -25,7 +25,7 @@
 }
 
 .words-textarea:focus {
-  background: #fff;
+  background: var(--surface);
   outline: 2px solid var(--accent);
   outline-offset: -1px;
   border-color: transparent;
@@ -45,9 +45,9 @@
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
-  background: #eef4ff;
-  color: #0055aa;
-  border: 1px solid #c3d9f8;
+  background: var(--accent-subtle);
+  color: var(--accent);
+  border: 1px solid var(--border-light);
   border-radius: 8px;
   font-size: 12px;
   font-weight: 500;
@@ -56,8 +56,8 @@
 .spinner {
   width: 14px;
   height: 14px;
-  border: 2px solid #c3d9f8;
-  border-top-color: #0055aa;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   flex-shrink: 0;
@@ -72,20 +72,20 @@
 .file-btn {
   display: inline-flex;
   align-items: center;
-  background: #f5f5f7;
-  border: 1px solid var(--border-light);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
   padding: 5px 12px;
   border-radius: 6px;
   font-size: 12px;
   cursor: pointer;
-  color: #1d1d1f;
+  color: var(--text);
   font-weight: 500;
   font-family: inherit;
   transition: all 0.1s;
 }
 
 .file-btn:hover {
-  background: #e8e8ed;
+  background: var(--row-hover);
   border-color: var(--border);
 }
 
@@ -103,7 +103,7 @@ button.primary {
 }
 
 button.primary:hover {
-  background: #0055aa;
+  background: var(--accent-hover);
 }
 
 button.primary.sm {

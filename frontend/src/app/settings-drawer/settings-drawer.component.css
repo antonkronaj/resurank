@@ -1,9 +1,9 @@
 .drawer-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.45);
   z-index: 100;
-  backdrop-filter: blur(1px);
+  backdrop-filter: blur(2px);
 }
 
 .settings-drawer {
@@ -32,18 +32,19 @@
   padding: 0 16px;
   height: 44px;
   border-bottom: 1px solid var(--border-light);
-  background: #fff;
+  background: var(--surface);
   flex-shrink: 0;
 }
 
 .dw-title {
   font-weight: 600;
   font-size: 13px;
+  color: var(--text);
 }
 
 .dw-close {
-  background: #f5f5f7;
-  border: 1px solid var(--border-light);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
   cursor: pointer;
   font-size: 11px;
   color: var(--muted);
@@ -58,8 +59,8 @@
 }
 
 .dw-close:hover {
-  background: #e8e8ed;
-  color: #1d1d1f;
+  background: var(--row-hover);
+  color: var(--text);
   border-color: var(--border);
 }
 
@@ -74,7 +75,7 @@
 
 .dw-section {
   padding: 12px;
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: 8px;
   display: flex;
@@ -126,20 +127,20 @@
 }
 
 .dw-field input {
-  background: #f5f5f7;
-  border: 1px solid var(--border-light);
+  background: var(--bg);
+  border: 1px solid var(--border);
   padding: 6px 10px;
   border-radius: 6px;
   font-size: 12px;
-  color: #1d1d1f;
+  color: var(--text);
   font-family: inherit;
   text-transform: none;
   letter-spacing: 0;
-  transition: all 0.2s;
+  transition: border-color 0.15s, background 0.15s;
 }
 
 .dw-field input:focus {
-  background: #fff;
+  background: var(--surface);
   outline: 2px solid var(--accent);
   outline-offset: -1px;
   border-color: transparent;
@@ -151,7 +152,7 @@
   height: 22px;
   gap: 8px;
   font-size: 12px;
-  color: #444;
+  color: var(--text-muted);
   cursor: pointer;
   text-transform: none;
   letter-spacing: 0;
@@ -159,7 +160,7 @@
 }
 
 .dw-check:hover {
-  color: #1d1d1f;
+  color: var(--text);
 }
 
 .dw-check input[type=checkbox] {
@@ -181,11 +182,11 @@ button.primary {
   align-self: flex-start;
   font-family: inherit;
   font-weight: 500;
-  transition: all 0.1s;
+  transition: background 0.15s;
 }
 
 button.primary:hover {
-  background: #0055aa;
+  background: var(--accent-hover);
 }
 
 button.primary.sm {
@@ -203,7 +204,7 @@ button.danger {
   cursor: pointer;
   font-family: inherit;
   font-weight: 500;
-  transition: all 0.1s;
+  transition: background 0.1s;
   text-align: left;
 }
 
@@ -231,7 +232,7 @@ button.danger.sm {
 .resume-name {
   font-size: 13px;
   font-weight: 500;
-  color: #1d1d1f;
+  color: var(--text);
 }
 
 .text-muted {
@@ -247,20 +248,20 @@ button.danger.sm {
 .file-btn {
   display: inline-flex;
   align-items: center;
-  background: #f5f5f7;
-  border: 1px solid var(--border-light);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 12px;
   cursor: pointer;
   align-self: flex-start;
-  color: #1d1d1f;
+  color: var(--text);
   font-weight: 500;
-  transition: all 0.1s;
+  transition: background 0.1s, border-color 0.1s;
 }
 
 .file-btn:hover {
-  background: #e8e8ed;
+  background: var(--row-hover);
   border-color: var(--border);
 }
 
@@ -273,12 +274,12 @@ button.danger.sm {
 }
 
 .key-status-inline b {
-  color: #e53e3e;
+  color: #f87171;
   font-weight: 600;
 }
 
 .key-status-inline b.ok {
-  color: #38a169;
+  color: #34d399;
 }
 
 .key-grid {
@@ -301,19 +302,19 @@ button.danger.sm {
 }
 
 .boost-row input {
-  background: #f5f5f7;
-  border: 1px solid var(--border-light);
+  background: var(--bg);
+  border: 1px solid var(--border);
   padding: 5px 8px;
   border-radius: 6px;
   font-size: 12px;
-  color: #1d1d1f;
+  color: var(--text);
   font-family: inherit;
-  transition: all 0.2s;
+  transition: border-color 0.15s, background 0.15s;
   min-width: 0;
 }
 
 .boost-row input:focus {
-  background: #fff;
+  background: var(--surface);
   outline: 2px solid var(--accent);
   outline-offset: -1px;
   border-color: transparent;
@@ -321,7 +322,7 @@ button.danger.sm {
 
 .boost-remove {
   background: transparent;
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border);
   color: var(--muted);
   width: 24px;
   height: 24px;
@@ -337,9 +338,9 @@ button.danger.sm {
 }
 
 .boost-remove:hover {
-  background: #fee;
-  border-color: #fbb;
-  color: #c33;
+  background: rgba(248, 113, 113, 0.1);
+  border-color: rgba(248, 113, 113, 0.5);
+  color: #f87171;
 }
 
 .boost-actions {
@@ -355,6 +356,7 @@ button.danger.sm {
   margin: 8px 0;
   font-size: 13px;
   cursor: pointer;
+  color: var(--text);
 }
 
 .missing-toggle input {
@@ -377,11 +379,12 @@ button.danger.sm {
 
 .missing-slider-val {
   font-weight: 600;
-  color: #1d1d1f;
+  color: var(--text);
 }
 
 .missing-slider {
   width: 100%;
+  accent-color: var(--accent);
 }
 
 .missing-slider:disabled {
@@ -392,7 +395,7 @@ button.danger.sm {
 .dw-subsection-title {
   font-size: 12px;
   font-weight: 600;
-  color: #1d1d1f;
+  color: var(--text);
   margin-top: 12px;
   margin-bottom: 4px;
 }
@@ -405,59 +408,60 @@ button.danger.sm {
 }
 
 .pinned-term {
-  background: #f5f5f7;
-  border: 1px solid var(--border-light);
+  background: var(--bg);
+  border: 1px solid var(--border);
   padding: 5px 8px;
   border-radius: 6px;
   font-size: 12px;
-  color: #1d1d1f;
+  color: var(--text);
   font-family: inherit;
-  transition: all 0.2s;
+  transition: border-color 0.15s, background 0.15s;
   min-width: 0;
 }
 
 .preference-text {
   width: 100%;
   box-sizing: border-box;
-  background: #f5f5f7;
-  border: 1px solid var(--border-light);
+  background: var(--bg);
+  border: 1px solid var(--border);
   padding: 8px;
   border-radius: 6px;
   font-size: 12px;
-  color: #1d1d1f;
+  color: var(--text);
   font-family: inherit;
   resize: vertical;
-  transition: all 0.2s;
+  transition: border-color 0.15s, background 0.15s;
 }
 
 .preference-text:focus {
-  background: #fff;
+  background: var(--surface);
   outline: 2px solid var(--accent);
   outline-offset: -1px;
   border-color: transparent;
 }
 
 .pinned-term:focus {
-  background: #fff;
+  background: var(--surface);
   outline: 2px solid var(--accent);
   outline-offset: -1px;
   border-color: transparent;
 }
 
 .pinned-importance {
-  background: #f5f5f7;
-  border: 1px solid var(--border-light);
+  background: var(--bg);
+  border: 1px solid var(--border);
   padding: 4px 6px;
   border-radius: 6px;
   font-size: 12px;
-  color: #1d1d1f;
+  color: var(--text);
   font-family: inherit;
   cursor: pointer;
   min-width: 0;
+  transition: border-color 0.15s;
 }
 
 .pinned-importance:focus {
-  background: #fff;
+  background: var(--surface);
   outline: 2px solid var(--accent);
   outline-offset: -1px;
   border-color: transparent;

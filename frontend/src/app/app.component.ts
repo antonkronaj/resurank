@@ -1,4 +1,4 @@
-import {Component, computed, inject, OnInit, signal} from '@angular/core';
+import {Component, computed, effect, inject, OnInit, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ApiService, MatchResult, MissingKeywordSettings, ModelStatus, PreferenceMismatchSettings, ResumeInfo,} from './api.service';
@@ -56,8 +56,23 @@ export class AppComponent implements OnInit {
   keywordInfoOpen = signal(false);
   keywordInfoMode = signal<KeywordInfoMode>('weighted');
   message = signal('');
+  theme = signal<'dark' | 'light'>(
+    (localStorage.getItem('resurank-theme') as 'dark' | 'light') ?? 'dark'
+  );
   private api = inject(ApiService);
   private embeddingService = inject(EmbeddingService);
+
+  constructor() {
+    effect(() => {
+      const t = this.theme();
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('resurank-theme', t);
+    });
+  }
+
+  toggleTheme(): void {
+    this.theme.set(this.theme() === 'dark' ? 'light' : 'dark');
+  }
   readonly modelStatus = computed<ModelStatus | null>(() => this.embeddingService.status());
 
   openKeywordInfo(mode: KeywordInfoMode): void {
