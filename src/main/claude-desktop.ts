@@ -1,6 +1,6 @@
 import {app} from 'electron';
 import {execSync} from 'node:child_process';
-import {existsSync, mkdirSync, readFileSync, statSync, writeFileSync} from 'node:fs';
+import {existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync} from 'node:fs';
 import {homedir, platform} from 'node:os';
 import {dirname, join, resolve} from 'node:path';
 
@@ -56,39 +56,100 @@ function getResumeExportPath(): string {
 }
 
 /**
- * Resolve the built mcp-server entry point. In dev/source-checkout this is
- * the workspace dist/. In a packaged app it must be unpacked under
- * resources/app.asar.unpacked or sibling resources/ to be runnable by an
- * external node process. We probe both.
+ * Resolve the built mcp-server entry point.
+ *
+ * In dev / source-checkout mode this is the workspace dist/ directory.
+ * In a packaged app we use `npx -y resurank-mcp` instead of a local path,
+ * so this function returns null when the app is packaged.
  */
 function getMcpServerPath(): string | null {
-  const candidates = [
-    // Dev / source checkout
-    join(app.getAppPath(), 'packages', 'mcp-server', 'dist', 'index.js'),
-    // Sibling to the asar (electron-forge's `extraResource` default landing)
-    join(process.resourcesPath ?? '', 'resurank-mcp', 'dist', 'index.js'),
-    join(process.resourcesPath ?? '', 'packages', 'mcp-server', 'dist', 'index.js'),
-    // Unpacked from asar
-    join(app.getAppPath() + '.unpacked', 'packages', 'mcp-server', 'dist', 'index.js'),
-  ];
-  for (const c of candidates) {
-    if (c && existsSync(c)) return resolve(c);
-  }
-  return null;
+  if (app.isPackaged) return null;
+  const candidate = join(app.getAppPath(), 'packages', 'mcp-server', 'dist', 'index.js');
+  return existsSync(candidate) ? resolve(candidate) : null;
 }
 
-/** Locate a node executable the user has on PATH. */
+/**
+ * Locate a node executable.
+ *
+ * Tries PATH first, then falls back to probing well-known install locations.
+ * The fallback is important for packaged Electron apps whose process PATH is
+ * often stripped to /usr/bin:/bin:/usr/sbin:/sbin on macOS.
+ */
 function getNodePath(): string | null {
+  // 1. Try PATH-based lookup first (works reliably in dev mode).
   const cmd = platform() === 'win32' ? 'where node' : 'command -v node';
   try {
     const out = execSync(cmd, {encoding: 'utf8'}).trim();
-    if (!out) return null;
-    // `where` on Windows can return multiple paths; take the first.
     const first = out.split(/\r?\n/)[0].trim();
-    return first.length > 0 ? first : null;
-  } catch {
-    return null;
+    if (first) return first;
+  } catch { /* fall through to probes */ }
+
+  // 2. Probe well-known install locations (needed when PATH is stripped).
+  const h = homedir();
+  const plat = platform();
+
+  const fallbacks: string[] =
+    plat === 'win32'
+      ? [
+          join(process.env['ProgramFiles'] ?? 'C:\\Program Files', 'nodejs', 'node.exe'),
+          join(process.env['ProgramFiles(x86)'] ?? 'C:\\Program Files (x86)', 'nodejs', 'node.exe'),
+          join(h, '.volta', 'bin', 'node.exe'),
+        ]
+      : [
+          '/usr/local/bin/node',       // npm system installer (Intel Mac / Linux)
+          '/opt/homebrew/bin/node',    // Homebrew (Apple Silicon)
+          join(h, '.volta', 'bin', 'node'),  // Volta
+        ];
+
+  for (const p of fallbacks) {
+    if (existsSync(p)) return p;
   }
+
+  // 3. NVM: look for highest version under ~/.nvm/versions/node/
+  const nvmDir = process.env['NVM_DIR'] ?? join(h, '.nvm');
+  const nvmVersionsDir = join(nvmDir, 'versions', 'node');
+  if (existsSync(nvmVersionsDir)) {
+    try {
+      const versions = readdirSync(nvmVersionsDir).sort().reverse();
+      for (const v of versions) {
+        const p = plat === 'win32'
+          ? join(nvmVersionsDir, v, 'node.exe')
+          : join(nvmVersionsDir, v, 'bin', 'node');
+        if (existsSync(p)) return p;
+      }
+    } catch { /* ignore */ }
+  }
+
+  return null;
+}
+
+interface McpEntry {
+  command: string;
+  args: string[];
+}
+
+/**
+ * Return the command + args to use for the MCP server config entry.
+ *
+ * Dev mode  — runs the locally-built workspace dist directly via node.
+ * Packaged  — uses `npx -y resurank-mcp` so the published package is fetched
+ *             from npm on first use (then cached). This avoids bundling the
+ *             mcp-server and its 250 MB of dependencies inside the app.
+ */
+function getMcpEntry(nodePath: string, serverPath: string | null): McpEntry {
+  if (app.isPackaged) {
+    // Derive npx from the node binary's directory; fall back to bare 'npx'
+    // (Claude Desktop spawns via shell so bare npx resolves through PATH).
+    const nodeDir = dirname(nodePath);
+    const npxBin = (plat: string) => plat === 'win32'
+      ? join(nodeDir, 'npx.cmd')
+      : join(nodeDir, 'npx');
+    const npxPath = npxBin(platform());
+    const command = existsSync(npxPath) ? npxPath : 'npx';
+    return {command, args: ['-y', 'resurank-mcp']};
+  }
+  if (!serverPath) throw new Error('MCP server dist not found (run npm run build in packages/mcp-server)');
+  return {command: nodePath, args: [serverPath]};
 }
 
 interface ClaudeConfig {
@@ -160,10 +221,10 @@ export function getStatus(): ClaudeDesktopStatus {
   }
   if (!nodePath) {
     warnings.push(
-      'Could not find a "node" executable on PATH. Install Node.js (v22+) so Claude Desktop can launch the MCP server.',
+      'Could not find a "node" executable. Install Node.js (v22+) from nodejs.org so Claude Desktop can launch the MCP server.',
     );
   }
-  if (!mcpServerPath) {
+  if (!mcpServerPath && !app.isPackaged) {
     warnings.push(
       'Could not locate the resurank-mcp build. Run `npm run build` inside packages/mcp-server.',
     );
@@ -197,7 +258,7 @@ export function connect(options: ConnectOptions): ConnectResult {
 
   const nodePath = getNodePath();
   const mcpServerPath = getMcpServerPath();
-  if (!nodePath || !mcpServerPath) {
+  if (!nodePath || (!app.isPackaged && !mcpServerPath)) {
     return {ok: false, wrote: false, status: getStatus()};
   }
 
@@ -212,9 +273,10 @@ export function connect(options: ConnectOptions): ConnectResult {
     writeFileSync(resumePath, '', 'utf8');
   }
 
+  const {command, args} = getMcpEntry(nodePath, mcpServerPath);
   const desired: McpServerEntry = {
-    command: nodePath,
-    args: [mcpServerPath],
+    command,
+    args,
     env: {RESUME_PATH: resumePath},
   };
 
