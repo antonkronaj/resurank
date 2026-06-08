@@ -14,6 +14,8 @@ import {
   TFIDF_WEIGHT,
   TOP_TERMS_FOR_BREAKDOWN,
   TOP_TERMS_FOR_MATCHING,
+  RESUME_INDEX,
+  JOB_INDEX,
 } from './constants.js';
 import {extractTerms} from './terms.js';
 import {
@@ -32,6 +34,12 @@ import {
 function dotProduct(a: number[], b: number[]): number {
   let s = 0;
   for (let i = 0; i < a.length; i++) s += a[i] * b[i];
+  return s;
+}
+
+function normSq(weights: Map<string, number>): number {
+  let s = 0;
+  for (const w of weights.values()) s += w * w;
   return s;
 }
 
@@ -176,37 +184,40 @@ export async function scoreResumeAgainstJob(
   const missingSettings = options.missingKeyword ?? DEFAULT_MISSING_KEYWORD_SETTINGS;
   const preferenceSettings = options.preferenceMismatch ?? DEFAULT_PREFERENCE_MISMATCH_SETTINGS;
 
+  // Build sparse TF-IDF vectors. The "corpus" is just two documents (resume + JD),
+  // so IDF only distinguishes shared vs. doc-unique terms. Resume weights are scaled
+  // by per-term user boosts; JD weights are raw.
   const boosts = normalizeBoosts(termBoosts);
   const tfidf = buildTfIdf(resumeText, job);
 
   const resumeWeights = new Map<string, number>();
-  tfidf.listTerms(0).forEach((t) => {
+  tfidf.listTerms(RESUME_INDEX).forEach((t) => {
     const boost = boosts[t.term] ?? 1;
     resumeWeights.set(t.term, t.tfidf * boost);
   });
 
   const jobWeights = new Map<string, number>();
-  tfidf.listTerms(1).forEach((t) => {
+  tfidf.listTerms(JOB_INDEX).forEach((t) => {
     jobWeights.set(t.term, t.tfidf);
   });
 
+  // Top-N resume terms by weight — only these count toward matched chips and the overlap bonus.
   const sortedResume = [...resumeWeights.entries()].sort((a, b) => b[1] - a[1]);
   const topTerms = new Set(sortedResume.slice(0, TOP_TERMS_FOR_MATCHING).map(([term]) => term));
 
-  let dot = 0;
-  let resumeNormSq = 0;
-  let jobNormSq = 0;
-  const matched = new Set<string>();
+  // Cosine similarity over the sparse vectors, plus an overlap-count kicker.
+  const resumeNormSq = normSq(resumeWeights);
+  const jobNormSq = normSq(jobWeights);
 
+  // Sparse dot product over shared terms; also collect matches from the resume's top slice.
+  let dot = 0;
+  const matched = new Set<string>();
   for (const [term, w] of resumeWeights) {
-    resumeNormSq += w * w;
     const jw = jobWeights.get(term);
-    if (jw !== undefined) {
-      dot += w * jw;
-      if (topTerms.has(term)) matched.add(term);
-    }
+    if (jw === undefined) continue;
+    dot += w * jw;
+    if (topTerms.has(term)) matched.add(term);
   }
-  for (const w of jobWeights.values()) jobNormSq += w * w;
 
   const cosine = resumeNormSq > 0 && jobNormSq > 0
     ? dot / Math.sqrt(resumeNormSq * jobNormSq)
@@ -214,11 +225,17 @@ export async function scoreResumeAgainstJob(
   const overlapBonus = Math.min(matched.size / OVERLAP_BONUS_THRESHOLD, 1) * OVERLAP_BONUS_MAX;
   const tfidfScore = Math.min(cosine + overlapBonus, 1);
 
+  // Semantic similarity via the embedding model. Sanitize + truncate before embedding
+  // to keep WASM memory bounded; output vectors are already unit-normalized, so the
+  // dot product is the cosine.
   const resumeInput = sanitizeForEmbedding(resumeText).slice(0, EMBEDDING_CHAR_CAP);
-  const jobText = sanitizeForEmbedding(`${job.title}. ${job.description}`).slice(0, EMBEDDING_CHAR_CAP);
-  const [resumeVec, jobVec] = await embedder.embed([resumeInput, jobText]);
+  const jobInput = sanitizeForEmbedding(`${job.title}. ${job.description}`).slice(0, EMBEDDING_CHAR_CAP);
+  const [resumeVec, jobVec] = await embedder.embed([resumeInput, jobInput]);
   const embeddingScore = resumeVec && jobVec ? Math.max(0, dotProduct(resumeVec, jobVec)) : 0;
 
+  // Blend the two scores. When TF-IDF is near zero, the embedding is likely a false
+  // positive (generic "professional text" similarity), so taper its weight down.
+  // divergencePenalty is reported for the UI breakdown only.
   const tfidfSignal = Math.min(tfidfScore / DIVERGENCE_TFIDF_GATE, 1);
   const embeddingWeight = DIVERGENCE_MIN_EMBEDDING_WEIGHT + (EMBEDDING_WEIGHT - DIVERGENCE_MIN_EMBEDDING_WEIGHT) * tfidfSignal;
   const adjustedScore = Math.min(Math.max(0, embeddingWeight * embeddingScore + (1 - embeddingWeight) * tfidfScore), 1);
@@ -229,12 +246,15 @@ export async function scoreResumeAgainstJob(
 
   const isExcluded = (term: string) => userStopwords.has(term) || EXTRA_STOPWORDS.has(term);
 
+  // Top JD terms by TF-IDF weight, for the "weighted keywords" panel in the UI.
   const jobWeighted: TermWeight[] = [...jobWeights.entries()]
     .filter(([term]) => !isExcluded(term))
     .sort((a, b) => b[1] - a[1])
     .slice(0, TOP_TERMS_FOR_BREAKDOWN)
     .map(([term, weight]) => ({term, weight}));
 
+  // Penalties: missing user-pinned keywords, and semantic match to the user's
+  // "traits I want to avoid" text.
   const {missingKeywordPenalty, missingTerms, pinnedNotInJob} = computeMissingKeywordPenalty(
     missingSettings,
     jobWeights,
@@ -250,6 +270,7 @@ export async function scoreResumeAgainstJob(
 
   const score = Math.max(0, adjustedScore - missingKeywordPenalty - preferenceMismatchPenalty);
 
+  // Raw JD term counts for the "keyword frequency" panel — independent of TF-IDF weighting.
   const jobTokens = extractTerms(`${job.title} ${job.title} ${job.description}`, userStopwords);
   const countMap = new Map<string, number>();
   for (const t of jobTokens) {

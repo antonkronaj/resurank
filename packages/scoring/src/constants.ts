@@ -86,3 +86,5 @@ export const PIN_IMPORTANCE_MULTIPLIERS: Record<PinImportance, number> = {
   high: 2,
 };
 export const DEFAULT_PIN_IMPORTANCE: PinImportance = 'medium';
+export const RESUME_INDEX = 0;
+export const JOB_INDEX = 1;
