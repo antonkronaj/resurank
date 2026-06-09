@@ -56,7 +56,7 @@
               },
               {
                 "glob": "pdf.worker.mjs",
-                "input": "node_modules/pdfjs-dist/build",
+                "input": "../node_modules/pdfjs-dist/build",
                 "output": "assets"
               },
               {

@@ -20,8 +20,9 @@ export const TFIDF_WEIGHT = 0.40;
 
 // Of the resume's TF-IDF terms sorted by weight desc, how many count as
 // "high signal." Only terms in this top slice can show up as matched
-// terms or contribute to the overlap bonus.
-export const TOP_TERMS_FOR_MATCHING = 100;
+// terms or contribute to the overlap bonus. Set to 150 to capture mid-weight
+// terms (location, seniority, domain vocab) that are legitimate JD signal.
+export const TOP_TERMS_FOR_MATCHING = 150;
 
 // Display cap on the matched-term chips shown in the result panel.
 // Cosmetic only — doesn't affect the score.
