@@ -115,6 +115,42 @@ The renderer talks to the main process via `window.electronAPI` (contextBridge).
 - **Custom protocol**: the packaged app is served over `app://localhost/` (a privileged custom scheme) rather than `file://`, so `crossOriginIsolated` headers can be set and `SharedArrayBuffer` / threaded WASM are available.
 - **Security**: context isolation and sandboxing are enabled; a Content Security Policy is applied to all renderer responses; all renderer permission requests (mic, camera, notifications) are denied.
 
+## Publishing npm packages
+
+ResuRank ships two packages to npm alongside the desktop app:
+
+| Package | When to publish |
+|---|---|
+| `@resurank/scoring` | Any scoring logic / constant change that MCP users should get |
+| `resurank-mcp` | Any MCP server change, or after a scoring publish |
+
+The **desktop app** consumes `@resurank/scoring` via the npm workspace symlink and
+always uses whatever is in `packages/scoring/dist` — it never needs a scoring npm
+publish. Just rebuild and dist.
+
+**Scoring + MCP publish flow:**
+
+```bash
+# 1. Publish @resurank/scoring
+npm -w @resurank/scoring run version:patch   # or version:minor / version:major
+cd packages/scoring && npm publish && cd ../..
+
+# 2. Publish resurank-mcp (no package.json edits needed for patch/minor scoring bumps)
+npm -w resurank-mcp run version:patch
+cd packages/mcp-server && npm publish && cd ../..
+
+# 3. Build and package the desktop app
+npm run dist
+```
+
+The `^` semver range on `@resurank/scoring` in both `frontend/package.json` and
+`packages/mcp-server/package.json` covers all patch and minor scoring releases
+automatically. Only a major scoring bump requires a manual dependency edit in those files.
+
+See [`packages/scoring/README.md`](packages/scoring/README.md) and
+[`packages/mcp-server/README.md`](packages/mcp-server/README.md) for the full
+per-package version and publish steps.
+
 ## CI & Releases
 
 The release workflow lives at [`.github/workflows/release.yml`](.github/workflows/release.yml). It runs a 3-OS matrix (`macos-latest`, `windows-latest`, `ubuntu-latest`) on every push and on `v*` tag pushes. `dependabot/**` and `renovate/**` branches are excluded so bot branches don't burn matrix runs.

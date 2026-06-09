@@ -251,6 +251,37 @@ cd packages/scoring && npm publish
 `prepublishOnly` runs `clean → build → test` automatically before the publish
 goes out. If any test fails, the publish is aborted.
 
+## After publishing a new scoring version
+
+The two consumers of `@resurank/scoring` resolve it differently:
+
+| Consumer | How it resolves scoring | Action needed after scoring publish |
+|---|---|---|
+| **ResuRank desktop app** (`frontend`) | npm workspace symlink — always uses the local `packages/scoring/dist` | Just rebuild and dist the app — no npm publish or `package.json` edit needed |
+| **`resurank-mcp`** (installed by end users via `npx`) | Pulled from the npm registry | Bump and publish `resurank-mcp` so users get the updated scoring |
+
+Both packages declare `"@resurank/scoring": "^1.0.x"`. The `^` range covers
+all patch and minor bumps automatically — **no manual dependency version edit**
+is needed in either consumer's `package.json` unless scoring gets a major bump
+(`1.x.x → 2.0.0`).
+
+**Full release flow for a scoring change:**
+
+```bash
+# 1. Publish @resurank/scoring (this step)
+npm -w @resurank/scoring run version:patch
+cd packages/scoring && npm publish
+
+# 2. Bump and publish resurank-mcp (no package.json edits needed)
+cd ../..
+npm -w resurank-mcp run version:patch
+cd packages/mcp-server && npm publish
+
+# 3. Build and package the desktop app
+cd ../..
+npm run dist
+```
+
 ## License
 
 [AGPL-3.0-only](./LICENSE).

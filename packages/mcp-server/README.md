@@ -396,6 +396,11 @@ goes out. If any test fails, the publish is aborted.
 If you also updated `@resurank/scoring`, publish that first — the mcp-server
 depends on it and `prepublishOnly` installs from the registry.
 
+**Dependency version bump:** `resurank-mcp` declares `"@resurank/scoring": "^1.0.x"`.
+The `^` range picks up all patch and minor scoring releases automatically — you do
+**not** need to edit `package.json` for patch or minor scoring bumps. Only a major
+scoring bump (`1.x.x → 2.0.0`) requires a manual dependency version update here.
+
 ---
 
 ## Local registration (during development)

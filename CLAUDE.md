@@ -85,6 +85,47 @@ npm --prefix packages/scoring run test
 
 ---
 
+## Publishing
+
+### Dependency resolution
+
+`@resurank/scoring` is consumed in two different ways depending on context:
+
+| Consumer | How it resolves `@resurank/scoring` | Needs publish? |
+|---|---|---|
+| `frontend` (desktop app) | npm workspace symlink — always uses local `packages/scoring/dist` | Never |
+| `resurank-mcp` (local dev) | npm workspace symlink — always uses local `packages/scoring/dist` | Never |
+| `resurank-mcp` (installed by end users via npx) | Pulled from npm registry | Yes |
+
+Both `frontend` and `mcp-server` declare `"@resurank/scoring": "^1.0.x"`. The `^` range covers all patch and minor bumps automatically — no dependency version edit is needed in those `package.json` files unless scoring gets a **major** version bump (`1.x.x → 2.0.0`).
+
+### Releasing a scoring change
+
+**Desktop app only** (no npm publish required):
+```bash
+npm run build        # compiles scoring → frontend → electron
+npm run dist         # packages new installer to out/
+```
+
+**Scoring + MCP server** (both published to npm):
+```bash
+# 1. Bump and publish @resurank/scoring
+npm --prefix packages/scoring run version:patch   # or version:minor / version:major
+npm publish --workspace packages/scoring
+
+# 2. Bump and publish resurank-mcp
+#    (no package.json edits needed for patch/minor scoring bumps)
+npm --prefix packages/mcp-server run version:patch
+npm publish --workspace packages/mcp-server
+
+# 3. Build and package the desktop app
+npm run dist
+```
+
+The `version:*` scripts create prefixed git tags (`scoring-v1.0.x`, `mcp-v1.0.x`) to keep scoring and MCP releases independently traceable in git history.
+
+---
+
 ## Architecture Notes
 
 - **IPC**: Renderer communicates with main process through typed `contextBridge` (`src/preload/index.cts`). Add new IPC channels there and in `src/main/index.ts` together.
