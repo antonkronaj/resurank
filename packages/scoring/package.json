@@ -1,6 +1,6 @@
 {
   "name": "@resurank/scoring",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Framework-free resume / job-description scoring engine. Hybrid 60% semantic + 40% TF-IDF, runs locally via Transformers.js. Powers the ResuRank desktop app and the resurank-mcp MCP server.",
   "license": "AGPL-3.0-only",
   "author": "Anton Kronaj <developer@kronaj.com>",
@@ -34,6 +34,14 @@
     "./node-embedder": {
       "types": "./dist/node-embedder.d.ts",
       "default": "./dist/node-embedder.js"
+    },
+    "./worker": {
+      "types": "./dist/worker.d.ts",
+      "default": "./dist/worker.js"
+    },
+    "./worker-embedder": {
+      "types": "./dist/worker-embedder.d.ts",
+      "default": "./dist/worker-embedder.js"
     },
     "./constants": {
       "types": "./dist/constants.d.ts",

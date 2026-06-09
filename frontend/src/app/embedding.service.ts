@@ -1,41 +1,21 @@
 import {Injectable, signal} from '@angular/core';
+import {createWorkerEmbedder, type ModelStatus, type WorkerEmbedder} from '@resurank/scoring/worker-embedder';
 import {StorageService} from './storage.service';
 
-export interface ModelStatus {
-  loading: boolean;
-  ready: boolean;
-  progress?: number;
-  file?: string;
-  error?: string;
-}
-
-interface WorkerMessage {
-  id?: string;
-  ready?: boolean;
-  vectors?: number[][];
-  error?: string;
-  message?: string;
-  type?: string;
-  file?: string;
-  progress?: number;
-}
+export type {ModelStatus};
 
 @Injectable({providedIn: 'root'})
 export class EmbeddingService {
   readonly status = signal<ModelStatus>({loading: false, ready: false});
-  private worker: Worker | null = null;
-  private pendingRequests = new Map<string, { resolve: (v: number[][]) => void; reject: (e: Error) => void }>();
-  private readyPromise: Promise<void> | null = null;
-  private resumeCache: { text: string; vector: number[] } | null = null;
-  private preferenceCache: { text: string; vector: number[] } | null = null;
-  private readonly TEXT_CACHE_MAX = 16;
-  private textCache = new Map<string, number[]>();
+  private embedder: WorkerEmbedder | null = null;
+  private embedderPromise: Promise<WorkerEmbedder> | null = null;
+  private resumeCache: {text: string; vector: number[]} | null = null;
+  private preferenceCache: {text: string; vector: number[]} | null = null;
 
-  constructor(private storage: StorageService) {
-  }
+  constructor(private storage: StorageService) {}
 
   warmup(): void {
-    this.getWorker().catch(err => console.error('[EmbeddingService] warmup failed:', err));
+    this.getEmbedder().catch(err => console.error('[EmbeddingService] warmup failed:', err));
   }
 
   async embedResume(text: string): Promise<number[]> {
@@ -47,7 +27,6 @@ export class EmbeddingService {
 
   invalidateResumeCache(): void {
     this.resumeCache = null;
-    this.textCache.clear();
   }
 
   async embedPreference(text: string): Promise<number[]> {
@@ -59,7 +38,6 @@ export class EmbeddingService {
 
   invalidatePreferenceCache(): void {
     this.preferenceCache = null;
-    this.textCache.clear();
   }
 
   async embedJob(text: string): Promise<number[]> {
@@ -69,126 +47,30 @@ export class EmbeddingService {
 
   async embed(texts: string[]): Promise<number[][]> {
     if (texts.length === 0) return [];
-
-    const out: (number[] | undefined)[] = new Array(texts.length);
-    const missIndices: number[] = [];
-    const missTexts: string[] = [];
-    for (let i = 0; i < texts.length; i++) {
-      const cached = this.textCache.get(texts[i]);
-      if (cached) {
-        out[i] = cached;
-      } else {
-        missIndices.push(i);
-        missTexts.push(texts[i]);
-      }
-    }
-
-    if (missTexts.length > 0) {
-      const BATCH_SIZE = 10;
-      const fetched: number[][] = [];
-      for (let i = 0; i < missTexts.length; i += BATCH_SIZE) {
-        const batch = missTexts.slice(i, i + BATCH_SIZE);
-        const batchResults = await this.embedBatch(batch);
-        fetched.push(...batchResults);
-      }
-      for (let k = 0; k < missIndices.length; k++) {
-        out[missIndices[k]] = fetched[k];
-        this.cachePut(missTexts[k], fetched[k]);
-      }
-    }
-
-    return out as number[][];
+    const embedder = await this.getEmbedder();
+    return embedder.embed(texts);
   }
 
-  private cachePut(text: string, vector: number[]): void {
-    if (this.textCache.has(text)) this.textCache.delete(text);
-    this.textCache.set(text, vector);
-    while (this.textCache.size > this.TEXT_CACHE_MAX) {
-      const oldest = this.textCache.keys().next().value;
-      if (oldest === undefined) break;
-      this.textCache.delete(oldest);
-    }
-  }
+  private async getEmbedder(): Promise<WorkerEmbedder> {
+    if (this.embedder) return this.embedder;
+    if (this.embedderPromise) return this.embedderPromise;
 
-  private async getWorker(): Promise<Worker> {
-    if (this.worker && this.status().ready) return this.worker;
+    this.embedderPromise = (async () => {
+      const cacheDir = await this.storage.getUserDataPath().then(p => `${p}/model-cache`).catch(() => undefined);
+      const worker = new Worker(new URL('./embedding.worker', import.meta.url), {type: 'module'});
 
-    if (this.readyPromise) {
-      await this.readyPromise;
-      return this.worker!;
-    }
-
-    this.status.set({loading: true, ready: false});
-
-    this.readyPromise = new Promise<void>((resolve, reject) => {
-      this.worker = new Worker(new URL('./embedding.worker', import.meta.url), {type: 'module'});
-
-      // Configure cache directory
-      this.storage.getUserDataPath().then(cacheDir => {
-        const fullCacheDir = `${cacheDir}/model-cache`;
-        console.log('[EmbeddingService] Configuring cache directory:', fullCacheDir);
-        this.worker?.postMessage({type: 'setCacheDir', cacheDir: fullCacheDir});
-      }).catch(() => { /* non-fatal */
+      const embedder = createWorkerEmbedder({
+        worker,
+        cacheDir,
+        wasmPaths: new URL('assets/ort/', new URL('.', self.location.href).href).href,
+        onStatus: status => this.status.set(status),
       });
 
-      this.worker.onmessage = (event: MessageEvent<WorkerMessage>) => {
-        const msg = event.data;
+      await embedder.warmup();
+      this.embedder = embedder;
+      return embedder;
+    })();
 
-        if (msg.ready) {
-          this.status.set({loading: false, ready: true});
-          resolve();
-        } else if (msg.type === 'downloadProgress') {
-          this.status.set({loading: true, ready: false, progress: msg.progress, file: msg.file});
-        } else if (msg.type === 'downloadStart') {
-          this.status.set({loading: true, ready: false, progress: 0, file: msg.file});
-        } else if (msg.type === 'downloadDone') {
-          this.status.set({loading: true, ready: false, progress: 100, file: msg.file});
-        } else if (msg.type === 'loadError') {
-          this.status.set({loading: false, ready: false, error: msg.message});
-          reject(new Error(msg.message));
-        } else if (msg.id && this.pendingRequests.has(msg.id)) {
-          const pending = this.pendingRequests.get(msg.id)!;
-          this.pendingRequests.delete(msg.id);
-          if (msg.error) {
-            pending.reject(new Error(msg.error));
-          } else {
-            pending.resolve(msg.vectors ?? []);
-          }
-        }
-      };
-
-      this.worker.onerror = (err) => {
-        this.status.set({loading: false, ready: false, error: err.message});
-        reject(new Error(err.message));
-      };
-    });
-
-    await this.readyPromise;
-    return this.worker!;
-  }
-
-  private async embedBatch(texts: string[]): Promise<number[][]> {
-    const worker = await this.getWorker();
-    const id = Math.random().toString(36).substring(7);
-
-    return new Promise<number[][]>((resolve, reject) => {
-      const timeout = setTimeout(() => {
-        this.pendingRequests.delete(id);
-        reject(new Error(`Embedding request ${id} timed out`));
-      }, 60000);
-
-      this.pendingRequests.set(id, {
-        resolve: (vectors) => {
-          clearTimeout(timeout);
-          resolve(vectors);
-        },
-        reject: (err) => {
-          clearTimeout(timeout);
-          reject(err);
-        },
-      });
-
-      worker.postMessage({id, texts});
-    });
+    return this.embedderPromise;
   }
 }
