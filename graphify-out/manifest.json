@@ -1,0 +1,502 @@
+{
+  "/Users/anton/projects/resurank/frontend/.vscode/extensions.json": {
+    "mtime": 1778604552.3637602,
+    "ast_hash": "fec61925b5990dfe220a6a3a1678321e",
+    "semantic_hash": "fec61925b5990dfe220a6a3a1678321e"
+  },
+  "/Users/anton/projects/resurank/frontend/.vscode/launch.json": {
+    "mtime": 1777054980.6403077,
+    "ast_hash": "c6799d2f7ae6f5d7a740d1023654bb8d",
+    "semantic_hash": "c6799d2f7ae6f5d7a740d1023654bb8d"
+  },
+  "/Users/anton/projects/resurank/frontend/.vscode/tasks.json": {
+    "mtime": 1777054980.6403677,
+    "ast_hash": "5a70b3d3763f6628c8083d7b033b98b8",
+    "semantic_hash": "5a70b3d3763f6628c8083d7b033b98b8"
+  },
+  "/Users/anton/projects/resurank/frontend/angular.json": {
+    "mtime": 1780971862.3268962,
+    "ast_hash": "e8c15b1662ed3ae4c41e9451e37d4bdd",
+    "semantic_hash": "e8c15b1662ed3ae4c41e9451e37d4bdd"
+  },
+  "/Users/anton/projects/resurank/frontend/package.json": {
+    "mtime": 1780679990.5757654,
+    "ast_hash": "140b68021422184cf288412a9bd18278",
+    "semantic_hash": "140b68021422184cf288412a9bd18278"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/api.service.ts": {
+    "mtime": 1780679990.576162,
+    "ast_hash": "0a19dc75114078eb58d46911a3a568ae",
+    "semantic_hash": "0a19dc75114078eb58d46911a3a568ae"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/app.component.ts": {
+    "mtime": 1780679990.5772371,
+    "ast_hash": "a1b3a587e9e09c950a5a7864b3a2df88",
+    "semantic_hash": "a1b3a587e9e09c950a5a7864b3a2df88"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/app.config.ts": {
+    "mtime": 1778604552.367551,
+    "ast_hash": "34413008261d25dc972843aaa6263204",
+    "semantic_hash": "34413008261d25dc972843aaa6263204"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/claude-desktop-card/claude-desktop-card.component.ts": {
+    "mtime": 1780679990.5782123,
+    "ast_hash": "90fc4bf086c4984ccea9eaba1841f594",
+    "semantic_hash": "90fc4bf086c4984ccea9eaba1841f594"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/claude-desktop.service.ts": {
+    "mtime": 1780679990.5784197,
+    "ast_hash": "d63c039cb68e1b4c7cfc5b22028db5b0",
+    "semantic_hash": "d63c039cb68e1b4c7cfc5b22028db5b0"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/embedding.service.ts": {
+    "mtime": 1781009678.9418843,
+    "ast_hash": "a5f363d166524881129ae8e2919ffd54",
+    "semantic_hash": "a5f363d166524881129ae8e2919ffd54"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/embedding.worker.ts": {
+    "mtime": 1781009641.5699787,
+    "ast_hash": "65dd817e3b60ba4cfd57365c6761500c",
+    "semantic_hash": "65dd817e3b60ba4cfd57365c6761500c"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/keyword-info-modal/keyword-info-modal.component.ts": {
+    "mtime": 1778604552.368835,
+    "ast_hash": "ad1374547690e402bb9b2f1810256595",
+    "semantic_hash": "ad1374547690e402bb9b2f1810256595"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/matcher.service.ts": {
+    "mtime": 1780679990.579602,
+    "ast_hash": "f2359c0b8db7448dd538a8e3040b54c4",
+    "semantic_hash": "f2359c0b8db7448dd538a8e3040b54c4"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/modal-shell/modal-shell.component.ts": {
+    "mtime": 1778604552.354222,
+    "ast_hash": "793daa5125174371f00778c8a30efaff",
+    "semantic_hash": "793daa5125174371f00778c8a30efaff"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/resume-parser.service.ts": {
+    "mtime": 1781024371.005349,
+    "ast_hash": "e59e30d6a5fcb292ce41946f6efc33c3",
+    "semantic_hash": "e59e30d6a5fcb292ce41946f6efc33c3"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/score-info-modal/score-info-modal.component.ts": {
+    "mtime": 1778604552.352128,
+    "ast_hash": "d4522d742deb377cfe2400a8a8e30859",
+    "semantic_hash": "d4522d742deb377cfe2400a8a8e30859"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/settings-drawer/settings-drawer.component.ts": {
+    "mtime": 1780679990.5816817,
+    "ast_hash": "4c28b1616bbcbe85636a54cd0f57f697",
+    "semantic_hash": "4c28b1616bbcbe85636a54cd0f57f697"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/settings-info-modal/settings-info-modal.component.ts": {
+    "mtime": 1780679990.582572,
+    "ast_hash": "b6a5cd3524ff3c729d5d951c44339a98",
+    "semantic_hash": "b6a5cd3524ff3c729d5d951c44339a98"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/stopwords-modal/stopwords-modal.component.ts": {
+    "mtime": 1778604552.3775337,
+    "ast_hash": "698ab53de34436a875ae7a99b5ac9a04",
+    "semantic_hash": "698ab53de34436a875ae7a99b5ac9a04"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/storage.service.ts": {
+    "mtime": 1780679990.5830348,
+    "ast_hash": "8bcf47bbde3e714106010fe27f955b05",
+    "semantic_hash": "8bcf47bbde3e714106010fe27f955b05"
+  },
+  "/Users/anton/projects/resurank/frontend/src/electron-api.d.ts": {
+    "mtime": 1780679990.5833046,
+    "ast_hash": "40710b0ecff9dc58356b7ad1e926ee3e",
+    "semantic_hash": "40710b0ecff9dc58356b7ad1e926ee3e"
+  },
+  "/Users/anton/projects/resurank/frontend/src/main.ts": {
+    "mtime": 1778604552.398163,
+    "ast_hash": "0402d25de33de44a4316d44fe3a364a9",
+    "semantic_hash": "0402d25de33de44a4316d44fe3a364a9"
+  },
+  "/Users/anton/projects/resurank/frontend/tsconfig.app.json": {
+    "mtime": 1778604405.724218,
+    "ast_hash": "e311f2e32d928bef993d55e57e4d59cf",
+    "semantic_hash": "e311f2e32d928bef993d55e57e4d59cf"
+  },
+  "/Users/anton/projects/resurank/frontend/tsconfig.json": {
+    "mtime": 1780679990.5839229,
+    "ast_hash": "e15521a7b74bf3c8313940fcefe3b5ce",
+    "semantic_hash": "e15521a7b74bf3c8313940fcefe3b5ce"
+  },
+  "/Users/anton/projects/resurank/frontend/tsconfig.spec.json": {
+    "mtime": 1777054980.6401098,
+    "ast_hash": "3bbab7796b2ab5af73dcc4b5f9064535",
+    "semantic_hash": "3bbab7796b2ab5af73dcc4b5f9064535"
+  },
+  "/Users/anton/projects/resurank/package.json": {
+    "mtime": 1780981932.3616974,
+    "ast_hash": "59ef5a35d8744102add282fa99a05718",
+    "semantic_hash": "59ef5a35d8744102add282fa99a05718"
+  },
+  "/Users/anton/projects/resurank/packages/mcp-server/install.sh": {
+    "mtime": 1780679990.5866609,
+    "ast_hash": "049154f4930b22a4d64a92a4cee4e21f",
+    "semantic_hash": "049154f4930b22a4d64a92a4cee4e21f"
+  },
+  "/Users/anton/projects/resurank/packages/mcp-server/package.json": {
+    "mtime": 1780982007.2726245,
+    "ast_hash": "70b24510610c9e8bb2dec376587e121a",
+    "semantic_hash": "70b24510610c9e8bb2dec376587e121a"
+  },
+  "/Users/anton/projects/resurank/packages/mcp-server/src/index.ts": {
+    "mtime": 1780679990.587209,
+    "ast_hash": "391cdedc14f7803c7f346f6a43da6e2c",
+    "semantic_hash": "391cdedc14f7803c7f346f6a43da6e2c"
+  },
+  "/Users/anton/projects/resurank/packages/mcp-server/src/resume-loader.ts": {
+    "mtime": 1780679990.587599,
+    "ast_hash": "927af4e6f56ec20d797c227893cfeb42",
+    "semantic_hash": "927af4e6f56ec20d797c227893cfeb42"
+  },
+  "/Users/anton/projects/resurank/packages/mcp-server/test/resume-loader.test.ts": {
+    "mtime": 1780679990.5888007,
+    "ast_hash": "8fdceadcacbc1e73e1b7bf7c4d9c4cac",
+    "semantic_hash": "8fdceadcacbc1e73e1b7bf7c4d9c4cac"
+  },
+  "/Users/anton/projects/resurank/packages/mcp-server/tsconfig.json": {
+    "mtime": 1780679990.5891068,
+    "ast_hash": "60f0baf233f0db2690effb2242879c0d",
+    "semantic_hash": "60f0baf233f0db2690effb2242879c0d"
+  },
+  "/Users/anton/projects/resurank/packages/mcp-server/tsconfig.test.json": {
+    "mtime": 1780679990.5893042,
+    "ast_hash": "36a8f30d6cbea10a86d3e43dcbcf280b",
+    "semantic_hash": "36a8f30d6cbea10a86d3e43dcbcf280b"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/package.json": {
+    "mtime": 1781009594.5488157,
+    "ast_hash": "bed97e58ae915de2bfefbea831e3fd94",
+    "semantic_hash": "bed97e58ae915de2bfefbea831e3fd94"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/src/constants.ts": {
+    "mtime": 1780974640.3400319,
+    "ast_hash": "5db044a75ab5134c7fade03b7c93be7e",
+    "semantic_hash": "5db044a75ab5134c7fade03b7c93be7e"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/src/index.ts": {
+    "mtime": 1780679990.590685,
+    "ast_hash": "d0b688e662f766efb196b29a0d91ddd7",
+    "semantic_hash": "d0b688e662f766efb196b29a0d91ddd7"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/src/node-embedder.ts": {
+    "mtime": 1780679990.5909832,
+    "ast_hash": "a81d738bd00b1c4202ccfbf3f0372c05",
+    "semantic_hash": "a81d738bd00b1c4202ccfbf3f0372c05"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/src/score.ts": {
+    "mtime": 1780959083.1317592,
+    "ast_hash": "a4299fa0f804a7eb912de52bd2ceea5d",
+    "semantic_hash": "a4299fa0f804a7eb912de52bd2ceea5d"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/src/stopwords.ts": {
+    "mtime": 1780679990.5916288,
+    "ast_hash": "e6b1f9fd637a17023207e803d11666d1",
+    "semantic_hash": "e6b1f9fd637a17023207e803d11666d1"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/src/terms.ts": {
+    "mtime": 1780679990.5918245,
+    "ast_hash": "8eee593bffb20b628c35381041dbb905",
+    "semantic_hash": "8eee593bffb20b628c35381041dbb905"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/src/types.ts": {
+    "mtime": 1780679990.592066,
+    "ast_hash": "8ccbea3b223352c5b142917ed96d02d1",
+    "semantic_hash": "8ccbea3b223352c5b142917ed96d02d1"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/src/worker-embedder.ts": {
+    "mtime": 1781009674.439001,
+    "ast_hash": "bcfb03fe6fccf51f483f5dfe75993b58",
+    "semantic_hash": "bcfb03fe6fccf51f483f5dfe75993b58"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/src/worker.ts": {
+    "mtime": 1781009610.4412165,
+    "ast_hash": "3243c51c9349b4c4209a3bffd276d65d",
+    "semantic_hash": "3243c51c9349b4c4209a3bffd276d65d"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/test/score.test.ts": {
+    "mtime": 1780679990.5927217,
+    "ast_hash": "453211e808ace5e61dee37644ffe3e34",
+    "semantic_hash": "453211e808ace5e61dee37644ffe3e34"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/tsconfig.json": {
+    "mtime": 1780679990.5928292,
+    "ast_hash": "12e6663b808b4192c1a481dcbc6d86bb",
+    "semantic_hash": "12e6663b808b4192c1a481dcbc6d86bb"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/tsconfig.test.json": {
+    "mtime": 1780679990.5930815,
+    "ast_hash": "aa431a16d9236362407b3ed3c005e3b9",
+    "semantic_hash": "aa431a16d9236362407b3ed3c005e3b9"
+  },
+  "/Users/anton/projects/resurank/shared/config.js": {
+    "mtime": 1778201390.047318,
+    "ast_hash": "27e3aca504a368145d75a8a67059a761",
+    "semantic_hash": "27e3aca504a368145d75a8a67059a761"
+  },
+  "/Users/anton/projects/resurank/shared/config.ts": {
+    "mtime": 1778689273.9669785,
+    "ast_hash": "80cb307ef131b1ac1bb4ed29777c97bf",
+    "semantic_hash": "80cb307ef131b1ac1bb4ed29777c97bf"
+  },
+  "/Users/anton/projects/resurank/src/main/claude-desktop.ts": {
+    "mtime": 1780679990.5941517,
+    "ast_hash": "2bb47f3dd7a5e2cfc9009519d93ebbed",
+    "semantic_hash": "2bb47f3dd7a5e2cfc9009519d93ebbed"
+  },
+  "/Users/anton/projects/resurank/src/main/index.ts": {
+    "mtime": 1780679990.5945163,
+    "ast_hash": "623f0011e249afa3e73f9e27f08e891c",
+    "semantic_hash": "623f0011e249afa3e73f9e27f08e891c"
+  },
+  "/Users/anton/projects/resurank/src/main/types.d.ts": {
+    "mtime": 1779237198.3274186,
+    "ast_hash": "9fddb4cb47ec2e05bb066ee590008546",
+    "semantic_hash": "9fddb4cb47ec2e05bb066ee590008546"
+  },
+  "/Users/anton/projects/resurank/src/preload/electron-api.d.ts": {
+    "mtime": 1780679990.5947392,
+    "ast_hash": "c49103af35a7163cca465b3ceea56acb",
+    "semantic_hash": "c49103af35a7163cca465b3ceea56acb"
+  },
+  "/Users/anton/projects/resurank/src/tsconfig.json": {
+    "mtime": 1778184611.2683978,
+    "ast_hash": "1058adfbece3776120396d4535ed1589",
+    "semantic_hash": "1058adfbece3776120396d4535ed1589"
+  },
+  "/Users/anton/projects/resurank/tsconfig.json": {
+    "mtime": 1780679990.5950913,
+    "ast_hash": "18db4ea6647dfd25e4b23a71d0abdf52",
+    "semantic_hash": "18db4ea6647dfd25e4b23a71d0abdf52"
+  },
+  "/Users/anton/projects/resurank/.github/workflows/release.yml": {
+    "mtime": 1780679990.5745444,
+    "ast_hash": "75303ae255e958cc19ef794fd5c5c841",
+    "semantic_hash": "75303ae255e958cc19ef794fd5c5c841"
+  },
+  "/Users/anton/projects/resurank/CLAUDE.md": {
+    "mtime": 1780977169.2437918,
+    "ast_hash": "39c2abc21e4f42c3ff99cff298acab1c",
+    "semantic_hash": "39c2abc21e4f42c3ff99cff298acab1c"
+  },
+  "/Users/anton/projects/resurank/README.md": {
+    "mtime": 1780977878.8951313,
+    "ast_hash": "1fb227401df621087130c740cbab1384",
+    "semantic_hash": "1fb227401df621087130c740cbab1384"
+  },
+  "/Users/anton/projects/resurank/app-update.yml": {
+    "mtime": 1778515063.1941295,
+    "ast_hash": "7c1e56eb1457ac8dfd3f318a33279145",
+    "semantic_hash": "7c1e56eb1457ac8dfd3f318a33279145"
+  },
+  "/Users/anton/projects/resurank/description.md": {
+    "mtime": 1780679990.5756083,
+    "ast_hash": "ee667825c25daac8edb4a45e4300cec4",
+    "semantic_hash": "ee667825c25daac8edb4a45e4300cec4"
+  },
+  "/Users/anton/projects/resurank/frontend/README.md": {
+    "mtime": 1777054980.639476,
+    "ast_hash": "aaac1cef791e5b8aebccc5de468dd77a",
+    "semantic_hash": "aaac1cef791e5b8aebccc5de468dd77a"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/app.component.html": {
+    "mtime": 1780679990.5769112,
+    "ast_hash": "6fc0e455a650fff04dd49a867474a80e",
+    "semantic_hash": "6fc0e455a650fff04dd49a867474a80e"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/claude-desktop-card/claude-desktop-card.component.html": {
+    "mtime": 1780679990.5779004,
+    "ast_hash": "08801ecc965c4848405d257a934c1584",
+    "semantic_hash": "08801ecc965c4848405d257a934c1584"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/keyword-info-modal/keyword-info-modal.component.html": {
+    "mtime": 1778604552.4060557,
+    "ast_hash": "9e80c86eb3419d331a80a1fd1b977b69",
+    "semantic_hash": "9e80c86eb3419d331a80a1fd1b977b69"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/modal-shell/modal-shell.component.html": {
+    "mtime": 1778604552.381897,
+    "ast_hash": "f7d70b15d315c6a69eda44c9da95bc2d",
+    "semantic_hash": "f7d70b15d315c6a69eda44c9da95bc2d"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/score-info-modal/score-info-modal.component.html": {
+    "mtime": 1780679990.5807717,
+    "ast_hash": "8a0436dbd893f331e29730fcff640af9",
+    "semantic_hash": "8a0436dbd893f331e29730fcff640af9"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/settings-drawer/settings-drawer.component.html": {
+    "mtime": 1780679990.5813463,
+    "ast_hash": "b7f1133fff31fe9cef7947156b105a79",
+    "semantic_hash": "b7f1133fff31fe9cef7947156b105a79"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/settings-info-modal/settings-info-modal.component.html": {
+    "mtime": 1780679990.5823348,
+    "ast_hash": "c20cff315ccaf4f11f6c474df3196c3c",
+    "semantic_hash": "c20cff315ccaf4f11f6c474df3196c3c"
+  },
+  "/Users/anton/projects/resurank/frontend/src/app/stopwords-modal/stopwords-modal.component.html": {
+    "mtime": 1778604552.3833282,
+    "ast_hash": "486aaeccfc334b3bda5f4b9ed2769631",
+    "semantic_hash": "486aaeccfc334b3bda5f4b9ed2769631"
+  },
+  "/Users/anton/projects/resurank/frontend/src/index.html": {
+    "mtime": 1780679990.58353,
+    "ast_hash": "686a63691d98d0d89b9c98b8f5a5366f",
+    "semantic_hash": "686a63691d98d0d89b9c98b8f5a5366f"
+  },
+  "/Users/anton/projects/resurank/packages/mcp-server/README.md": {
+    "mtime": 1780977866.397682,
+    "ast_hash": "fc2e86991a70a0c605dc7a57e441c986",
+    "semantic_hash": "fc2e86991a70a0c605dc7a57e441c986"
+  },
+  "/Users/anton/projects/resurank/packages/mcp-server/test/fixtures/resume.txt": {
+    "mtime": 1780679990.5885823,
+    "ast_hash": "c3eccdfd0fb914bcc991df2fbff19c41",
+    "semantic_hash": "c3eccdfd0fb914bcc991df2fbff19c41"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/README.md": {
+    "mtime": 1780977857.9616292,
+    "ast_hash": "e7256a2f668532d0b56424988366774b",
+    "semantic_hash": "e7256a2f668532d0b56424988366774b"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/test/fixtures/jd.txt": {
+    "mtime": 1780679990.5922985,
+    "ast_hash": "c6cfe21dfc26e8c4e0fc72eb036c5f90",
+    "semantic_hash": "c6cfe21dfc26e8c4e0fc72eb036c5f90"
+  },
+  "/Users/anton/projects/resurank/packages/scoring/test/fixtures/resume.txt": {
+    "mtime": 1780679990.592479,
+    "ast_hash": "83053b0eb7e3c38e8ad43512316a394b",
+    "semantic_hash": "83053b0eb7e3c38e8ad43512316a394b"
+  },
+  "/Users/anton/projects/resurank/resources/test_files/english_java_angular.txt": {
+    "mtime": 1780679990.593353,
+    "ast_hash": "741e394a5524a103952eb5cc7053b669",
+    "semantic_hash": "741e394a5524a103952eb5cc7053b669"
+  },
+  "/Users/anton/projects/resurank/resources/test_files/foreign_language.txt": {
+    "mtime": 1780679990.5936089,
+    "ast_hash": "c4ed6b269024b564f0e0c97df027620d",
+    "semantic_hash": "c4ed6b269024b564f0e0c97df027620d"
+  },
+  "/Users/anton/projects/resurank/resources/test_files/registered_nurse.txt": {
+    "mtime": 1780679990.59388,
+    "ast_hash": "cbfd004f9f2279878f96aa30b85ccf9d",
+    "semantic_hash": "cbfd004f9f2279878f96aa30b85ccf9d"
+  },
+  "/Users/anton/projects/resurank/resources/test_files/senior_software_engineer.txt": {
+    "mtime": 1778277587.8086836,
+    "ast_hash": "0f1dece1d1092e26492b0bdb37d1d67c",
+    "semantic_hash": "0f1dece1d1092e26492b0bdb37d1d67c"
+  },
+  "/Users/anton/projects/resurank/packages/mcp-server/test/fixtures/resume.pdf": {
+    "mtime": 1780679990.5883603,
+    "ast_hash": "35ba8b21ace6889244541892ab504405",
+    "semantic_hash": "35ba8b21ace6889244541892ab504405"
+  },
+  "/Users/anton/projects/resurank/frontend/public/icon.svg": {
+    "mtime": 1778604552.3660958,
+    "ast_hash": "4d00254fe117e42f4db7a0af304b1282",
+    "semantic_hash": "4d00254fe117e42f4db7a0af304b1282"
+  },
+  "/Users/anton/projects/resurank/resources/icon.iconset/icon_128x128.png": {
+    "mtime": 1778291914.649403,
+    "ast_hash": "76540059c6bd202fb4206cc0529ecf95",
+    "semantic_hash": "76540059c6bd202fb4206cc0529ecf95"
+  },
+  "/Users/anton/projects/resurank/resources/icon.iconset/icon_128x128@2x.png": {
+    "mtime": 1778291914.664883,
+    "ast_hash": "9aacdf6a4cb04f658e41b6050efc5893",
+    "semantic_hash": "9aacdf6a4cb04f658e41b6050efc5893"
+  },
+  "/Users/anton/projects/resurank/resources/icon.iconset/icon_16x16.png": {
+    "mtime": 1778291914.5847516,
+    "ast_hash": "768bcf65e659655f93bc0fba05ab7932",
+    "semantic_hash": "768bcf65e659655f93bc0fba05ab7932"
+  },
+  "/Users/anton/projects/resurank/resources/icon.iconset/icon_16x16@2x.png": {
+    "mtime": 1778291914.6030788,
+    "ast_hash": "8cf666e7140ddc50274f6a7c6d7d4bdc",
+    "semantic_hash": "8cf666e7140ddc50274f6a7c6d7d4bdc"
+  },
+  "/Users/anton/projects/resurank/resources/icon.iconset/icon_256x256.png": {
+    "mtime": 1778291914.6806605,
+    "ast_hash": "9aacdf6a4cb04f658e41b6050efc5893",
+    "semantic_hash": "9aacdf6a4cb04f658e41b6050efc5893"
+  },
+  "/Users/anton/projects/resurank/resources/icon.iconset/icon_256x256@2x.png": {
+    "mtime": 1778291914.7016199,
+    "ast_hash": "6508f62b2017424bc9f2561b4d6a6778",
+    "semantic_hash": "6508f62b2017424bc9f2561b4d6a6778"
+  },
+  "/Users/anton/projects/resurank/resources/icon.iconset/icon_32x32.png": {
+    "mtime": 1778291914.618854,
+    "ast_hash": "8cf666e7140ddc50274f6a7c6d7d4bdc",
+    "semantic_hash": "8cf666e7140ddc50274f6a7c6d7d4bdc"
+  },
+  "/Users/anton/projects/resurank/resources/icon.iconset/icon_32x32@2x.png": {
+    "mtime": 1778291914.6341171,
+    "ast_hash": "d21364c5f8f3f62551453babb853d170",
+    "semantic_hash": "d21364c5f8f3f62551453babb853d170"
+  },
+  "/Users/anton/projects/resurank/resources/icon.iconset/icon_512x512.png": {
+    "mtime": 1778291914.7232556,
+    "ast_hash": "6508f62b2017424bc9f2561b4d6a6778",
+    "semantic_hash": "6508f62b2017424bc9f2561b4d6a6778"
+  },
+  "/Users/anton/projects/resurank/resources/icon.iconset/icon_512x512@2x.png": {
+    "mtime": 1778291914.763221,
+    "ast_hash": "ffa27222fbe3dea8e45fd1bc7fc619bc",
+    "semantic_hash": "ffa27222fbe3dea8e45fd1bc7fc619bc"
+  },
+  "/Users/anton/projects/resurank/resources/icon.png": {
+    "mtime": 1778291892.94161,
+    "ast_hash": "ffa27222fbe3dea8e45fd1bc7fc619bc",
+    "semantic_hash": "ffa27222fbe3dea8e45fd1bc7fc619bc"
+  },
+  "/Users/anton/projects/resurank/resources/icon.svg": {
+    "mtime": 1778604552.3356993,
+    "ast_hash": "81c3a55e38c2907f4191a7704a633f28",
+    "semantic_hash": "81c3a55e38c2907f4191a7704a633f28"
+  },
+  "/Users/anton/projects/resurank/resources/icons/1024x1024.png": {
+    "mtime": 1777594075.1708925,
+    "ast_hash": "9f12778e1ff46d31309691aad6b84aaf",
+    "semantic_hash": "9f12778e1ff46d31309691aad6b84aaf"
+  },
+  "/Users/anton/projects/resurank/resources/icons/128x128.png": {
+    "mtime": 1777594075.1710417,
+    "ast_hash": "38255e6f23d809056beed80131ae5569",
+    "semantic_hash": "38255e6f23d809056beed80131ae5569"
+  },
+  "/Users/anton/projects/resurank/resources/icons/16x16.png": {
+    "mtime": 1777594075.1713839,
+    "ast_hash": "cd42957cf0e639c3137a14df3740b242",
+    "semantic_hash": "cd42957cf0e639c3137a14df3740b242"
+  },
+  "/Users/anton/projects/resurank/resources/icons/256x256.png": {
+    "mtime": 1777594075.1715555,
+    "ast_hash": "9af9d96ef86cec17e749e2720eb48f1a",
+    "semantic_hash": "9af9d96ef86cec17e749e2720eb48f1a"
+  },
+  "/Users/anton/projects/resurank/resources/icons/32x32.png": {
+    "mtime": 1777594075.171691,
+    "ast_hash": "a599676989c6155a0d86df8e2b02ac16",
+    "semantic_hash": "a599676989c6155a0d86df8e2b02ac16"
+  },
+  "/Users/anton/projects/resurank/resources/icons/512x512.png": {
+    "mtime": 1777594075.172326,
+    "ast_hash": "11f2b6a216dd347d5b13a23058eaa3cb",
+    "semantic_hash": "11f2b6a216dd347d5b13a23058eaa3cb"
+  },
+  "/Users/anton/projects/resurank/resources/icons/64x64.png": {
+    "mtime": 1777594075.1724486,
+    "ast_hash": "c78f225073b5df02af76728f9fe37857",
+    "semantic_hash": "c78f225073b5df02af76728f9fe37857"
+  }
+}
