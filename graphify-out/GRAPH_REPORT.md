@@ -5,12 +5,12 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1207 nodes · 1886 edges · 68 communities (58 shown, 10 thin omitted)
+- 1207 nodes · 1886 edges · 79 communities (63 shown, 16 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 18 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7d159d57`
+- Built from commit: `9d478fbd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -80,18 +80,29 @@
 - [[_COMMUNITY_Community 63|Community 63]]
 - [[_COMMUNITY_Community 65|Community 65]]
 - [[_COMMUNITY_Community 66|Community 66]]
+- [[_COMMUNITY_Community 67|Community 67]]
+- [[_COMMUNITY_Community 69|Community 69]]
+- [[_COMMUNITY_Community 70|Community 70]]
+- [[_COMMUNITY_Community 71|Community 71]]
+- [[_COMMUNITY_Community 72|Community 72]]
+- [[_COMMUNITY_Community 73|Community 73]]
+- [[_COMMUNITY_Community 74|Community 74]]
+- [[_COMMUNITY_Community 75|Community 75]]
+- [[_COMMUNITY_Community 76|Community 76]]
+- [[_COMMUNITY_Community 77|Community 77]]
+- [[_COMMUNITY_Community 78|Community 78]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `SettingsDrawerComponent` - 29 edges
-2. `AppComponent` - 21 edges
-3. `AuthService` - 21 edges
+2. `AuthService` - 21 edges
+3. `AppComponent` - 21 edges
 4. `HttpStorageAdapter` - 19 edges
 5. `MissingKeywordSettings` - 18 edges
 6. `PreferenceMismatchSettings` - 18 edges
 7. `ResuRank` - 18 edges
-8. `ElectronStorageAdapter` - 16 edges
-9. `ApiService` - 16 edges
-10. `EmbeddingService` - 16 edges
+8. `scripts` - 16 edges
+9. `ElectronStorageAdapter` - 16 edges
+10. `ApiService` - 16 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Keyword Similarity (TF-IDF)` --semantically_similar_to--> `Hybrid Semantic + TF-IDF Scoring Model`  [INFERRED] [semantically similar]
@@ -117,15 +128,15 @@
 - **Shared Scoring Engine Consumers** — scoring_resurank_scoring_pkg, mcp_server_resurank_mcp, scoring_score_resume_against_job [EXTRACTED 1.00]
 - **Job Description Test Corpus** — test_files_english_java_angular, test_files_foreign_language, test_files_registered_nurse, test_files_senior_software_engineer [INFERRED 0.85]
 
-## Communities (68 total, 10 thin omitted)
+## Communities (79 total, 16 thin omitted)
 
 ### Community 0 - "Embedding & Matcher Services"
-Cohesion: 0.06
-Nodes (44): HealthResponse, ResumeInfo, EmbeddingService, MatcherService, MODEL_CACHE_DIR, MODEL_HOST, ModelHostConfig, extractPageText() (+36 more)
+Cohesion: 0.15
+Nodes (21): PIN_IMPORTANCE_MULTIPLIERS, buildTfIdf(), computeMissingKeywordPenalty(), computePreferenceMismatchPenalty(), detectNonEnglish(), dotProduct(), normalizeBoosts(), normSq() (+13 more)
 
 ### Community 1 - "API Service (IPC Bridge)"
-Cohesion: 0.05
-Nodes (17): errorMessage(), HistoryComponent, SortMode, HistoryDetailModalComponent, KeywordInfoModalComponent, KeywordInfoMode, ModalShellComponent, ScoreInfoModalComponent (+9 more)
+Cohesion: 0.08
+Nodes (13): errorMessage(), HistoryComponent, SortMode, HistoryDetailModalComponent, errorMessage(), ResumesComponent, scoreTier, ApiHistoryEntry (+5 more)
 
 ### Community 2 - "Electron Root Package"
 Cohesion: 0.04
@@ -167,10 +178,6 @@ Nodes (14): FileCacheEntry, loadResumeFile(), ResolvedResume, resolveResume(), r
 Cohesion: 0.05
 Nodes (41): Auto-Update Config (electron-updater), Critical Missing Keywords Penalty, Divergence Adjustment, Keyword Similarity (TF-IDF), Preference Mismatch Penalty, ResuRank Product Description, Security Posture (Fuses, CSP, Isolation), Semantic Similarity (Vector Embeddings) (+33 more)
 
-### Community 13 - "App Root Component Logic"
-Cohesion: 0.12
-Nodes (6): ResumePickerComponent, errorMessage(), ResumesComponent, ApiResume, ApiResumeSummary, ResumesService
-
 ### Community 14 - "Scoring tsconfig"
 Cohesion: 0.11
 Nodes (17): compilerOptions, declaration, declarationMap, esModuleInterop, isolatedModules, lib, module, moduleResolution (+9 more)
@@ -188,12 +195,12 @@ Cohesion: 0.13
 Nodes (14): compilerOptions, allowSyntheticDefaultImports, declaration, esModuleInterop, module, moduleResolution, outDir, resolveJsonModule (+6 more)
 
 ### Community 18 - "Storage Service (JSON Files)"
-Cohesion: 0.12
-Nodes (19): EmailToken, emailTokens, EmailTokenType, emailTokenTypes, NewUser, Resume, scoreHistory, ScoreHistoryEntry (+11 more)
+Cohesion: 0.20
+Nodes (11): User, generateToken(), hashToken(), verifyPassword(), createSession(), resolveSession(), revokeAllSessions(), revokeSession() (+3 more)
 
 ### Community 19 - "Claude Desktop Card (Frontend)"
-Cohesion: 0.17
-Nodes (12): appConfig, BoostRow, APP_VERSION, CLIPBOARD_WRITER, DESKTOP_SETTINGS_PANEL, PinImportance, DEFAULT_MISSING_KEYWORD_SETTINGS, DEFAULT_PREFERENCE_MISMATCH_SETTINGS (+4 more)
+Cohesion: 0.26
+Nodes (9): BoostRow, ResumeInfo, BreakdownMode, PinImportance, DEFAULT_MISSING_KEYWORD_SETTINGS, DEFAULT_PREFERENCE_MISMATCH_SETTINGS, HistoryEntryInput, PinnedTerm (+1 more)
 
 ### Community 20 - "Scoring Package Exports"
 Cohesion: 0.17
@@ -260,8 +267,8 @@ Cohesion: 0.12
 Nodes (16): Configuration, Distribution, How the score works, License, Limitations, Local registration (during development), One-command install (macOS / Linux), Prerequisites (+8 more)
 
 ### Community 41 - "Community 41"
-Cohesion: 0.05
-Nodes (17): AccountComponent, errorMessage(), PrivacyComponent, TermsComponent, RegisterComponent, RESUME_PICKER_PANEL, SignInComponent, VerifyEmailComponent (+9 more)
+Cohesion: 0.15
+Nodes (8): PrivacyComponent, TermsComponent, RegisterComponent, SignInComponent, VerifyEmailComponent, authGuard(), ApiErrorBody, PublicUser
 
 ### Community 42 - "Community 42"
 Cohesion: 0.12
@@ -276,8 +283,8 @@ Cohesion: 0.33
 Nodes (5): **Feature list (supplementary bullets)**, **Long description (website / landing page)**, **Short description (app store listing, ~80 words)**, **Tagline (one line, hero text)**, **Under the hood (technical readers / developer audience)**
 
 ### Community 46 - "Community 46"
-Cohesion: 0.10
-Nodes (26): users, getDummyHash(), hashPassword(), verifyPassword(), createUser(), findUserByEmail(), toPublicUser(), changePasswordSchema (+18 more)
+Cohesion: 0.12
+Nodes (23): users, getDummyHash(), hashPassword(), createUser(), findUserByEmail(), toPublicUser(), changePasswordSchema, emailOnlySchema (+15 more)
 
 ### Community 47 - "Community 47"
 Cohesion: 0.14
@@ -288,20 +295,20 @@ Cohesion: 0.24
 Nodes (15): resumes, UserSettings, activateResume(), ApiResume, ApiResumeSummary, ApiSettings, lockUserForResumeWrite(), resumeSummaryColumns (+7 more)
 
 ### Community 49 - "Community 49"
-Cohesion: 0.12
-Nodes (23): linkPath(), login(), register(), registerAndVerify(), sessionCookie(), signedInUser(), uniqueEmail(), clearMailbox() (+15 more)
+Cohesion: 0.09
+Nodes (33): assertDatabaseReachable(), closeDatabase(), Database, db, pool, migrationsFolder, sessions, linkPath() (+25 more)
 
 ### Community 50 - "Community 50"
-Cohesion: 0.36
-Nodes (8): ErrorCode, sendError(), sendValidationError(), clearSessionCookie(), resolveSession(), currentUser(), requireAuth(), UserRoutesOptions
+Cohesion: 0.27
+Nodes (11): toApiSettings(), ErrorCode, sendError(), sendValidationError(), clearSessionCookie(), deleteAccountSchema, updateProfileSchema, updateSettingsSchema (+3 more)
 
 ### Community 52 - "Community 52"
-Cohesion: 0.18
-Nodes (7): ClaudeDesktopConnectResult, ClaudeDesktopStatus, Window, PreferenceMismatchSettings, ResumeData, StoreSnapshot, BootstrapResponse
+Cohesion: 0.12
+Nodes (9): ClaudeDesktopConnectResult, ClaudeDesktopStatus, Window, MissingKeywordSettings, PreferenceMismatchSettings, ResumeData, StoreSnapshot, BootstrapResponse (+1 more)
 
 ### Community 53 - "Community 53"
 Cohesion: 0.17
-Nodes (13): ApiHistoryEntry, ApiHistorySummary, toApiSettings(), DomainRoutesOptions, writeLimit(), createHistorySchema, historyQuerySchema, idParamSchema (+5 more)
+Nodes (8): HealthResponse, EmbeddingService, ModelHostConfig, createWorkerEmbedder(), ModelStatus, WorkerEmbedder, WorkerEmbedderOptions, WorkerMessage
 
 ### Community 54 - "Community 54"
 Cohesion: 0.18
@@ -336,28 +343,52 @@ Cohesion: 0.47
 Nodes (4): _config, embed(), getEmbedder(), triggerEagerLoad()
 
 ### Community 65 - "Community 65"
-Cohesion: 0.12
-Nodes (19): main(), assertDatabaseReachable(), closeDatabase(), Database, db, pool, migrationsFolder, registerAuthDecorators() (+11 more)
+Cohesion: 0.10
+Nodes (21): ApiHistoryEntry, ApiHistorySummary, DomainRoutesOptions, writeLimit(), createHistorySchema, historyQuerySchema, idParamSchema, authRoutes() (+13 more)
+
+### Community 69 - "Community 69"
+Cohesion: 0.22
+Nodes (6): KeywordInfoModalComponent, KeywordInfoMode, ModalShellComponent, ScoreInfoModalComponent, SettingsInfoModalComponent, CLIPBOARD_WRITER
+
+### Community 70 - "Community 70"
+Cohesion: 0.24
+Nodes (7): MatcherService, extractPageText(), ResumeParserService, MatchBreakdown, TermCount, TermWeight, STORAGE_ADAPTER
+
+### Community 71 - "Community 71"
+Cohesion: 0.22
+Nodes (6): MODEL_HOST, RESUME_PICKER_PANEL, appConfig, AppShellComponent, authInterceptor(), webRoutes
+
+### Community 72 - "Community 72"
+Cohesion: 0.20
+Nodes (7): embedder, NodeEmbedder, NodeEmbedderOptions, Embedder, fixtureDir, jd, resume
+
+### Community 73 - "Community 73"
+Cohesion: 0.20
+Nodes (9): EmailToken, emailTokens, EmailTokenType, emailTokenTypes, NewUser, Resume, scoreHistory, ScoreHistoryEntry (+1 more)
+
+### Community 75 - "Community 75"
+Cohesion: 0.33
+Nodes (4): appConfig, APP_VERSION, DESKTOP_SETTINGS_PANEL, MODEL_CACHE_DIR
 
 ## Knowledge Gaps
-- **513 isolated node(s):** `name`, `version`, `private`, `description`, `license` (+508 more)
+- **513 isolated node(s):** `Project Overview`, `Monorepo Structure`, `Tech Stack`, `First-time setup`, `Dev mode (hot reload)` (+508 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **10 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **16 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `embedder` connect `Embedding & Matcher Services` to `MCP Resume Resolver`?**
-  _High betweenness centrality (0.030) - this node is a cross-community bridge._
+- **Why does `embedder` connect `Community 72` to `MCP Resume Resolver`, `Community 70`?**
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
 - **Why does `require` connect `MCP Resume Resolver` to `Claude Desktop Config (Main)`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
 - **Why does `writeConfigAtomic()` connect `Claude Desktop Config (Main)` to `MCP Resume Resolver`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
-- **What connects `name`, `version`, `private` to the rest of the system?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+- **What connects `Project Overview`, `Monorepo Structure`, `Tech Stack` to the rest of the system?**
   _517 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Embedding & Matcher Services` be split into smaller, more focused modules?**
-  _Cohesion score 0.05516475379489078 - nodes in this community are weakly interconnected._
 - **Should `API Service (IPC Bridge)` be split into smaller, more focused modules?**
-  _Cohesion score 0.05376972530683811 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07862679955703211 - nodes in this community are weakly interconnected._
 - **Should `Electron Root Package` be split into smaller, more focused modules?**
   _Cohesion score 0.04081632653061224 - nodes in this community are weakly interconnected._
+- **Should `Frontend Package Deps` be split into smaller, more focused modules?**
+  _Cohesion score 0.0425531914893617 - nodes in this community are weakly interconnected._
