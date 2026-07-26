@@ -380,8 +380,8 @@
     "semantic_hash": ""
   },
   "docs/web-deployment-plan.md": {
-    "mtime": 1785026337.8780026,
-    "ast_hash": "8d5ecb469751d0806d6eb54eebddb53f",
+    "mtime": 1785027249.9913244,
+    "ast_hash": "715563d49718edc870f372fbf3f14c57",
     "semantic_hash": ""
   },
   "packages/server/drizzle.config.ts": {
@@ -895,8 +895,8 @@
     "semantic_hash": ""
   },
   "docs/deployment-runbook.md": {
-    "mtime": 1785026323.6039479,
-    "ast_hash": "38d56b7fe7f68aa143d4a57c12e70fb9",
+    "mtime": 1785027279.390543,
+    "ast_hash": "48fbdc8cafcae7ce78af41f20b6aa72c",
     "semantic_hash": ""
   },
   "frontend/src/app/web/legal/privacy.component.html": {
@@ -907,6 +907,11 @@
   "frontend/src/app/web/legal/terms.component.html": {
     "mtime": 1785016198.5268068,
     "ast_hash": "1511abf89bbfd84b0f01463fe0051bc7",
+    "semantic_hash": ""
+  },
+  "packages/server/README.md": {
+    "mtime": 1785027394.1807332,
+    "ast_hash": "be22953777e11d8e43820154344522c4",
     "semantic_hash": ""
   }
 }
