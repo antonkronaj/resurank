@@ -19,8 +19,8 @@ import {clearMailbox, isMailpitRunning, messagesFor, waitForEmail} from './helpe
 
 /**
  * Phase 4: password recovery and account management, against the real Postgres
- * and Mailpit from packages/server/docker-compose.yml. Start them first:
- *   npm --prefix packages/server run db:up
+ * and Mailpit from apps/web/docker-compose.yml. Start them first:
+ *   npm --prefix apps/web run db:up
  */
 
 const NEW_PASSWORD = 'a brand new passphrase entirely';

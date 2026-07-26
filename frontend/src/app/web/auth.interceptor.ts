@@ -6,7 +6,7 @@ import {AuthService} from './auth.service';
 
 /**
  * A 401 means one of two very different things, distinguished by the
- * server's error code (packages/server/src/lib/errors.ts):
+ * server's error code (apps/web/src/lib/errors.ts):
  *  - `unauthenticated` — the session is gone (expired, revoked, cookie
  *    missing). Nothing short of signing in again fixes this, so this
  *    interceptor redirects.

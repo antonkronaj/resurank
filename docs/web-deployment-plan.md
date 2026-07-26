@@ -1,5 +1,11 @@
 # Plan: Deploy ResuRank as a Node Web Server (multi-user, additive to the desktop app)
 
+> **Path note (2026-07-25):** this document is kept as the original plan record.
+> The server package has since moved from `packages/server` to **`apps/web`**
+> (`packages/` = published to npm, `apps/` = deployed). Every `packages/server/…`
+> path below should be read as `apps/web/…`. See
+> [deployment-runbook.md](deployment-runbook.md) for current, operational paths.
+
 > **Terminology:** "**server**" always means the new Node API process
 > (`packages/server`) — there is exactly one. "**storage adapter**" means a
 > frontend class implementing the shared `StorageAdapter` interface (a

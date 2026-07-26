@@ -13,11 +13,15 @@ resurank/
 ├── src/                     # Electron main process (IPC, file storage, auto-updates)
 │   ├── main/index.ts        # App lifecycle, window management, IPC handlers
 │   └── preload/index.cts    # contextBridge — exposes electronAPI to renderer
-├── frontend/                # Angular 21 app (npm workspace)
-│   └── src/app/             # Standalone components, signals-based state
-│       ├── app.component.ts # Root — all top-level state lives here
-│       ├── *.service.ts     # Services: embedding, resume-parser, matcher, storage
-│       └── embedding.worker.ts  # Web worker — ONNX model inference off main thread
+├── frontend/                # Angular 21 app (npm workspace) — builds for BOTH targets
+│   └── src/app/
+│       ├── shared/          # Common UI + services (app.component, api.service, matcher,
+│       │                    #   embedding worker, storage/storage-adapter.ts interface)
+│       ├── desktop/         # Electron-only: electron-storage.adapter, claude-desktop card
+│       └── web/             # Web-only: http-storage.adapter, auth, routing, history
+├── apps/
+│   └── web/                 # @resurank/server — Fastify + Postgres + email + static hosting.
+│                            #   Performs NO ML; embedding/scoring stay client-side.
 ├── packages/
 │   ├── scoring/             # @resurank/scoring — pure scoring logic, exported as npm package
 │   │   └── src/
@@ -25,11 +29,15 @@ resurank/
 │   │       ├── constants.ts # All numeric tuning weights
 │   │       └── terms.ts     # Text pre-processing and term extraction
 │   └── mcp-server/          # resurank-mcp — Claude Desktop integration via MCP protocol
-├── shared/config.ts         # Env-based config (database path, port)
+├── shared/config.ts         # Env-based config (database path, port) — Electron main only
 ├── data/                    # Local user data (resume.json, stopwords, term boosts)
 ├── resources/               # App icons, test fixtures
 └── forge.config.cjs         # Electron Forge packaging config
 ```
+
+**Layout convention:** `packages/` holds what gets **published to npm**
+(`scoring`, `mcp-server`); `apps/` holds what gets **shipped/deployed** and is
+never published (`web`). Put new workspaces on the correct side of that line.
 
 ---
 

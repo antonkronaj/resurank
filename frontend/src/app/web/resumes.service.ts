@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {firstValueFrom} from 'rxjs';
 
-/** Mirrors packages/server/src/lib/domain.ts ApiResumeSummary. */
+/** Mirrors apps/web/src/lib/domain.ts ApiResumeSummary. */
 export interface ApiResumeSummary {
   id: string;
   filename: string;
@@ -12,7 +12,7 @@ export interface ApiResumeSummary {
   termCount: number;
 }
 
-/** Mirrors packages/server/src/lib/domain.ts ApiResume. */
+/** Mirrors apps/web/src/lib/domain.ts ApiResume. */
 export interface ApiResume extends Omit<ApiResumeSummary, 'chars' | 'termCount'> {
   text: string;
   terms: string[];

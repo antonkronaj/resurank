@@ -14,7 +14,7 @@
     "frontend",
     "packages/scoring",
     "packages/mcp-server",
-    "packages/server"
+    "apps/web"
   ],
   "scripts": {
     "build:scoring": "npm --prefix packages/scoring run build",
@@ -22,8 +22,8 @@
     "build:frontend:web": "npm --prefix frontend run fetch-model && npm --prefix frontend run build:web",
     "dev:frontend:web": "npm --prefix frontend run fetch-model && npm --prefix frontend run start:web",
     "build:electron": "tsc -p src/tsconfig.json",
-    "build:server": "npm --prefix packages/server run build",
-    "dev:server": "npm --prefix packages/server run dev",
+    "build:server": "npm --prefix apps/web run build",
+    "dev:server": "npm --prefix apps/web run dev",
     "build": "npm run build:scoring && npm run build:frontend && npm run build:electron",
     "dev:frontend": "npm --prefix frontend start",
     "dev:electron": "JOBDASH_DEV=1 npm run build:electron && JOBDASH_DEV=1 electron .",

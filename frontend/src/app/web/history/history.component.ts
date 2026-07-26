@@ -10,7 +10,7 @@ type SortMode = 'newest' | 'highest';
 
 /**
  * The History screen (web-only). "Highest score" sort is done client-side on
- * the currently loaded page — historyQuerySchema (packages/server/src/lib/
+ * the currently loaded page — historyQuerySchema (apps/web/src/lib/
  * validation.ts) only supports ordering by date, and adding a server-side
  * score sort was out of scope for a UI-only phase.
  */

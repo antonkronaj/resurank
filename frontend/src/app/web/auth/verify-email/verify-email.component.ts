@@ -4,7 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {AuthService} from '../../auth.service';
 
-/** Lands here from the GET /api/auth/verify-email redirect (packages/server/src/routes/auth.ts). */
+/** Lands here from the GET /api/auth/verify-email redirect (apps/web/src/routes/auth.ts). */
 @Component({
   selector: 'app-verify-email',
   standalone: true,

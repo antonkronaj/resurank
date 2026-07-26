@@ -78,7 +78,7 @@ export class HttpStorageAdapter implements StorageAdapter {
   async saveResume(data: ResumeData): Promise<void> {
     // The PDF buffer never reaches the server — only extracted text does,
     // per the locked "PDF stays client-side" decision. Uploading auto-
-    // activates the new resume (packages/server/src/routes/resumes.ts),
+    // activates the new resume (apps/web/src/routes/resumes.ts),
     // matching the desktop build where there was only ever one resume to be
     // active.
     const created = await firstValueFrom(

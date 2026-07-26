@@ -26,17 +26,17 @@ choice for whoever actually deploys this.
 
 ## 2. Build the image
 
-Build context is the **repo root**, not `packages/server/`:
+Build context is the **repo root**, not `apps/web/`:
 
 ```bash
-docker build -f packages/server/Dockerfile -t resurank-server .
+docker build -f apps/web/Dockerfile -t resurank-server .
 ```
 
 The build compiles `@resurank/scoring`, the server, and the Angular `web`
 frontend configuration (which itself downloads the ~32MB embedding model into
 the image via `frontend/scripts/fetch-model.mjs` — the model is served
 same-origin from the container, not fetched from HuggingFace at runtime; see
-`packages/server/src/app.ts`'s CSP comment for why that matters under COEP
+`apps/web/src/app.ts`'s CSP comment for why that matters under COEP
 `require-corp`).
 
 `.dockerignore` (added in Phase 10) matters here: without it, `COPY . .`
@@ -60,16 +60,16 @@ release-phase/pre-deploy hook if your platform supports one):
 
 ```bash
 docker run --rm -e DATABASE_URL=... your-registry/resurank-server:latest \
-  node packages/server/dist/db/migrate.js
+  node apps/web/dist/db/migrate.js
 ```
 
-This applies `packages/server/drizzle/*` via `drizzle-orm`'s migrator (not
+This applies `apps/web/drizzle/*` via `drizzle-orm`'s migrator (not
 `drizzle-kit`, which is a devDependency and isn't in the runtime image) and
 exits — it's not the same process as the long-running server.
 
 ## 4. Environment variables
 
-All read once at startup in `packages/server/src/config.ts`.
+All read once at startup in `apps/web/src/config.ts`.
 
 | Variable | Required | Default | Notes |
 |---|---|---|---|
@@ -91,7 +91,7 @@ value from any local `.env`.
 
 Terminate TLS at whatever sits in front of the container (a platform-managed
 load balancer, or your own reverse proxy). The app itself sends, on every
-response, via `@fastify/helmet` (`packages/server/src/app.ts`):
+response, via `@fastify/helmet` (`apps/web/src/app.ts`):
 
 - A CSP matching the Electron build's, minus the `app:` scheme.
 - `Cross-Origin-Opener-Policy: same-origin`
@@ -137,7 +137,7 @@ Run through this once against the real deployment before calling it live:
 ## 7. Rollback
 
 Since migrations only ever add (no destructive schema changes exist yet in
-`packages/server/drizzle/`), rolling back the container image to a previous
+`apps/web/drizzle/`), rolling back the container image to a previous
 tag is safe without a corresponding down-migration. If a future migration
 becomes destructive, add an explicit rollback note here at that time.
 
@@ -152,7 +152,7 @@ becomes destructive, add an explicit rollback note here at that time.
   covered). Fixed by registering the plugin `global: true` with a new
   `RATE_LIMIT_GLOBAL_MAX`/`RATE_LIMIT_GLOBAL_WINDOW` baseline (300/minute by
   default); per-route limits still override it where they exist. Verified
-  with a new test (`packages/server/test/auth.test.ts`, "throttles
+  with a new test (`apps/web/test/auth.test.ts`, "throttles
   unauthenticated requests to routes with no route-specific limit") using the
   same reproduce-before/after-fix approach as every other Phase 1–9 fix.
 - **`.dockerignore` did not exist before Phase 10.** `docker build` had never
@@ -188,10 +188,10 @@ becomes destructive, add an explicit rollback note here at that time.
 Not just a build — the image was actually run against the real (local) dev
 Postgres, on the same Docker network:
 
-- `docker build -f packages/server/Dockerfile -t resurank-server .` — clean
+- `docker build -f apps/web/Dockerfile -t resurank-server .` — clean
   build from the repo root, all three build stages (scoring, server,
   frontend `web` config) complete.
-- `node packages/server/dist/db/migrate.js` run inside the built image
+- `node apps/web/dist/db/migrate.js` run inside the built image
   against the real dev Postgres container — applied cleanly (all 6 tables
   already present and correct from local dev; running it again is the same
   no-op a real first deploy's "apply migrations" step would be once already

@@ -1,8 +1,14 @@
-# Local development dependencies for packages/server.
-#   npm --prefix packages/server run db:up
+# Local development dependencies for apps/web.
+#   npm --prefix apps/web run db:up
 #
 # Postgres holds user data; Mailpit catches verification / reset email so no
 # real SMTP provider is needed in dev (web UI at http://localhost:8025).
+#
+# The project name is pinned so the network and the pgdata volume do not get
+# renamed when this file moves between directories — compose otherwise derives
+# it from the parent folder, which silently orphans the dev database.
+name: resurank
+
 services:
   postgres:
     image: postgres:17-alpine

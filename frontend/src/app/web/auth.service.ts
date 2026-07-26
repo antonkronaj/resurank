@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable, signal} from '@angular/core';
 import {firstValueFrom} from 'rxjs';
 
-/** Mirrors packages/server/src/lib/users.ts PublicUser. */
+/** Mirrors apps/web/src/lib/users.ts PublicUser. */
 export interface PublicUser {
   id: string;
   email: string;
@@ -12,7 +12,7 @@ export interface PublicUser {
   createdAt: string;
 }
 
-/** Mirrors packages/server/src/lib/errors.ts ErrorCode + the {error, message} shape. */
+/** Mirrors apps/web/src/lib/errors.ts ErrorCode + the {error, message} shape. */
 export interface ApiErrorBody {
   error: string;
   message: string;
@@ -108,7 +108,7 @@ export class AuthService {
   }
 
   /**
-   * `email` starts a two-step change (see packages/server/src/routes/users.ts):
+   * `email` starts a two-step change (see apps/web/src/routes/users.ts):
    * the live address only moves once the confirmation link is clicked, so the
    * signal here still reflects the *current* email — only `pendingEmail`
    * changes immediately.

@@ -1,4 +1,4 @@
-# packages/server/Dockerfile's build context is the repo root. Without this
+# apps/web/Dockerfile's build context is the repo root. Without this
 # file, `COPY . .` copies the host's own node_modules over the image's
 # freshly-`npm ci`'d one — breaking argon2's native binding, built for the
 # host's OS/arch, not the alpine container's — and bakes local .env files
@@ -12,7 +12,7 @@ dist
 **/dist
 out
 frontend/dist
-packages/*/build-test
+**/build-test
 
 # Real secrets — never belong in an image layer regardless of env-var
 # precedence at runtime.

@@ -61,7 +61,7 @@ export const config = {
   /**
    * Directory containing the built Angular web bundle, served statically.
    * Resolved relative to the compiled `dist/` dir, so three levels up from
-   * packages/server/dist reaches the repo root.
+   * apps/web/dist reaches the repo root.
    */
   staticDir: optional('STATIC_DIR', '../../../frontend/dist/frontend/browser'),
 

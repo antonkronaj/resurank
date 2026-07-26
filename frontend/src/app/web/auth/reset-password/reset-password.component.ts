@@ -5,7 +5,7 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../../auth.service';
 
-/** Lands here from the link in sendPasswordResetEmail (packages/server/src/lib/email.ts). */
+/** Lands here from the link in sendPasswordResetEmail (apps/web/src/lib/email.ts). */
 @Component({
   selector: 'app-reset-password',
   standalone: true,

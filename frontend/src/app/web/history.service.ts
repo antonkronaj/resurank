@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import type {MatchResult} from '@resurank/scoring';
 import {firstValueFrom} from 'rxjs';
 
-/** Mirrors packages/server/src/lib/domain.ts ApiHistorySummary. */
+/** Mirrors apps/web/src/lib/domain.ts ApiHistorySummary. */
 export interface ApiHistorySummary {
   id: string;
   resumeId: string | null;
@@ -13,7 +13,7 @@ export interface ApiHistorySummary {
   createdAt: string;
 }
 
-/** Mirrors packages/server/src/lib/domain.ts ApiHistoryEntry. */
+/** Mirrors apps/web/src/lib/domain.ts ApiHistoryEntry. */
 export interface ApiHistoryEntry extends ApiHistorySummary {
   jobDescription: string;
   result: MatchResult;

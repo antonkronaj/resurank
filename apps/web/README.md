@@ -129,7 +129,7 @@ Build context is the **repo root**, not this directory — it needs
 `@resurank/scoring` and the `frontend` `web` build alongside this package:
 
 ```bash
-docker build -f packages/server/Dockerfile -t resurank-server .
+docker build -f apps/web/Dockerfile -t resurank-server .
 ```
 
 The image builds `@resurank/scoring`, this server, and the Angular `web`

@@ -17,8 +17,8 @@ import {clearMailbox, extractLink, isMailpitRunning, waitForEmail} from './helpe
 
 /**
  * Integration tests against the real Postgres and Mailpit from
- * packages/server/docker-compose.yml. Start them first:
- *   npm --prefix packages/server run db:up
+ * apps/web/docker-compose.yml. Start them first:
+ *   npm --prefix apps/web run db:up
  */
 
 let app: FastifyInstance;

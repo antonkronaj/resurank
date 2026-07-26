@@ -11,8 +11,8 @@ import {clearMailbox, isMailpitRunning} from './helpers/mailpit.js';
 
 /**
  * Phase 5: resumes, settings, history and bootstrap. Integration tests against
- * the real Postgres from packages/server/docker-compose.yml:
- *   npm --prefix packages/server run db:up
+ * the real Postgres from apps/web/docker-compose.yml:
+ *   npm --prefix apps/web run db:up
  */
 
 const RESULT = {
