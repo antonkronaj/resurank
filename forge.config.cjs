@@ -61,7 +61,7 @@ const config = {
       /\.claudeignore/,
       /\.map$/,
       /\.env$/,
-      /\.ts$/,
+      /\.[cm]?ts$/,
       /\/data$/,
       /\.\/.claude\//,
       /\.\/.github\//,
