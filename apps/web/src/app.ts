@@ -20,7 +20,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 
 /**
  * Content-Security-Policy for the web build. Mirrors the Electron production
- * CSP (src/main/index.ts) minus the `app:` custom scheme, which is desktop-only.
+ * CSP (apps/desktop/src/main/index.ts) minus the `app:` custom scheme, which is desktop-only.
  * `wasm-unsafe-eval` and `worker-src blob:` are required by the client-side
  * ONNX embedding worker.
  *

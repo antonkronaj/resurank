@@ -4,7 +4,7 @@ import {fileURLToPath} from 'node:url';
 /**
  * Server configuration, resolved from the environment at startup.
  *
- * This is deliberately separate from the repo-root `shared/config.ts`, which
+ * This is deliberately separate from `apps/desktop/src/config.ts`, which
  * configures the Electron desktop app (local JSON data dir). The desktop build
  * must never need Postgres or SMTP settings, so web-only concerns live here.
  */

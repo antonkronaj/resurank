@@ -4,7 +4,7 @@ import {existsSync, mkdirSync, readFileSync, writeFileSync} from 'node:fs';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import pkg from 'electron-updater';
 import squirrelStartup from 'electron-squirrel-startup';
-import {config} from '../../shared/config.js';
+import {config} from '../config.js';
 import * as claudeDesktop from './claude-desktop.js';
 
 // Squirrel.Windows re-launches the app with special argv during install /
@@ -257,7 +257,9 @@ app.whenReady().then(async () => {
   if (!isDev) {
     // Serve the built frontend over a privileged custom scheme so responses
     // carry real headers (COOP/COEP/CSP) and the context is secure.
-    const root = join(__dirname, '..', '..', '..', 'apps', 'ui', 'dist', 'frontend', 'browser');
+    // __dirname is repo-root/dist/main (tsconfig rootDir "src" strips the
+    // apps/desktop/src/ prefix) — two '..' reaches the repo root, not three.
+    const root = join(__dirname, '..', '..', 'apps', 'ui', 'dist', 'frontend', 'browser');
     protocol.handle('app', async (req) => {
       const url = new URL(req.url);
       // Strip leading slash, normalize, refuse escaping the root.

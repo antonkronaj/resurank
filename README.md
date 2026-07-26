@@ -23,14 +23,15 @@ Features:
 
 ```
 resurank/
-├── src/
-│   ├── main/        # Electron main process (IPC handlers, file storage, auto-update)
-│   │   └── index.ts
-│   └── preload/     # contextBridge — exposes electronAPI to the renderer
-│       └── index.cts
-├── apps/ui/         # Angular UI + scoring engine + embedding web worker
-├── shared/          # Shared constants and stopwords
-└── forge.config.cjs  # Electron Forge packaging config
+├── apps/
+│   ├── desktop/     # Electron main process (IPC handlers, file storage, auto-update)
+│   │   └── src/
+│   │       ├── main/index.ts
+│   │       ├── preload/index.cts   # contextBridge — exposes electronAPI to the renderer
+│   │       └── config.ts
+│   ├── ui/          # Angular UI + scoring engine + embedding web worker
+│   └── web/         # Multi-user web API — auth, Postgres CRUD, email, static hosting
+└── forge.config.cjs  # Electron Forge packaging config (runs from the repo root)
 ```
 
 ## Setup

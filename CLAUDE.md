@@ -10,16 +10,18 @@
 
 ```
 resurank/
-├── src/                     # Electron main process (IPC, file storage, auto-updates)
-│   ├── main/index.ts        # App lifecycle, window management, IPC handlers
-│   └── preload/index.cts    # contextBridge — exposes electronAPI to renderer
-├── apps/ui/                 # Angular 21 app (npm workspace) — builds for BOTH targets
-│   └── src/app/
-│       ├── shared/          # Common UI + services (app.component, api.service, matcher,
-│       │                    #   embedding worker, storage/storage-adapter.ts interface)
-│       ├── desktop/         # Electron-only: electron-storage.adapter, claude-desktop card
-│       └── web/             # Web-only: http-storage.adapter, auth, routing, history
 ├── apps/
+│   ├── desktop/             # Electron main process (IPC, file storage, auto-updates)
+│   │   └── src/
+│   │       ├── main/index.ts   # App lifecycle, window management, IPC handlers
+│   │       ├── preload/index.cts  # contextBridge — exposes electronAPI to renderer
+│   │       └── config.ts    # Env-based config (database path, port) — Electron main only
+│   ├── ui/                  # Angular 21 app (npm workspace) — builds for BOTH targets
+│   │   └── src/app/
+│   │       ├── shared/      # Common UI + services (app.component, api.service, matcher,
+│   │       │                #   embedding worker, storage/storage-adapter.ts interface)
+│   │       ├── desktop/     # Electron-only: electron-storage.adapter, claude-desktop card
+│   │       └── web/         # Web-only: http-storage.adapter, auth, routing, history
 │   └── web/                 # @resurank/server — Fastify + Postgres + email + static hosting.
 │                            #   Performs NO ML; embedding/scoring stay client-side.
 ├── packages/
@@ -29,15 +31,20 @@ resurank/
 │   │       ├── constants.ts # All numeric tuning weights
 │   │       └── terms.ts     # Text pre-processing and term extraction
 │   └── mcp-server/          # resurank-mcp — Claude Desktop integration via MCP protocol
-├── shared/config.ts         # Env-based config (database path, port) — Electron main only
 ├── data/                    # Local user data (resume.json, stopwords, term boosts)
 ├── resources/               # App icons, test fixtures
-└── forge.config.cjs         # Electron Forge packaging config
+└── forge.config.cjs         # Electron Forge packaging config (packages from repo root)
 ```
 
 **Layout convention:** `packages/` holds what gets **published to npm**
 (`scoring`, `mcp-server`); `apps/` holds what gets **shipped/deployed** and is
-never published (`web`). Put new workspaces on the correct side of that line.
+never published (`ui`, `web`). Put new workspaces on the correct side of that
+line. `apps/desktop` is the one exception: it's Electron's main/preload source,
+grouped under `apps/` for consistency, but it is *not* an npm workspace —
+Electron Forge packages from the repo root (bundling `apps/desktop`'s compiled
+output alongside `apps/ui`'s and the hoisted `node_modules`), so `package.json`
+(`main`, scripts, Electron deps), `forge.config.cjs`, `resources/`,
+`app-update.yml`, and `entitlements.plist` all stay at the repo root.
 
 ---
 
@@ -136,7 +143,7 @@ The `version:*` scripts create prefixed git tags (`scoring-v1.0.x`, `mcp-v1.0.x`
 
 ## Architecture Notes
 
-- **IPC**: Renderer communicates with main process through typed `contextBridge` (`src/preload/index.cts`). Add new IPC channels there and in `src/main/index.ts` together.
+- **IPC**: Renderer communicates with main process through typed `contextBridge` (`apps/desktop/src/preload/index.cts`). Add new IPC channels there and in `apps/desktop/src/main/index.ts` together.
 - **Custom protocol**: App uses `app://localhost/` instead of `file://` to enable `crossOriginIsolated` + SharedArrayBuffer for threaded WASM.
 - **Embedding**: Model inference runs in a Web Worker (`embedding.worker.ts`) to avoid blocking the UI thread.
 - **Scoring formula**: `score = semantic(0.6) + tfidf(0.4)` with divergence penalty when no real keyword overlap exists. Tuning constants live entirely in `packages/scoring/src/constants.ts`.
@@ -150,7 +157,7 @@ The `version:*` scripts create prefixed git tags (`scoring-v1.0.x`, `mcp-v1.0.x`
 - Do not add new dependencies without asking first.
 - Ask clarifying questions before starting non-trivial tasks.
 - Keep scoring logic in `packages/scoring` — it is a published package and must stay framework-agnostic.
-- The embedding model path and user data paths are resolved at runtime via `shared/config.ts`; do not hardcode paths.
+- The embedding model path and user data paths are resolved at runtime via `apps/desktop/src/config.ts`; do not hardcode paths.
 
 ## Branch Policy
 

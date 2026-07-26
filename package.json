@@ -5,7 +5,7 @@
   "private": true,
   "description": "Resume to job-description matcher",
   "license": "AGPL-3.0-only",
-  "main": "dist/src/main/index.js",
+  "main": "dist/main/index.js",
   "type": "module",
   "config": {
     "forge": "./forge.config.cjs"
@@ -21,7 +21,7 @@
     "build:frontend": "npm --prefix apps/ui run build -- --base-href=./",
     "build:frontend:web": "npm --prefix apps/ui run fetch-model && npm --prefix apps/ui run build:web",
     "dev:frontend:web": "npm --prefix apps/ui run fetch-model && npm --prefix apps/ui run start:web",
-    "build:electron": "tsc -p src/tsconfig.json",
+    "build:electron": "tsc -p apps/desktop/tsconfig.json",
     "build:server": "npm --prefix apps/web run build",
     "dev:server": "npm --prefix apps/web run dev",
     "build": "npm run build:scoring && npm run build:frontend && npm run build:electron",

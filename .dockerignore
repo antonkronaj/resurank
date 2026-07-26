@@ -23,7 +23,7 @@ apps/ui/dist
 # Desktop-only / irrelevant to the server image.
 resources
 data
-shared
+apps/desktop
 
 # Repo metadata and tooling, not needed at runtime.
 .git

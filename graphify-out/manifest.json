@@ -1,7 +1,7 @@
 {
   "package.json": {
-    "mtime": 1785029515.4170372,
-    "ast_hash": "aa0a56d11bad20637d9335f4b8662a3f",
+    "mtime": 1785031517.0863476,
+    "ast_hash": "04586ff95b60e4ff64de0ea8cac16344",
     "semantic_hash": ""
   },
   "packages/mcp-server/install.sh": {
@@ -104,41 +104,6 @@
     "ast_hash": "aa431a16d9236362407b3ed3c005e3b9",
     "semantic_hash": "aa431a16d9236362407b3ed3c005e3b9"
   },
-  "shared/config.js": {
-    "mtime": 1778201390.047318,
-    "ast_hash": "27e3aca504a368145d75a8a67059a761",
-    "semantic_hash": "27e3aca504a368145d75a8a67059a761"
-  },
-  "shared/config.ts": {
-    "mtime": 1778689273.9669785,
-    "ast_hash": "80cb307ef131b1ac1bb4ed29777c97bf",
-    "semantic_hash": "80cb307ef131b1ac1bb4ed29777c97bf"
-  },
-  "src/main/claude-desktop.ts": {
-    "mtime": 1780679990.5941517,
-    "ast_hash": "2bb47f3dd7a5e2cfc9009519d93ebbed",
-    "semantic_hash": "2bb47f3dd7a5e2cfc9009519d93ebbed"
-  },
-  "src/main/index.ts": {
-    "mtime": 1785029521.5059922,
-    "ast_hash": "7e8f24cd0fb19fac706934a170d3871b",
-    "semantic_hash": ""
-  },
-  "src/main/types.d.ts": {
-    "mtime": 1779237198.3274186,
-    "ast_hash": "9fddb4cb47ec2e05bb066ee590008546",
-    "semantic_hash": "9fddb4cb47ec2e05bb066ee590008546"
-  },
-  "src/preload/electron-api.d.ts": {
-    "mtime": 1785029717.12896,
-    "ast_hash": "3eb851b197fb588c26f5885c37ab5213",
-    "semantic_hash": ""
-  },
-  "src/tsconfig.json": {
-    "mtime": 1778184611.2683978,
-    "ast_hash": "1058adfbece3776120396d4535ed1589",
-    "semantic_hash": "1058adfbece3776120396d4535ed1589"
-  },
   "tsconfig.json": {
     "mtime": 1780679990.5950913,
     "ast_hash": "18db4ea6647dfd25e4b23a71d0abdf52",
@@ -150,13 +115,13 @@
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1785029620.6918054,
-    "ast_hash": "c7328d497ea43a236d35f40216bd787c",
+    "mtime": 1785031578.628319,
+    "ast_hash": "2364b846ea1f5bf670b57880e87c8fe4",
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1785029624.6923985,
-    "ast_hash": "95cc5f6188dcd60a9f4cb97adf183b20",
+    "mtime": 1785031594.5785773,
+    "ast_hash": "4ee660161b032eded047927bbf256213",
     "semantic_hash": ""
   },
   "app-update.yml": {
@@ -320,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/web-deployment-plan.md": {
-    "mtime": 1785029730.7475963,
-    "ast_hash": "1ca9aeeedea5fe4c06538fae6ea6b85b",
+    "mtime": 1785031609.0170307,
+    "ast_hash": "2304b50caf7e0992e793c5d824a2a993",
     "semantic_hash": ""
   },
   "docs/deployment-runbook.md": {
@@ -365,13 +330,13 @@
     "semantic_hash": ""
   },
   "apps/web/src/app.ts": {
-    "mtime": 1785029629.0773551,
-    "ast_hash": "d356850fc4408d865c49470b7e6b1f34",
+    "mtime": 1785031854.317864,
+    "ast_hash": "38131643036f1c3636b70858fabd512a",
     "semantic_hash": ""
   },
   "apps/web/src/config.ts": {
-    "mtime": 1785029532.7939377,
-    "ast_hash": "fc85a56dc84e8c8907d28124332effba",
+    "mtime": 1785031540.8297806,
+    "ast_hash": "b3413245a27ae9390ba4a2934d347313",
     "semantic_hash": ""
   },
   "apps/web/src/db/client.ts": {
@@ -912,6 +877,36 @@
   "apps/ui/public/icon.svg": {
     "mtime": 1778604552.3660958,
     "ast_hash": "4d00254fe117e42f4db7a0af304b1282",
+    "semantic_hash": ""
+  },
+  "apps/desktop/src/config.ts": {
+    "mtime": 1778689273.9669785,
+    "ast_hash": "80cb307ef131b1ac1bb4ed29777c97bf",
+    "semantic_hash": ""
+  },
+  "apps/desktop/src/main/claude-desktop.ts": {
+    "mtime": 1780679990.5941517,
+    "ast_hash": "2bb47f3dd7a5e2cfc9009519d93ebbed",
+    "semantic_hash": ""
+  },
+  "apps/desktop/src/main/index.ts": {
+    "mtime": 1785031508.7338567,
+    "ast_hash": "838026b04ae4233ee15a007ed27477af",
+    "semantic_hash": ""
+  },
+  "apps/desktop/src/main/types.d.ts": {
+    "mtime": 1779237198.3274186,
+    "ast_hash": "9fddb4cb47ec2e05bb066ee590008546",
+    "semantic_hash": ""
+  },
+  "apps/desktop/src/preload/electron-api.d.ts": {
+    "mtime": 1785029717.12896,
+    "ast_hash": "3eb851b197fb588c26f5885c37ab5213",
+    "semantic_hash": ""
+  },
+  "apps/desktop/tsconfig.json": {
+    "mtime": 1785031483.7216055,
+    "ast_hash": "971f22b865b24322186dd815b130a295",
     "semantic_hash": ""
   }
 }
