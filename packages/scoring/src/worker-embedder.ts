@@ -25,6 +25,10 @@ export interface WorkerEmbedderOptions {
   wasmPaths?: string;
   cacheDir?: string;
   modelId?: string;
+  /** Same-origin host to fetch model files from, in place of the HF Hub. */
+  modelHost?: string;
+  /** Path template appended to `modelHost`; see transformers.js's `env.remotePathTemplate`. */
+  remotePathTemplate?: string;
   cacheSize?: number;
   batchSize?: number;
   requestTimeoutMs?: number;
@@ -98,6 +102,8 @@ export function createWorkerEmbedder(options: WorkerEmbedderOptions): WorkerEmbe
         cacheDir: options.cacheDir,
         wasmPaths: options.wasmPaths,
         modelId: options.modelId,
+        modelHost: options.modelHost,
+        remotePathTemplate: options.remotePathTemplate,
       });
 
       worker.onmessage = (event: MessageEvent<WorkerMessage>) => {

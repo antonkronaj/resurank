@@ -1,0 +1,75 @@
+<header class="toolbar">
+  <div class="brand"><span class="brand-mark">R</span> ResuRank</div>
+  <span class="flex1"></span>
+  <a class="link" routerLink="/login">Back to sign in</a>
+</header>
+
+<div class="content" style="max-width:720px">
+  <h2 class="panel-title" style="font-size:19px">Privacy Policy</h2>
+  <p class="small muted">Last updated: 2026-07-25</p>
+
+  <section class="panel">
+    <p class="small">
+      This describes what ResuRank actually stores and why, in plain terms rather than
+      boilerplate. It is not a substitute for professional legal advice.
+    </p>
+  </section>
+
+  <section class="panel">
+    <h3 class="sub-title">What never leaves your browser</h3>
+    <p class="small">
+      Your resume PDF is parsed locally in your browser. The file itself is never uploaded.
+      Match scoring — the embedding model and the term comparison — also runs entirely in your
+      browser, not on our server.
+    </p>
+  </section>
+
+  <section class="panel">
+    <h3 class="sub-title">What we store</h3>
+    <p class="small">To run the service, we store, tied to your account:</p>
+    <ul class="small" style="padding-left:20px;margin:8px 0">
+      <li>Your email address and, if you provide one, your name.</li>
+      <li>Your password as an argon2id hash — we never store or can see your actual password.</li>
+      <li>The extracted <em>text</em> of resumes you upload, plus the list of terms derived from
+        it (not the PDF itself).</li>
+      <li>Job descriptions and titles you evaluate, and the resulting match scores, so you have
+        a history to look back on.</li>
+      <li>Your scoring preferences (excluded words, term boosts, missing-keyword and preference
+        settings).</li>
+      <li>Session identifiers (as one-way hashes) so you can stay signed in, and short-lived
+        tokens for email verification and password resets.</li>
+    </ul>
+  </section>
+
+  <section class="panel">
+    <h3 class="sub-title">Email</h3>
+    <p class="small">
+      We send email only for account actions you take: verifying your address, resetting your
+      password, and notifying you of security-relevant changes (password or email changed). We
+      don't send marketing email and don't share your address with anyone for that purpose.
+    </p>
+  </section>
+
+  <section class="panel">
+    <h3 class="sub-title">What we don't do</h3>
+    <p class="small">
+      No third-party analytics, ad trackers, or behavioral tracking of any kind run on this
+      site. We don't sell your data or share it with third parties, except the infrastructure
+      needed to run the service itself (hosting and email delivery), and never for advertising.
+    </p>
+  </section>
+
+  <section class="panel">
+    <h3 class="sub-title">Your controls</h3>
+    <p class="small">
+      From the Account screen you can export a full JSON copy of everything above at any time,
+      or permanently delete your account — which immediately removes your resumes, settings,
+      and scoring history, and cannot be undone.
+    </p>
+  </section>
+
+  <section class="panel">
+    <h3 class="sub-title">Contact</h3>
+    <p class="small">Questions about this policy: <a class="link" href="mailto:developer@kronaj.com">developer@kronaj.com</a>.</p>
+  </section>
+</div>

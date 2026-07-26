@@ -1,0 +1,46 @@
+<app-modal-shell (close)="close.emit()" [isOpen]="!!entry()" [title]="entry()?.jobTitle ?? ''">
+  @if (entry(); as e) {
+    <div class="score-row">
+      <div [attr.data-tier]="scoreTier(e.result.score)" [style.--pct]="e.result.score" class="ring">
+        <div class="ring-face">{{ scorePct(e.result.score) }}%</div>
+      </div>
+      <div class="small muted">
+        <div>{{ e.resumeFilename ?? 'Deleted resume' }} · {{ e.createdAt | date: 'medium' }}</div>
+        <div>Embedding ({{ scorePct(e.result.breakdown.embeddingScore) }}%): {{ e.result.breakdown.embeddingScore * EMBEDDING_WEIGHT * 100 | number: '1.0-1' }}%</div>
+        <div>TF-IDF ({{ scorePct(e.result.breakdown.tfidfScore) }}%): {{ e.result.breakdown.tfidfScore * TFIDF_WEIGHT * 100 | number: '1.0-1' }}%</div>
+        @if (e.result.breakdown.divergencePenalty > 0) {
+          <div style="color:var(--danger)">Divergence penalty: −{{ e.result.breakdown.divergencePenalty * 100 | number: '1.0-1' }}%</div>
+        }
+        @if (e.result.breakdown.missingKeywordPenalty > 0) {
+          <div style="color:var(--danger)">Missing critical keywords: −{{ e.result.breakdown.missingKeywordPenalty * 100 | number: '1.0-1' }}%</div>
+        }
+        @if (e.result.breakdown.preferenceMismatchPenalty > 0) {
+          <div style="color:var(--danger)">Preference mismatch: −{{ e.result.breakdown.preferenceMismatchPenalty * 100 | number: '1.0-1' }}%</div>
+        }
+      </div>
+    </div>
+
+    <h3 class="sub-title" style="margin-top:18px">Matched terms</h3>
+    @if (e.result.matchedTerms.length) {
+      <div class="chips">
+        @for (term of e.result.matchedTerms; track term) {
+          <span class="chip">{{ term }}</span>
+        }
+      </div>
+    } @else {
+      <p class="small muted">No high-signal terms matched.</p>
+    }
+
+    @if (e.result.missingTerms.length) {
+      <h3 class="sub-title" style="margin-top:18px">Missing critical keywords</h3>
+      <div class="chips">
+        @for (t of e.result.missingTerms; track t.term) {
+          <span class="chip chip--missing">{{ t.term }}</span>
+        }
+      </div>
+    }
+
+    <h3 class="sub-title" style="margin-top:18px">Job description</h3>
+    <p class="small" style="white-space:pre-wrap">{{ e.jobDescription }}</p>
+  }
+</app-modal-shell>

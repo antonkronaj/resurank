@@ -1,0 +1,43 @@
+<div class="auth-wrap">
+  <aside class="auth-brand">
+    <div class="brand"><span class="brand-mark">R</span> ResuRank</div>
+    <div>
+      <h1 class="auth-head">Start with <em>one</em> resume. Add more later.</h1>
+      <p class="auth-sub">Free while in beta. Verify your email and you are in.</p>
+    </div>
+    <p class="small muted" style="margin:0">Your data stays yours — export or delete it whenever.</p>
+  </aside>
+  <main class="auth-form">
+    <div class="auth-card">
+      <h2 class="auth-title">Create your account</h2>
+      <p class="auth-lede">We will email a verification link before you can sign in.</p>
+
+      @if (error()) {
+        <p class="form-error">{{ error() }}</p>
+      }
+
+      <form (ngSubmit)="onSubmit()">
+        <label class="field">
+          <span class="field-label">Name</span>
+          <input class="input" name="name" placeholder="Anton Kronaj" [ngModel]="name()" (ngModelChange)="name.set($event)" autocomplete="name">
+        </label>
+        <label class="field">
+          <span class="field-label">Email</span>
+          <input class="input" type="email" name="email" required placeholder="you@example.com" [ngModel]="email()" (ngModelChange)="email.set($event)" autocomplete="email">
+        </label>
+        <label class="field">
+          <span class="field-label">Password</span>
+          <input class="input" type="password" name="password" required placeholder="At least 10 characters" [ngModel]="password()" (ngModelChange)="password.set($event)" autocomplete="new-password">
+        </label>
+        <button class="primary" type="submit" style="width:100%;margin-top:6px" [disabled]="submitting()">
+          {{ submitting() ? 'Creating account…' : 'Create account' }}
+        </button>
+        <p class="auth-foot">
+          By continuing you agree to our <a class="link" href="/terms">Terms</a> and
+          <a class="link" href="/privacy">Privacy Policy</a>.
+        </p>
+      </form>
+      <p class="auth-foot">Already registered? <a class="link" routerLink="/login">Sign in</a></p>
+    </div>
+  </main>
+</div>

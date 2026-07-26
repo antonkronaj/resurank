@@ -6,7 +6,11 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "eslint .",
+    "fetch-model": "node scripts/fetch-model.mjs",
+    "build:web": "ng build --configuration production,web",
+    "start:web": "ng serve --configuration development,web-development"
   },
   "private": true,
   "license": "AGPL-3.0-only",
@@ -33,12 +37,15 @@
     "@angular/cli": "^21.2.10",
     "@angular/compiler-cli": "^21.2.11",
     "@types/jasmine": "~6.0.0",
+    "eslint": "^9.39.5",
+    "eslint-plugin-import": "^2.32.0",
     "jasmine-core": "~6.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.2.0",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "typescript-eslint": "^8.65.0"
   }
 }

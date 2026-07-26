@@ -1,0 +1,50 @@
+<div class="content">
+  <div class="panel-head">
+    <div>
+      <h2 class="panel-title" style="margin:0">Match history</h2>
+      <p class="small muted" style="margin:4px 0 0">Every evaluation you have run, newest first.</p>
+    </div>
+    <div class="toolbar-filter">
+      <select (ngModelChange)="onResumeFilterChange($event)" [ngModel]="resumeFilter()" class="select">
+        <option value="">All resumes</option>
+        @for (r of resumes(); track r.id) {
+          <option [value]="r.id">{{ r.filename }}</option>
+        }
+      </select>
+      <select [ngModel]="sortMode()" (ngModelChange)="sortMode.set($event)" class="select">
+        <option value="newest">Newest first</option>
+        <option value="highest">Highest score</option>
+      </select>
+    </div>
+  </div>
+
+  @if (error()) {
+    <p class="form-error">{{ error() }}</p>
+  }
+
+  @if (!loading() && sortedEntries().length === 0) {
+    <div class="empty panel">
+      <div class="empty-ico">◔</div>
+      <p>No matches scored yet.</p>
+    </div>
+  } @else {
+    <div class="hist-list">
+      @for (entry of sortedEntries(); track entry.id) {
+        <article (click)="open(entry.id)" class="hist-item">
+          <div [attr.data-tier]="scoreTier(entry.score)" [style.--pct]="entry.score" class="ring sm">
+            <div class="ring-face">{{ scorePct(entry.score) }}</div>
+          </div>
+          <div class="hist-meta">
+            <div class="hist-title">{{ entry.jobTitle }}</div>
+            <div class="hist-sub">
+              {{ entry.resumeFilename ?? 'Deleted resume' }} · {{ entry.createdAt | date: 'd MMM y' }}
+            </div>
+          </div>
+          <button class="icon-btn" title="Open" type="button">→</button>
+        </article>
+      }
+    </div>
+  }
+</div>
+
+<app-history-detail-modal (close)="closeDetail()" [entry]="selectedEntry()" />

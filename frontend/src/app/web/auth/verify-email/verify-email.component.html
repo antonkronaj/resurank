@@ -1,0 +1,35 @@
+<div class="auth-wrap">
+  <aside class="auth-brand">
+    <div class="brand"><span class="brand-mark">R</span> ResuRank</div>
+    <span></span>
+    <span></span>
+  </aside>
+  <main class="auth-form">
+    <div class="auth-card">
+      @if (status === 'success') {
+        <h2 class="auth-title">Email verified</h2>
+        <p class="auth-lede">Your address is confirmed — you can sign in now.</p>
+        <a class="primary" style="display:block;text-align:center;text-decoration:none;width:100%;box-sizing:border-box" routerLink="/login">Continue to sign in</a>
+      } @else {
+        <h2 class="auth-title">Link invalid or expired</h2>
+        <p class="auth-lede">Verification links expire after 24 hours and only work once.</p>
+
+        @if (resent()) {
+          <p class="form-notice">If that address needs verifying, a fresh link is on its way.</p>
+        } @else {
+          <form (ngSubmit)="onResend()">
+            <label class="field">
+              <span class="field-label">Email</span>
+              <input class="input" type="email" name="email" required placeholder="you@example.com" [ngModel]="email()" (ngModelChange)="email.set($event)" autocomplete="email">
+            </label>
+            <button class="primary" type="submit" style="width:100%" [disabled]="submitting()">
+              {{ submitting() ? 'Sending…' : 'Resend verification link' }}
+            </button>
+          </form>
+        }
+      }
+
+      <p class="auth-foot"><a class="link" routerLink="/login">Back to sign in</a></p>
+    </div>
+  </main>
+</div>

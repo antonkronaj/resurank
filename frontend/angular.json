@@ -110,12 +110,12 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "550kB",
                   "maximumError": "1MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "8kB",
+                  "maximumWarning": "10kB",
                   "maximumError": "16kB"
                 }
               ],
@@ -133,6 +133,22 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "web": {
+              "fileReplacements": [
+                {
+                  "replace": "src/main.ts",
+                  "with": "src/main.web.ts"
+                }
+              ]
+            },
+            "web-development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/main.ts",
+                  "with": "src/main.web.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -145,6 +161,12 @@
             },
             "development": {
               "buildTarget": "frontend:build:development"
+            },
+            "web": {
+              "buildTarget": "frontend:build:production,web"
+            },
+            "web-development": {
+              "buildTarget": "frontend:build:development,web-development"
             }
           },
           "defaultConfiguration": "development"

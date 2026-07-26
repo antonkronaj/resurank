@@ -1,0 +1,14 @@
+@if (resumes().length > 1) {
+  <label class="toolbar-filter">
+    <span class="small muted">Scoring against</span>
+    <select
+      (ngModelChange)="onSelect($event)"
+      [disabled]="switching()"
+      [ngModel]="activeId()"
+      class="select">
+      @for (r of resumes(); track r.id) {
+        <option [value]="r.id">{{ r.filename }}{{ r.isActive ? ' (active)' : '' }}</option>
+      }
+    </select>
+  </label>
+}

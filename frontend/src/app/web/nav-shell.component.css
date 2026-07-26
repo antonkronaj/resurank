@@ -1,0 +1,77 @@
+:host {
+  display: block;
+}
+
+.avatar-wrap {
+  position: relative;
+}
+
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+}
+
+.avatar-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 61;
+  min-width: 200px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.avatar-menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.avatar-menu-item:hover {
+  background: var(--row-hover);
+}
+
+/* ── Min-width guard ───────────────────────────────────────────────────
+   Moved up from shared/app.component.css in Phase 9 — see nav-shell.component.ts. */
+.min-width-guard {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .app-shell {
+    display: none;
+  }
+
+  .min-width-guard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+.min-width-guard-text {
+  max-width: 32ch;
+}

@@ -1,0 +1,210 @@
+@if (isOpen()) {
+  <div (click)="onClose()" class="drawer-backdrop"></div>
+}
+<aside [class.open]="isOpen()" class="settings-drawer">
+  <div class="dw-header">
+    <span class="dw-title">Settings</span>
+    <button (click)="onClose()" class="dw-close">✕</button>
+  </div>
+  <div class="dw-body">
+
+    @if (desktopSettingsPanel) {
+      <ng-container *ngComponentOutlet="desktopSettingsPanel; inputs: {resumeRev: resume()}" />
+    }
+
+    <div class="dw-section">
+      <div class="dw-section-title">Resume</div>
+      @if (resume().uploaded) {
+        <div class="resume-info">
+          <span class="resume-name">{{ resume().filename }}</span>
+          <span class="text-muted small">
+            Uploaded {{ resume().uploadedAt | date: 'mediumDate' }} · {{ resume().chars }} chars
+          </span>
+        </div>
+      } @else {
+      <p class="text-muted small">No resume uploaded yet.</p>
+    }
+      <label class="file-btn">
+        <input (change)="onResumeSelected($event)" accept="application/pdf" hidden type="file"/>
+        {{ uploading() ? 'Uploading…' : (resume().uploaded ? 'Replace PDF' : 'Upload PDF') }}
+      </label>
+    </div>
+
+    <div class="dw-section">
+      <div class="dw-section-title">
+        <span>Exclusion words</span>
+        <button (click)="openInfo('exclusions')" class="dw-info-btn" title="What are exclusion words?" type="button">ℹ
+        </button>
+      </div>
+      <p class="text-muted small">
+        Words to ignore when scoring. These are filtered out of both the resume
+        and the pasted job description before matching.
+      </p>
+      <button (click)="openStopwords.emit()" class="file-btn" type="button">Manage exclusion words…</button>
+    </div>
+
+    <div class="dw-section">
+      <div class="dw-section-title">
+        <span>Term boosts</span>
+        <button (click)="openInfo('boosts')" class="dw-info-btn" title="What are term boosts?" type="button">ℹ</button>
+      </div>
+      <p class="text-muted small">
+        Multiply the influence of specific terms. e.g. <b>java: 3</b> makes java
+        matches count 3× a normal term. Affects the TF-IDF half of the score.
+      </p>
+      <div class="boost-rows">
+        <div *ngFor="let row of boostRows(); let i = index; trackBy: trackByIndex" class="boost-row">
+          <input
+            (ngModelChange)="updateBoostTerm(i, $event)"
+            [ngModel]="row.term"
+            class="boost-term"
+            placeholder="term (e.g. java)"
+            type="text"/>
+          <input
+            (ngModelChange)="updateBoostWeight(i, $event)"
+            [ngModel]="row.weight"
+            class="boost-weight"
+            min="0.1"
+            placeholder="2"
+            step="0.1"
+            type="number"/>
+          <button (click)="removeBoostRow(i)" class="boost-remove" title="Remove" type="button">✕</button>
+        </div>
+        @if (boostRows().length === 0) {
+          <div class="text-muted small">No boosts yet.</div>
+        }
+      </div>
+      <div class="boost-actions">
+        <button (click)="addBoostRow()" class="file-btn" type="button">+ Add</button>
+        <button (click)="onSaveBoosts()" [disabled]="savingBoosts()" class="primary sm" type="button">
+          {{ savingBoosts() ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="dw-section">
+      <div class="dw-section-title">
+        <span>Critical missing keywords</span>
+        <button (click)="openInfo('missing')" class="dw-info-btn" title="What are critical missing keywords?" type="button">ℹ</button>
+      </div>
+      <p class="text-muted small">
+        Reduce the score when a term you've marked as critical appears in the job
+        description but not in your resume. List terms below, or use the ⚑ button on
+        any keyword in the JD keywords panel to add one inline.
+      </p>
+      <label class="missing-toggle">
+        <input
+          (ngModelChange)="onMissingEnabledChange($event)"
+          [ngModel]="missingEnabled()"
+          type="checkbox"/>
+        <span>Enable penalty</span>
+      </label>
+      <div class="missing-slider-row">
+        <label class="missing-slider-label">
+          <span>Max reduction</span>
+          <span class="missing-slider-val">{{ missingMaxPenalty() * 100 | number:'1.0-0' }}%</span>
+        </label>
+        <input
+          (change)="onMissingMaxPenaltyCommit()"
+          (ngModelChange)="onMissingMaxPenaltyChange($event)"
+          [disabled]="!missingEnabled()"
+          [max]="MISSING_PENALTY_LIMIT"
+          [ngModel]="missingMaxPenalty()"
+          class="missing-slider"
+          min="0"
+          step="0.01"
+          type="range"/>
+      </div>
+      <div class="dw-subsection-title">Critical keywords</div>
+      <div class="boost-rows">
+        <div *ngFor="let row of pinnedRows(); let i = index; trackBy: trackByIndex" class="pinned-row">
+          <input
+            (ngModelChange)="updatePinnedTerm(i, $event)"
+            [ngModel]="row.term"
+            class="pinned-term"
+            placeholder="term (e.g. c#)"
+            type="text"/>
+          <select
+            (ngModelChange)="updatePinnedImportance(i, $event)"
+            [ngModel]="row.importance"
+            class="pinned-importance"
+            title="Importance: how much this term contributes to the penalty">
+            <option *ngFor="let level of IMPORTANCE_OPTIONS" [value]="level">{{ level | titlecase }}</option>
+          </select>
+          <button (click)="removePinnedRow(i)" class="boost-remove" title="Remove" type="button">✕</button>
+        </div>
+        @if (pinnedRows().length === 0) {
+          <div class="text-muted small">No critical terms yet.</div>
+        }
+      </div>
+      <div class="boost-actions">
+        <button (click)="addPinnedRow()" class="file-btn" type="button">+ Add</button>
+        <button (click)="onSavePinned()" [disabled]="savingMissingSettings()" class="primary sm" type="button">
+          {{ savingMissingSettings() ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="dw-section">
+      <div class="dw-section-title">
+        <span>Preference mismatch</span>
+        <button (click)="openInfo('preference')" class="dw-info-btn" title="What is preference mismatch?" type="button">ℹ</button>
+      </div>
+      <p class="text-muted small">
+        Describe job traits you want to <b>avoid</b> in plain language (e.g. "fast-paced
+        startup with on-call rotations"). Jobs whose description is semantically similar
+        to this text have their score reduced. Don't phrase it as a negation — describe
+        the trait itself, since the model matches on topic, not on "not".
+      </p>
+      <label class="missing-toggle">
+        <input
+          (ngModelChange)="onPreferenceEnabledChange($event)"
+          [ngModel]="preferenceEnabled()"
+          type="checkbox"/>
+        <span>Enable penalty</span>
+      </label>
+      <div class="missing-slider-row">
+        <label class="missing-slider-label">
+          <span>Max reduction</span>
+          <span class="missing-slider-val">{{ preferenceMaxPenalty() * 100 | number:'1.0-0' }}%</span>
+        </label>
+        <input
+          (change)="onPreferenceMaxPenaltyCommit()"
+          (ngModelChange)="onPreferenceMaxPenaltyChange($event)"
+          [disabled]="!preferenceEnabled()"
+          [max]="PREFERENCE_PENALTY_LIMIT"
+          [ngModel]="preferenceMaxPenalty()"
+          class="missing-slider"
+          min="0"
+          step="0.01"
+          type="range"/>
+      </div>
+      <div class="dw-subsection-title">Traits to avoid</div>
+      <textarea
+        (ngModelChange)="onPreferenceTextChange($event)"
+        [ngModel]="preferenceText()"
+        class="preference-text"
+        placeholder="e.g. fast-paced startup environment with frequent on-call rotations and long hours"
+        rows="4"></textarea>
+      <div class="boost-actions">
+        <button (click)="onSavePreferenceText()" [disabled]="savingPreferenceSettings()" class="primary sm" type="button">
+          {{ savingPreferenceSettings() ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="dw-section">
+      <div class="dw-section-title">About</div>
+      <div class="text-muted small">
+        Version: {{ appVersion() }}
+      </div>
+    </div>
+
+  </div>
+
+  <app-settings-info-modal
+    (close)="infoOpen.set(false)"
+    [isOpen]="infoOpen()"
+    [mode]="infoMode()">
+  </app-settings-info-modal>
+</aside>

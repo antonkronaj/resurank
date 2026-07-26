@@ -1,0 +1,51 @@
+<div class="auth-wrap">
+  <aside class="auth-brand">
+    <div class="brand"><span class="brand-mark">R</span> ResuRank</div>
+    <div>
+      <h1 class="auth-head">Score your resume <em>without</em> handing it over.</h1>
+      <p class="auth-sub">
+        Matching runs entirely in your browser. We store the extracted text so you can
+        reuse it — never the PDF itself.
+      </p>
+      <ul class="auth-points">
+        <li><span class="tick">✓</span><span><b>The PDF never leaves your device.</b> Parsing happens client-side.</span></li>
+        <li><span class="tick">✓</span><span><b>The AI model runs locally.</b> No inference server, no third party.</span></li>
+        <li><span class="tick">✓</span><span><b>Export or delete everything</b> at any time.</span></li>
+      </ul>
+    </div>
+    <p class="small muted" style="margin:0">Also available as a standalone desktop app.</p>
+  </aside>
+
+  <main class="auth-form">
+    <div class="auth-card">
+      <h2 class="auth-title">Welcome back</h2>
+      <p class="auth-lede">Sign in to reach your resumes and match history.</p>
+
+      @if (notice()) {
+        <p class="form-notice">{{ notice() }}</p>
+      }
+      @if (error()) {
+        <p class="form-error">{{ error() }}</p>
+      }
+
+      <form (ngSubmit)="onSubmit()">
+        <label class="field">
+          <span class="field-label">Email</span>
+          <input class="input" type="email" name="email" required [ngModel]="email()" (ngModelChange)="email.set($event)" autocomplete="email">
+        </label>
+        <label class="field">
+          <div class="row-between">
+            <span class="field-label" style="margin:0">Password</span>
+            <a class="link" routerLink="/forgot-password">Forgot password?</a>
+          </div>
+          <input class="input" type="password" name="password" required style="margin-top:6px" [ngModel]="password()" (ngModelChange)="password.set($event)" autocomplete="current-password">
+        </label>
+
+        <button class="primary" type="submit" style="width:100%;margin-top:6px" [disabled]="submitting()">
+          {{ submitting() ? 'Signing in…' : 'Sign in' }}
+        </button>
+      </form>
+      <p class="auth-foot">No account yet? <a class="link" routerLink="/register">Create one</a></p>
+    </div>
+  </main>
+</div>

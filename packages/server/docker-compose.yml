@@ -1,0 +1,35 @@
+# Local development dependencies for packages/server.
+#   npm --prefix packages/server run db:up
+#
+# Postgres holds user data; Mailpit catches verification / reset email so no
+# real SMTP provider is needed in dev (web UI at http://localhost:8025).
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: resurank-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: resurank
+      POSTGRES_PASSWORD: resurank
+      POSTGRES_DB: resurank
+    ports:
+      # 5432 on the host is taken by another local Postgres, so map to 5433.
+      - '5433:5432'
+    volumes:
+      - resurank-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U resurank -d resurank']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: resurank-mailpit
+    restart: unless-stopped
+    ports:
+      - '1025:1025' # SMTP
+      - '8025:8025' # Web UI
+
+volumes:
+  resurank-pgdata:

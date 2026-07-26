@@ -1,0 +1,33 @@
+<div class="app-shell">
+  <header class="toolbar">
+    <div class="brand"><span class="brand-mark">R</span> ResuRank</div>
+    <nav class="nav">
+      <a routerLink="score" routerLinkActive="active">Score</a>
+      <a routerLink="resumes" routerLinkActive="active">Resumes</a>
+      <a routerLink="history" routerLinkActive="active">History</a>
+    </nav>
+    <span class="flex1"></span>
+    <div class="avatar-wrap">
+      <button (click)="toggleMenu()" class="avatar" title="Account" type="button">{{ initials() }}</button>
+      @if (menuOpen()) {
+        <div (click)="closeMenu()" class="menu-backdrop"></div>
+        <div class="avatar-menu">
+          <a (click)="closeMenu()" class="avatar-menu-item" routerLink="account">Account</a>
+          <button (click)="signOut()" class="avatar-menu-item" type="button">Sign out</button>
+          <button (click)="signOutEverywhere()" class="avatar-menu-item" type="button">Sign out everywhere</button>
+          <a class="avatar-menu-item" href="/terms" style="font-size:12px" target="_blank">Terms</a>
+          <a class="avatar-menu-item" href="/privacy" style="font-size:12px" target="_blank">Privacy</a>
+        </div>
+      }
+    </div>
+  </header>
+
+  <router-outlet />
+</div>
+
+<div class="min-width-guard">
+  <p class="min-width-guard-text">
+    ResuRank works best on a larger screen. Please widen your browser window or switch to a
+    bigger display — full mobile support is coming soon.
+  </p>
+</div>

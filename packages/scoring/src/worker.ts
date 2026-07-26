@@ -7,7 +7,13 @@ declare const self: DedicatedWorkerGlobalScope;
 const DEFAULT_MODEL_ID = 'Xenova/jina-embeddings-v2-small-en';
 
 let _pipelinePromise: Promise<any> | null = null;
-let _config: {cacheDir?: string; wasmPaths?: string; modelId?: string} = {};
+let _config: {
+  cacheDir?: string;
+  wasmPaths?: string;
+  modelId?: string;
+  modelHost?: string;
+  remotePathTemplate?: string;
+} = {};
 
 async function getEmbedder(): Promise<any> {
   if (_pipelinePromise) return _pipelinePromise;
@@ -16,6 +22,18 @@ async function getEmbedder(): Promise<any> {
     env.allowRemoteModels = true;
     env.allowLocalModels = false;
     (env as any).useBrowserCache = true;
+
+    // Both undefined by default, leaving transformers.js's own default (the
+    // Hugging Face Hub) untouched — this is what the desktop build still
+    // uses. A same-origin caller (the web build, under COEP `require-corp`,
+    // which blocks a cross-origin model fetch entirely) sets both to point
+    // at a locally mirrored copy instead.
+    if (_config.modelHost) {
+      env.remoteHost = _config.modelHost;
+    }
+    if (_config.remotePathTemplate) {
+      env.remotePathTemplate = _config.remotePathTemplate;
+    }
 
     if (_config.cacheDir) {
       env.cacheDir = _config.cacheDir;
@@ -84,6 +102,8 @@ self.addEventListener('message', async (event: MessageEvent) => {
       cacheDir: message.cacheDir,
       wasmPaths: message.wasmPaths,
       modelId: message.modelId,
+      modelHost: message.modelHost,
+      remotePathTemplate: message.remotePathTemplate,
     };
     triggerEagerLoad();
     return;

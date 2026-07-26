@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ResuRank Web — UI Mockup</title>
+<style>
+/* ══════════════════════════════════════════════════════════════════════
+   TOKENS — copied verbatim from frontend/src/styles.css
+   The web build inherits these unchanged. Only additions are marked NEW.
+   ══════════════════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box}
+
+html[data-theme="dark"]{
+  --bg:#0d1117; --surface:#161b22; --surface-2:#1c2333;
+  --border:#30363d; --border-light:#21262d;
+  --text:#e6edf3; --text-muted:#8b949e; --muted:#8b949e;
+  --accent:#2dd4bf; --accent-hover:#14b8a6; --accent-subtle:rgba(45,212,191,.10);
+  --toolbar-bg:#161b22; --sidebar-bg:#0d1117;
+  --row-hover:#1c2333; --row-selected:rgba(45,212,191,.08);
+  --ring-track:#21262d; --shadow:0 20px 60px rgba(0,0,0,.5);
+  /* NEW — semantic states needed by auth + destructive actions */
+  --danger:#f85149; --danger-subtle:rgba(248,81,73,.10);
+  --warn:#d29922; --ok:#3fb950;
+}
+html[data-theme="light"]{
+  --bg:#f6f8fa; --surface:#fff; --surface-2:#f0f6ff;
+  --border:#d0d7de; --border-light:#e6eaed;
+  --text:#1f2328; --text-muted:#656d76; --muted:#656d76;
+  --accent:#0d9488; --accent-hover:#0f766e; --accent-subtle:rgba(13,148,136,.08);
+  --toolbar-bg:#fff; --sidebar-bg:#f6f8fa;
+  --row-hover:#f0f6ff; --row-selected:rgba(13,148,136,.08);
+  --ring-track:#e6eaed; --shadow:0 20px 40px rgba(0,0,0,.12);
+  --danger:#cf222e; --danger-subtle:rgba(207,34,46,.08);
+  --warn:#9a6700; --ok:#1a7f37;
+}
+
+/* CHANGED FOR WEB: desktop app locks the viewport (html,body{overflow:hidden}
+   + :host{height:100vh}). The web build must scroll normally. */
+html,body{margin:0;min-height:100%}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:'Outfit',system-ui,-apple-system,sans-serif;
+  font-size:14px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── Mockup chrome (not part of the app) ─────────────────────────────── */
+.mock-bar{
+  position:sticky; top:0; z-index:50;
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  padding:10px 16px; background:var(--surface); border-bottom:1px solid var(--border);
+}
+.mock-bar b{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-right:4px}
+.mock-tab{
+  background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+  padding:5px 12px; border-radius:6px; font:inherit; font-size:12px; font-weight:500; cursor:pointer;
+  transition:background .15s,border-color .15s,color .15s;
+}
+.mock-tab:hover{background:var(--row-hover)}
+.mock-tab[aria-selected="true"]{background:var(--accent);color:#04201c;border-color:transparent;font-weight:600}
+.mock-note{
+  margin:0; padding:10px 16px; background:var(--accent-subtle);
+  border-bottom:1px solid var(--border-light); font-size:12.5px; color:var(--text-muted);
+}
+.mock-note code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent)}
+.screen{display:none;animation:fade .25s ease}
+.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* ── App shell ───────────────────────────────────────────────────────── */
+.toolbar{
+  display:flex; align-items:center; gap:10px; height:52px; padding:0 16px;
+  background:var(--toolbar-bg); border-bottom:1px solid var(--border-light);
+}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:17px;color:var(--accent);letter-spacing:-.3px}
+.brand-mark{
+  width:26px;height:26px;border-radius:7px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent-hover));
+  color:#04201c;font-size:14px;font-weight:800;
+}
+.flex1{flex:1}
+
+/* NEW for web: primary navigation. Desktop has none — it is a single screen. */
+.nav{display:flex;gap:2px}
+.nav a{
+  padding:6px 12px;border-radius:6px;font-size:13px;font-weight:500;
+  color:var(--text-muted);text-decoration:none;transition:background .15s,color .15s;
+}
+.nav a:hover{background:var(--row-hover);color:var(--text)}
+.nav a.active{background:var(--accent-subtle);color:var(--accent);font-weight:600}
+
+.tb-btn{
+  background:var(--surface-2);border:1px solid var(--border);color:var(--text);
+  padding:5px 12px;border-radius:6px;font:inherit;font-size:12px;font-weight:500;cursor:pointer;
+  transition:background .15s;
+}
+.tb-btn:hover{background:var(--row-hover)}
+.avatar{
+  width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
+  background:var(--accent-subtle);color:var(--accent);font-weight:700;font-size:12px;
+  border:1px solid var(--border);cursor:pointer;
+}
+
+.content{max-width:1080px;margin:0 auto;padding:24px 16px 64px}
+.panel{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:20px;margin-bottom:16px;
+}
+.panel-title{margin:0 0 14px;font-size:15px;font-weight:600;letter-spacing:-.2px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.sub-title{margin:0 0 8px;font-size:13px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em}
+.muted{color:var(--text-muted)}
+.small{font-size:12.5px}
+
+/* ── Forms ───────────────────────────────────────────────────────────── */
+.field{display:block;margin-bottom:14px}
+.field-label{display:block;font-size:12.5px;font-weight:500;color:var(--text-muted);margin-bottom:6px}
+.input,.textarea{
+  width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);
+  padding:9px 11px;border-radius:7px;font:inherit;font-size:14px;
+  transition:border-color .15s,box-shadow .15s;
+}
+.input:focus,.textarea:focus{
+  outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-subtle);
+}
+.textarea{resize:vertical;min-height:120px;line-height:1.55}
+.primary{
+  background:var(--accent);color:#04201c;border:none;padding:10px 18px;border-radius:7px;
+  font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s,transform .08s;
+}
+.primary:hover{background:var(--accent-hover)}
+.primary:active{transform:translateY(1px)}
+.primary:disabled{opacity:.5;cursor:not-allowed}
+.ghost{
+  background:transparent;border:1px solid var(--border);color:var(--text);
+  padding:9px 16px;border-radius:7px;font:inherit;font-size:13px;font-weight:500;cursor:pointer;
+}
+.ghost:hover{background:var(--row-hover)}
+.danger{
+  background:transparent;border:1px solid var(--danger);color:var(--danger);
+  padding:9px 16px;border-radius:7px;font:inherit;font-size:13px;font-weight:500;cursor:pointer;
+}
+.danger:hover{background:var(--danger-subtle)}
+.link{color:var(--accent);text-decoration:none;font-size:12.5px}
+.link:hover{text-decoration:underline}
+
+/* ── Auth (NEW) ──────────────────────────────────────────────────────── */
+.auth-wrap{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr}
+.auth-brand{
+  position:relative;overflow:hidden;padding:48px 44px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  background:
+    radial-gradient(900px 500px at 12% 8%,var(--accent-subtle),transparent 60%),
+    var(--sidebar-bg);
+  border-right:1px solid var(--border-light);
+}
+.auth-brand::after{ /* subtle grid texture */
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(var(--border-light) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--border-light) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(700px 420px at 20% 20%,#000,transparent 75%);
+}
+.auth-brand>*{position:relative;z-index:1}
+.auth-head{font-size:38px;line-height:1.12;font-weight:700;letter-spacing:-1.2px;margin:28px 0 12px;max-width:15ch}
+.auth-head em{font-style:normal;color:var(--accent)}
+.auth-sub{color:var(--text-muted);max-width:42ch;font-size:14.5px}
+.auth-points{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:11px}
+.auth-points li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--text-muted)}
+.auth-points b{color:var(--text);font-weight:600}
+.tick{color:var(--accent);flex-shrink:0;font-weight:700}
+.auth-form{display:flex;align-items:center;justify-content:center;padding:48px 32px}
+.auth-card{width:100%;max-width:390px}
+.auth-title{margin:0 0 4px;font-size:23px;font-weight:700;letter-spacing:-.5px}
+.auth-lede{margin:0 0 26px;color:var(--text-muted);font-size:13.5px}
+.auth-foot{margin-top:20px;text-align:center;font-size:13px;color:var(--text-muted)}
+.row-between{display:flex;align-items:center;justify-content:space-between;gap:8px}
+
+/* ── Resume cards (NEW) ──────────────────────────────────────────────── */
+.res-grid{display:grid;gap:12px}
+.res-card{
+  display:flex;align-items:center;gap:14px;padding:14px 16px;
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  transition:border-color .15s,background .15s;
+}
+.res-card:hover{background:var(--row-hover)}
+.res-card.is-active{border-color:var(--accent);background:var(--row-selected)}
+.res-ico{
+  width:38px;height:38px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;
+  background:var(--surface-2);border:1px solid var(--border);color:var(--text-muted);font-size:15px;
+}
+.res-card.is-active .res-ico{background:var(--accent-subtle);border-color:transparent;color:var(--accent)}
+.res-meta{flex:1;min-width:0}
+.res-name{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.badge{
+  display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;
+  background:var(--accent-subtle);color:var(--accent);margin-left:8px;vertical-align:1px;
+}
+.icon-btn{
+  background:transparent;border:1px solid transparent;color:var(--text-muted);
+  width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:14px;
+}
+.icon-btn:hover{background:var(--surface-2);color:var(--text);border-color:var(--border)}
+.icon-btn.danger-hover:hover{color:var(--danger);border-color:var(--danger)}
+.dropzone{
+  border:1.5px dashed var(--border);border-radius:10px;padding:30px;text-align:center;
+  color:var(--text-muted);background:var(--surface);transition:border-color .15s,background .15s;
+}
+.dropzone:hover{border-color:var(--accent);background:var(--accent-subtle)}
+.dropzone b{color:var(--text);display:block;margin-bottom:4px;font-size:14px}
+
+/* ── Score ring (existing motif) ─────────────────────────────────────── */
+.ring{
+  --pct:.72; --size:74px;
+  width:var(--size);height:var(--size);border-radius:50%;flex-shrink:0;display:grid;place-items:center;
+  background:conic-gradient(var(--accent) calc(var(--pct)*360deg),var(--ring-track) 0);
+}
+.ring-face{
+  width:calc(100% - 11px);height:calc(100% - 11px);border-radius:50%;background:var(--surface);
+  display:grid;place-items:center;font-weight:700;font-size:19px;letter-spacing:-.5px;
+}
+.ring.sm{--size:44px}
+.ring.sm .ring-face{width:calc(100% - 7px);height:calc(100% - 7px);font-size:13px}
+.ring[data-tier="low"]{background:conic-gradient(var(--danger) calc(var(--pct)*360deg),var(--ring-track) 0)}
+.ring[data-tier="mid"]{background:conic-gradient(var(--warn) calc(var(--pct)*360deg),var(--ring-track) 0)}
+
+.score-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:16px}
+
+/* ── History (NEW) ───────────────────────────────────────────────────── */
+.hist-list{display:grid;gap:10px}
+.hist-item{
+  display:flex;align-items:center;gap:16px;padding:13px 16px;
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  cursor:pointer;transition:background .15s,border-color .15s;
+}
+.hist-item:hover{background:var(--row-hover);border-color:var(--accent)}
+.hist-meta{flex:1;min-width:0}
+.hist-title{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hist-sub{font-size:12.5px;color:var(--text-muted);margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{
+  padding:3px 9px;border-radius:20px;font-size:12px;
+  background:var(--accent-subtle);color:var(--accent);border:1px solid transparent;
+}
+.chip--missing{background:var(--danger-subtle);color:var(--danger)}
+.toolbar-filter{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.select{
+  background:var(--bg);border:1px solid var(--border);color:var(--text);
+  padding:7px 10px;border-radius:7px;font:inherit;font-size:13px;
+}
+
+/* ── Danger zone ─────────────────────────────────────────────────────── */
+.zone-danger{border-color:var(--danger)}
+.zone-danger .panel-title{color:var(--danger)}
+
+/* ── Empty state ─────────────────────────────────────────────────────── */
+.empty{text-align:center;padding:40px 20px;color:var(--text-muted)}
+.empty-ico{font-size:30px;opacity:.55;margin-bottom:10px}
+
+/* ══════════════════════════════════════════════════════════════════════
+   RESPONSIVE — the desktop app ships ZERO media queries. All of this
+   is net-new work the plan must budget for.
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width:860px){
+  .auth-wrap{grid-template-columns:1fr}
+  .auth-brand{display:none}          /* brand panel is decorative — drop it first */
+  .auth-form{padding:32px 20px;min-height:100vh}
+}
+@media (max-width:680px){
+  .nav{
+    position:fixed;left:0;right:0;bottom:0;z-index:40;
+    background:var(--toolbar-bg);border-top:1px solid var(--border);
+    padding:6px;justify-content:space-around;
+  }
+  .nav a{flex:1;text-align:center;font-size:12px;padding:8px 4px}
+  .content{padding:16px 12px 88px}   /* clear the bottom bar */
+  .toolbar{height:48px;padding:0 12px}
+  .panel{padding:16px}
+  .score-row{gap:12px}
+  .res-card{flex-wrap:wrap}
+  .hist-item{gap:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ Mockup navigation (not part of the app) ══ -->
+<div class="mock-bar">
+  <b>Mockup</b>
+  <button class="mock-tab" aria-selected="true"  data-go="signin">Sign in</button>
+  <button class="mock-tab" aria-selected="false" data-go="resumes">Resumes</button>
+  <button class="mock-tab" aria-selected="false" data-go="score">Score</button>
+  <button class="mock-tab" aria-selected="false" data-go="history">History</button>
+  <button class="mock-tab" aria-selected="false" data-go="account">Account</button>
+  <span class="flex1"></span>
+  <button class="mock-tab" id="theme">☀ / ◗ Theme</button>
+</div>
+<p class="mock-note">
+  Tokens are copied verbatim from <code>frontend/src/styles.css</code>. Resize the window —
+  every screen is responsive, which the current desktop CSS is not.
+</p>
+
+<!-- ══════════════════ 1. SIGN IN ══════════════════ -->
+<section class="screen active" id="signin">
+  <div class="auth-wrap">
+    <aside class="auth-brand">
+      <div class="brand"><span class="brand-mark">R</span> ResuRank</div>
+      <div>
+        <h1 class="auth-head">Score your resume <em>without</em> handing it over.</h1>
+        <p class="auth-sub">
+          Matching runs entirely in your browser. We store the extracted text so you can
+          reuse it — never the PDF itself.
+        </p>
+        <ul class="auth-points">
+          <li><span class="tick">✓</span><span><b>The PDF never leaves your device.</b> Parsing happens client-side.</span></li>
+          <li><span class="tick">✓</span><span><b>The AI model runs locally.</b> No inference server, no third party.</span></li>
+          <li><span class="tick">✓</span><span><b>Export or delete everything</b> at any time.</span></li>
+        </ul>
+      </div>
+      <p class="small muted" style="margin:0">Also available as a standalone desktop app.</p>
+    </aside>
+
+    <main class="auth-form">
+      <div class="auth-card">
+        <h2 class="auth-title">Welcome back</h2>
+        <p class="auth-lede">Sign in to reach your resumes and match history.</p>
+
+        <label class="field">
+          <span class="field-label">Email</span>
+          <input class="input" type="email" value="anton@example.com">
+        </label>
+        <label class="field">
+          <div class="row-between">
+            <span class="field-label" style="margin:0">Password</span>
+            <a class="link" href="#" data-go="forgot">Forgot password?</a>
+          </div>
+          <input class="input" type="password" value="············" style="margin-top:6px">
+        </label>
+
+        <button class="primary" style="width:100%;margin-top:6px">Sign in</button>
+        <p class="auth-foot">No account yet? <a class="link" href="#" data-go="register">Create one</a></p>
+      </div>
+    </main>
+  </div>
+</section>
+
+<!-- ══════════════════ 1b. REGISTER ══════════════════ -->
+<section class="screen" id="register">
+  <div class="auth-wrap">
+    <aside class="auth-brand">
+      <div class="brand"><span class="brand-mark">R</span> ResuRank</div>
+      <div>
+        <h1 class="auth-head">Start with <em>one</em> resume. Add more later.</h1>
+        <p class="auth-sub">Free while in beta. Verify your email and you are in.</p>
+      </div>
+      <p class="small muted" style="margin:0">Your data stays yours — export or delete it whenever.</p>
+    </aside>
+    <main class="auth-form">
+      <div class="auth-card">
+        <h2 class="auth-title">Create your account</h2>
+        <p class="auth-lede">We will email a verification link before you can sign in.</p>
+        <label class="field"><span class="field-label">Name</span><input class="input" placeholder="Anton Kronaj"></label>
+        <label class="field"><span class="field-label">Email</span><input class="input" type="email" placeholder="you@example.com"></label>
+        <label class="field">
+          <span class="field-label">Password</span>
+          <input class="input" type="password" placeholder="At least 10 characters">
+        </label>
+        <button class="primary" style="width:100%;margin-top:6px">Create account</button>
+        <p class="auth-foot">
+          By continuing you agree to our <a class="link" href="#">Terms</a> and
+          <a class="link" href="#">Privacy Policy</a>.
+        </p>
+        <p class="auth-foot">Already registered? <a class="link" href="#" data-go="signin">Sign in</a></p>
+      </div>
+    </main>
+  </div>
+</section>
+
+<!-- ══════════════════ 1c. FORGOT ══════════════════ -->
+<section class="screen" id="forgot">
+  <div class="auth-wrap">
+    <aside class="auth-brand">
+      <div class="brand"><span class="brand-mark">R</span> ResuRank</div>
+      <div>
+        <h1 class="auth-head">Reset link, <em>one</em> use, short life.</h1>
+        <p class="auth-sub">Tokens expire quickly and can only be redeemed once.</p>
+      </div>
+      <span></span>
+    </aside>
+    <main class="auth-form">
+      <div class="auth-card">
+        <h2 class="auth-title">Forgot your password?</h2>
+        <p class="auth-lede">Enter your email and we will send a reset link.</p>
+        <label class="field"><span class="field-label">Email</span><input class="input" type="email" placeholder="you@example.com"></label>
+        <button class="primary" style="width:100%">Send reset link</button>
+        <p class="auth-foot">
+          If an account exists for that address, a link is on its way.<br>
+          <a class="link" href="#" data-go="signin">Back to sign in</a>
+        </p>
+      </div>
+    </main>
+  </div>
+</section>
+
+<!-- ══════════════════ 2. RESUMES ══════════════════ -->
+<section class="screen" id="resumes">
+  <header class="toolbar">
+    <div class="brand"><span class="brand-mark">R</span> ResuRank</div>
+    <nav class="nav" style="margin-left:18px">
+      <a href="#" class="active" data-go="resumes">Resumes</a>
+      <a href="#" data-go="score">Score</a>
+      <a href="#" data-go="history">History</a>
+    </nav>
+    <span class="flex1"></span>
+    <button class="tb-btn">⚙ Settings</button>
+    <div class="avatar" data-go="account" title="Account">AK</div>
+  </header>
+
+  <div class="content">
+    <div class="panel-head">
+      <div>
+        <h2 class="panel-title" style="margin:0">Your resumes</h2>
+        <p class="small muted" style="margin:4px 0 0">
+          Only extracted text is stored. The PDF is parsed here and discarded.
+        </p>
+      </div>
+      <button class="primary">＋ Add resume</button>
+    </div>
+
+    <div class="res-grid">
+      <article class="res-card is-active">
+        <div class="res-ico">▤</div>
+        <div class="res-meta">
+          <div class="res-name">Anton_Kronaj_backend.pdf <span class="badge">Active</span></div>
+          <div class="small muted">18,204 characters · 312 terms · added 12 Jun 2026</div>
+        </div>
+        <button class="icon-btn" title="Rename">✎</button>
+        <button class="icon-btn danger-hover" title="Delete">🗑</button>
+      </article>
+
+      <article class="res-card">
+        <div class="res-ico">▤</div>
+        <div class="res-meta">
+          <div class="res-name">Anton_Kronaj_platform.pdf</div>
+          <div class="small muted">16,880 characters · 287 terms · added 3 Jun 2026</div>
+        </div>
+        <button class="ghost">Make active</button>
+        <button class="icon-btn danger-hover" title="Delete">🗑</button>
+      </article>
+
+      <article class="res-card">
+        <div class="res-ico">▤</div>
+        <div class="res-meta">
+          <div class="res-name">Anton_Kronaj_2025_general.pdf</div>
+          <div class="small muted">15,102 characters · 254 terms · added 28 May 2026</div>
+        </div>
+        <button class="ghost">Make active</button>
+        <button class="icon-btn danger-hover" title="Delete">🗑</button>
+      </article>
+    </div>
+
+    <div class="dropzone" style="margin-top:14px">
+      <b>Drop a PDF here, or click to browse</b>
+      <span class="small">Parsed in your browser · only the text is uploaded</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ 3. SCORE ══════════════════ -->
+<section class="screen" id="score">
+  <header class="toolbar">
+    <div class="brand"><span class="brand-mark">R</span> ResuRank</div>
+    <nav class="nav" style="margin-left:18px">
+      <a href="#" data-go="resumes">Resumes</a>
+      <a href="#" class="active" data-go="score">Score</a>
+      <a href="#" data-go="history">History</a>
+    </nav>
+    <span class="flex1"></span>
+    <button class="tb-btn">⚙ Settings</button>
+    <div class="avatar" data-go="account" title="Account">AK</div>
+  </header>
+
+  <div class="content">
+    <section class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title" style="margin:0">Job description</h2>
+        <!-- NEW: which resume are we scoring? Desktop never needed this. -->
+        <label class="toolbar-filter">
+          <span class="small muted">Scoring against</span>
+          <select class="select">
+            <option>Anton_Kronaj_backend.pdf (active)</option>
+            <option>Anton_Kronaj_platform.pdf</option>
+            <option>Anton_Kronaj_2025_general.pdf</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="field">
+        <span class="field-label">Title (optional)</span>
+        <input class="input" value="Senior Backend Engineer">
+      </label>
+      <label class="field">
+        <span class="field-label">Description</span>
+        <textarea class="textarea" rows="7">We are looking for a senior backend engineer with deep experience in Java and Spring Boot, running services on Kubernetes. You will own distributed systems handling millions of requests, mentor engineers, and partner with product…</textarea>
+        <span class="small muted">1,284 / 32,000</span>
+      </label>
+
+      <div class="score-row">
+        <button class="primary">Evaluate match</button>
+        <div class="ring" style="--pct:.72"><div class="ring-face">72%</div></div>
+        <div class="small muted">
+          <div>Embedding (78%): 46.8%</div>
+          <div>TF-IDF (63%): 25.2%</div>
+          <div style="color:var(--danger)">Missing critical keywords: −4.0%</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h3 class="sub-title">Matched terms</h3>
+      <div class="chips">
+        <span class="chip">java</span><span class="chip">spring</span><span class="chip">kubernetes</span>
+        <span class="chip">backend</span><span class="chip">distributed</span><span class="chip">microservices</span>
+        <span class="chip">postgres</span><span class="chip">mentoring</span>
+      </div>
+      <h3 class="sub-title" style="margin-top:18px">Missing critical keywords</h3>
+      <div class="chips">
+        <span class="chip chip--missing">terraform</span>
+        <span class="chip chip--missing">grpc</span>
+        <span class="chip chip--missing">observability</span>
+      </div>
+    </section>
+  </div>
+</section>
+
+<!-- ══════════════════ 4. HISTORY ══════════════════ -->
+<section class="screen" id="history">
+  <header class="toolbar">
+    <div class="brand"><span class="brand-mark">R</span> ResuRank</div>
+    <nav class="nav" style="margin-left:18px">
+      <a href="#" data-go="resumes">Resumes</a>
+      <a href="#" data-go="score">Score</a>
+      <a href="#" class="active" data-go="history">History</a>
+    </nav>
+    <span class="flex1"></span>
+    <button class="tb-btn">⚙ Settings</button>
+    <div class="avatar" data-go="account" title="Account">AK</div>
+  </header>
+
+  <div class="content">
+    <div class="panel-head">
+      <div>
+        <h2 class="panel-title" style="margin:0">Match history</h2>
+        <p class="small muted" style="margin:4px 0 0">Every evaluation you have run, newest first.</p>
+      </div>
+      <div class="toolbar-filter">
+        <select class="select"><option>All resumes</option><option>Anton_Kronaj_backend.pdf</option></select>
+        <select class="select"><option>Newest first</option><option>Highest score</option></select>
+      </div>
+    </div>
+
+    <div class="hist-list">
+      <article class="hist-item">
+        <div class="ring sm" style="--pct:.84"><div class="ring-face">84</div></div>
+        <div class="hist-meta">
+          <div class="hist-title">Staff Backend Engineer · Stripe</div>
+          <div class="hist-sub">backend.pdf · 14 Jun 2026 · 8 matched, 2 missing</div>
+        </div>
+        <button class="icon-btn" title="Open">→</button>
+      </article>
+
+      <article class="hist-item">
+        <div class="ring sm" style="--pct:.72"><div class="ring-face">72</div></div>
+        <div class="hist-meta">
+          <div class="hist-title">Senior Backend Engineer · Datadog</div>
+          <div class="hist-sub">backend.pdf · 12 Jun 2026 · 8 matched, 3 missing</div>
+        </div>
+        <button class="icon-btn" title="Open">→</button>
+      </article>
+
+      <article class="hist-item">
+        <div class="ring sm" data-tier="mid" style="--pct:.58"><div class="ring-face">58</div></div>
+        <div class="hist-meta">
+          <div class="hist-title">Platform Engineer · Vercel</div>
+          <div class="hist-sub">platform.pdf · 9 Jun 2026 · 5 matched, 6 missing</div>
+        </div>
+        <button class="icon-btn" title="Open">→</button>
+      </article>
+
+      <article class="hist-item">
+        <div class="ring sm" data-tier="low" style="--pct:.31"><div class="ring-face">31</div></div>
+        <div class="hist-meta">
+          <div class="hist-title">Frontend Engineer · Figma</div>
+          <div class="hist-sub">general.pdf · 2 Jun 2026 · 2 matched, 11 missing</div>
+        </div>
+        <button class="icon-btn" title="Open">→</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ 5. ACCOUNT ══════════════════ -->
+<section class="screen" id="account">
+  <header class="toolbar">
+    <div class="brand"><span class="brand-mark">R</span> ResuRank</div>
+    <nav class="nav" style="margin-left:18px">
+      <a href="#" data-go="resumes">Resumes</a>
+      <a href="#" data-go="score">Score</a>
+      <a href="#" data-go="history">History</a>
+    </nav>
+    <span class="flex1"></span>
+    <button class="tb-btn">⚙ Settings</button>
+    <div class="avatar" style="background:var(--accent);color:#04201c">AK</div>
+  </header>
+
+  <div class="content" style="max-width:720px">
+    <h2 class="panel-title" style="font-size:19px;margin-bottom:16px">Account</h2>
+
+    <section class="panel">
+      <h3 class="sub-title">Profile</h3>
+      <label class="field"><span class="field-label">Name</span><input class="input" value="Anton Kronaj"></label>
+      <label class="field">
+        <span class="field-label">Email</span>
+        <input class="input" type="email" value="developer@kronaj.com">
+        <span class="small muted">Changing this re-sends a verification link.</span>
+      </label>
+      <button class="primary">Save changes</button>
+    </section>
+
+    <section class="panel">
+      <h3 class="sub-title">Password</h3>
+      <label class="field"><span class="field-label">Current password</span><input class="input" type="password"></label>
+      <label class="field"><span class="field-label">New password</span><input class="input" type="password"></label>
+      <button class="primary">Update password</button>
+    </section>
+
+    <section class="panel">
+      <h3 class="sub-title">Sessions</h3>
+      <p class="small muted" style="margin-top:0">
+        Signed in on 3 devices. Signing out everywhere ends every session, including this one — you'll need to sign in again.
+      </p>
+      <button class="ghost">Sign out everywhere</button>
+    </section>
+
+    <section class="panel zone-danger">
+      <h3 class="panel-title">Danger zone</h3>
+      <p class="small muted" style="margin-top:0">
+        Export gives you a JSON archive of your resumes, settings and history.
+        Deletion is immediate and cannot be undone.
+      </p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="ghost">Export my data</button>
+        <button class="danger">Delete account</button>
+      </div>
+    </section>
+  </div>
+</section>
+
+<script>
+  const screens = [...document.querySelectorAll('.screen')];
+  const tabs = [...document.querySelectorAll('.mock-tab[data-go]')];
+
+  function go(id){
+    screens.forEach(s => s.classList.toggle('active', s.id === id));
+    tabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.go === id)));
+    window.scrollTo(0,0);
+  }
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-go]');
+    if(!el) return;
+    e.preventDefault();
+    go(el.dataset.go);
+  });
+
+  document.getElementById('theme').addEventListener('click', () => {
+    const r = document.documentElement;
+    r.dataset.theme = r.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+</body>
+</html>

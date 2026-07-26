@@ -1,0 +1,59 @@
+<div class="content">
+  <div class="panel-head">
+    <div>
+      <h2 class="panel-title" style="margin:0">Your resumes</h2>
+      <p class="small muted" style="margin:4px 0 0">
+        Only extracted text is stored. The PDF is parsed here and discarded.
+      </p>
+    </div>
+    <label class="primary">
+      <input (change)="onFileSelected($event)" accept="application/pdf" hidden type="file"/>
+      {{ uploading() ? 'Uploading…' : '＋ Add resume' }}
+    </label>
+  </div>
+
+  @if (error()) {
+    <p class="form-error">{{ error() }}</p>
+  }
+
+  @if (!loading() && resumes().length === 0) {
+    <div class="empty panel">
+      <div class="empty-ico">▤</div>
+      <p>No resumes yet. Upload a PDF to get started.</p>
+    </div>
+  } @else {
+    <div class="res-grid">
+      @for (r of resumes(); track r.id) {
+        <article [class.is-active]="r.isActive" class="res-card">
+          <div class="res-ico">▤</div>
+          <div class="res-meta">
+            <div class="res-name">
+              {{ r.filename }}
+              @if (r.isActive) {
+                <span class="badge">Active</span>
+              }
+            </div>
+            <div class="small muted">
+              {{ r.chars | number }} characters · {{ r.termCount | number }} terms ·
+              added {{ r.uploadedAt | date: 'd MMM y' }}
+            </div>
+          </div>
+          @if (!r.isActive) {
+            <button (click)="makeActive(r.id)" class="ghost" type="button">Make active</button>
+          }
+          @if (confirmingDeleteId() === r.id) {
+            <button (click)="confirmDelete(r.id)" class="danger-btn" type="button">Confirm delete?</button>
+          } @else {
+            <button (click)="requestDelete(r.id)" class="icon-btn danger-hover" title="Delete" type="button">🗑</button>
+          }
+        </article>
+      }
+    </div>
+  }
+
+  <label class="dropzone" style="margin-top:14px" (drop)="onDrop($event)" (dragover)="$event.preventDefault()">
+    <input (change)="onFileSelected($event)" accept="application/pdf" hidden type="file"/>
+    <b>Drop a PDF here, or click to browse</b>
+    <span class="small">Parsed in your browser · only the text is uploaded</span>
+  </label>
+</div>

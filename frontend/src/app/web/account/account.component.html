@@ -1,0 +1,99 @@
+<div class="content" style="max-width:720px">
+  <h2 class="panel-title" style="font-size:19px;margin-bottom:16px">Account</h2>
+
+  <section class="panel">
+    <h3 class="sub-title">Profile</h3>
+    <label class="field">
+      <span class="field-label">Name</span>
+      <input [ngModel]="name()" (ngModelChange)="name.set($event)" class="input"/>
+    </label>
+    <label class="field">
+      <span class="field-label">Email</span>
+      <input [ngModel]="email()" (ngModelChange)="email.set($event)" class="input" type="email"/>
+      <span class="small muted">Changing this re-sends a verification link.</span>
+      @if (user()?.pendingEmail) {
+        <span class="small muted" style="display:block">Pending confirmation: {{ user()?.pendingEmail }}</span>
+      }
+    </label>
+    @if (profileMessage()) {
+      <p class="form-notice">{{ profileMessage() }}</p>
+    }
+    @if (profileError()) {
+      <p class="form-error">{{ profileError() }}</p>
+    }
+    <button (click)="saveProfile()" [disabled]="savingProfile()" class="primary" type="button">
+      {{ savingProfile() ? 'Saving…' : 'Save changes' }}
+    </button>
+  </section>
+
+  <section class="panel">
+    <h3 class="sub-title">Password</h3>
+    <label class="field">
+      <span class="field-label">Current password</span>
+      <input [ngModel]="currentPassword()" (ngModelChange)="currentPassword.set($event)" class="input" type="password"/>
+    </label>
+    <label class="field">
+      <span class="field-label">New password</span>
+      <input [ngModel]="newPassword()" (ngModelChange)="newPassword.set($event)" class="input" type="password"/>
+    </label>
+    @if (passwordMessage()) {
+      <p class="form-notice">{{ passwordMessage() }}</p>
+    }
+    @if (passwordError()) {
+      <p class="form-error">{{ passwordError() }}</p>
+    }
+    <button (click)="updatePassword()" [disabled]="savingPassword() || !currentPassword() || !newPassword()" class="primary" type="button">
+      {{ savingPassword() ? 'Updating…' : 'Update password' }}
+    </button>
+  </section>
+
+  <section class="panel">
+    <h3 class="sub-title">Sessions</h3>
+    <p class="small muted" style="margin-top:0">
+      Signing out everywhere ends every session, including this one — you'll need to sign in again.
+    </p>
+    @if (sessionsMessage()) {
+      <p class="form-notice">{{ sessionsMessage() }}</p>
+    }
+    <button (click)="signOutEverywhere()" [disabled]="signingOutEverywhere()" class="ghost" type="button">
+      {{ signingOutEverywhere() ? 'Signing out…' : 'Sign out everywhere' }}
+    </button>
+  </section>
+
+  <section class="panel zone-danger">
+    <h3 class="panel-title">Danger zone</h3>
+    <p class="small muted" style="margin-top:0">
+      Export gives you a JSON archive of your resumes, settings and history.
+      Deletion is immediate and cannot be undone.
+    </p>
+    @if (exportError()) {
+      <p class="form-error">{{ exportError() }}</p>
+    }
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button (click)="exportData()" [disabled]="exporting()" class="ghost" type="button">
+        {{ exporting() ? 'Exporting…' : 'Export my data' }}
+      </button>
+      @if (!deleteRequested()) {
+        <button (click)="deleteRequested.set(true)" class="danger-btn" type="button">Delete account</button>
+      }
+    </div>
+
+    @if (deleteRequested()) {
+      <div style="margin-top:14px">
+        <label class="field">
+          <span class="field-label">Confirm your password to delete your account</span>
+          <input [ngModel]="deletePassword()" (ngModelChange)="deletePassword.set($event)" class="input" type="password"/>
+        </label>
+        @if (deleteError()) {
+          <p class="form-error">{{ deleteError() }}</p>
+        }
+        <div style="display:flex;gap:10px">
+          <button (click)="confirmDelete()" [disabled]="deleting() || !deletePassword()" class="danger-btn" type="button">
+            {{ deleting() ? 'Deleting…' : 'Permanently delete my account' }}
+          </button>
+          <button (click)="deleteRequested.set(false); deletePassword.set('')" class="ghost" type="button">Cancel</button>
+        </div>
+      </div>
+    }
+  </section>
+</div>
