@@ -18,7 +18,7 @@ import {currentUser, requireAuth} from '../plugins/auth.js';
 /**
  * Everything the SPA needs to render its first frame, in one round trip.
  *
- * The payload is a superset of StoreSnapshot (frontend/src/app/storage.service.ts):
+ * The payload is a superset of StoreSnapshot (apps/ui/src/app/storage.service.ts):
  * `resume` is the *active* resume in exactly the shape the desktop build's
  * single-resume getters expect, so the shared code path is unchanged, and
  * `resumes` carries the web-only list beside it. Without this, the five getters

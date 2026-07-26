@@ -34,7 +34,7 @@ docker build -f apps/web/Dockerfile -t resurank-server .
 
 The build compiles `@resurank/scoring`, the server, and the Angular `web`
 frontend configuration (which itself downloads the ~32MB embedding model into
-the image via `frontend/scripts/fetch-model.mjs` — the model is served
+the image via `apps/ui/scripts/fetch-model.mjs` — the model is served
 same-origin from the container, not fetched from HuggingFace at runtime; see
 `apps/web/src/app.ts`'s CSP comment for why that matters under COEP
 `require-corp`).
@@ -82,7 +82,7 @@ All read once at startup in `apps/web/src/config.ts`.
 | `RATE_LIMIT_AUTH_MAX` / `RATE_LIMIT_AUTH_WINDOW` | no | `5` / `15 minutes` | Credential + mail-sending endpoints. |
 | `RATE_LIMIT_WRITE_MAX` / `RATE_LIMIT_WRITE_WINDOW` | no | `60` / `1 minute` | Authenticated writes (uploads, settings, history). |
 | `RATE_LIMIT_GLOBAL_MAX` / `RATE_LIMIT_GLOBAL_WINDOW` | no | `300` / `1 minute` | Baseline for every other route, including the public, unauthenticated `GET /api/health` — added in Phase 10, see "Corrections" below. |
-| `STATIC_DIR` | no | `../../../frontend/dist/frontend/browser` | Only override if you restructure the image's layout. |
+| `STATIC_DIR` | no | `../../../apps/ui/dist/frontend/browser` | Only override if you restructure the image's layout. |
 
 Generate `SESSION_SECRET` fresh for the real deployment — don't reuse the
 value from any local `.env`.
@@ -205,7 +205,7 @@ Postgres, on the same Docker network:
     output.
   - Response headers on a real request carry the full CSP + COOP/COEP/CORP
     set from `app.ts`, unchanged from the local dev server.
-  - The SPA fallback correctly serves `frontend/dist/frontend/browser/index.html`
+  - The SPA fallback correctly serves `apps/ui/dist/frontend/browser/index.html`
     for a client route (`GET /login` → `200`).
 - Test data (the one registered user) and the test image/container were
   cleaned up afterward — nothing was left running or in the dev database.

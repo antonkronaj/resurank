@@ -11,7 +11,7 @@ node_modules
 dist
 **/dist
 out
-frontend/dist
+apps/ui/dist
 **/build-test
 
 # Real secrets — never belong in an image layer regardless of env-var

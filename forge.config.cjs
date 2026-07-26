@@ -72,15 +72,15 @@ const config = {
       /\/node_modules\/@types\//,
       /\/node_modules\/wordnet-db\/dict\//,
       // workspace dev deps — not needed at runtime
-      /\/frontend\/node_modules\//,
+      /\/apps\/ui\/node_modules\//,
       // angular build cache — only used to accelerate subsequent ng builds
-      /\/frontend\/\.angular\//,
-      // angular sources — only the built output under frontend/dist is loaded at runtime
-      /\/frontend\/src\//,
-      /\/frontend\/public\//,
-      /\/frontend\/\.vscode\//,
-      /\/frontend\/\.editorconfig$/,
-      /\/frontend\/README\.md$/,
+      /\/apps\/ui\/\.angular\//,
+      // angular sources — only the built output under apps/ui/dist is loaded at runtime
+      /\/apps\/ui\/src\//,
+      /\/apps\/ui\/public\//,
+      /\/apps\/ui\/\.vscode\//,
+      /\/apps\/ui\/\.editorconfig$/,
+      /\/apps\/ui\/README\.md$/,
       // angular ecosystem — compiled into dist/frontend at build time
       /\/node_modules\/@angular\//,
       /\/node_modules\/@angular-devkit\//,

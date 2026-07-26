@@ -104,7 +104,7 @@ inject these directly rather than shipping a `.env` file — see
 | `HOST` | no | `0.0.0.0` | |
 | `PUBLIC_URL` | no | `http://localhost:3001` | Embedded in every verification/reset email link — must be the real public origin (and `https://`) in production. |
 | `COOKIE_DOMAIN` | no | unset (host-only cookie) | Only set if the API and frontend are on different subdomains of the same parent domain. |
-| `STATIC_DIR` | no | `../../../frontend/dist/frontend/browser` | Where the built Angular `web` bundle is served from. Absent in dev (the Angular dev server handles the frontend instead) — the server logs a warning and serves API-only. |
+| `STATIC_DIR` | no | `../../../apps/ui/dist/frontend/browser` | Where the built Angular `web` bundle is served from. Absent in dev (the Angular dev server handles the frontend instead) — the server logs a warning and serves API-only. |
 | `RATE_LIMIT_AUTH_MAX` / `RATE_LIMIT_AUTH_WINDOW` | no | `5` / `15 minutes` | Credential + mail-sending endpoints (login, register, password reset, etc.). |
 | `RATE_LIMIT_WRITE_MAX` / `RATE_LIMIT_WRITE_WINDOW` | no | `60` / `1 minute` | Authenticated writes — resume uploads, saved scores, settings changes. |
 | `RATE_LIMIT_GLOBAL_MAX` / `RATE_LIMIT_GLOBAL_WINDOW` | no | `300` / `1 minute` | Baseline for every other route, including the public `GET /api/health`. Per-route limits above override this where they apply. |
@@ -134,7 +134,7 @@ docker build -f apps/web/Dockerfile -t resurank-server .
 
 The image builds `@resurank/scoring`, this server, and the Angular `web`
 configuration (which downloads the embedding model into the image so it's
-served same-origin — see `frontend/scripts/fetch-model.mjs`). Full deploy
+served same-origin — see `apps/ui/scripts/fetch-model.mjs`). Full deploy
 steps, including running migrations against the built image, are in
 [docs/deployment-runbook.md](../../docs/deployment-runbook.md).
 

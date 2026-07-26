@@ -11,21 +11,21 @@
     "forge": "./forge.config.cjs"
   },
   "workspaces": [
-    "frontend",
+    "apps/ui",
     "packages/scoring",
     "packages/mcp-server",
     "apps/web"
   ],
   "scripts": {
     "build:scoring": "npm --prefix packages/scoring run build",
-    "build:frontend": "npm --prefix frontend run build -- --base-href=./",
-    "build:frontend:web": "npm --prefix frontend run fetch-model && npm --prefix frontend run build:web",
-    "dev:frontend:web": "npm --prefix frontend run fetch-model && npm --prefix frontend run start:web",
+    "build:frontend": "npm --prefix apps/ui run build -- --base-href=./",
+    "build:frontend:web": "npm --prefix apps/ui run fetch-model && npm --prefix apps/ui run build:web",
+    "dev:frontend:web": "npm --prefix apps/ui run fetch-model && npm --prefix apps/ui run start:web",
     "build:electron": "tsc -p src/tsconfig.json",
     "build:server": "npm --prefix apps/web run build",
     "dev:server": "npm --prefix apps/web run dev",
     "build": "npm run build:scoring && npm run build:frontend && npm run build:electron",
-    "dev:frontend": "npm --prefix frontend start",
+    "dev:frontend": "npm --prefix apps/ui start",
     "dev:electron": "JOBDASH_DEV=1 npm run build:electron && JOBDASH_DEV=1 electron .",
     "start": "electron-forge start",
     "package": "electron-forge package",

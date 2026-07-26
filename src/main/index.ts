@@ -257,7 +257,7 @@ app.whenReady().then(async () => {
   if (!isDev) {
     // Serve the built frontend over a privileged custom scheme so responses
     // carry real headers (COOP/COEP/CSP) and the context is secure.
-    const root = join(__dirname, '..', '..', '..', 'frontend', 'dist', 'frontend', 'browser');
+    const root = join(__dirname, '..', '..', '..', 'apps', 'ui', 'dist', 'frontend', 'browser');
     protocol.handle('app', async (req) => {
       const url = new URL(req.url);
       // Strip leading slash, normalize, refuse escaping the root.

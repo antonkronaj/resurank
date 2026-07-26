@@ -13,7 +13,7 @@ COPY package.json package-lock.json ./
 COPY packages/scoring/package.json packages/scoring/
 COPY packages/mcp-server/package.json packages/mcp-server/
 COPY apps/web/package.json apps/web/
-COPY frontend/package.json frontend/
+COPY apps/ui/package.json apps/ui/
 
 # Runtime dependency closure — installed separately from the build toolchain so
 # the final image never sees it. Scoped to the apps/web workspace on purpose:
@@ -76,7 +76,7 @@ COPY --from=build /repo/packages/scoring/package.json packages/scoring/package.j
 COPY --from=build /repo/apps/web/dist apps/web/dist
 COPY --from=build /repo/apps/web/package.json apps/web/package.json
 COPY --from=build /repo/apps/web/drizzle apps/web/drizzle
-COPY --from=build /repo/frontend/dist/frontend frontend/dist/frontend
+COPY --from=build /repo/apps/ui/dist/frontend apps/ui/dist/frontend
 
 USER node
 EXPOSE 3001

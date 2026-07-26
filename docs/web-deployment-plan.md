@@ -1,9 +1,10 @@
 # Plan: Deploy ResuRank as a Node Web Server (multi-user, additive to the desktop app)
 
 > **Path note (2026-07-25):** this document is kept as the original plan record.
-> The server package has since moved from `packages/server` to **`apps/web`**
-> (`packages/` = published to npm, `apps/` = deployed). Every `packages/server/…`
-> path below should be read as `apps/web/…`. See
+> The server package has since moved from `packages/server` to **`apps/web`**,
+> and the frontend from `frontend/` to **`apps/ui`** (`packages/` = published to
+> npm, `apps/` = deployed). Every `packages/server/…` path below should be read
+> as `apps/web/…`, and every `frontend/…` path as `apps/ui/…`. See
 > [deployment-runbook.md](deployment-runbook.md) for current, operational paths.
 
 > **Terminology:** "**server**" always means the new Node API process

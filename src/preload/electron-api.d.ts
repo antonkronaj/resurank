@@ -1,4 +1,4 @@
-import {MissingKeywordSettings, PreferenceMismatchSettings, ResumeData} from "../../frontend/src/app/storage.service.js";
+import {MissingKeywordSettings, PreferenceMismatchSettings, ResumeData} from "../../apps/ui/src/app/shared/storage/storage-adapter.js";
 
 export {};
 

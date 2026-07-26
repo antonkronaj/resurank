@@ -13,7 +13,7 @@ resurank/
 ├── src/                     # Electron main process (IPC, file storage, auto-updates)
 │   ├── main/index.ts        # App lifecycle, window management, IPC handlers
 │   └── preload/index.cts    # contextBridge — exposes electronAPI to renderer
-├── frontend/                # Angular 21 app (npm workspace) — builds for BOTH targets
+├── apps/ui/                 # Angular 21 app (npm workspace) — builds for BOTH targets
 │   └── src/app/
 │       ├── shared/          # Common UI + services (app.component, api.service, matcher,
 │       │                    #   embedding worker, storage/storage-adapter.ts interface)

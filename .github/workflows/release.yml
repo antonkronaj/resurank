@@ -41,7 +41,7 @@ jobs:
             ~/.cache/electron
             ~/Library/Caches/electron
             ~/AppData/Local/electron/Cache
-          key: ${{ runner.os }}-node22-${{ hashFiles('package-lock.json', 'frontend/package-lock.json') }}
+          key: ${{ runner.os }}-node22-${{ hashFiles('package-lock.json', 'apps/ui/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node22-
 
@@ -56,7 +56,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm install --no-audit --no-fund --prefer-offline
-          npm --prefix frontend install --no-audit --no-fund --prefer-offline
+          npm --prefix apps/ui install --no-audit --no-fund --prefer-offline
 
       - name: Import Developer ID certificate
         if: runner.os == 'macOS' && startsWith(github.ref, 'refs/tags/v')
@@ -94,7 +94,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          # Build at the project root so dist/ and frontend/dist/ are populated.
+          # Build at the project root so dist/ and apps/ui/dist/ are populated.
           npm run build
 
           $stage = Join-Path $env:RUNNER_TEMP 'app-stage'
@@ -104,9 +104,9 @@ jobs:
           foreach ($d in 'dist','resources') {
             if (Test-Path $d) { Copy-Item -Recurse -Path $d -Destination $stage }
           }
-          New-Item -ItemType Directory -Force -Path (Join-Path $stage 'frontend') | Out-Null
-          if (Test-Path 'frontend/dist') {
-            Copy-Item -Recurse -Path 'frontend/dist' -Destination (Join-Path $stage 'frontend/dist')
+          New-Item -ItemType Directory -Force -Path (Join-Path $stage 'apps/ui') | Out-Null
+          if (Test-Path 'apps/ui/dist') {
+            Copy-Item -Recurse -Path 'apps/ui/dist' -Destination (Join-Path $stage 'apps/ui/dist')
           }
           if (Test-Path 'app-update.yml') { Copy-Item -Path 'app-update.yml' -Destination $stage }
 
@@ -116,7 +116,7 @@ jobs:
           if (Test-Path 'entitlements.plist') { Copy-Item -Path 'entitlements.plist' -Destination $stage }
 
           # Slim package.json: drop workspaces so the stage install doesn't
-          # try to resolve frontend/shared. Keep devDependencies — forge
+          # try to resolve apps/ui/shared. Keep devDependencies — forge
           # itself runs inside the stage and needs @electron-forge/cli, the
           # makers, plugin-fuses, @electron/fuses, and electron.
           $pkg = Get-Content package.json -Raw | ConvertFrom-Json

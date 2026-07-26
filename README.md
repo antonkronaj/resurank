@@ -28,7 +28,7 @@ resurank/
 │   │   └── index.ts
 │   └── preload/     # contextBridge — exposes electronAPI to the renderer
 │       └── index.cts
-├── frontend/        # Angular UI + scoring engine + embedding web worker
+├── apps/ui/         # Angular UI + scoring engine + embedding web worker
 ├── shared/          # Shared constants and stopwords
 └── forge.config.cjs  # Electron Forge packaging config
 ```
@@ -143,7 +143,7 @@ cd packages/mcp-server && npm publish && cd ../..
 npm run dist
 ```
 
-The `^` semver range on `@resurank/scoring` in both `frontend/package.json` and
+The `^` semver range on `@resurank/scoring` in both `apps/ui/package.json` and
 `packages/mcp-server/package.json` covers all patch and minor scoring releases
 automatically. Only a major scoring bump requires a manual dependency edit in those files.
 
@@ -177,7 +177,7 @@ Branch pushes give you a "does it build" signal on all three OSes without paying
 The workflow sidesteps it by:
 
 1. Running `npm run build` at the project root.
-2. Copying only `dist/`, `frontend/dist/`, `resources/`, `app-update.yml`, `forge.config.cjs`, and (if present) `entitlements.plist` into `$RUNNER_TEMP/app-stage`.
+2. Copying only `dist/`, `apps/ui/dist/`, `resources/`, `app-update.yml`, `forge.config.cjs`, and (if present) `entitlements.plist` into `$RUNNER_TEMP/app-stage`.
 3. Writing a slim `package.json` to the stage that drops the `workspaces` key. The `dependencies` and `devDependencies` are kept so forge's CLI, makers, plugin-fuses, `@electron/fuses`, and `electron` install alongside the four runtime deps.
 4. Running `npm install` in the stage — pulls a few hundred packages instead of the workspace's ~1000+.
 5. `Push-Location $STAGE_DIR` and running `npm run dist` from there. Forge resolves `process.cwd()` to the slim stage, so electron-packager copies ~5k files instead of ~100k+ and completes in seconds.

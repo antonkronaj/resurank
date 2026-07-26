@@ -16,9 +16,9 @@ release/
 package-manifest.txt
 .env
 
-# Downloaded by frontend/scripts/fetch-model.mjs for the web build's
+# Downloaded by apps/ui/scripts/fetch-model.mjs for the web build's
 # self-hosted embedding model — regenerated on demand, not source.
-frontend/public/assets/models/
+apps/ui/public/assets/models/
 
 # graphify — the queryable graph (graph.json, GRAPH_REPORT.md, manifest.json)
 # stays tracked so a fresh clone can run `graphify query` without rebuilding.

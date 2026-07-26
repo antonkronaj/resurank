@@ -25,7 +25,7 @@ const here = dirname(fileURLToPath(import.meta.url));
  * ONNX embedding worker.
  *
  * `connect-src 'self'` is enough for the model fetch: it's served same-origin
- * from /assets/models (frontend/scripts/fetch-model.mjs), not huggingface.co.
+ * from /assets/models (apps/ui/scripts/fetch-model.mjs), not huggingface.co.
  * That isn't just tidier — under COEP `require-corp` below, a cross-origin
  * fetch from huggingface.co has no CORP header and gets blocked outright, so
  * this and require-corp are a matched pair. See docs/web-deployment-plan.md's

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Downloads the embedding model into frontend/public/assets/models/, so the
+// Downloads the embedding model into apps/ui/public/assets/models/, so the
 // web build can serve it same-origin (see shared/model-host.token.ts for why:
 // COEP `require-corp` blocks a cross-origin fetch from huggingface.co outright,
 // it isn't just slower). Desktop is unaffected — it keeps fetching from HF
@@ -7,7 +7,7 @@
 // doesn't re-download ~32MB every time.
 //
 // Layout mirrors env.remoteHost + env.remotePathTemplate = '{model}/' in
-// web/app.config.ts: frontend/public/assets/models/<MODEL_ID>/<file>.
+// web/app.config.ts: apps/ui/public/assets/models/<MODEL_ID>/<file>.
 
 import {createWriteStream, existsSync} from 'node:fs';
 import {mkdir} from 'node:fs/promises';

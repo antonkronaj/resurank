@@ -19,7 +19,7 @@ import type {
 /**
  * Shapes here mirror the desktop app's persisted types so one storage contract
  * serves both builds: `ResumeData`, `MissingKeywordSettings` and
- * `PreferenceMismatchSettings` from frontend/src/app/storage.service.ts, and
+ * `PreferenceMismatchSettings` from apps/ui/src/app/storage.service.ts, and
  * `MatchResult` from @resurank/scoring.
  *
  * Note: resume PDFs are parsed client-side and never uploaded — `resumes.text`

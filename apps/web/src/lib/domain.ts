@@ -10,7 +10,7 @@ export type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
  * Wire shapes for the domain routes.
  *
  * `ApiResume` is deliberately a superset of `ResumeData` in
- * frontend/src/app/storage.service.ts: the same four fields, plus the `id` and
+ * apps/ui/src/app/storage.service.ts: the same four fields, plus the `id` and
  * `isActive` the desktop build never needed because it only ever held one
  * resume. That keeps one storage contract serving both builds.
  */

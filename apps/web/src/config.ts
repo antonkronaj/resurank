@@ -63,7 +63,7 @@ export const config = {
    * Resolved relative to the compiled `dist/` dir, so three levels up from
    * apps/web/dist reaches the repo root.
    */
-  staticDir: optional('STATIC_DIR', '../../../frontend/dist/frontend/browser'),
+  staticDir: optional('STATIC_DIR', '../../../apps/ui/dist/frontend/browser'),
 
   rateLimit: {
     /** Throttle for credential and mail-sending endpoints. */

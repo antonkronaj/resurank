@@ -5,7 +5,7 @@ node_modules/
 # Compiled TypeScript (main process + scoring package)
 dist/
 # Angular production bundle
-frontend/dist/
+apps/ui/dist/
 # Electron Forge packaged app & installers
 out/
 # TypeScript source maps — generated, not source-of-truth
