@@ -2,7 +2,7 @@
 
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](LICENSE)
 
-Personal resume-to-job-description matcher desktop app. Upload your resume PDF, paste a job description, and get a hybrid semantic + keyword similarity score — no paid AI key required.
+Personal resume-to-job-description matcher. Upload your resume PDF, paste a job description, and get a hybrid semantic + keyword similarity score — no paid AI key required. Ships as an Electron desktop app, and optionally as a multi-user web app (auth, Postgres-backed history) — see [Web app](#web-app) below.
 
 Features:
 - **Local Scoring**: Uses a small (~25 MB) ONNX model running locally. No data leaves your machine.
@@ -15,9 +15,10 @@ Features:
 ## Stack
 
 - **Desktop shell**: Electron 42 (ESM main process, Node 22), packaged with [Electron Forge](https://www.electronforge.io/)
-- **Main process**: TypeScript, file-based local storage (JSON files in the user-data dir), `ipcMain` handlers for all storage and clipboard operations. No HTTP server.
-- **Frontend**: Angular 21 (standalone components, signals). All communication with the main process goes through `contextBridge`/`ipcRenderer` via `window.electronAPI`. The scoring engine runs entirely in the renderer — TF-IDF in the main thread, embedding inference in a dedicated `Worker`.
-- **Embedding model**: [`Xenova/jina-embeddings-v2-small-en`](https://huggingface.co/Xenova/jina-embeddings-v2-small-en) (~25 MB ONNX, quantized) loaded via `@huggingface/transformers` inside a web worker. Downloaded on first run and cached in the user-data directory.
+- **Main process**: TypeScript, file-based local storage (JSON files in the user-data dir), `ipcMain` handlers for all storage and clipboard operations. No HTTP server in the desktop build.
+- **Frontend**: Angular 21 (standalone components, signals), one shared codebase built for both targets. In the desktop build, all communication with the main process goes through `contextBridge`/`ipcRenderer` via `window.electronAPI`; in the web build, an `HttpClient`-based adapter talks to the web app's API instead — see [Web app](#web-app). The scoring engine runs entirely client-side either way — TF-IDF in the main thread, embedding inference in a dedicated `Worker`.
+- **Embedding model**: [`Xenova/jina-embeddings-v2-small-en`](https://huggingface.co/Xenova/jina-embeddings-v2-small-en) (~25 MB ONNX, quantized) loaded via `@huggingface/transformers` inside a web worker. Downloaded on first run; cached in the user-data directory (desktop) or served same-origin from the web app (web).
+- **Web app** (optional, additive): Fastify + Postgres, auth, multi-resume + scoring history. Performs no ML — see [Web app](#web-app).
 
 ## Structure
 
@@ -40,13 +41,13 @@ Node is installed via mise (`mise use -g node@22`).
 
 ```bash
 npm install
-npm --prefix frontend install
+npm --prefix apps/ui install
 ```
 
 ## Run the desktop app
 
 ```bash
-npm run build      # builds backend, frontend, and electron main + preload
+npm run build      # builds scoring, the Angular frontend, and electron main + preload
 npm start          # launches Electron, loads built bundle
 ```
 
@@ -59,6 +60,27 @@ npm run dev:electron # terminal 2 — Electron pointed at the dev server
 
 `dev:electron` sets `JOBDASH_DEV=1`, builds the main process and preload, then opens Electron with DevTools detached.
 
+## Web app
+
+ResuRank also ships as a multi-user web app: [`apps/web`](apps/web) (Fastify +
+Postgres) serves an API — auth, multi-resume management, scoring history — and
+hosts the same Angular frontend built for the web target. It's additive: the
+desktop app above is unaffected and needs none of this. Scoring and embedding
+still run entirely client-side in the browser; the server does no ML and only
+ever sees extracted resume text, never a PDF.
+
+```bash
+npm run build:frontend:web   # Angular, web configuration (fetches the embedding model)
+npm run dev:frontend:web     # ...and its dev-server equivalent
+npm run build:server         # compiles apps/web to apps/web/dist
+npm run dev:server           # TypeScript watch + node --watch, the usual dev loop
+```
+
+The web app needs Postgres and its own environment variables (`DATABASE_URL`,
+`SESSION_SECRET`, SMTP settings, etc.) — see [`apps/web/README.md`](apps/web/README.md)
+for local setup (Docker Compose for Postgres + Mailpit, migrations, tests) and
+[`docs/deployment-runbook.md`](docs/deployment-runbook.md) for deploying it.
+
 ## Build distributable installers locally
 
 ```bash
@@ -69,10 +91,12 @@ Outputs to `out/` — `.dmg` on macOS, `.exe` (Squirrel) on Windows, `.zip` on L
 
 Releases ship via the CI workflow on `v*` tag pushes — see [CI & Releases](#ci--releases) below. The `npm run publish` script in `package.json` isn't wired to an electron-forge publisher; CI handles publishing.
 
-## Env vars
+## Env vars (desktop app)
 
 - `DATABASE_PATH` — overridden by Electron at startup to the per-user data dir (`app.getPath('userData')`).
 - `JOBDASH_DEV=1` — set by `dev:electron`; makes the main process load `http://localhost:4200` and open DevTools.
+
+The web app has its own, separate set of environment variables — see [`apps/web/README.md`](apps/web/README.md#environment-variables).
 
 ## Usage
 
@@ -153,6 +177,8 @@ See [`packages/scoring/README.md`](packages/scoring/README.md) and
 per-package version and publish steps.
 
 ## CI & Releases
+
+This section covers the **desktop app's** release pipeline only. The web app has no CI workflow in this repo — see [`docs/deployment-runbook.md`](docs/deployment-runbook.md) for deploying it (`docker build -f apps/web/Dockerfile`).
 
 The release workflow lives at [`.github/workflows/release.yml`](.github/workflows/release.yml). It runs a 3-OS matrix (`macos-latest`, `windows-latest`, `ubuntu-latest`) on every push and on `v*` tag pushes. `dependabot/**` and `renovate/**` branches are excluded so bot branches don't burn matrix runs.
 
