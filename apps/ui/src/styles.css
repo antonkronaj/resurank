@@ -190,6 +190,7 @@ body {
   width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
   background: var(--accent-subtle); color: var(--accent); font-weight: 700; font-size: 12px;
   border: 1px solid var(--border); cursor: pointer; font: inherit;
+  padding: 0; line-height: 1;
 }
 
 .content { max-width: 1080px; margin: 0 auto; padding: 24px 16px 64px; }
