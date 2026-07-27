@@ -166,7 +166,10 @@
               "buildTarget": "frontend:build:production,web"
             },
             "web-development": {
-              "buildTarget": "frontend:build:development,web-development"
+              "buildTarget": "frontend:build:development,web-development",
+              "proxyConfig": "proxy.conf.json",
+              "host": "0.0.0.0",
+              "allowedHosts": ["resurank.localdev.me"]
             }
           },
           "defaultConfiguration": "development"
