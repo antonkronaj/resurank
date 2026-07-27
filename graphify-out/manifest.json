@@ -330,7 +330,7 @@
     "semantic_hash": ""
   },
   "apps/web/src/app.ts": {
-    "mtime": 1785031854.317864,
+    "mtime": 1785124079.432,
     "ast_hash": "38131643036f1c3636b70858fabd512a",
     "semantic_hash": ""
   },
@@ -500,8 +500,8 @@
     "semantic_hash": ""
   },
   "apps/ui/angular.json": {
-    "mtime": 1785029505.2181196,
-    "ast_hash": "d8da0d8b4151f5b5168b628646e40163",
+    "mtime": 1785125771.3447464,
+    "ast_hash": "bcd877c4e422b7385c0e795224168502",
     "semantic_hash": ""
   },
   "apps/ui/eslint.config.mjs": {
@@ -907,6 +907,21 @@
   "apps/desktop/tsconfig.json": {
     "mtime": 1785031483.7216055,
     "ast_hash": "971f22b865b24322186dd815b130a295",
+    "semantic_hash": ""
+  },
+  "docs/semantic-search-context.md": {
+    "mtime": 1785083405.6986926,
+    "ast_hash": "8cff3761bb8adde7d6f48e7fc7e9568c",
+    "semantic_hash": ""
+  },
+  "docs/semantic-search-plan.md": {
+    "mtime": 1785085237.2859747,
+    "ast_hash": "48098189cf437e91bab1c3a77c265eae",
+    "semantic_hash": ""
+  },
+  "apps/ui/proxy.conf.json": {
+    "mtime": 1785125575.728791,
+    "ast_hash": "bb3cce61a7d9dc1a57d06f6cbfc23bdf",
     "semantic_hash": ""
   }
 }

@@ -107,14 +107,1054 @@
   },
   "nodes": [
     {
+      "label": "angular.json",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "ui_angular",
+      "community": 7,
+      "norm_label": "angular.json"
+    },
+    {
+      "label": "$schema",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "ui_angular_schema",
+      "community": 7,
+      "norm_label": "$schema"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "ui_angular_version",
+      "community": 7,
+      "norm_label": "version"
+    },
+    {
+      "label": "cli",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "ui_angular_cli",
+      "community": 7,
+      "norm_label": "cli"
+    },
+    {
+      "label": "packageManager",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "ui_angular_cli_packagemanager",
+      "community": 7,
+      "norm_label": "packagemanager"
+    },
+    {
+      "label": "analytics",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "ui_angular_cli_analytics",
+      "community": 7,
+      "norm_label": "analytics"
+    },
+    {
+      "label": "newProjectRoot",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "ui_angular_newprojectroot",
+      "community": 7,
+      "norm_label": "newprojectroot"
+    },
+    {
+      "label": "projects",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "ui_angular_projects",
+      "community": 7,
+      "norm_label": "projects"
+    },
+    {
+      "label": "frontend",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "ui_angular_projects_frontend",
+      "community": 7,
+      "norm_label": "frontend"
+    },
+    {
+      "label": "projectType",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "ui_angular_frontend_projecttype",
+      "community": 7,
+      "norm_label": "projecttype"
+    },
+    {
+      "label": "schematics",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "ui_angular_frontend_schematics",
+      "community": 7,
+      "norm_label": "schematics"
+    },
+    {
+      "label": "@schematics/angular:class",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_schematics_angular_class",
+      "community": 7,
+      "norm_label": "@schematics/angular:class"
+    },
+    {
+      "label": "skipTests",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_angular_class_skiptests",
+      "community": 7,
+      "norm_label": "skiptests"
+    },
+    {
+      "label": "@schematics/angular:component",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_schematics_angular_component",
+      "community": 7,
+      "norm_label": "@schematics/angular:component"
+    },
+    {
+      "label": "skipTests",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_angular_component_skiptests",
+      "community": 7,
+      "norm_label": "skiptests"
+    },
+    {
+      "label": "@schematics/angular:directive",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_schematics_angular_directive",
+      "community": 7,
+      "norm_label": "@schematics/angular:directive"
+    },
+    {
+      "label": "skipTests",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_angular_directive_skiptests",
+      "community": 7,
+      "norm_label": "skiptests"
+    },
+    {
+      "label": "@schematics/angular:guard",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_schematics_angular_guard",
+      "community": 7,
+      "norm_label": "@schematics/angular:guard"
+    },
+    {
+      "label": "skipTests",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_angular_guard_skiptests",
+      "community": 7,
+      "norm_label": "skiptests"
+    },
+    {
+      "label": "@schematics/angular:interceptor",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_schematics_angular_interceptor",
+      "community": 7,
+      "norm_label": "@schematics/angular:interceptor"
+    },
+    {
+      "label": "skipTests",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_angular_interceptor_skiptests",
+      "community": 7,
+      "norm_label": "skiptests"
+    },
+    {
+      "label": "@schematics/angular:pipe",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_schematics_angular_pipe",
+      "community": 7,
+      "norm_label": "@schematics/angular:pipe"
+    },
+    {
+      "label": "skipTests",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_angular_pipe_skiptests",
+      "community": 7,
+      "norm_label": "skiptests"
+    },
+    {
+      "label": "@schematics/angular:resolver",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_schematics_angular_resolver",
+      "community": 7,
+      "norm_label": "@schematics/angular:resolver"
+    },
+    {
+      "label": "skipTests",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_angular_resolver_skiptests",
+      "community": 7,
+      "norm_label": "skiptests"
+    },
+    {
+      "label": "@schematics/angular:service",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_schematics_angular_service",
+      "community": 7,
+      "norm_label": "@schematics/angular:service"
+    },
+    {
+      "label": "skipTests",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "ui_angular_schematics_angular_service_skiptests",
+      "community": 7,
+      "norm_label": "skiptests"
+    },
+    {
+      "label": "root",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "ui_angular_frontend_root",
+      "community": 7,
+      "norm_label": "root"
+    },
+    {
+      "label": "sourceRoot",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "ui_angular_frontend_sourceroot",
+      "community": 7,
+      "norm_label": "sourceroot"
+    },
+    {
+      "label": "prefix",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "ui_angular_frontend_prefix",
+      "community": 7,
+      "norm_label": "prefix"
+    },
+    {
+      "label": "architect",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "ui_angular_frontend_architect",
+      "community": 6,
+      "norm_label": "architect"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "ui_angular_architect_build",
+      "community": 6,
+      "norm_label": "build"
+    },
+    {
+      "label": "builder",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L43",
+      "_origin": "ast",
+      "id": "ui_angular_build_builder",
+      "community": 6,
+      "norm_label": "builder"
+    },
+    {
+      "label": "options",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "ui_angular_build_options",
+      "community": 6,
+      "norm_label": "options"
+    },
+    {
+      "label": "outputPath",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L45",
+      "_origin": "ast",
+      "id": "ui_angular_options_outputpath",
+      "community": 6,
+      "norm_label": "outputpath"
+    },
+    {
+      "label": "index",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L46",
+      "_origin": "ast",
+      "id": "ui_angular_options_index",
+      "community": 6,
+      "norm_label": "index"
+    },
+    {
+      "label": "browser",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L47",
+      "_origin": "ast",
+      "id": "ui_angular_options_browser",
+      "community": 6,
+      "norm_label": "browser"
+    },
+    {
+      "label": "polyfills",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L48",
+      "_origin": "ast",
+      "id": "ui_angular_options_polyfills",
+      "community": 6,
+      "norm_label": "polyfills"
+    },
+    {
+      "label": "tsConfig",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L51",
+      "_origin": "ast",
+      "id": "ui_angular_options_tsconfig",
+      "community": 6,
+      "norm_label": "tsconfig"
+    },
+    {
+      "label": "assets",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "ui_angular_options_assets",
+      "community": 6,
+      "norm_label": "assets"
+    },
+    {
+      "label": "styles",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L103",
+      "_origin": "ast",
+      "id": "ui_angular_options_styles",
+      "community": 6,
+      "norm_label": "styles"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L106",
+      "_origin": "ast",
+      "id": "ui_angular_options_scripts",
+      "community": 6,
+      "norm_label": "scripts"
+    },
+    {
+      "label": "configurations",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L108",
+      "_origin": "ast",
+      "id": "ui_angular_build_configurations",
+      "community": 6,
+      "norm_label": "configurations"
+    },
+    {
+      "label": "production",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L109",
+      "_origin": "ast",
+      "id": "ui_angular_configurations_production",
+      "community": 6,
+      "norm_label": "production"
+    },
+    {
+      "label": "budgets",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L110",
+      "_origin": "ast",
+      "id": "ui_angular_production_budgets",
+      "community": 6,
+      "norm_label": "budgets"
+    },
+    {
+      "label": "outputHashing",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L122",
+      "_origin": "ast",
+      "id": "ui_angular_production_outputhashing",
+      "community": 6,
+      "norm_label": "outputhashing"
+    },
+    {
+      "label": "optimization",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L123",
+      "_origin": "ast",
+      "id": "ui_angular_production_optimization",
+      "community": 6,
+      "norm_label": "optimization"
+    },
+    {
+      "label": "development",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L132",
+      "_origin": "ast",
+      "id": "ui_angular_configurations_development",
+      "community": 6,
+      "norm_label": "development"
+    },
+    {
+      "label": "optimization",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L133",
+      "_origin": "ast",
+      "id": "ui_angular_development_optimization",
+      "community": 6,
+      "norm_label": "optimization"
+    },
+    {
+      "label": "extractLicenses",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L134",
+      "_origin": "ast",
+      "id": "ui_angular_development_extractlicenses",
+      "community": 6,
+      "norm_label": "extractlicenses"
+    },
+    {
+      "label": "sourceMap",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L135",
+      "_origin": "ast",
+      "id": "ui_angular_development_sourcemap",
+      "community": 6,
+      "norm_label": "sourcemap"
+    },
+    {
+      "label": "web",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L137",
+      "_origin": "ast",
+      "id": "ui_angular_configurations_web",
+      "community": 6,
+      "norm_label": "web"
+    },
+    {
+      "label": "fileReplacements",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L138",
+      "_origin": "ast",
+      "id": "ui_angular_web_filereplacements",
+      "community": 6,
+      "norm_label": "filereplacements"
+    },
+    {
+      "label": "web-development",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L145",
+      "_origin": "ast",
+      "id": "ui_angular_configurations_web_development",
+      "community": 6,
+      "norm_label": "web-development"
+    },
+    {
+      "label": "fileReplacements",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L146",
+      "_origin": "ast",
+      "id": "ui_angular_web_development_filereplacements",
+      "community": 6,
+      "norm_label": "filereplacements"
+    },
+    {
+      "label": "defaultConfiguration",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L154",
+      "_origin": "ast",
+      "id": "ui_angular_build_defaultconfiguration",
+      "community": 6,
+      "norm_label": "defaultconfiguration"
+    },
+    {
+      "label": "serve",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L156",
+      "_origin": "ast",
+      "id": "ui_angular_architect_serve",
+      "community": 6,
+      "norm_label": "serve"
+    },
+    {
+      "label": "builder",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L157",
+      "_origin": "ast",
+      "id": "ui_angular_serve_builder",
+      "community": 6,
+      "norm_label": "builder"
+    },
+    {
+      "label": "configurations",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L158",
+      "_origin": "ast",
+      "id": "ui_angular_serve_configurations",
+      "community": 6,
+      "norm_label": "configurations"
+    },
+    {
+      "label": "buildTarget",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L160",
+      "_origin": "ast",
+      "id": "ui_angular_production_buildtarget",
+      "community": 6,
+      "norm_label": "buildtarget"
+    },
+    {
+      "label": "buildTarget",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L163",
+      "_origin": "ast",
+      "id": "ui_angular_development_buildtarget",
+      "community": 6,
+      "norm_label": "buildtarget"
+    },
+    {
+      "label": "buildTarget",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L166",
+      "_origin": "ast",
+      "id": "ui_angular_web_buildtarget",
+      "community": 6,
+      "norm_label": "buildtarget"
+    },
+    {
+      "label": "buildTarget",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L169",
+      "_origin": "ast",
+      "id": "ui_angular_web_development_buildtarget",
+      "community": 6,
+      "norm_label": "buildtarget"
+    },
+    {
+      "label": "proxyConfig",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L170",
+      "_origin": "ast",
+      "id": "ui_angular_web_development_proxyconfig",
+      "community": 6,
+      "norm_label": "proxyconfig"
+    },
+    {
+      "label": "host",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L171",
+      "_origin": "ast",
+      "id": "ui_angular_web_development_host",
+      "community": 6,
+      "norm_label": "host"
+    },
+    {
+      "label": "allowedHosts",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L172",
+      "_origin": "ast",
+      "id": "ui_angular_web_development_allowedhosts",
+      "community": 6,
+      "norm_label": "allowedhosts"
+    },
+    {
+      "label": "defaultConfiguration",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L175",
+      "_origin": "ast",
+      "id": "ui_angular_serve_defaultconfiguration",
+      "community": 6,
+      "norm_label": "defaultconfiguration"
+    },
+    {
+      "label": "extract-i18n",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L177",
+      "_origin": "ast",
+      "id": "ui_angular_architect_extract_i18n",
+      "community": 6,
+      "norm_label": "extract-i18n"
+    },
+    {
+      "label": "builder",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L178",
+      "_origin": "ast",
+      "id": "ui_angular_extract_i18n_builder",
+      "community": 6,
+      "norm_label": "builder"
+    },
+    {
+      "label": "test",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L180",
+      "_origin": "ast",
+      "id": "ui_angular_architect_test",
+      "community": 6,
+      "norm_label": "test"
+    },
+    {
+      "label": "builder",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L181",
+      "_origin": "ast",
+      "id": "ui_angular_test_builder",
+      "community": 6,
+      "norm_label": "builder"
+    },
+    {
+      "label": "options",
+      "file_type": "code",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L182",
+      "_origin": "ast",
+      "id": "ui_angular_test_options",
+      "community": 6,
+      "norm_label": "options"
+    },
+    {
+      "label": "semantic-search-context.md",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "semantic-search-context.md",
+      "id": "docs_semantic_search_context"
+    },
+    {
+      "label": "Context: Semantic search over saved jobs and resumes",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "context: semantic search over saved jobs and resumes",
+      "id": "docs_semantic_search_context_context_semantic_search_over_saved_jobs_and_resumes"
+    },
+    {
+      "label": "The feature",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L7",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "the feature",
+      "id": "docs_semantic_search_context_the_feature"
+    },
+    {
+      "label": "Why this idea came up",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L18",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "why this idea came up",
+      "id": "docs_semantic_search_context_why_this_idea_came_up"
+    },
+    {
+      "label": "Verified facts about the current system",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L42",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "verified facts about the current system",
+      "id": "docs_semantic_search_context_verified_facts_about_the_current_system"
+    },
+    {
+      "label": "Scoring model",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L47",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "scoring model",
+      "id": "docs_semantic_search_context_scoring_model"
+    },
+    {
+      "label": "Exact embedding inputs (critical \u2014 any cache/index key must match these)",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L59",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "exact embedding inputs (critical \u2014 any cache/index key must match these)",
+      "id": "docs_semantic_search_context_exact_embedding_inputs_critical_any_cache_index_key_must_match_these"
+    },
+    {
+      "label": "Where inference runs",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L71",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "where inference runs",
+      "id": "docs_semantic_search_context_where_inference_runs"
+    },
+    {
+      "label": "Current database schema (`apps/web/src/db/schema.ts`)",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L85",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "current database schema (`apps/web/src/db/schema.ts`)",
+      "id": "docs_semantic_search_context_current_database_schema_apps_web_src_db_schema_ts"
+    },
+    {
+      "label": "`MatchResult` shape (`packages/scoring/src/types.ts:44`)",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L101",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "`matchresult` shape (`packages/scoring/src/types.ts:44`)",
+      "id": "docs_semantic_search_context_matchresult_shape_packages_scoring_src_types_ts_44"
+    },
+    {
+      "label": "Infrastructure blockers found",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L110",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "infrastructure blockers found",
+      "id": "docs_semantic_search_context_infrastructure_blockers_found"
+    },
+    {
+      "label": "Open design questions",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L126",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "open design questions",
+      "id": "docs_semantic_search_context_open_design_questions"
+    },
+    {
+      "label": "Recommended starting shape",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L178",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "recommended starting shape",
+      "id": "docs_semantic_search_context_recommended_starting_shape"
+    },
+    {
+      "label": "Repo constraints to respect",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L196",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "repo constraints to respect",
+      "id": "docs_semantic_search_context_repo_constraints_to_respect"
+    },
+    {
+      "label": "Key files",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L221",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "key files",
+      "id": "docs_semantic_search_context_key_files"
+    },
+    {
+      "label": "One correction to make if this ships",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L237",
+      "_origin": "ast",
+      "community": 26,
+      "norm_label": "one correction to make if this ships",
+      "id": "docs_semantic_search_context_one_correction_to_make_if_this_ships"
+    },
+    {
+      "label": "semantic-search-plan.md",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "semantic-search-plan.md",
+      "id": "docs_semantic_search_plan"
+    },
+    {
+      "label": "Find similar saved jobs \u2014 semantic search over `score_history` (pgvector / pg18)",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "find similar saved jobs \u2014 semantic search over `score_history` (pgvector / pg18)",
+      "id": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18"
+    },
+    {
+      "label": "Context",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "context",
+      "id": "docs_semantic_search_plan_context"
+    },
+    {
+      "label": "Decisions taken (these close doc questions 2, 3, 4, 5, and half of 7)",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L20",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "decisions taken (these close doc questions 2, 3, 4, 5, and half of 7)",
+      "id": "docs_semantic_search_plan_decisions_taken_these_close_doc_questions_2_3_4_5_and_half_of_7"
+    },
+    {
+      "label": "Why the version column is non-negotiable",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L32",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "why the version column is non-negotiable",
+      "id": "docs_semantic_search_plan_why_the_version_column_is_non_negotiable"
+    },
+    {
+      "label": "Phase A \u2014 `packages/scoring`: export the embedding-input builders",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L44",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "phase a \u2014 `packages/scoring`: export the embedding-input builders",
+      "id": "docs_semantic_search_plan_phase_a_packages_scoring_export_the_embedding_input_builders"
+    },
+    {
+      "label": "Phase B \u2014 infra",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L91",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "phase b \u2014 infra",
+      "id": "docs_semantic_search_plan_phase_b_infra"
+    },
+    {
+      "label": "Phase C \u2014 schema + migration",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L112",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "phase c \u2014 schema + migration",
+      "id": "docs_semantic_search_plan_phase_c_schema_migration"
+    },
+    {
+      "label": "Phase D \u2014 server route",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L163",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "phase d \u2014 server route",
+      "id": "docs_semantic_search_plan_phase_d_server_route"
+    },
+    {
+      "label": "Phase E \u2014 tests",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L212",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "phase e \u2014 tests",
+      "id": "docs_semantic_search_plan_phase_e_tests"
+    },
+    {
+      "label": "Phase F \u2014 client data path",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L244",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "phase f \u2014 client data path",
+      "id": "docs_semantic_search_plan_phase_f_client_data_path"
+    },
+    {
+      "label": "Phase G \u2014 UI",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L276",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "phase g \u2014 ui",
+      "id": "docs_semantic_search_plan_phase_g_ui"
+    },
+    {
+      "label": "Phase H \u2014 docs",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L307",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "phase h \u2014 docs",
+      "id": "docs_semantic_search_plan_phase_h_docs"
+    },
+    {
+      "label": "Verification",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L330",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "verification",
+      "id": "docs_semantic_search_plan_verification"
+    },
+    {
+      "label": "Risks",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L347",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "risks",
+      "id": "docs_semantic_search_plan_risks"
+    },
+    {
+      "label": "Critical files",
+      "file_type": "document",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L361",
+      "_origin": "ast",
+      "community": 41,
+      "norm_label": "critical files",
+      "id": "docs_semantic_search_plan_critical_files"
+    },
+    {
       "label": "README.md",
       "file_type": "document",
       "source_file": "README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "readme",
       "community": 12,
-      "norm_label": "readme.md"
+      "norm_label": "readme.md",
+      "id": "readme"
     },
     {
       "label": "ResuRank",
@@ -122,9 +1162,9 @@
       "source_file": "README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "readme_resurank",
       "community": 12,
-      "norm_label": "resurank"
+      "norm_label": "resurank",
+      "id": "readme_resurank"
     },
     {
       "label": "Stack",
@@ -132,9 +1172,9 @@
       "source_file": "README.md",
       "source_location": "L15",
       "_origin": "ast",
-      "id": "readme_stack",
       "community": 12,
-      "norm_label": "stack"
+      "norm_label": "stack",
+      "id": "readme_stack"
     },
     {
       "label": "Structure",
@@ -142,9 +1182,9 @@
       "source_file": "README.md",
       "source_location": "L23",
       "_origin": "ast",
-      "id": "readme_structure",
       "community": 12,
-      "norm_label": "structure"
+      "norm_label": "structure",
+      "id": "readme_structure"
     },
     {
       "label": "Setup",
@@ -152,9 +1192,9 @@
       "source_file": "README.md",
       "source_location": "L38",
       "_origin": "ast",
-      "id": "readme_setup",
       "community": 12,
-      "norm_label": "setup"
+      "norm_label": "setup",
+      "id": "readme_setup"
     },
     {
       "label": "Run the desktop app",
@@ -162,9 +1202,9 @@
       "source_file": "README.md",
       "source_location": "L47",
       "_origin": "ast",
-      "id": "readme_run_the_desktop_app",
       "community": 12,
-      "norm_label": "run the desktop app"
+      "norm_label": "run the desktop app",
+      "id": "readme_run_the_desktop_app"
     },
     {
       "label": "Dev mode (Angular hot reload + DevTools)",
@@ -172,9 +1212,9 @@
       "source_file": "README.md",
       "source_location": "L54",
       "_origin": "ast",
-      "id": "readme_dev_mode_angular_hot_reload_devtools",
       "community": 12,
-      "norm_label": "dev mode (angular hot reload + devtools)"
+      "norm_label": "dev mode (angular hot reload + devtools)",
+      "id": "readme_dev_mode_angular_hot_reload_devtools"
     },
     {
       "label": "Web app",
@@ -182,9 +1222,9 @@
       "source_file": "README.md",
       "source_location": "L63",
       "_origin": "ast",
-      "id": "readme_web_app",
       "community": 12,
-      "norm_label": "web app"
+      "norm_label": "web app",
+      "id": "readme_web_app"
     },
     {
       "label": "Build distributable installers locally",
@@ -192,9 +1232,9 @@
       "source_file": "README.md",
       "source_location": "L84",
       "_origin": "ast",
-      "id": "readme_build_distributable_installers_locally",
       "community": 12,
-      "norm_label": "build distributable installers locally"
+      "norm_label": "build distributable installers locally",
+      "id": "readme_build_distributable_installers_locally"
     },
     {
       "label": "Env vars (desktop app)",
@@ -202,9 +1242,9 @@
       "source_file": "README.md",
       "source_location": "L94",
       "_origin": "ast",
-      "id": "readme_env_vars_desktop_app",
       "community": 12,
-      "norm_label": "env vars (desktop app)"
+      "norm_label": "env vars (desktop app)",
+      "id": "readme_env_vars_desktop_app"
     },
     {
       "label": "Usage",
@@ -212,9 +1252,9 @@
       "source_file": "README.md",
       "source_location": "L101",
       "_origin": "ast",
-      "id": "readme_usage",
       "community": 12,
-      "norm_label": "usage"
+      "norm_label": "usage",
+      "id": "readme_usage"
     },
     {
       "label": "How matching works",
@@ -222,9 +1262,9 @@
       "source_file": "README.md",
       "source_location": "L108",
       "_origin": "ast",
-      "id": "readme_how_matching_works",
       "community": 12,
-      "norm_label": "how matching works"
+      "norm_label": "how matching works",
+      "id": "readme_how_matching_works"
     },
     {
       "label": "IPC channels",
@@ -232,9 +1272,9 @@
       "source_file": "README.md",
       "source_location": "L118",
       "_origin": "ast",
-      "id": "readme_ipc_channels",
       "community": 12,
-      "norm_label": "ipc channels"
+      "norm_label": "ipc channels",
+      "id": "readme_ipc_channels"
     },
     {
       "label": "Notes",
@@ -242,9 +1282,9 @@
       "source_file": "README.md",
       "source_location": "L136",
       "_origin": "ast",
-      "id": "readme_notes",
       "community": 12,
-      "norm_label": "notes"
+      "norm_label": "notes",
+      "id": "readme_notes"
     },
     {
       "label": "Publishing npm packages",
@@ -252,9 +1292,9 @@
       "source_file": "README.md",
       "source_location": "L143",
       "_origin": "ast",
-      "id": "readme_publishing_npm_packages",
       "community": 12,
-      "norm_label": "publishing npm packages"
+      "norm_label": "publishing npm packages",
+      "id": "readme_publishing_npm_packages"
     },
     {
       "label": "CI & Releases",
@@ -262,9 +1302,9 @@
       "source_file": "README.md",
       "source_location": "L179",
       "_origin": "ast",
-      "id": "readme_ci_releases",
       "community": 12,
-      "norm_label": "ci & releases"
+      "norm_label": "ci & releases",
+      "id": "readme_ci_releases"
     },
     {
       "label": "Trigger behavior",
@@ -272,9 +1312,9 @@
       "source_file": "README.md",
       "source_location": "L185",
       "_origin": "ast",
-      "id": "readme_trigger_behavior",
       "community": 12,
-      "norm_label": "trigger behavior"
+      "norm_label": "trigger behavior",
+      "id": "readme_trigger_behavior"
     },
     {
       "label": "Per-OS build path",
@@ -282,9 +1322,9 @@
       "source_file": "README.md",
       "source_location": "L194",
       "_origin": "ast",
-      "id": "readme_per_os_build_path",
       "community": 12,
-      "norm_label": "per-os build path"
+      "norm_label": "per-os build path",
+      "id": "readme_per_os_build_path"
     },
     {
       "label": "Windows pre-staging",
@@ -292,9 +1332,9 @@
       "source_file": "README.md",
       "source_location": "L200",
       "_origin": "ast",
-      "id": "readme_windows_pre_staging",
       "community": 12,
-      "norm_label": "windows pre-staging"
+      "norm_label": "windows pre-staging",
+      "id": "readme_windows_pre_staging"
     },
     {
       "label": "Cutting a release",
@@ -302,9 +1342,9 @@
       "source_file": "README.md",
       "source_location": "L215",
       "_origin": "ast",
-      "id": "readme_cutting_a_release",
       "community": 12,
-      "norm_label": "cutting a release"
+      "norm_label": "cutting a release",
+      "id": "readme_cutting_a_release"
     },
     {
       "label": "GitHub Secrets",
@@ -312,9 +1352,9 @@
       "source_file": "README.md",
       "source_location": "L226",
       "_origin": "ast",
-      "id": "readme_github_secrets",
       "community": 12,
-      "norm_label": "github secrets"
+      "norm_label": "github secrets",
+      "id": "readme_github_secrets"
     },
     {
       "label": "Exporting the certificate",
@@ -322,9 +1362,9 @@
       "source_file": "README.md",
       "source_location": "L239",
       "_origin": "ast",
-      "id": "readme_exporting_the_certificate",
       "community": 12,
-      "norm_label": "exporting the certificate"
+      "norm_label": "exporting the certificate",
+      "id": "readme_exporting_the_certificate"
     },
     {
       "label": "Converting the .p12 to base64 for `CSC_LINK`",
@@ -332,9 +1372,9 @@
       "source_file": "README.md",
       "source_location": "L245",
       "_origin": "ast",
-      "id": "readme_converting_the_p12_to_base64_for_csc_link",
       "community": 12,
-      "norm_label": "converting the .p12 to base64 for `csc_link`"
+      "norm_label": "converting the .p12 to base64 for `csc_link`",
+      "id": "readme_converting_the_p12_to_base64_for_csc_link"
     },
     {
       "label": "config.ts",
@@ -765,696 +1805,6 @@
       "community": 35,
       "norm_label": "include",
       "id": "desktop_tsconfig_include"
-    },
-    {
-      "label": "angular.json",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "angular.json",
-      "id": "ui_angular"
-    },
-    {
-      "label": "$schema",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L2",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "$schema",
-      "id": "ui_angular_schema"
-    },
-    {
-      "label": "version",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "version",
-      "id": "ui_angular_version"
-    },
-    {
-      "label": "cli",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L4",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "cli",
-      "id": "ui_angular_cli"
-    },
-    {
-      "label": "packageManager",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "packagemanager",
-      "id": "ui_angular_cli_packagemanager"
-    },
-    {
-      "label": "analytics",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L6",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "analytics",
-      "id": "ui_angular_cli_analytics"
-    },
-    {
-      "label": "newProjectRoot",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L8",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "newprojectroot",
-      "id": "ui_angular_newprojectroot"
-    },
-    {
-      "label": "projects",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L9",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "projects",
-      "id": "ui_angular_projects"
-    },
-    {
-      "label": "frontend",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L10",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "frontend",
-      "id": "ui_angular_projects_frontend"
-    },
-    {
-      "label": "projectType",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L11",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "projecttype",
-      "id": "ui_angular_frontend_projecttype"
-    },
-    {
-      "label": "schematics",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L12",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "schematics",
-      "id": "ui_angular_frontend_schematics"
-    },
-    {
-      "label": "@schematics/angular:class",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L13",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "@schematics/angular:class",
-      "id": "ui_angular_schematics_schematics_angular_class"
-    },
-    {
-      "label": "skipTests",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L14",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "skiptests",
-      "id": "ui_angular_schematics_angular_class_skiptests"
-    },
-    {
-      "label": "@schematics/angular:component",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L16",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "@schematics/angular:component",
-      "id": "ui_angular_schematics_schematics_angular_component"
-    },
-    {
-      "label": "skipTests",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L17",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "skiptests",
-      "id": "ui_angular_schematics_angular_component_skiptests"
-    },
-    {
-      "label": "@schematics/angular:directive",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L19",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "@schematics/angular:directive",
-      "id": "ui_angular_schematics_schematics_angular_directive"
-    },
-    {
-      "label": "skipTests",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L20",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "skiptests",
-      "id": "ui_angular_schematics_angular_directive_skiptests"
-    },
-    {
-      "label": "@schematics/angular:guard",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L22",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "@schematics/angular:guard",
-      "id": "ui_angular_schematics_schematics_angular_guard"
-    },
-    {
-      "label": "skipTests",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L23",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "skiptests",
-      "id": "ui_angular_schematics_angular_guard_skiptests"
-    },
-    {
-      "label": "@schematics/angular:interceptor",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L25",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "@schematics/angular:interceptor",
-      "id": "ui_angular_schematics_schematics_angular_interceptor"
-    },
-    {
-      "label": "skipTests",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L26",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "skiptests",
-      "id": "ui_angular_schematics_angular_interceptor_skiptests"
-    },
-    {
-      "label": "@schematics/angular:pipe",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L28",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "@schematics/angular:pipe",
-      "id": "ui_angular_schematics_schematics_angular_pipe"
-    },
-    {
-      "label": "skipTests",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L29",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "skiptests",
-      "id": "ui_angular_schematics_angular_pipe_skiptests"
-    },
-    {
-      "label": "@schematics/angular:resolver",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L31",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "@schematics/angular:resolver",
-      "id": "ui_angular_schematics_schematics_angular_resolver"
-    },
-    {
-      "label": "skipTests",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L32",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "skiptests",
-      "id": "ui_angular_schematics_angular_resolver_skiptests"
-    },
-    {
-      "label": "@schematics/angular:service",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L34",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "@schematics/angular:service",
-      "id": "ui_angular_schematics_schematics_angular_service"
-    },
-    {
-      "label": "skipTests",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L35",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "skiptests",
-      "id": "ui_angular_schematics_angular_service_skiptests"
-    },
-    {
-      "label": "root",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L38",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "root",
-      "id": "ui_angular_frontend_root"
-    },
-    {
-      "label": "sourceRoot",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L39",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "sourceroot",
-      "id": "ui_angular_frontend_sourceroot"
-    },
-    {
-      "label": "prefix",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L40",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "prefix",
-      "id": "ui_angular_frontend_prefix"
-    },
-    {
-      "label": "architect",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L41",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "architect",
-      "id": "ui_angular_frontend_architect"
-    },
-    {
-      "label": "build",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L42",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "build",
-      "id": "ui_angular_architect_build"
-    },
-    {
-      "label": "builder",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L43",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "builder",
-      "id": "ui_angular_build_builder"
-    },
-    {
-      "label": "options",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L44",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "options",
-      "id": "ui_angular_build_options"
-    },
-    {
-      "label": "outputPath",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L45",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "outputpath",
-      "id": "ui_angular_options_outputpath"
-    },
-    {
-      "label": "index",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L46",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "index",
-      "id": "ui_angular_options_index"
-    },
-    {
-      "label": "browser",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L47",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "browser",
-      "id": "ui_angular_options_browser"
-    },
-    {
-      "label": "polyfills",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L48",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "polyfills",
-      "id": "ui_angular_options_polyfills"
-    },
-    {
-      "label": "tsConfig",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L51",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "tsconfig",
-      "id": "ui_angular_options_tsconfig"
-    },
-    {
-      "label": "assets",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L52",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "assets",
-      "id": "ui_angular_options_assets"
-    },
-    {
-      "label": "styles",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L103",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "styles",
-      "id": "ui_angular_options_styles"
-    },
-    {
-      "label": "scripts",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L106",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "scripts",
-      "id": "ui_angular_options_scripts"
-    },
-    {
-      "label": "configurations",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L108",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "configurations",
-      "id": "ui_angular_build_configurations"
-    },
-    {
-      "label": "production",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L109",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "production",
-      "id": "ui_angular_configurations_production"
-    },
-    {
-      "label": "budgets",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L110",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "budgets",
-      "id": "ui_angular_production_budgets"
-    },
-    {
-      "label": "outputHashing",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L122",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "outputhashing",
-      "id": "ui_angular_production_outputhashing"
-    },
-    {
-      "label": "optimization",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L123",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "optimization",
-      "id": "ui_angular_production_optimization"
-    },
-    {
-      "label": "development",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L132",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "development",
-      "id": "ui_angular_configurations_development"
-    },
-    {
-      "label": "optimization",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L133",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "optimization",
-      "id": "ui_angular_development_optimization"
-    },
-    {
-      "label": "extractLicenses",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L134",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "extractlicenses",
-      "id": "ui_angular_development_extractlicenses"
-    },
-    {
-      "label": "sourceMap",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L135",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "sourcemap",
-      "id": "ui_angular_development_sourcemap"
-    },
-    {
-      "label": "web",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L137",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "web",
-      "id": "ui_angular_configurations_web"
-    },
-    {
-      "label": "fileReplacements",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L138",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "filereplacements",
-      "id": "ui_angular_web_filereplacements"
-    },
-    {
-      "label": "web-development",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L145",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "web-development",
-      "id": "ui_angular_configurations_web_development"
-    },
-    {
-      "label": "fileReplacements",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L146",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "filereplacements",
-      "id": "ui_angular_web_development_filereplacements"
-    },
-    {
-      "label": "defaultConfiguration",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L154",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "defaultconfiguration",
-      "id": "ui_angular_build_defaultconfiguration"
-    },
-    {
-      "label": "serve",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L156",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "serve",
-      "id": "ui_angular_architect_serve"
-    },
-    {
-      "label": "builder",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L157",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "builder",
-      "id": "ui_angular_serve_builder"
-    },
-    {
-      "label": "configurations",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L158",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "configurations",
-      "id": "ui_angular_serve_configurations"
-    },
-    {
-      "label": "buildTarget",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L160",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "buildtarget",
-      "id": "ui_angular_production_buildtarget"
-    },
-    {
-      "label": "buildTarget",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L163",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "buildtarget",
-      "id": "ui_angular_development_buildtarget"
-    },
-    {
-      "label": "buildTarget",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L166",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "buildtarget",
-      "id": "ui_angular_web_buildtarget"
-    },
-    {
-      "label": "buildTarget",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L169",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "buildtarget",
-      "id": "ui_angular_web_development_buildtarget"
-    },
-    {
-      "label": "defaultConfiguration",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L172",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "defaultconfiguration",
-      "id": "ui_angular_serve_defaultconfiguration"
-    },
-    {
-      "label": "extract-i18n",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L174",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "extract-i18n",
-      "id": "ui_angular_architect_extract_i18n"
-    },
-    {
-      "label": "builder",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L175",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "builder",
-      "id": "ui_angular_extract_i18n_builder"
-    },
-    {
-      "label": "test",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L177",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "test",
-      "id": "ui_angular_architect_test"
-    },
-    {
-      "label": "builder",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L178",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "builder",
-      "id": "ui_angular_test_builder"
-    },
-    {
-      "label": "options",
-      "file_type": "code",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L179",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "options",
-      "id": "ui_angular_test_options"
     },
     {
       "label": "eslint.config.mjs",
@@ -2182,7 +2532,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 26,
+      "community": 63,
       "norm_label": "electronstorageadapter",
       "id": "desktop_electron_storage_adapter_electronstorageadapter"
     },
@@ -2192,7 +2542,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L24",
       "_origin": "ast",
-      "community": 26,
+      "community": 63,
       "norm_label": ".load()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_load"
     },
@@ -2202,7 +2552,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L31",
       "_origin": "ast",
-      "community": 26,
+      "community": 63,
       "norm_label": ".getresume()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_getresume"
     },
@@ -2212,7 +2562,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 52,
+      "community": 63,
       "norm_label": ".saveresume()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_saveresume"
     },
@@ -2222,7 +2572,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L50",
       "_origin": "ast",
-      "community": 26,
+      "community": 63,
       "norm_label": ".getstopwords()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_getstopwords"
     },
@@ -2232,7 +2582,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L54",
       "_origin": "ast",
-      "community": 26,
+      "community": 63,
       "norm_label": ".savestopwords()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_savestopwords"
     },
@@ -2242,7 +2592,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L59",
       "_origin": "ast",
-      "community": 26,
+      "community": 63,
       "norm_label": ".gettermboosts()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_gettermboosts"
     },
@@ -2252,7 +2602,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L63",
       "_origin": "ast",
-      "community": 26,
+      "community": 63,
       "norm_label": ".savetermboosts()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_savetermboosts"
     },
@@ -2262,7 +2612,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L68",
       "_origin": "ast",
-      "community": 26,
+      "community": 63,
       "norm_label": ".getmissingkeywordsettings()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_getmissingkeywordsettings"
     },
@@ -2272,7 +2622,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L72",
       "_origin": "ast",
-      "community": 52,
+      "community": 63,
       "norm_label": ".savemissingkeywordsettings()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_savemissingkeywordsettings"
     },
@@ -2282,7 +2632,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L77",
       "_origin": "ast",
-      "community": 26,
+      "community": 63,
       "norm_label": ".getpreferencemismatchsettings()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_getpreferencemismatchsettings"
     },
@@ -2292,7 +2642,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L81",
       "_origin": "ast",
-      "community": 52,
+      "community": 63,
       "norm_label": ".savepreferencemismatchsettings()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_savepreferencemismatchsettings"
     },
@@ -2302,7 +2652,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L87",
       "_origin": "ast",
-      "community": 26,
+      "community": 52,
       "norm_label": ".savehistoryentry()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_savehistoryentry"
     },
@@ -2312,7 +2662,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "api.service.ts",
       "id": "shared_api_service"
     },
@@ -2332,7 +2682,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L22",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": "healthresponse",
       "id": "shared_api_service_healthresponse"
     },
@@ -2342,7 +2692,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L30",
       "_origin": "ast",
-      "community": 41,
+      "community": 61,
       "norm_label": "apiservice",
       "id": "shared_api_service_apiservice"
     },
@@ -2352,7 +2702,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L31",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".constructor()",
       "id": "shared_api_service_apiservice_constructor"
     },
@@ -2362,7 +2712,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L39",
       "_origin": "ast",
-      "community": 41,
+      "community": 61,
       "norm_label": ".getresume()",
       "id": "shared_api_service_apiservice_getresume"
     },
@@ -2372,7 +2722,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L46",
       "_origin": "ast",
-      "community": 41,
+      "community": 61,
       "norm_label": ".gethealth()",
       "id": "shared_api_service_apiservice_gethealth"
     },
@@ -2382,7 +2732,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L53",
       "_origin": "ast",
-      "community": 41,
+      "community": 61,
       "norm_label": ".uploadresume()",
       "id": "shared_api_service_apiservice_uploadresume"
     },
@@ -2392,7 +2742,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L70",
       "_origin": "ast",
-      "community": 41,
+      "community": 61,
       "norm_label": ".match()",
       "id": "shared_api_service_apiservice_match"
     },
@@ -2402,7 +2752,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L95",
       "_origin": "ast",
-      "community": 41,
+      "community": 61,
       "norm_label": ".gettermboosts()",
       "id": "shared_api_service_apiservice_gettermboosts"
     },
@@ -2412,7 +2762,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L99",
       "_origin": "ast",
-      "community": 41,
+      "community": 61,
       "norm_label": ".savetermboosts()",
       "id": "shared_api_service_apiservice_savetermboosts"
     },
@@ -2422,7 +2772,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L103",
       "_origin": "ast",
-      "community": 41,
+      "community": 61,
       "norm_label": ".getstopwords()",
       "id": "shared_api_service_apiservice_getstopwords"
     },
@@ -2432,7 +2782,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L107",
       "_origin": "ast",
-      "community": 41,
+      "community": 61,
       "norm_label": ".savestopwords()",
       "id": "shared_api_service_apiservice_savestopwords"
     },
@@ -2442,7 +2792,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L111",
       "_origin": "ast",
-      "community": 52,
+      "community": 61,
       "norm_label": ".getmissingkeywordsettings()",
       "id": "shared_api_service_apiservice_getmissingkeywordsettings"
     },
@@ -2452,7 +2802,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L115",
       "_origin": "ast",
-      "community": 52,
+      "community": 61,
       "norm_label": ".savemissingkeywordsettings()",
       "id": "shared_api_service_apiservice_savemissingkeywordsettings"
     },
@@ -2462,7 +2812,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L119",
       "_origin": "ast",
-      "community": 41,
+      "community": 61,
       "norm_label": ".getpreferencemismatchsettings()",
       "id": "shared_api_service_apiservice_getpreferencemismatchsettings"
     },
@@ -2472,7 +2822,7 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L123",
       "_origin": "ast",
-      "community": 41,
+      "community": 61,
       "norm_label": ".savepreferencemismatchsettings()",
       "id": "shared_api_service_apiservice_savepreferencemismatchsettings"
     },
@@ -2502,7 +2852,7 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 50,
+      "community": 43,
       "norm_label": "app.component.ts",
       "id": "shared_app_component"
     },
@@ -2512,7 +2862,7 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 50,
+      "community": 43,
       "norm_label": "breakdownmode",
       "id": "shared_app_component_breakdownmode"
     },
@@ -2562,7 +2912,7 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L96",
       "_origin": "ast",
-      "community": 50,
+      "community": 55,
       "norm_label": ".openkeywordinfo()",
       "id": "shared_app_component_appcomponent_openkeywordinfo"
     },
@@ -2712,7 +3062,7 @@
       "source_file": "apps/ui/src/app/shared/clipboard.token.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 50,
+      "community": 55,
       "norm_label": "clipboard.token.ts",
       "id": "shared_clipboard_token"
     },
@@ -2722,7 +3072,7 @@
       "source_file": "apps/ui/src/app/shared/clipboard.token.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 50,
+      "community": 55,
       "norm_label": "clipboard_writer",
       "id": "shared_clipboard_token_clipboard_writer"
     },
@@ -2752,7 +3102,7 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": "embedding.service.ts",
       "id": "shared_embedding_service"
     },
@@ -2762,7 +3112,7 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": "embeddingservice",
       "id": "shared_embedding_service_embeddingservice"
     },
@@ -2772,7 +3122,7 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": ".constructor()",
       "id": "shared_embedding_service_embeddingservice_constructor"
     },
@@ -2782,7 +3132,7 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": ".warmup()",
       "id": "shared_embedding_service_embeddingservice_warmup"
     },
@@ -2792,7 +3142,7 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L25",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": ".embedresume()",
       "id": "shared_embedding_service_embeddingservice_embedresume"
     },
@@ -2802,7 +3152,7 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L32",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": ".invalidateresumecache()",
       "id": "shared_embedding_service_embeddingservice_invalidateresumecache"
     },
@@ -2812,7 +3162,7 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L36",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": ".embedpreference()",
       "id": "shared_embedding_service_embeddingservice_embedpreference"
     },
@@ -2822,7 +3172,7 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L43",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": ".invalidatepreferencecache()",
       "id": "shared_embedding_service_embeddingservice_invalidatepreferencecache"
     },
@@ -2832,7 +3182,7 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L47",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": ".embedjob()",
       "id": "shared_embedding_service_embeddingservice_embedjob"
     },
@@ -2842,7 +3192,7 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L52",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": ".embed()",
       "id": "shared_embedding_service_embeddingservice_embed"
     },
@@ -2852,7 +3202,7 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L58",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": ".getembedder()",
       "id": "shared_embedding_service_embeddingservice_getembedder"
     },
@@ -2872,7 +3222,7 @@
       "source_file": "apps/ui/src/app/shared/keyword-info-modal/keyword-info-modal.component.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 50,
+      "community": 55,
       "norm_label": "keyword-info-modal.component.ts",
       "id": "keyword_info_modal_keyword_info_modal_component"
     },
@@ -2882,7 +3232,7 @@
       "source_file": "apps/ui/src/app/shared/keyword-info-modal/keyword-info-modal.component.ts",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 50,
+      "community": 55,
       "norm_label": "keywordinfomode",
       "id": "keyword_info_modal_keyword_info_modal_component_keywordinfomode"
     },
@@ -2892,7 +3242,7 @@
       "source_file": "apps/ui/src/app/shared/keyword-info-modal/keyword-info-modal.component.ts",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 50,
+      "community": 55,
       "norm_label": "keywordinfomodalcomponent",
       "id": "keyword_info_modal_keyword_info_modal_component_keywordinfomodalcomponent"
     },
@@ -2902,7 +3252,7 @@
       "source_file": "apps/ui/src/app/shared/matcher.service.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "matcher.service.ts",
       "id": "shared_matcher_service"
     },
@@ -2912,7 +3262,7 @@
       "source_file": "apps/ui/src/app/shared/matcher.service.ts",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "matcherservice",
       "id": "shared_matcher_service_matcherservice"
     },
@@ -2922,7 +3272,7 @@
       "source_file": "apps/ui/src/app/shared/matcher.service.ts",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": ".constructor()",
       "id": "shared_matcher_service_matcherservice_constructor"
     },
@@ -2932,7 +3282,7 @@
       "source_file": "apps/ui/src/app/shared/matcher.service.ts",
       "source_location": "L26",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".scoresinglejob()",
       "id": "shared_matcher_service_matcherservice_scoresinglejob"
     },
@@ -2942,7 +3292,7 @@
       "source_file": "apps/ui/src/app/shared/modal-shell/modal-shell.component.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 50,
+      "community": 55,
       "norm_label": "modal-shell.component.ts",
       "id": "modal_shell_modal_shell_component"
     },
@@ -2952,7 +3302,7 @@
       "source_file": "apps/ui/src/app/shared/modal-shell/modal-shell.component.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 50,
+      "community": 55,
       "norm_label": "modalshellcomponent",
       "id": "modal_shell_modal_shell_component_modalshellcomponent"
     },
@@ -2962,7 +3312,7 @@
       "source_file": "apps/ui/src/app/shared/model-cache-dir.token.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": "model-cache-dir.token.ts",
       "id": "shared_model_cache_dir_token"
     },
@@ -2972,7 +3322,7 @@
       "source_file": "apps/ui/src/app/shared/model-cache-dir.token.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": "model_cache_dir",
       "id": "shared_model_cache_dir_token_model_cache_dir"
     },
@@ -2992,7 +3342,7 @@
       "source_file": "apps/ui/src/app/shared/model-host.token.ts",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": "modelhostconfig",
       "id": "shared_model_host_token_modelhostconfig"
     },
@@ -3012,7 +3362,7 @@
       "source_file": "apps/ui/src/app/shared/resume-parser.service.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "resume-parser.service.ts",
       "id": "shared_resume_parser_service"
     },
@@ -3022,7 +3372,7 @@
       "source_file": "apps/ui/src/app/shared/resume-parser.service.ts",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "resumeparserservice",
       "id": "shared_resume_parser_service_resumeparserservice"
     },
@@ -3032,7 +3382,7 @@
       "source_file": "apps/ui/src/app/shared/resume-parser.service.ts",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".parsepdf()",
       "id": "shared_resume_parser_service_resumeparserservice_parsepdf"
     },
@@ -3042,7 +3392,7 @@
       "source_file": "apps/ui/src/app/shared/resume-parser.service.ts",
       "source_location": "L36",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "extractpagetext()",
       "id": "shared_resume_parser_service_extractpagetext"
     },
@@ -3072,7 +3422,7 @@
       "source_file": "apps/ui/src/app/shared/score-info-modal/score-info-modal.component.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 50,
+      "community": 55,
       "norm_label": "score-info-modal.component.ts",
       "id": "score_info_modal_score_info_modal_component"
     },
@@ -3082,7 +3432,7 @@
       "source_file": "apps/ui/src/app/shared/score-info-modal/score-info-modal.component.ts",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 50,
+      "community": 55,
       "norm_label": "scoreinfomodalcomponent",
       "id": "score_info_modal_score_info_modal_component_scoreinfomodalcomponent"
     },
@@ -3312,7 +3662,7 @@
       "source_file": "apps/ui/src/app/shared/settings-drawer/settings-drawer.component.ts",
       "source_location": "L179",
       "_origin": "ast",
-      "community": 43,
+      "community": 55,
       "norm_label": ".openinfo()",
       "id": "settings_drawer_settings_drawer_component_settingsdrawercomponent_openinfo"
     },
@@ -3402,7 +3752,7 @@
       "source_file": "apps/ui/src/app/shared/settings-info-modal/settings-info-modal.component.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 50,
+      "community": 55,
       "norm_label": "settings-info-modal.component.ts",
       "id": "settings_info_modal_settings_info_modal_component"
     },
@@ -3412,7 +3762,7 @@
       "source_file": "apps/ui/src/app/shared/settings-info-modal/settings-info-modal.component.ts",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 43,
+      "community": 55,
       "norm_label": "settingsinfomode",
       "id": "settings_info_modal_settings_info_modal_component_settingsinfomode"
     },
@@ -3422,7 +3772,7 @@
       "source_file": "apps/ui/src/app/shared/settings-info-modal/settings-info-modal.component.ts",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 50,
+      "community": 55,
       "norm_label": "settingsinfomodalcomponent",
       "id": "settings_info_modal_settings_info_modal_component_settingsinfomodalcomponent"
     },
@@ -3432,7 +3782,7 @@
       "source_file": "apps/ui/src/app/shared/stopwords-modal/stopwords-modal.component.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 50,
+      "community": 55,
       "norm_label": "stopwords-modal.component.ts",
       "id": "stopwords_modal_stopwords_modal_component"
     },
@@ -3442,7 +3792,7 @@
       "source_file": "apps/ui/src/app/shared/stopwords-modal/stopwords-modal.component.ts",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 61,
+      "community": 55,
       "norm_label": "stopwordsmodalcomponent",
       "id": "stopwords_modal_stopwords_modal_component_stopwordsmodalcomponent"
     },
@@ -3452,7 +3802,7 @@
       "source_file": "apps/ui/src/app/shared/stopwords-modal/stopwords-modal.component.ts",
       "source_location": "L28",
       "_origin": "ast",
-      "community": 61,
+      "community": 55,
       "norm_label": ".constructor()",
       "id": "stopwords_modal_stopwords_modal_component_stopwordsmodalcomponent_constructor"
     },
@@ -3462,7 +3812,7 @@
       "source_file": "apps/ui/src/app/shared/stopwords-modal/stopwords-modal.component.ts",
       "source_location": "L40",
       "_origin": "ast",
-      "community": 61,
+      "community": 55,
       "norm_label": ".onsave()",
       "id": "stopwords_modal_stopwords_modal_component_stopwordsmodalcomponent_onsave"
     },
@@ -3472,7 +3822,7 @@
       "source_file": "apps/ui/src/app/shared/stopwords-modal/stopwords-modal.component.ts",
       "source_location": "L45",
       "_origin": "ast",
-      "community": 61,
+      "community": 55,
       "norm_label": ".onimportfile()",
       "id": "stopwords_modal_stopwords_modal_component_stopwordsmodalcomponent_onimportfile"
     },
@@ -3482,7 +3832,7 @@
       "source_file": "apps/ui/src/app/shared/stopwords-modal/stopwords-modal.component.ts",
       "source_location": "L60",
       "_origin": "ast",
-      "community": 61,
+      "community": 55,
       "norm_label": ".exporttoarray()",
       "id": "stopwords_modal_stopwords_modal_component_stopwordsmodalcomponent_exporttoarray"
     },
@@ -3492,7 +3842,7 @@
       "source_file": "apps/ui/src/app/shared/stopwords-modal/stopwords-modal.component.ts",
       "source_location": "L67",
       "_origin": "ast",
-      "community": 61,
+      "community": 55,
       "norm_label": ".parsewords()",
       "id": "stopwords_modal_stopwords_modal_component_stopwordsmodalcomponent_parsewords"
     },
@@ -3502,7 +3852,7 @@
       "source_file": "apps/ui/src/app/shared/storage/storage-adapter.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 52,
+      "community": 43,
       "norm_label": "storage-adapter.ts",
       "id": "storage_storage_adapter"
     },
@@ -3542,7 +3892,7 @@
       "source_file": "apps/ui/src/app/shared/storage/storage-adapter.ts",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 52,
+      "community": 43,
       "norm_label": "default_missing_keyword_settings",
       "id": "storage_storage_adapter_default_missing_keyword_settings"
     },
@@ -3562,7 +3912,7 @@
       "source_file": "apps/ui/src/app/shared/storage/storage-adapter.ts",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 52,
+      "community": 43,
       "norm_label": "default_preference_mismatch_settings",
       "id": "storage_storage_adapter_default_preference_mismatch_settings"
     },
@@ -3592,7 +3942,7 @@
       "source_file": "apps/ui/src/app/shared/storage/storage-adapter.ts",
       "source_location": "L67",
       "_origin": "ast",
-      "community": 52,
+      "community": 50,
       "norm_label": "storageadapter",
       "id": "storage_storage_adapter_storageadapter"
     },
@@ -4272,7 +4622,7 @@
       "source_file": "apps/ui/src/app/web/http-storage.adapter.ts",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 19,
+      "community": 52,
       "norm_label": "httpstorageadapter",
       "id": "web_http_storage_adapter_httpstorageadapter"
     },
@@ -4282,7 +4632,7 @@
       "source_file": "apps/ui/src/app/web/http-storage.adapter.ts",
       "source_location": "L40",
       "_origin": "ast",
-      "community": 19,
+      "community": 52,
       "norm_label": ".constructor()",
       "id": "web_http_storage_adapter_httpstorageadapter_constructor"
     },
@@ -4292,7 +4642,7 @@
       "source_file": "apps/ui/src/app/web/http-storage.adapter.ts",
       "source_location": "L46",
       "_origin": "ast",
-      "community": 19,
+      "community": 52,
       "norm_label": ".load()",
       "id": "web_http_storage_adapter_httpstorageadapter_load"
     },
@@ -4302,7 +4652,7 @@
       "source_file": "apps/ui/src/app/web/http-storage.adapter.ts",
       "source_location": "L74",
       "_origin": "ast",
-      "community": 19,
+      "community": 52,
       "norm_label": ".getresume()",
       "id": "web_http_storage_adapter_httpstorageadapter_getresume"
     },
@@ -4322,7 +4672,7 @@
       "source_file": "apps/ui/src/app/web/http-storage.adapter.ts",
       "source_location": "L95",
       "_origin": "ast",
-      "community": 19,
+      "community": 52,
       "norm_label": ".getstopwords()",
       "id": "web_http_storage_adapter_httpstorageadapter_getstopwords"
     },
@@ -4332,7 +4682,7 @@
       "source_file": "apps/ui/src/app/web/http-storage.adapter.ts",
       "source_location": "L99",
       "_origin": "ast",
-      "community": 19,
+      "community": 52,
       "norm_label": ".savestopwords()",
       "id": "web_http_storage_adapter_httpstorageadapter_savestopwords"
     },
@@ -4342,7 +4692,7 @@
       "source_file": "apps/ui/src/app/web/http-storage.adapter.ts",
       "source_location": "L104",
       "_origin": "ast",
-      "community": 19,
+      "community": 52,
       "norm_label": ".gettermboosts()",
       "id": "web_http_storage_adapter_httpstorageadapter_gettermboosts"
     },
@@ -4352,7 +4702,7 @@
       "source_file": "apps/ui/src/app/web/http-storage.adapter.ts",
       "source_location": "L108",
       "_origin": "ast",
-      "community": 19,
+      "community": 52,
       "norm_label": ".savetermboosts()",
       "id": "web_http_storage_adapter_httpstorageadapter_savetermboosts"
     },
@@ -4362,7 +4712,7 @@
       "source_file": "apps/ui/src/app/web/http-storage.adapter.ts",
       "source_location": "L113",
       "_origin": "ast",
-      "community": 19,
+      "community": 52,
       "norm_label": ".getmissingkeywordsettings()",
       "id": "web_http_storage_adapter_httpstorageadapter_getmissingkeywordsettings"
     },
@@ -4382,7 +4732,7 @@
       "source_file": "apps/ui/src/app/web/http-storage.adapter.ts",
       "source_location": "L122",
       "_origin": "ast",
-      "community": 19,
+      "community": 52,
       "norm_label": ".getpreferencemismatchsettings()",
       "id": "web_http_storage_adapter_httpstorageadapter_getpreferencemismatchsettings"
     },
@@ -4402,7 +4752,7 @@
       "source_file": "apps/ui/src/app/web/http-storage.adapter.ts",
       "source_location": "L133",
       "_origin": "ast",
-      "community": 19,
+      "community": 52,
       "norm_label": ".savehistoryentry()",
       "id": "web_http_storage_adapter_httpstorageadapter_savehistoryentry"
     },
@@ -8250,7 +8600,7 @@
       "source_file": "packages/mcp-server/src/index.ts",
       "source_location": "L31",
       "_origin": "ast",
-      "community": 0,
+      "community": 68,
       "norm_label": "embedder",
       "id": "src_index_embedder"
     },
@@ -9230,7 +9580,7 @@
       "source_file": "packages/scoring/src/constants.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 43,
       "norm_label": "constants.ts",
       "id": "src_constants"
     },
@@ -9270,7 +9620,7 @@
       "source_file": "packages/scoring/src/node-embedder.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 68,
       "norm_label": "node-embedder.ts",
       "id": "src_node_embedder"
     },
@@ -9280,7 +9630,7 @@
       "source_file": "packages/scoring/src/node-embedder.ts",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 0,
+      "community": 68,
       "norm_label": "nodeembedderoptions",
       "id": "src_node_embedder_nodeembedderoptions"
     },
@@ -9290,7 +9640,7 @@
       "source_file": "packages/scoring/src/node-embedder.ts",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 0,
+      "community": 68,
       "norm_label": "nodeembedder",
       "id": "src_node_embedder_nodeembedder"
     },
@@ -9300,7 +9650,7 @@
       "source_file": "packages/scoring/src/node-embedder.ts",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 0,
+      "community": 68,
       "norm_label": "createtransformersembedder()",
       "id": "src_node_embedder_createtransformersembedder"
     },
@@ -9490,7 +9840,7 @@
       "source_file": "packages/scoring/src/types.ts",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "jobinput",
       "id": "src_types_jobinput"
     },
@@ -9530,7 +9880,7 @@
       "source_file": "packages/scoring/src/types.ts",
       "source_location": "L25",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "termweight",
       "id": "src_types_termweight"
     },
@@ -9540,7 +9890,7 @@
       "source_file": "packages/scoring/src/types.ts",
       "source_location": "L30",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "termcount",
       "id": "src_types_termcount"
     },
@@ -9550,7 +9900,7 @@
       "source_file": "packages/scoring/src/types.ts",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "matchbreakdown",
       "id": "src_types_matchbreakdown"
     },
@@ -9560,7 +9910,7 @@
       "source_file": "packages/scoring/src/types.ts",
       "source_location": "L44",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "matchresult",
       "id": "src_types_matchresult"
     },
@@ -9580,7 +9930,7 @@
       "source_file": "packages/scoring/src/types.ts",
       "source_location": "L62",
       "_origin": "ast",
-      "community": 0,
+      "community": 68,
       "norm_label": "embedder",
       "id": "src_types_embedder"
     },
@@ -9610,7 +9960,7 @@
       "source_file": "packages/scoring/src/worker-embedder.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": "worker-embedder.ts",
       "id": "src_worker_embedder"
     },
@@ -9620,7 +9970,7 @@
       "source_file": "packages/scoring/src/worker-embedder.ts",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": "modelstatus",
       "id": "src_worker_embedder_modelstatus"
     },
@@ -9630,7 +9980,7 @@
       "source_file": "packages/scoring/src/worker-embedder.ts",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": "workerembedderoptions",
       "id": "src_worker_embedder_workerembedderoptions"
     },
@@ -9640,7 +9990,7 @@
       "source_file": "packages/scoring/src/worker-embedder.ts",
       "source_location": "L38",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": "workerembedder",
       "id": "src_worker_embedder_workerembedder"
     },
@@ -9650,7 +10000,7 @@
       "source_file": "packages/scoring/src/worker-embedder.ts",
       "source_location": "L45",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": "workermessage",
       "id": "src_worker_embedder_workermessage"
     },
@@ -9660,7 +10010,7 @@
       "source_file": "packages/scoring/src/worker-embedder.ts",
       "source_location": "L60",
       "_origin": "ast",
-      "community": 0,
+      "community": 19,
       "norm_label": "createworkerembedder()",
       "id": "src_worker_embedder_createworkerembedder"
     },
@@ -9720,7 +10070,7 @@
       "source_file": "packages/scoring/test/score.test.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 68,
       "norm_label": "score.test.ts",
       "id": "test_score_test"
     },
@@ -9730,7 +10080,7 @@
       "source_file": "packages/scoring/test/score.test.ts",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 0,
+      "community": 68,
       "norm_label": "fixturedir",
       "id": "test_score_test_fixturedir"
     },
@@ -9740,7 +10090,7 @@
       "source_file": "packages/scoring/test/score.test.ts",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 0,
+      "community": 68,
       "norm_label": "resume",
       "id": "test_score_test_resume"
     },
@@ -9750,7 +10100,7 @@
       "source_file": "packages/scoring/test/score.test.ts",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 0,
+      "community": 68,
       "norm_label": "jd",
       "id": "test_score_test_jd"
     },
@@ -9760,7 +10110,7 @@
       "source_file": "packages/scoring/test/score.test.ts",
       "source_location": "L25",
       "_origin": "ast",
-      "community": 0,
+      "community": 68,
       "norm_label": "fakeembedder()",
       "id": "test_score_test_fakeembedder"
     },
@@ -11020,7 +11370,7 @@
       "source_file": "packages/mcp-server/README.md",
       "source_location": "L41",
       "_origin": "ast",
-      "community": 63,
+      "community": 40,
       "norm_label": "setup",
       "id": "mcp_server_readme_setup"
     },
@@ -11030,7 +11380,7 @@
       "source_file": "packages/mcp-server/README.md",
       "source_location": "L43",
       "_origin": "ast",
-      "community": 63,
+      "community": 40,
       "norm_label": "option 1 \u2014 npx (no app required)",
       "id": "mcp_server_readme_option_1_npx_no_app_required"
     },
@@ -11040,7 +11390,7 @@
       "source_file": "packages/mcp-server/README.md",
       "source_location": "L114",
       "_origin": "ast",
-      "community": 63,
+      "community": 40,
       "norm_label": "option 2 \u2014 resurank desktop app (automatic)",
       "id": "mcp_server_readme_option_2_resurank_desktop_app_automatic"
     },
@@ -11190,7 +11540,7 @@
       "source_file": "packages/scoring/README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 39,
+      "community": 69,
       "norm_label": "@resurank/scoring",
       "id": "scoring_readme_resurank_scoring"
     },
@@ -11200,7 +11550,7 @@
       "source_file": "packages/scoring/README.md",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 39,
+      "community": 69,
       "norm_label": "api",
       "id": "scoring_readme_api"
     },
@@ -11210,7 +11560,7 @@
       "source_file": "packages/scoring/README.md",
       "source_location": "L32",
       "_origin": "ast",
-      "community": 39,
+      "community": 69,
       "norm_label": "subpath exports",
       "id": "scoring_readme_subpath_exports"
     },
@@ -11220,7 +11570,7 @@
       "source_file": "packages/scoring/README.md",
       "source_location": "L43",
       "_origin": "ast",
-      "community": 39,
+      "community": 69,
       "norm_label": "`embedder` interface",
       "id": "scoring_readme_embedder_interface"
     },
@@ -11330,7 +11680,7 @@
       "source_file": "packages/scoring/README.md",
       "source_location": "L213",
       "_origin": "ast",
-      "community": 39,
+      "community": 69,
       "norm_label": "publishing a new version",
       "id": "scoring_readme_publishing_a_new_version"
     },
@@ -11340,7 +11690,7 @@
       "source_file": "packages/scoring/README.md",
       "source_location": "L254",
       "_origin": "ast",
-      "community": 39,
+      "community": 69,
       "norm_label": "after publishing a new scoring version",
       "id": "scoring_readme_after_publishing_a_new_scoring_version"
     },
@@ -11350,7 +11700,7 @@
       "source_file": "packages/scoring/README.md",
       "source_location": "L285",
       "_origin": "ast",
-      "community": 39,
+      "community": 69,
       "norm_label": "license",
       "id": "scoring_readme_license"
     },
@@ -12282,6 +12632,1106 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular",
+      "target": "ui_angular_cli"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular",
+      "target": "ui_angular_newprojectroot"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular",
+      "target": "ui_angular_projects"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular",
+      "target": "ui_angular_schema"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular",
+      "target": "ui_angular_version"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_cli",
+      "target": "ui_angular_cli_analytics"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_cli",
+      "target": "ui_angular_cli_packagemanager"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_projects",
+      "target": "ui_angular_projects_frontend"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L41",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_projects_frontend",
+      "target": "ui_angular_frontend_architect"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_projects_frontend",
+      "target": "ui_angular_frontend_prefix"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_projects_frontend",
+      "target": "ui_angular_frontend_projecttype"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_projects_frontend",
+      "target": "ui_angular_frontend_root"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_projects_frontend",
+      "target": "ui_angular_frontend_schematics"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_projects_frontend",
+      "target": "ui_angular_frontend_sourceroot"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_frontend_schematics",
+      "target": "ui_angular_schematics_schematics_angular_class"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_frontend_schematics",
+      "target": "ui_angular_schematics_schematics_angular_component"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_frontend_schematics",
+      "target": "ui_angular_schematics_schematics_angular_directive"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_frontend_schematics",
+      "target": "ui_angular_schematics_schematics_angular_guard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_frontend_schematics",
+      "target": "ui_angular_schematics_schematics_angular_interceptor"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_frontend_schematics",
+      "target": "ui_angular_schematics_schematics_angular_pipe"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_frontend_schematics",
+      "target": "ui_angular_schematics_schematics_angular_resolver"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L34",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_frontend_schematics",
+      "target": "ui_angular_schematics_schematics_angular_service"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_schematics_schematics_angular_class",
+      "target": "ui_angular_schematics_angular_class_skiptests"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_schematics_schematics_angular_component",
+      "target": "ui_angular_schematics_angular_component_skiptests"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_schematics_schematics_angular_directive",
+      "target": "ui_angular_schematics_angular_directive_skiptests"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_schematics_schematics_angular_guard",
+      "target": "ui_angular_schematics_angular_guard_skiptests"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_schematics_schematics_angular_interceptor",
+      "target": "ui_angular_schematics_angular_interceptor_skiptests"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_schematics_schematics_angular_pipe",
+      "target": "ui_angular_schematics_angular_pipe_skiptests"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_schematics_schematics_angular_resolver",
+      "target": "ui_angular_schematics_angular_resolver_skiptests"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_schematics_schematics_angular_service",
+      "target": "ui_angular_schematics_angular_service_skiptests"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_frontend_architect",
+      "target": "ui_angular_architect_build"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L174",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_frontend_architect",
+      "target": "ui_angular_architect_extract_i18n"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L156",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_frontend_architect",
+      "target": "ui_angular_architect_serve"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L177",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_frontend_architect",
+      "target": "ui_angular_architect_test"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_architect_build",
+      "target": "ui_angular_build_builder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L108",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_architect_build",
+      "target": "ui_angular_build_configurations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L154",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_architect_build",
+      "target": "ui_angular_build_defaultconfiguration"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L44",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_architect_build",
+      "target": "ui_angular_build_options"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L52",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_build_options",
+      "target": "ui_angular_options_assets"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_build_options",
+      "target": "ui_angular_options_browser"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L46",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_build_options",
+      "target": "ui_angular_options_index"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L45",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_build_options",
+      "target": "ui_angular_options_outputpath"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L48",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_build_options",
+      "target": "ui_angular_options_polyfills"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L106",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_build_options",
+      "target": "ui_angular_options_scripts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L103",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_build_options",
+      "target": "ui_angular_options_styles"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_build_options",
+      "target": "ui_angular_options_tsconfig"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L180",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_test_options",
+      "target": "ui_angular_options_polyfills"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L184",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_test_options",
+      "target": "ui_angular_options_tsconfig"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L185",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_test_options",
+      "target": "ui_angular_options_assets"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L191",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_test_options",
+      "target": "ui_angular_options_styles"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L194",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_test_options",
+      "target": "ui_angular_options_scripts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L132",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_build_configurations",
+      "target": "ui_angular_configurations_development"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L109",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_build_configurations",
+      "target": "ui_angular_configurations_production"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L137",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_build_configurations",
+      "target": "ui_angular_configurations_web"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L145",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_build_configurations",
+      "target": "ui_angular_configurations_web_development"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L110",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_configurations_production",
+      "target": "ui_angular_production_budgets"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L160",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_configurations_production",
+      "target": "ui_angular_production_buildtarget"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L123",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_configurations_production",
+      "target": "ui_angular_production_optimization"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L122",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_configurations_production",
+      "target": "ui_angular_production_outputhashing"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L159",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_serve_configurations",
+      "target": "ui_angular_configurations_production"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L163",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_configurations_development",
+      "target": "ui_angular_development_buildtarget"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L134",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_configurations_development",
+      "target": "ui_angular_development_extractlicenses"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L133",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_configurations_development",
+      "target": "ui_angular_development_optimization"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L135",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_configurations_development",
+      "target": "ui_angular_development_sourcemap"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L162",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_serve_configurations",
+      "target": "ui_angular_configurations_development"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L166",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_configurations_web",
+      "target": "ui_angular_web_buildtarget"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L138",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_configurations_web",
+      "target": "ui_angular_web_filereplacements"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L165",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_serve_configurations",
+      "target": "ui_angular_configurations_web"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L172",
+      "weight": 1.0,
+      "source": "ui_angular_configurations_web_development",
+      "target": "ui_angular_web_development_allowedhosts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L169",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_configurations_web_development",
+      "target": "ui_angular_web_development_buildtarget"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L146",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_configurations_web_development",
+      "target": "ui_angular_web_development_filereplacements"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L171",
+      "weight": 1.0,
+      "source": "ui_angular_configurations_web_development",
+      "target": "ui_angular_web_development_host",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L170",
+      "weight": 1.0,
+      "source": "ui_angular_configurations_web_development",
+      "target": "ui_angular_web_development_proxyconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L168",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_serve_configurations",
+      "target": "ui_angular_configurations_web_development"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L157",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_architect_serve",
+      "target": "ui_angular_serve_builder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L158",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_architect_serve",
+      "target": "ui_angular_serve_configurations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L172",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_architect_serve",
+      "target": "ui_angular_serve_defaultconfiguration"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L175",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_architect_extract_i18n",
+      "target": "ui_angular_extract_i18n_builder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L178",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_architect_test",
+      "target": "ui_angular_test_builder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/angular.json",
+      "source_location": "L179",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_angular_architect_test",
+      "target": "ui_angular_test_options"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context",
+      "target": "docs_semantic_search_context_context_semantic_search_over_saved_jobs_and_resumes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L221",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_context_semantic_search_over_saved_jobs_and_resumes",
+      "target": "docs_semantic_search_context_key_files"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L237",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_context_semantic_search_over_saved_jobs_and_resumes",
+      "target": "docs_semantic_search_context_one_correction_to_make_if_this_ships"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L126",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_context_semantic_search_over_saved_jobs_and_resumes",
+      "target": "docs_semantic_search_context_open_design_questions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L178",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_context_semantic_search_over_saved_jobs_and_resumes",
+      "target": "docs_semantic_search_context_recommended_starting_shape"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L196",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_context_semantic_search_over_saved_jobs_and_resumes",
+      "target": "docs_semantic_search_context_repo_constraints_to_respect"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_context_semantic_search_over_saved_jobs_and_resumes",
+      "target": "docs_semantic_search_context_the_feature"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_context_semantic_search_over_saved_jobs_and_resumes",
+      "target": "docs_semantic_search_context_verified_facts_about_the_current_system"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_context_semantic_search_over_saved_jobs_and_resumes",
+      "target": "docs_semantic_search_context_why_this_idea_came_up"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L85",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_verified_facts_about_the_current_system",
+      "target": "docs_semantic_search_context_current_database_schema_apps_web_src_db_schema_ts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L59",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_verified_facts_about_the_current_system",
+      "target": "docs_semantic_search_context_exact_embedding_inputs_critical_any_cache_index_key_must_match_these"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L110",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_verified_facts_about_the_current_system",
+      "target": "docs_semantic_search_context_infrastructure_blockers_found"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L101",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_verified_facts_about_the_current_system",
+      "target": "docs_semantic_search_context_matchresult_shape_packages_scoring_src_types_ts_44"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_verified_facts_about_the_current_system",
+      "target": "docs_semantic_search_context_scoring_model"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-context.md",
+      "source_location": "L71",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_context_verified_facts_about_the_current_system",
+      "target": "docs_semantic_search_context_where_inference_runs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan",
+      "target": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18",
+      "target": "docs_semantic_search_plan_context"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L361",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18",
+      "target": "docs_semantic_search_plan_critical_files"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L44",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18",
+      "target": "docs_semantic_search_plan_phase_a_packages_scoring_export_the_embedding_input_builders"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L91",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18",
+      "target": "docs_semantic_search_plan_phase_b_infra"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L112",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18",
+      "target": "docs_semantic_search_plan_phase_c_schema_migration"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L163",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18",
+      "target": "docs_semantic_search_plan_phase_d_server_route"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L212",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18",
+      "target": "docs_semantic_search_plan_phase_e_tests"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L244",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18",
+      "target": "docs_semantic_search_plan_phase_f_client_data_path"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L276",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18",
+      "target": "docs_semantic_search_plan_phase_g_ui"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L307",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18",
+      "target": "docs_semantic_search_plan_phase_h_docs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L347",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18",
+      "target": "docs_semantic_search_plan_risks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L330",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_find_similar_saved_jobs_semantic_search_over_score_history_pgvector_pg18",
+      "target": "docs_semantic_search_plan_verification"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_context",
+      "target": "docs_semantic_search_plan_decisions_taken_these_close_doc_questions_2_3_4_5_and_half_of_7"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/semantic-search-plan.md",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_semantic_search_plan_context",
+      "target": "docs_semantic_search_plan_why_the_version_column_is_non_negotiable"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "README.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -12345,9 +13795,9 @@
       "source_file": "README.md",
       "source_location": "L94",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_resurank",
-      "target": "readme_env_vars_desktop_app",
-      "confidence_score": 1.0
+      "target": "readme_env_vars_desktop_app"
     },
     {
       "relation": "contains",
@@ -12445,9 +13895,9 @@
       "source_file": "README.md",
       "source_location": "L63",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_resurank",
-      "target": "readme_web_app",
-      "confidence_score": 1.0
+      "target": "readme_web_app"
     },
     {
       "relation": "contains",
@@ -13251,776 +14701,6 @@
       "confidence_score": 1.0,
       "source": "desktop_tsconfig_compileroptions",
       "target": "desktop_tsconfig_compileroptions_rootdir"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular",
-      "target": "ui_angular_cli"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular",
-      "target": "ui_angular_newprojectroot"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular",
-      "target": "ui_angular_projects"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular",
-      "target": "ui_angular_schema"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular",
-      "target": "ui_angular_version"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_cli",
-      "target": "ui_angular_cli_analytics"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_cli",
-      "target": "ui_angular_cli_packagemanager"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_projects",
-      "target": "ui_angular_projects_frontend"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L41",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_projects_frontend",
-      "target": "ui_angular_frontend_architect"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L40",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_projects_frontend",
-      "target": "ui_angular_frontend_prefix"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_projects_frontend",
-      "target": "ui_angular_frontend_projecttype"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L38",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_projects_frontend",
-      "target": "ui_angular_frontend_root"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_projects_frontend",
-      "target": "ui_angular_frontend_schematics"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L39",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_projects_frontend",
-      "target": "ui_angular_frontend_sourceroot"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L13",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_frontend_schematics",
-      "target": "ui_angular_schematics_schematics_angular_class"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_frontend_schematics",
-      "target": "ui_angular_schematics_schematics_angular_component"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L19",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_frontend_schematics",
-      "target": "ui_angular_schematics_schematics_angular_directive"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L22",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_frontend_schematics",
-      "target": "ui_angular_schematics_schematics_angular_guard"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L25",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_frontend_schematics",
-      "target": "ui_angular_schematics_schematics_angular_interceptor"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L28",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_frontend_schematics",
-      "target": "ui_angular_schematics_schematics_angular_pipe"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L31",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_frontend_schematics",
-      "target": "ui_angular_schematics_schematics_angular_resolver"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L34",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_frontend_schematics",
-      "target": "ui_angular_schematics_schematics_angular_service"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_schematics_schematics_angular_class",
-      "target": "ui_angular_schematics_angular_class_skiptests"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L17",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_schematics_schematics_angular_component",
-      "target": "ui_angular_schematics_angular_component_skiptests"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_schematics_schematics_angular_directive",
-      "target": "ui_angular_schematics_angular_directive_skiptests"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L23",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_schematics_schematics_angular_guard",
-      "target": "ui_angular_schematics_angular_guard_skiptests"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L26",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_schematics_schematics_angular_interceptor",
-      "target": "ui_angular_schematics_angular_interceptor_skiptests"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L29",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_schematics_schematics_angular_pipe",
-      "target": "ui_angular_schematics_angular_pipe_skiptests"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L32",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_schematics_schematics_angular_resolver",
-      "target": "ui_angular_schematics_angular_resolver_skiptests"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L35",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_schematics_schematics_angular_service",
-      "target": "ui_angular_schematics_angular_service_skiptests"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L42",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_frontend_architect",
-      "target": "ui_angular_architect_build"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L174",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_frontend_architect",
-      "target": "ui_angular_architect_extract_i18n"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L156",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_frontend_architect",
-      "target": "ui_angular_architect_serve"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L177",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_frontend_architect",
-      "target": "ui_angular_architect_test"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L43",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_architect_build",
-      "target": "ui_angular_build_builder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L108",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_architect_build",
-      "target": "ui_angular_build_configurations"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L154",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_architect_build",
-      "target": "ui_angular_build_defaultconfiguration"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L44",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_architect_build",
-      "target": "ui_angular_build_options"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L52",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_build_options",
-      "target": "ui_angular_options_assets"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L47",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_build_options",
-      "target": "ui_angular_options_browser"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L46",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_build_options",
-      "target": "ui_angular_options_index"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L45",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_build_options",
-      "target": "ui_angular_options_outputpath"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L48",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_build_options",
-      "target": "ui_angular_options_polyfills"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L106",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_build_options",
-      "target": "ui_angular_options_scripts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L103",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_build_options",
-      "target": "ui_angular_options_styles"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L51",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_build_options",
-      "target": "ui_angular_options_tsconfig"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L180",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_test_options",
-      "target": "ui_angular_options_polyfills"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L184",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_test_options",
-      "target": "ui_angular_options_tsconfig"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L185",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_test_options",
-      "target": "ui_angular_options_assets"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L191",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_test_options",
-      "target": "ui_angular_options_styles"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L194",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_test_options",
-      "target": "ui_angular_options_scripts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L132",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_build_configurations",
-      "target": "ui_angular_configurations_development"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L109",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_build_configurations",
-      "target": "ui_angular_configurations_production"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L137",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_build_configurations",
-      "target": "ui_angular_configurations_web"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L145",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_build_configurations",
-      "target": "ui_angular_configurations_web_development"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L110",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_configurations_production",
-      "target": "ui_angular_production_budgets"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L160",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_configurations_production",
-      "target": "ui_angular_production_buildtarget"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L123",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_configurations_production",
-      "target": "ui_angular_production_optimization"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L122",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_configurations_production",
-      "target": "ui_angular_production_outputhashing"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L159",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_serve_configurations",
-      "target": "ui_angular_configurations_production"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L163",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_configurations_development",
-      "target": "ui_angular_development_buildtarget"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L134",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_configurations_development",
-      "target": "ui_angular_development_extractlicenses"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L133",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_configurations_development",
-      "target": "ui_angular_development_optimization"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L135",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_configurations_development",
-      "target": "ui_angular_development_sourcemap"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L162",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_serve_configurations",
-      "target": "ui_angular_configurations_development"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L166",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_configurations_web",
-      "target": "ui_angular_web_buildtarget"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L138",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_configurations_web",
-      "target": "ui_angular_web_filereplacements"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L165",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_serve_configurations",
-      "target": "ui_angular_configurations_web"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L169",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_configurations_web_development",
-      "target": "ui_angular_web_development_buildtarget"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L146",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_configurations_web_development",
-      "target": "ui_angular_web_development_filereplacements"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L168",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_serve_configurations",
-      "target": "ui_angular_configurations_web_development"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L157",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_architect_serve",
-      "target": "ui_angular_serve_builder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L158",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_architect_serve",
-      "target": "ui_angular_serve_configurations"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L172",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_architect_serve",
-      "target": "ui_angular_serve_defaultconfiguration"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L175",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_architect_extract_i18n",
-      "target": "ui_angular_extract_i18n_builder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L178",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_architect_test",
-      "target": "ui_angular_test_builder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/angular.json",
-      "source_location": "L179",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_angular_architect_test",
-      "target": "ui_angular_test_options"
     },
     {
       "relation": "contains",
@@ -31735,5 +32415,5 @@
       "source_file": "resources/test_files/senior_software_engineer.txt"
     }
   ],
-  "built_at_commit": "4f1601739a5059e56b634d35561369d090cecab6"
+  "built_at_commit": "958b10d5eeb5a7a7032dd5d7e27a62826d7fa7f6"
 }
