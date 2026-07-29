@@ -10,9 +10,9 @@
     "semantic_hash": "049154f4930b22a4d64a92a4cee4e21f"
   },
   "packages/mcp-server/package.json": {
-    "mtime": 1780982007.2726245,
-    "ast_hash": "70b24510610c9e8bb2dec376587e121a",
-    "semantic_hash": "70b24510610c9e8bb2dec376587e121a"
+    "mtime": 1785350377.625,
+    "ast_hash": "210fe01f03bea9608fa6f847f5cb5f85",
+    "semantic_hash": ""
   },
   "packages/mcp-server/src/index.ts": {
     "mtime": 1780679990.587209,
