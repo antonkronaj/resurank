@@ -58,6 +58,7 @@ export class AppComponent implements OnInit {
   scoreInfoOpen = signal(false);
   keywordInfoOpen = signal(false);
   keywordInfoMode = signal<KeywordInfoMode>('weighted');
+  jobKeywordsOpen = signal(false);
   message = signal('');
   private api = inject(ApiService);
   private embeddingService = inject(EmbeddingService);
@@ -82,6 +83,10 @@ export class AppComponent implements OnInit {
 
   toggleTheme(): void {
     this.themeService.toggle();
+  }
+
+  toggleJobKeywordsOpen(): void {
+    this.jobKeywordsOpen.update((open) => !open);
   }
   readonly modelStatus = computed<ModelStatus | null>(() => this.embeddingService.status());
 

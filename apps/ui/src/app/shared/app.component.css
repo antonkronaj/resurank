@@ -242,6 +242,40 @@
   align-items: center;
 }
 
+.panel-head-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+
+/* CSS-drawn triangle rather than a font glyph: `▸` carries asymmetric side
+   bearings that leave it visibly off-centre once rotated. Spacing must stay
+   in `margin` — `padding` sits inside the transformed box and rotates with
+   it, shifting the icon when open. */
+.panel-toggle-icon {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 9px;
+  vertical-align: middle;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 9px solid var(--text-muted);
+  transition: transform 0.15s ease;
+}
+
+.panel-toggle-icon--open {
+  transform: rotate(90deg);
+}
+
 .panel-title {
   font-size: 14px;
   font-weight: 700;

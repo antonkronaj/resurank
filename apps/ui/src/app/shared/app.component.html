@@ -153,20 +153,29 @@
       } @if (result(); as r) {
       <section class="panel">
         <div class="panel-head">
-          <h2 class="panel-title">Job description keywords</h2>
-          <div class="seg">
-            <button (click)="setBreakdownMode('weighted')"
-                    [class.active]="breakdownMode() === 'weighted'"
-                    class="seg-btn">Weighted
-            </button>
-            <button (click)="setBreakdownMode('counts')"
-                    [class.active]="breakdownMode() === 'counts'"
-                    class="seg-btn">Raw counts
-            </button>
-          </div>
+          <button (click)="toggleJobKeywordsOpen()" [attr.aria-expanded]="jobKeywordsOpen()"
+                  class="panel-head-toggle" type="button">
+            <h2 class="panel-title">
+              <span [class.panel-toggle-icon--open]="jobKeywordsOpen()" aria-hidden="true"
+                    class="panel-toggle-icon"></span>
+              Job description keywords
+            </h2>
+          </button>
+          @if (jobKeywordsOpen()) {
+            <div class="seg">
+              <button (click)="setBreakdownMode('weighted')"
+                      [class.active]="breakdownMode() === 'weighted'"
+                      class="seg-btn">Weighted
+              </button>
+              <button (click)="setBreakdownMode('counts')"
+                      [class.active]="breakdownMode() === 'counts'"
+                      class="seg-btn">Raw counts
+              </button>
+            </div>
+          }
         </div>
 
-        @if (breakdownMode() === 'weighted') {
+        @if (jobKeywordsOpen() && breakdownMode() === 'weighted') {
           <div class="kw-table">
             <div class="kw-info-row">
               <span class="text-muted small">Terms ranked by TF-IDF weight</span>
@@ -196,7 +205,7 @@
               <p class="text-muted small">No terms extracted.</p>
             }
           </div>
-        } @if (breakdownMode() === 'counts') {
+        } @if (jobKeywordsOpen() && breakdownMode() === 'counts') {
         <div class="kw-table">
           <div class="kw-info-row">
             <span class="text-muted small">Terms ranked by raw occurrence count</span>
