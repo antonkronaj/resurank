@@ -107,14 +107,164 @@
   },
   "nodes": [
     {
+      "label": "account.component.ts",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/account/account.component.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "account_account_component",
+      "community": 73,
+      "norm_label": "account.component.ts"
+    },
+    {
+      "label": "AccountComponent",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/account/account.component.ts",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "account_account_component_accountcomponent",
+      "community": 73,
+      "norm_label": "accountcomponent"
+    },
+    {
+      "label": ".ngOnInit()",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/account/account.component.ts",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "account_account_component_accountcomponent_ngoninit",
+      "community": 73,
+      "norm_label": ".ngoninit()"
+    },
+    {
+      "label": ".saveProfile()",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/account/account.component.ts",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "account_account_component_accountcomponent_saveprofile",
+      "community": 73,
+      "norm_label": ".saveprofile()"
+    },
+    {
+      "label": ".updatePassword()",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/account/account.component.ts",
+      "source_location": "L79",
+      "_origin": "ast",
+      "id": "account_account_component_accountcomponent_updatepassword",
+      "community": 73,
+      "norm_label": ".updatepassword()"
+    },
+    {
+      "label": ".signOutEverywhere()",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/account/account.component.ts",
+      "source_location": "L95",
+      "_origin": "ast",
+      "id": "account_account_component_accountcomponent_signouteverywhere",
+      "community": 73,
+      "norm_label": ".signouteverywhere()"
+    },
+    {
+      "label": ".exportData()",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/account/account.component.ts",
+      "source_location": "L105",
+      "_origin": "ast",
+      "id": "account_account_component_accountcomponent_exportdata",
+      "community": 73,
+      "norm_label": ".exportdata()"
+    },
+    {
+      "label": ".confirmDelete()",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/account/account.component.ts",
+      "source_location": "L128",
+      "_origin": "ast",
+      "id": "account_account_component_accountcomponent_confirmdelete",
+      "community": 73,
+      "norm_label": ".confirmdelete()"
+    },
+    {
+      "label": "errorMessage()",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/account/account.component.ts",
+      "source_location": "L142",
+      "_origin": "ast",
+      "id": "account_account_component_errormessage",
+      "community": 73,
+      "norm_label": "errormessage()"
+    },
+    {
+      "label": "nav-shell.component.ts",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "web_nav_shell_component",
+      "community": 75,
+      "norm_label": "nav-shell.component.ts"
+    },
+    {
+      "label": "NavShellComponent",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "web_nav_shell_component_navshellcomponent",
+      "community": 74,
+      "norm_label": "navshellcomponent"
+    },
+    {
+      "label": ".toggleMenu()",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
+      "source_location": "L45",
+      "_origin": "ast",
+      "id": "web_nav_shell_component_navshellcomponent_togglemenu",
+      "community": 74,
+      "norm_label": ".togglemenu()"
+    },
+    {
+      "label": ".toggleTheme()",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
+      "source_location": "L49",
+      "_origin": "ast",
+      "id": "web_nav_shell_component_navshellcomponent_toggletheme",
+      "community": 74,
+      "norm_label": ".toggletheme()"
+    },
+    {
+      "label": ".closeMenu()",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
+      "source_location": "L54",
+      "_origin": "ast",
+      "id": "web_nav_shell_component_navshellcomponent_closemenu",
+      "community": 74,
+      "norm_label": ".closemenu()"
+    },
+    {
+      "label": ".signOut()",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "web_nav_shell_component_navshellcomponent_signout",
+      "community": 74,
+      "norm_label": ".signout()"
+    },
+    {
       "label": "app.component.ts",
       "file_type": "code",
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "shared_app_component",
-      "community": 43,
-      "norm_label": "app.component.ts"
+      "community": 69,
+      "norm_label": "app.component.ts",
+      "id": "shared_app_component"
     },
     {
       "label": "BreakdownMode",
@@ -122,9 +272,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L17",
       "_origin": "ast",
-      "id": "shared_app_component_breakdownmode",
-      "community": 43,
-      "norm_label": "breakdownmode"
+      "community": 69,
+      "norm_label": "breakdownmode",
+      "id": "shared_app_component_breakdownmode"
     },
     {
       "label": "AppComponent",
@@ -132,9 +282,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L33",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent",
       "community": 55,
-      "norm_label": "appcomponent"
+      "norm_label": "appcomponent",
+      "id": "shared_app_component_appcomponent"
     },
     {
       "label": ".reloadResume()",
@@ -142,9 +292,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L77",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_reloadresume",
       "community": 55,
-      "norm_label": ".reloadresume()"
+      "norm_label": ".reloadresume()",
+      "id": "shared_app_component_appcomponent_reloadresume"
     },
     {
       "label": ".toggleTheme()",
@@ -152,9 +302,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L84",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_toggletheme",
       "community": 55,
-      "norm_label": ".toggletheme()"
+      "norm_label": ".toggletheme()",
+      "id": "shared_app_component_appcomponent_toggletheme"
     },
     {
       "label": ".toggleJobKeywordsOpen()",
@@ -162,9 +312,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L88",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_togglejobkeywordsopen",
       "community": 55,
-      "norm_label": ".togglejobkeywordsopen()"
+      "norm_label": ".togglejobkeywordsopen()",
+      "id": "shared_app_component_appcomponent_togglejobkeywordsopen"
     },
     {
       "label": ".openKeywordInfo()",
@@ -172,9 +322,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L93",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_openkeywordinfo",
-      "community": 43,
-      "norm_label": ".openkeywordinfo()"
+      "community": 69,
+      "norm_label": ".openkeywordinfo()",
+      "id": "shared_app_component_appcomponent_openkeywordinfo"
     },
     {
       "label": ".ngOnInit()",
@@ -182,9 +332,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L98",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_ngoninit",
       "community": 55,
-      "norm_label": ".ngoninit()"
+      "norm_label": ".ngoninit()",
+      "id": "shared_app_component_appcomponent_ngoninit"
     },
     {
       "label": ".loadAll()",
@@ -192,9 +342,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L102",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_loadall",
       "community": 55,
-      "norm_label": ".loadall()"
+      "norm_label": ".loadall()",
+      "id": "shared_app_component_appcomponent_loadall"
     },
     {
       "label": ".onUploadResume()",
@@ -202,9 +352,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L110",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_onuploadresume",
       "community": 55,
-      "norm_label": ".onuploadresume()"
+      "norm_label": ".onuploadresume()",
+      "id": "shared_app_component_appcomponent_onuploadresume"
     },
     {
       "label": ".evaluate()",
@@ -212,9 +362,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L128",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_evaluate",
       "community": 55,
-      "norm_label": ".evaluate()"
+      "norm_label": ".evaluate()",
+      "id": "shared_app_component_appcomponent_evaluate"
     },
     {
       "label": ".scorePct()",
@@ -222,9 +372,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L154",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_scorepct",
       "community": 55,
-      "norm_label": ".scorepct()"
+      "norm_label": ".scorepct()",
+      "id": "shared_app_component_appcomponent_scorepct"
     },
     {
       "label": ".openStopwordsModal()",
@@ -232,9 +382,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L160",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_openstopwordsmodal",
       "community": 55,
-      "norm_label": ".openstopwordsmodal()"
+      "norm_label": ".openstopwordsmodal()",
+      "id": "shared_app_component_appcomponent_openstopwordsmodal"
     },
     {
       "label": ".onSaveStopwords()",
@@ -242,9 +392,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L170",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_onsavestopwords",
       "community": 55,
-      "norm_label": ".onsavestopwords()"
+      "norm_label": ".onsavestopwords()",
+      "id": "shared_app_component_appcomponent_onsavestopwords"
     },
     {
       "label": ".onSaveTermBoosts()",
@@ -252,9 +402,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L186",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_onsavetermboosts",
       "community": 55,
-      "norm_label": ".onsavetermboosts()"
+      "norm_label": ".onsavetermboosts()",
+      "id": "shared_app_component_appcomponent_onsavetermboosts"
     },
     {
       "label": ".setBreakdownMode()",
@@ -262,9 +412,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L201",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_setbreakdownmode",
       "community": 55,
-      "norm_label": ".setbreakdownmode()"
+      "norm_label": ".setbreakdownmode()",
+      "id": "shared_app_component_appcomponent_setbreakdownmode"
     },
     {
       "label": ".addToExclusion()",
@@ -272,9 +422,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L205",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_addtoexclusion",
       "community": 55,
-      "norm_label": ".addtoexclusion()"
+      "norm_label": ".addtoexclusion()",
+      "id": "shared_app_component_appcomponent_addtoexclusion"
     },
     {
       "label": ".undoExclusion()",
@@ -282,9 +432,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L218",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_undoexclusion",
       "community": 55,
-      "norm_label": ".undoexclusion()"
+      "norm_label": ".undoexclusion()",
+      "id": "shared_app_component_appcomponent_undoexclusion"
     },
     {
       "label": ".togglePin()",
@@ -292,9 +442,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L234",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_togglepin",
       "community": 55,
-      "norm_label": ".togglepin()"
+      "norm_label": ".togglepin()",
+      "id": "shared_app_component_appcomponent_togglepin"
     },
     {
       "label": ".onSaveMissingSettings()",
@@ -302,9 +452,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L252",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_onsavemissingsettings",
       "community": 55,
-      "norm_label": ".onsavemissingsettings()"
+      "norm_label": ".onsavemissingsettings()",
+      "id": "shared_app_component_appcomponent_onsavemissingsettings"
     },
     {
       "label": ".onSavePreferenceSettings()",
@@ -312,9 +462,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L267",
       "_origin": "ast",
-      "id": "shared_app_component_appcomponent_onsavepreferencesettings",
       "community": 55,
-      "norm_label": ".onsavepreferencesettings()"
+      "norm_label": ".onsavepreferencesettings()",
+      "id": "shared_app_component_appcomponent_onsavepreferencesettings"
     },
     {
       "label": "theme.service.ts",
@@ -355,76 +505,6 @@
       "community": 75,
       "norm_label": ".toggle()",
       "id": "shared_theme_service_themeservice_toggle"
-    },
-    {
-      "label": "nav-shell.component.ts",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 75,
-      "norm_label": "nav-shell.component.ts",
-      "id": "web_nav_shell_component"
-    },
-    {
-      "label": "NavShellComponent",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
-      "source_location": "L27",
-      "_origin": "ast",
-      "community": 74,
-      "norm_label": "navshellcomponent",
-      "id": "web_nav_shell_component_navshellcomponent"
-    },
-    {
-      "label": ".toggleMenu()",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
-      "source_location": "L45",
-      "_origin": "ast",
-      "community": 74,
-      "norm_label": ".togglemenu()",
-      "id": "web_nav_shell_component_navshellcomponent_togglemenu"
-    },
-    {
-      "label": ".toggleTheme()",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
-      "source_location": "L49",
-      "_origin": "ast",
-      "community": 74,
-      "norm_label": ".toggletheme()",
-      "id": "web_nav_shell_component_navshellcomponent_toggletheme"
-    },
-    {
-      "label": ".closeMenu()",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
-      "source_location": "L54",
-      "_origin": "ast",
-      "community": 74,
-      "norm_label": ".closemenu()",
-      "id": "web_nav_shell_component_navshellcomponent_closemenu"
-    },
-    {
-      "label": ".signOut()",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
-      "source_location": "L58",
-      "_origin": "ast",
-      "community": 74,
-      "norm_label": ".signout()",
-      "id": "web_nav_shell_component_navshellcomponent_signout"
-    },
-    {
-      "label": ".signOutEverywhere()",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
-      "source_location": "L64",
-      "_origin": "ast",
-      "community": 74,
-      "norm_label": ".signouteverywhere()",
-      "id": "web_nav_shell_component_navshellcomponent_signouteverywhere"
     },
     {
       "label": "privacy.component.ts",
@@ -2962,7 +3042,7 @@
       "source_file": "apps/ui/src/app/desktop/app.config.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 43,
+      "community": 63,
       "norm_label": "app.config.ts",
       "id": "desktop_app_config"
     },
@@ -2972,7 +3052,7 @@
       "source_file": "apps/ui/src/app/desktop/app.config.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 43,
+      "community": 63,
       "norm_label": "appconfig",
       "id": "desktop_app_config_appconfig"
     },
@@ -3142,7 +3222,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 52,
+      "community": 43,
       "norm_label": "electron-storage.adapter.ts",
       "id": "desktop_electron_storage_adapter"
     },
@@ -3152,7 +3232,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 63,
+      "community": 52,
       "norm_label": "electronstorageadapter",
       "id": "desktop_electron_storage_adapter_electronstorageadapter"
     },
@@ -3162,7 +3242,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L24",
       "_origin": "ast",
-      "community": 63,
+      "community": 52,
       "norm_label": ".load()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_load"
     },
@@ -3172,7 +3252,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L31",
       "_origin": "ast",
-      "community": 63,
+      "community": 52,
       "norm_label": ".getresume()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_getresume"
     },
@@ -3182,7 +3262,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 63,
+      "community": 52,
       "norm_label": ".saveresume()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_saveresume"
     },
@@ -3192,7 +3272,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L50",
       "_origin": "ast",
-      "community": 63,
+      "community": 52,
       "norm_label": ".getstopwords()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_getstopwords"
     },
@@ -3202,7 +3282,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L54",
       "_origin": "ast",
-      "community": 63,
+      "community": 52,
       "norm_label": ".savestopwords()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_savestopwords"
     },
@@ -3212,7 +3292,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L59",
       "_origin": "ast",
-      "community": 63,
+      "community": 52,
       "norm_label": ".gettermboosts()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_gettermboosts"
     },
@@ -3222,7 +3302,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L63",
       "_origin": "ast",
-      "community": 63,
+      "community": 52,
       "norm_label": ".savetermboosts()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_savetermboosts"
     },
@@ -3232,7 +3312,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L68",
       "_origin": "ast",
-      "community": 63,
+      "community": 52,
       "norm_label": ".getmissingkeywordsettings()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_getmissingkeywordsettings"
     },
@@ -3242,7 +3322,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L72",
       "_origin": "ast",
-      "community": 63,
+      "community": 52,
       "norm_label": ".savemissingkeywordsettings()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_savemissingkeywordsettings"
     },
@@ -3252,7 +3332,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L77",
       "_origin": "ast",
-      "community": 63,
+      "community": 52,
       "norm_label": ".getpreferencemismatchsettings()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_getpreferencemismatchsettings"
     },
@@ -3262,7 +3342,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L81",
       "_origin": "ast",
-      "community": 63,
+      "community": 52,
       "norm_label": ".savepreferencemismatchsettings()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_savepreferencemismatchsettings"
     },
@@ -3272,7 +3352,7 @@
       "source_file": "apps/ui/src/app/desktop/electron-storage.adapter.ts",
       "source_location": "L87",
       "_origin": "ast",
-      "community": 52,
+      "community": 43,
       "norm_label": ".savehistoryentry()",
       "id": "desktop_electron_storage_adapter_electronstorageadapter_savehistoryentry"
     },
@@ -3282,7 +3362,7 @@
       "source_file": "apps/ui/src/app/shared/app-version.token.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 43,
+      "community": 63,
       "norm_label": "app-version.token.ts",
       "id": "shared_app_version_token"
     },
@@ -3292,7 +3372,7 @@
       "source_file": "apps/ui/src/app/shared/app-version.token.ts",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 43,
+      "community": 63,
       "norm_label": "app_version",
       "id": "shared_app_version_token_app_version"
     },
@@ -3302,7 +3382,7 @@
       "source_file": "apps/ui/src/app/shared/clipboard.token.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 43,
+      "community": 63,
       "norm_label": "clipboard.token.ts",
       "id": "shared_clipboard_token"
     },
@@ -3312,7 +3392,7 @@
       "source_file": "apps/ui/src/app/shared/clipboard.token.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 43,
+      "community": 63,
       "norm_label": "clipboard_writer",
       "id": "shared_clipboard_token_clipboard_writer"
     },
@@ -3322,7 +3402,7 @@
       "source_file": "apps/ui/src/app/shared/desktop-settings-panel.token.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 43,
+      "community": 63,
       "norm_label": "desktop-settings-panel.token.ts",
       "id": "shared_desktop_settings_panel_token"
     },
@@ -3332,7 +3412,7 @@
       "source_file": "apps/ui/src/app/shared/desktop-settings-panel.token.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 43,
+      "community": 63,
       "norm_label": "desktop_settings_panel",
       "id": "shared_desktop_settings_panel_token_desktop_settings_panel"
     },
@@ -3462,7 +3542,7 @@
       "source_file": "apps/ui/src/app/shared/keyword-info-modal/keyword-info-modal.component.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 43,
+      "community": 69,
       "norm_label": "keyword-info-modal.component.ts",
       "id": "keyword_info_modal_keyword_info_modal_component"
     },
@@ -3472,7 +3552,7 @@
       "source_file": "apps/ui/src/app/shared/keyword-info-modal/keyword-info-modal.component.ts",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 43,
+      "community": 69,
       "norm_label": "keywordinfomode",
       "id": "keyword_info_modal_keyword_info_modal_component_keywordinfomode"
     },
@@ -3482,7 +3562,7 @@
       "source_file": "apps/ui/src/app/shared/keyword-info-modal/keyword-info-modal.component.ts",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 43,
+      "community": 69,
       "norm_label": "keywordinfomodalcomponent",
       "id": "keyword_info_modal_keyword_info_modal_component_keywordinfomodalcomponent"
     },
@@ -3532,7 +3612,7 @@
       "source_file": "apps/ui/src/app/shared/modal-shell/modal-shell.component.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 43,
+      "community": 69,
       "norm_label": "modal-shell.component.ts",
       "id": "modal_shell_modal_shell_component"
     },
@@ -3542,7 +3622,7 @@
       "source_file": "apps/ui/src/app/shared/modal-shell/modal-shell.component.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 43,
+      "community": 69,
       "norm_label": "modalshellcomponent",
       "id": "modal_shell_modal_shell_component_modalshellcomponent"
     },
@@ -3552,7 +3632,7 @@
       "source_file": "apps/ui/src/app/shared/model-cache-dir.token.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 68,
+      "community": 63,
       "norm_label": "model-cache-dir.token.ts",
       "id": "shared_model_cache_dir_token"
     },
@@ -3562,7 +3642,7 @@
       "source_file": "apps/ui/src/app/shared/model-cache-dir.token.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 68,
+      "community": 63,
       "norm_label": "model_cache_dir",
       "id": "shared_model_cache_dir_token_model_cache_dir"
     },
@@ -3622,7 +3702,7 @@
       "source_file": "apps/ui/src/app/shared/score-info-modal/score-info-modal.component.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 43,
+      "community": 69,
       "norm_label": "score-info-modal.component.ts",
       "id": "score_info_modal_score_info_modal_component"
     },
@@ -3632,7 +3712,7 @@
       "source_file": "apps/ui/src/app/shared/score-info-modal/score-info-modal.component.ts",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 43,
+      "community": 69,
       "norm_label": "scoreinfomodalcomponent",
       "id": "score_info_modal_score_info_modal_component_scoreinfomodalcomponent"
     },
@@ -3982,7 +4062,7 @@
       "source_file": "apps/ui/src/app/shared/stopwords-modal/stopwords-modal.component.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 43,
+      "community": 69,
       "norm_label": "stopwords-modal.component.ts",
       "id": "stopwords_modal_stopwords_modal_component"
     },
@@ -4052,7 +4132,7 @@
       "source_file": "apps/ui/src/app/shared/storage/storage-adapter.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 52,
+      "community": 43,
       "norm_label": "storage-adapter.ts",
       "id": "storage_storage_adapter"
     },
@@ -4092,7 +4172,7 @@
       "source_file": "apps/ui/src/app/shared/storage/storage-adapter.ts",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 52,
+      "community": 43,
       "norm_label": "default_missing_keyword_settings",
       "id": "storage_storage_adapter_default_missing_keyword_settings"
     },
@@ -4112,7 +4192,7 @@
       "source_file": "apps/ui/src/app/shared/storage/storage-adapter.ts",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 52,
+      "community": 43,
       "norm_label": "default_preference_mismatch_settings",
       "id": "storage_storage_adapter_default_preference_mismatch_settings"
     },
@@ -4132,7 +4212,7 @@
       "source_file": "apps/ui/src/app/shared/storage/storage-adapter.ts",
       "source_location": "L49",
       "_origin": "ast",
-      "community": 52,
+      "community": 43,
       "norm_label": "historyentryinput",
       "id": "storage_storage_adapter_historyentryinput"
     },
@@ -4142,7 +4222,7 @@
       "source_file": "apps/ui/src/app/shared/storage/storage-adapter.ts",
       "source_location": "L67",
       "_origin": "ast",
-      "community": 52,
+      "community": 43,
       "norm_label": "storageadapter",
       "id": "storage_storage_adapter_storageadapter"
     },
@@ -4152,99 +4232,9 @@
       "source_file": "apps/ui/src/app/shared/storage/storage-adapter.ts",
       "source_location": "L90",
       "_origin": "ast",
-      "community": 43,
+      "community": 63,
       "norm_label": "storage_adapter",
       "id": "storage_storage_adapter_storage_adapter"
-    },
-    {
-      "label": "account.component.ts",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/account/account.component.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 73,
-      "norm_label": "account.component.ts",
-      "id": "account_account_component"
-    },
-    {
-      "label": "AccountComponent",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/account/account.component.ts",
-      "source_location": "L21",
-      "_origin": "ast",
-      "community": 73,
-      "norm_label": "accountcomponent",
-      "id": "account_account_component_accountcomponent"
-    },
-    {
-      "label": ".ngOnInit()",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/account/account.component.ts",
-      "source_location": "L51",
-      "_origin": "ast",
-      "community": 73,
-      "norm_label": ".ngoninit()",
-      "id": "account_account_component_accountcomponent_ngoninit"
-    },
-    {
-      "label": ".saveProfile()",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/account/account.component.ts",
-      "source_location": "L57",
-      "_origin": "ast",
-      "community": 73,
-      "norm_label": ".saveprofile()",
-      "id": "account_account_component_accountcomponent_saveprofile"
-    },
-    {
-      "label": ".updatePassword()",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/account/account.component.ts",
-      "source_location": "L78",
-      "_origin": "ast",
-      "community": 73,
-      "norm_label": ".updatepassword()",
-      "id": "account_account_component_accountcomponent_updatepassword"
-    },
-    {
-      "label": ".signOutEverywhere()",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/account/account.component.ts",
-      "source_location": "L94",
-      "_origin": "ast",
-      "community": 73,
-      "norm_label": ".signouteverywhere()",
-      "id": "account_account_component_accountcomponent_signouteverywhere"
-    },
-    {
-      "label": ".exportData()",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/account/account.component.ts",
-      "source_location": "L104",
-      "_origin": "ast",
-      "community": 73,
-      "norm_label": ".exportdata()",
-      "id": "account_account_component_accountcomponent_exportdata"
-    },
-    {
-      "label": ".confirmDelete()",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/account/account.component.ts",
-      "source_location": "L127",
-      "_origin": "ast",
-      "community": 73,
-      "norm_label": ".confirmdelete()",
-      "id": "account_account_component_accountcomponent_confirmdelete"
-    },
-    {
-      "label": "errorMessage()",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/account/account.component.ts",
-      "source_location": "L141",
-      "_origin": "ast",
-      "community": 73,
-      "norm_label": "errormessage()",
-      "id": "account_account_component_errormessage"
     },
     {
       "label": "app-shell.component.ts",
@@ -4952,7 +4942,7 @@
       "source_file": "apps/ui/src/app/web/http-storage.adapter.ts",
       "source_location": "L133",
       "_origin": "ast",
-      "community": 52,
+      "community": 43,
       "norm_label": ".savehistoryentry()",
       "id": "web_http_storage_adapter_httpstorageadapter_savehistoryentry"
     },
@@ -4982,7 +4972,7 @@
       "source_file": "apps/ui/src/app/web/resume-picker/resume-picker.component.ts",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 69,
+      "community": 1,
       "norm_label": "resumepickercomponent",
       "id": "resume_picker_resume_picker_component_resumepickercomponent"
     },
@@ -4992,7 +4982,7 @@
       "source_file": "apps/ui/src/app/web/resume-picker/resume-picker.component.ts",
       "source_location": "L30",
       "_origin": "ast",
-      "community": 69,
+      "community": 1,
       "norm_label": ".ngoninit()",
       "id": "resume_picker_resume_picker_component_resumepickercomponent_ngoninit"
     },
@@ -5002,7 +4992,7 @@
       "source_file": "apps/ui/src/app/web/resume-picker/resume-picker.component.ts",
       "source_location": "L34",
       "_origin": "ast",
-      "community": 69,
+      "community": 1,
       "norm_label": ".refresh()",
       "id": "resume_picker_resume_picker_component_resumepickercomponent_refresh"
     },
@@ -5012,7 +5002,7 @@
       "source_file": "apps/ui/src/app/web/resume-picker/resume-picker.component.ts",
       "source_location": "L40",
       "_origin": "ast",
-      "community": 69,
+      "community": 1,
       "norm_label": ".onselect()",
       "id": "resume_picker_resume_picker_component_resumepickercomponent_onselect"
     },
@@ -5242,7 +5232,7 @@
       "source_file": "apps/ui/src/main.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 43,
+      "community": 63,
       "norm_label": "main.ts",
       "id": "src_main"
     },
@@ -5862,7 +5852,7 @@
       "source_file": "apps/web/src/db/schema.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 48,
+      "community": 18,
       "norm_label": "schema.ts",
       "id": "db_schema"
     },
@@ -5872,7 +5862,7 @@
       "source_file": "apps/web/src/db/schema.ts",
       "source_location": "L29",
       "_origin": "ast",
-      "community": 65,
+      "community": 18,
       "norm_label": "users",
       "id": "db_schema_users"
     },
@@ -5892,7 +5882,7 @@
       "source_file": "apps/web/src/db/schema.ts",
       "source_location": "L75",
       "_origin": "ast",
-      "community": 48,
+      "community": 18,
       "norm_label": "emailtokentypes",
       "id": "db_schema_emailtokentypes"
     },
@@ -5902,7 +5892,7 @@
       "source_file": "apps/web/src/db/schema.ts",
       "source_location": "L76",
       "_origin": "ast",
-      "community": 48,
+      "community": 18,
       "norm_label": "emailtokentype",
       "id": "db_schema_emailtokentype"
     },
@@ -5912,7 +5902,7 @@
       "source_file": "apps/web/src/db/schema.ts",
       "source_location": "L78",
       "_origin": "ast",
-      "community": 48,
+      "community": 18,
       "norm_label": "emailtokens",
       "id": "db_schema_emailtokens"
     },
@@ -5922,7 +5912,7 @@
       "source_file": "apps/web/src/db/schema.ts",
       "source_location": "L98",
       "_origin": "ast",
-      "community": 48,
+      "community": 49,
       "norm_label": "resumes",
       "id": "db_schema_resumes"
     },
@@ -5942,7 +5932,7 @@
       "source_file": "apps/web/src/db/schema.ts",
       "source_location": "L139",
       "_origin": "ast",
-      "community": 50,
+      "community": 18,
       "norm_label": "scorehistory",
       "id": "db_schema_scorehistory"
     },
@@ -5952,7 +5942,7 @@
       "source_file": "apps/web/src/db/schema.ts",
       "source_location": "L167",
       "_origin": "ast",
-      "community": 65,
+      "community": 18,
       "norm_label": "user",
       "id": "db_schema_user"
     },
@@ -5962,7 +5952,7 @@
       "source_file": "apps/web/src/db/schema.ts",
       "source_location": "L168",
       "_origin": "ast",
-      "community": 48,
+      "community": 18,
       "norm_label": "newuser",
       "id": "db_schema_newuser"
     },
@@ -5972,7 +5962,7 @@
       "source_file": "apps/web/src/db/schema.ts",
       "source_location": "L169",
       "_origin": "ast",
-      "community": 48,
+      "community": 18,
       "norm_label": "session",
       "id": "db_schema_session"
     },
@@ -5982,7 +5972,7 @@
       "source_file": "apps/web/src/db/schema.ts",
       "source_location": "L170",
       "_origin": "ast",
-      "community": 48,
+      "community": 18,
       "norm_label": "emailtoken",
       "id": "db_schema_emailtoken"
     },
@@ -6002,7 +5992,7 @@
       "source_file": "apps/web/src/db/schema.ts",
       "source_location": "L173",
       "_origin": "ast",
-      "community": 48,
+      "community": 18,
       "norm_label": "scorehistoryentry",
       "id": "db_schema_scorehistoryentry"
     },
@@ -6072,7 +6062,7 @@
       "source_file": "apps/web/src/lib/crypto.ts",
       "source_location": "L34",
       "_origin": "ast",
-      "community": 65,
+      "community": 18,
       "norm_label": "generatetoken()",
       "id": "lib_crypto_generatetoken"
     },
@@ -6082,7 +6072,7 @@
       "source_file": "apps/web/src/lib/crypto.ts",
       "source_location": "L43",
       "_origin": "ast",
-      "community": 65,
+      "community": 18,
       "norm_label": "hashtoken()",
       "id": "lib_crypto_hashtoken"
     },
@@ -6142,7 +6132,7 @@
       "source_file": "apps/web/src/lib/domain.ts",
       "source_location": "L41",
       "_origin": "ast",
-      "community": 50,
+      "community": 48,
       "norm_label": "apihistorysummary",
       "id": "lib_domain_apihistorysummary"
     },
@@ -6152,7 +6142,7 @@
       "source_file": "apps/web/src/lib/domain.ts",
       "source_location": "L50",
       "_origin": "ast",
-      "community": 50,
+      "community": 48,
       "norm_label": "apihistoryentry",
       "id": "lib_domain_apihistoryentry"
     },
@@ -6352,7 +6342,7 @@
       "source_file": "apps/web/src/lib/email.ts",
       "source_location": "L150",
       "_origin": "ast",
-      "community": 46,
+      "community": 65,
       "norm_label": "sendinbackground()",
       "id": "lib_email_sendinbackground"
     },
@@ -6432,7 +6422,7 @@
       "source_file": "apps/web/src/lib/route-options.ts",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 50,
+      "community": 13,
       "norm_label": "writelimit()",
       "id": "lib_route_options_writelimit"
     },
@@ -6442,7 +6432,7 @@
       "source_file": "apps/web/src/lib/sessions.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 65,
+      "community": 18,
       "norm_label": "sessions.ts",
       "id": "lib_sessions"
     },
@@ -6452,7 +6442,7 @@
       "source_file": "apps/web/src/lib/sessions.ts",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 65,
+      "community": 18,
       "norm_label": "sessioncontext",
       "id": "lib_sessions_sessioncontext"
     },
@@ -6462,7 +6452,7 @@
       "source_file": "apps/web/src/lib/sessions.ts",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 65,
+      "community": 18,
       "norm_label": "createsession()",
       "id": "lib_sessions_createsession"
     },
@@ -6472,7 +6462,7 @@
       "source_file": "apps/web/src/lib/sessions.ts",
       "source_location": "L38",
       "_origin": "ast",
-      "community": 65,
+      "community": 50,
       "norm_label": "resolvesession()",
       "id": "lib_sessions_resolvesession"
     },
@@ -6482,7 +6472,7 @@
       "source_file": "apps/web/src/lib/sessions.ts",
       "source_location": "L61",
       "_origin": "ast",
-      "community": 65,
+      "community": 18,
       "norm_label": "revokesession()",
       "id": "lib_sessions_revokesession"
     },
@@ -6492,7 +6482,7 @@
       "source_file": "apps/web/src/lib/sessions.ts",
       "source_location": "L66",
       "_origin": "ast",
-      "community": 65,
+      "community": 18,
       "norm_label": "revokeallsessions()",
       "id": "lib_sessions_revokeallsessions"
     },
@@ -6502,7 +6492,7 @@
       "source_file": "apps/web/src/lib/sessions.ts",
       "source_location": "L70",
       "_origin": "ast",
-      "community": 65,
+      "community": 18,
       "norm_label": "deleteexpiredsessions()",
       "id": "lib_sessions_deleteexpiredsessions"
     },
@@ -6512,7 +6502,7 @@
       "source_file": "apps/web/src/lib/sessions.ts",
       "source_location": "L74",
       "_origin": "ast",
-      "community": 65,
+      "community": 18,
       "norm_label": "setsessioncookie()",
       "id": "lib_sessions_setsessioncookie"
     },
@@ -6682,7 +6672,7 @@
       "source_file": "apps/web/src/lib/validation.ts",
       "source_location": "L59",
       "_origin": "ast",
-      "community": 50,
+      "community": 65,
       "norm_label": "updateprofileschema",
       "id": "lib_validation_updateprofileschema"
     },
@@ -6692,7 +6682,7 @@
       "source_file": "apps/web/src/lib/validation.ts",
       "source_location": "L69",
       "_origin": "ast",
-      "community": 50,
+      "community": 65,
       "norm_label": "deleteaccountschema",
       "id": "lib_validation_deleteaccountschema"
     },
@@ -6812,7 +6802,7 @@
       "source_file": "apps/web/src/plugins/auth.ts",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 65,
+      "community": 18,
       "norm_label": "fastifyrequest",
       "id": "plugins_auth_fastifyrequest"
     },
@@ -6992,7 +6982,7 @@
       "source_file": "apps/web/src/routes/history.ts",
       "source_location": "L48",
       "_origin": "ast",
-      "community": 50,
+      "community": 13,
       "norm_label": "historyroutes()",
       "id": "routes_history_historyroutes"
     },
@@ -7012,7 +7002,7 @@
       "source_file": "apps/web/src/routes/resumes.ts",
       "source_location": "L26",
       "_origin": "ast",
-      "community": 50,
+      "community": 13,
       "norm_label": "resumeroutes()",
       "id": "routes_resumes_resumeroutes"
     },
@@ -7032,7 +7022,7 @@
       "source_file": "apps/web/src/routes/settings.ts",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 50,
+      "community": 13,
       "norm_label": "settingsroutes()",
       "id": "routes_settings_settingsroutes"
     },
@@ -7042,7 +7032,7 @@
       "source_file": "apps/web/src/routes/users.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 50,
+      "community": 65,
       "norm_label": "users.ts",
       "id": "routes_users"
     },
@@ -7052,7 +7042,7 @@
       "source_file": "apps/web/src/routes/users.ts",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 50,
+      "community": 65,
       "norm_label": "userroutesoptions",
       "id": "routes_users_userroutesoptions"
     },
@@ -7062,7 +7052,7 @@
       "source_file": "apps/web/src/routes/users.ts",
       "source_location": "L25",
       "_origin": "ast",
-      "community": 50,
+      "community": 13,
       "norm_label": "userroutes()",
       "id": "routes_users_userroutes"
     },
@@ -7162,7 +7152,7 @@
       "source_file": "apps/web/test/domain.test.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 18,
+      "community": 49,
       "norm_label": "domain.test.ts",
       "id": "test_domain_test"
     },
@@ -7172,7 +7162,7 @@
       "source_file": "apps/web/test/domain.test.ts",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 18,
+      "community": 49,
       "norm_label": "result",
       "id": "test_domain_test_result"
     },
@@ -7182,7 +7172,7 @@
       "source_file": "apps/web/test/domain.test.ts",
       "source_location": "L28",
       "_origin": "ast",
-      "community": 18,
+      "community": 49,
       "norm_label": "res",
       "id": "test_domain_test_res"
     },
@@ -7192,7 +7182,7 @@
       "source_file": "apps/web/test/domain.test.ts",
       "source_location": "L30",
       "_origin": "ast",
-      "community": 18,
+      "community": 49,
       "norm_label": "get()",
       "id": "test_domain_test_get"
     },
@@ -7202,7 +7192,7 @@
       "source_file": "apps/web/test/domain.test.ts",
       "source_location": "L32",
       "_origin": "ast",
-      "community": 18,
+      "community": 49,
       "norm_label": "del()",
       "id": "test_domain_test_del"
     },
@@ -7212,7 +7202,7 @@
       "source_file": "apps/web/test/domain.test.ts",
       "source_location": "L34",
       "_origin": "ast",
-      "community": 18,
+      "community": 49,
       "norm_label": "post()",
       "id": "test_domain_test_post"
     },
@@ -7222,7 +7212,7 @@
       "source_file": "apps/web/test/domain.test.ts",
       "source_location": "L36",
       "_origin": "ast",
-      "community": 18,
+      "community": 49,
       "norm_label": "patch()",
       "id": "test_domain_test_patch"
     },
@@ -7232,7 +7222,7 @@
       "source_file": "apps/web/test/domain.test.ts",
       "source_location": "L38",
       "_origin": "ast",
-      "community": 18,
+      "community": 49,
       "norm_label": "put()",
       "id": "test_domain_test_put"
     },
@@ -7242,7 +7232,7 @@
       "source_file": "apps/web/test/domain.test.ts",
       "source_location": "L41",
       "_origin": "ast",
-      "community": 18,
+      "community": 49,
       "norm_label": "upload()",
       "id": "test_domain_test_upload"
     },
@@ -7252,7 +7242,7 @@
       "source_file": "apps/web/test/domain.test.ts",
       "source_location": "L52",
       "_origin": "ast",
-      "community": 18,
+      "community": 49,
       "norm_label": "savescore()",
       "id": "test_domain_test_savescore"
     },
@@ -7262,7 +7252,7 @@
       "source_file": "apps/web/test/domain.test.ts",
       "source_location": "L62",
       "_origin": "ast",
-      "community": 18,
+      "community": 49,
       "norm_label": "activecount()",
       "id": "test_domain_test_activecount"
     },
@@ -7272,7 +7262,7 @@
       "source_file": "apps/web/test/domain.test.ts",
       "source_location": "L70",
       "_origin": "ast",
-      "community": 18,
+      "community": 49,
       "norm_label": "userid()",
       "id": "test_domain_test_userid"
     },
@@ -9700,7 +9690,7 @@
       "source_file": "packages/scoring/src/constants.ts",
       "source_location": "L84",
       "_origin": "ast",
-      "community": 43,
+      "community": 0,
       "norm_label": "pin_importance_multipliers",
       "id": "src_constants_pin_importance_multipliers"
     },
@@ -12700,6 +12690,312 @@
   ],
   "links": [
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component",
+      "target": "account_account_component_accountcomponent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L141",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component",
+      "target": "account_account_component_errormessage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component",
+      "target": "web_auth_service"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component",
+      "target": "web_auth_service_authservice"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/routes.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_routes",
+      "target": "account_account_component"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L127",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component_accountcomponent",
+      "target": "account_account_component_accountcomponent_confirmdelete"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L104",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component_accountcomponent",
+      "target": "account_account_component_accountcomponent_exportdata"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component_accountcomponent",
+      "target": "account_account_component_accountcomponent_ngoninit"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L57",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component_accountcomponent",
+      "target": "account_account_component_accountcomponent_saveprofile"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L94",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component_accountcomponent",
+      "target": "account_account_component_accountcomponent_signouteverywhere"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L78",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component_accountcomponent",
+      "target": "account_account_component_accountcomponent_updatepassword"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/routes.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_routes",
+      "target": "account_account_component_accountcomponent"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L72",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component_accountcomponent_saveprofile",
+      "target": "account_account_component_errormessage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L88",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component_accountcomponent_updatepassword",
+      "target": "account_account_component_errormessage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L121",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component_accountcomponent_exportdata",
+      "target": "account_account_component_errormessage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/account/account.component.ts",
+      "source_location": "L134",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "account_account_component_accountcomponent_confirmdelete",
+      "target": "account_account_component_errormessage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_nav_shell_component",
+      "target": "shared_theme_service"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_nav_shell_component",
+      "target": "shared_theme_service_themeservice"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/nav-shell.component.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_nav_shell_component",
+      "target": "web_auth_service"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/nav-shell.component.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_nav_shell_component",
+      "target": "web_auth_service_authservice"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/nav-shell.component.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_nav_shell_component",
+      "target": "web_nav_shell_component_navshellcomponent"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/routes.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_routes",
+      "target": "web_nav_shell_component"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/nav-shell.component.ts",
+      "source_location": "L46",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_nav_shell_component_navshellcomponent",
+      "target": "web_nav_shell_component_navshellcomponent_closemenu"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/nav-shell.component.ts",
+      "source_location": "L50",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_nav_shell_component_navshellcomponent",
+      "target": "web_nav_shell_component_navshellcomponent_signout"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/nav-shell.component.ts",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_nav_shell_component_navshellcomponent",
+      "target": "web_nav_shell_component_navshellcomponent_togglemenu"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
+      "source_location": "L49",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_nav_shell_component_navshellcomponent",
+      "target": "web_nav_shell_component_navshellcomponent_toggletheme"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/routes.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_routes",
+      "target": "web_nav_shell_component_navshellcomponent"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_nav_shell_component_navshellcomponent_toggletheme",
+      "target": "web_nav_shell_component_navshellcomponent_closemenu"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/nav-shell.component.ts",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_nav_shell_component_navshellcomponent_signout",
+      "target": "web_nav_shell_component_navshellcomponent_closemenu"
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -13195,9 +13491,9 @@
       "source_file": "apps/ui/src/app/shared/app.component.ts",
       "source_location": "L88",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "shared_app_component_appcomponent",
-      "target": "shared_app_component_appcomponent_togglejobkeywordsopen",
-      "confidence_score": 1.0
+      "target": "shared_app_component_appcomponent_togglejobkeywordsopen"
     },
     {
       "relation": "method",
@@ -13306,17 +13602,6 @@
       "target": "shared_theme_service_themeservice"
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_nav_shell_component",
-      "target": "shared_theme_service"
-    },
-    {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "apps/ui/src/app/shared/theme.service.ts",
@@ -13335,154 +13620,6 @@
       "confidence_score": 1.0,
       "source": "shared_theme_service_themeservice",
       "target": "shared_theme_service_themeservice_toggle"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_nav_shell_component",
-      "target": "shared_theme_service_themeservice"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/nav-shell.component.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_nav_shell_component",
-      "target": "web_auth_service"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/nav-shell.component.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_nav_shell_component",
-      "target": "web_auth_service_authservice"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/nav-shell.component.ts",
-      "source_location": "L26",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_nav_shell_component",
-      "target": "web_nav_shell_component_navshellcomponent"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/routes.ts",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_routes",
-      "target": "web_nav_shell_component"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/nav-shell.component.ts",
-      "source_location": "L46",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_nav_shell_component_navshellcomponent",
-      "target": "web_nav_shell_component_navshellcomponent_closemenu"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/nav-shell.component.ts",
-      "source_location": "L50",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_nav_shell_component_navshellcomponent",
-      "target": "web_nav_shell_component_navshellcomponent_signout"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/nav-shell.component.ts",
-      "source_location": "L56",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_nav_shell_component_navshellcomponent",
-      "target": "web_nav_shell_component_navshellcomponent_signouteverywhere"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/nav-shell.component.ts",
-      "source_location": "L42",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_nav_shell_component_navshellcomponent",
-      "target": "web_nav_shell_component_navshellcomponent_togglemenu"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
-      "source_location": "L49",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_nav_shell_component_navshellcomponent",
-      "target": "web_nav_shell_component_navshellcomponent_toggletheme"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/routes.ts",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_routes",
-      "target": "web_nav_shell_component_navshellcomponent"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/ui/src/app/web/nav-shell.component.ts",
-      "source_location": "L51",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_nav_shell_component_navshellcomponent_toggletheme",
-      "target": "web_nav_shell_component_navshellcomponent_closemenu"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/nav-shell.component.ts",
-      "source_location": "L51",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_nav_shell_component_navshellcomponent_signout",
-      "target": "web_nav_shell_component_navshellcomponent_closemenu"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/nav-shell.component.ts",
-      "source_location": "L57",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_nav_shell_component_navshellcomponent_signouteverywhere",
-      "target": "web_nav_shell_component_navshellcomponent_closemenu"
     },
     {
       "relation": "contains",
@@ -19642,174 +19779,6 @@
       "confidence_score": 1.0,
       "source": "web_app_config",
       "target": "storage_storage_adapter_storage_adapter"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L21",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component",
-      "target": "account_account_component_accountcomponent"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L141",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component",
-      "target": "account_account_component_errormessage"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component",
-      "target": "web_auth_service"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component",
-      "target": "web_auth_service_authservice"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/routes.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_routes",
-      "target": "account_account_component"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L127",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component_accountcomponent",
-      "target": "account_account_component_accountcomponent_confirmdelete"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L104",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component_accountcomponent",
-      "target": "account_account_component_accountcomponent_exportdata"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L51",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component_accountcomponent",
-      "target": "account_account_component_accountcomponent_ngoninit"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L57",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component_accountcomponent",
-      "target": "account_account_component_accountcomponent_saveprofile"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L94",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component_accountcomponent",
-      "target": "account_account_component_accountcomponent_signouteverywhere"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L78",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component_accountcomponent",
-      "target": "account_account_component_accountcomponent_updatepassword"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/routes.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_routes",
-      "target": "account_account_component_accountcomponent"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L72",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component_accountcomponent_saveprofile",
-      "target": "account_account_component_errormessage"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L88",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component_accountcomponent_updatepassword",
-      "target": "account_account_component_errormessage"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L121",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component_accountcomponent_exportdata",
-      "target": "account_account_component_errormessage"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/account/account.component.ts",
-      "source_location": "L134",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "account_account_component_accountcomponent_confirmdelete",
-      "target": "account_account_component_errormessage"
     },
     {
       "relation": "imports_from",
@@ -32590,5 +32559,5 @@
       "source_file": "resources/test_files/senior_software_engineer.txt"
     }
   ],
-  "built_at_commit": "1165dd1ac497d47edabea298ff6c6070b21b30a2"
+  "built_at_commit": "b0bc549f7df558e5541d344db7ff90d4d4121cd6"
 }

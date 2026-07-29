@@ -645,8 +645,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/account/account.component.ts": {
-    "mtime": 1785027837.4183674,
-    "ast_hash": "495b303152be2af049b876ab3c81c873",
+    "mtime": 1785361945.7652621,
+    "ast_hash": "ca4de5872a47be28a11da755bfdf55bd",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/app-shell.component.ts": {
@@ -720,8 +720,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/nav-shell.component.ts": {
-    "mtime": 1785347022.4041836,
-    "ast_hash": "4f15815893f5806b5afe0459a23843bf",
+    "mtime": 1785361941.6043994,
+    "ast_hash": "eccb4144d5892c5194dcb1b1795b2fbb",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/resume-picker/resume-picker.component.ts": {
@@ -815,8 +815,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/account/account.component.html": {
-    "mtime": 1785027837.4180517,
-    "ast_hash": "e287413867244f0496a33000f2f00d15",
+    "mtime": 1785361952.516565,
+    "ast_hash": "1a1c084cc08ec1cd28ed5a82c730c5d7",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/auth/register/register.component.html": {
@@ -855,8 +855,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/nav-shell.component.html": {
-    "mtime": 1785347026.5960002,
-    "ast_hash": "00c91113a9ce32d24e410464cc89f247",
+    "mtime": 1785361934.143236,
+    "ast_hash": "6dea356a95126677c4db7c4830016e26",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/resume-picker/resume-picker.component.html": {
