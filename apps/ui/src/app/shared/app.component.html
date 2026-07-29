@@ -36,9 +36,14 @@
       <section class="panel">
         <div class="panel-head">
           <h2 class="panel-title">Job description</h2>
-          @if (resumePickerPanel) {
-            <ng-container *ngComponentOutlet="resumePickerPanel; inputs: {onSwitched: reloadResume}" />
-          }
+          <div class="panel-head-actions">
+            @if (resumePickerPanel) {
+              <ng-container *ngComponentOutlet="resumePickerPanel; inputs: {onSwitched: reloadResume}" />
+            }
+            <button (click)="settingsOpen.set(!settingsOpen())" class="tb-btn score-settings-btn" type="button">
+              ⚙ Settings
+            </button>
+          </div>
         </div>
         <label class="field">
           <span class="field-label">Title (optional)</span>
