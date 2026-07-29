@@ -107,14 +107,54 @@
   },
   "nodes": [
     {
+      "label": "privacy.component.ts",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/legal/privacy.component.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "legal_privacy_component",
+      "community": 67,
+      "norm_label": "privacy.component.ts"
+    },
+    {
+      "label": "PrivacyComponent",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/legal/privacy.component.ts",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "legal_privacy_component_privacycomponent",
+      "community": 67,
+      "norm_label": "privacycomponent"
+    },
+    {
+      "label": "terms.component.ts",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/legal/terms.component.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "legal_terms_component",
+      "community": 67,
+      "norm_label": "terms.component.ts"
+    },
+    {
+      "label": "TermsComponent",
+      "file_type": "code",
+      "source_file": "apps/ui/src/app/web/legal/terms.component.ts",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "legal_terms_component_termscomponent",
+      "community": 67,
+      "norm_label": "termscomponent"
+    },
+    {
       "label": "api.service.ts",
       "file_type": "code",
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "shared_api_service",
       "community": 19,
-      "norm_label": "api.service.ts"
+      "norm_label": "api.service.ts",
+      "id": "shared_api_service"
     },
     {
       "label": "ResumeInfo",
@@ -122,9 +162,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L15",
       "_origin": "ast",
-      "id": "shared_api_service_resumeinfo",
       "community": 43,
-      "norm_label": "resumeinfo"
+      "norm_label": "resumeinfo",
+      "id": "shared_api_service_resumeinfo"
     },
     {
       "label": "HealthResponse",
@@ -132,9 +172,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L22",
       "_origin": "ast",
-      "id": "shared_api_service_healthresponse",
       "community": 19,
-      "norm_label": "healthresponse"
+      "norm_label": "healthresponse",
+      "id": "shared_api_service_healthresponse"
     },
     {
       "label": "ApiService",
@@ -142,9 +182,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L30",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice",
       "community": 61,
-      "norm_label": "apiservice"
+      "norm_label": "apiservice",
+      "id": "shared_api_service_apiservice"
     },
     {
       "label": ".constructor()",
@@ -152,9 +192,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L31",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice_constructor",
       "community": 19,
-      "norm_label": ".constructor()"
+      "norm_label": ".constructor()",
+      "id": "shared_api_service_apiservice_constructor"
     },
     {
       "label": ".getResume()",
@@ -162,9 +202,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L39",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice_getresume",
       "community": 61,
-      "norm_label": ".getresume()"
+      "norm_label": ".getresume()",
+      "id": "shared_api_service_apiservice_getresume"
     },
     {
       "label": ".getHealth()",
@@ -172,9 +212,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L46",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice_gethealth",
       "community": 61,
-      "norm_label": ".gethealth()"
+      "norm_label": ".gethealth()",
+      "id": "shared_api_service_apiservice_gethealth"
     },
     {
       "label": ".uploadResume()",
@@ -182,9 +222,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L53",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice_uploadresume",
       "community": 61,
-      "norm_label": ".uploadresume()"
+      "norm_label": ".uploadresume()",
+      "id": "shared_api_service_apiservice_uploadresume"
     },
     {
       "label": ".match()",
@@ -192,9 +232,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L72",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice_match",
       "community": 61,
-      "norm_label": ".match()"
+      "norm_label": ".match()",
+      "id": "shared_api_service_apiservice_match"
     },
     {
       "label": ".getTermBoosts()",
@@ -202,9 +242,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L97",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice_gettermboosts",
       "community": 61,
-      "norm_label": ".gettermboosts()"
+      "norm_label": ".gettermboosts()",
+      "id": "shared_api_service_apiservice_gettermboosts"
     },
     {
       "label": ".saveTermBoosts()",
@@ -212,9 +252,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L101",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice_savetermboosts",
       "community": 61,
-      "norm_label": ".savetermboosts()"
+      "norm_label": ".savetermboosts()",
+      "id": "shared_api_service_apiservice_savetermboosts"
     },
     {
       "label": ".getStopwords()",
@@ -222,9 +262,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L105",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice_getstopwords",
       "community": 61,
-      "norm_label": ".getstopwords()"
+      "norm_label": ".getstopwords()",
+      "id": "shared_api_service_apiservice_getstopwords"
     },
     {
       "label": ".saveStopwords()",
@@ -232,9 +272,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L109",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice_savestopwords",
       "community": 61,
-      "norm_label": ".savestopwords()"
+      "norm_label": ".savestopwords()",
+      "id": "shared_api_service_apiservice_savestopwords"
     },
     {
       "label": ".getMissingKeywordSettings()",
@@ -242,9 +282,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L113",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice_getmissingkeywordsettings",
       "community": 61,
-      "norm_label": ".getmissingkeywordsettings()"
+      "norm_label": ".getmissingkeywordsettings()",
+      "id": "shared_api_service_apiservice_getmissingkeywordsettings"
     },
     {
       "label": ".saveMissingKeywordSettings()",
@@ -252,9 +292,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L117",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice_savemissingkeywordsettings",
       "community": 61,
-      "norm_label": ".savemissingkeywordsettings()"
+      "norm_label": ".savemissingkeywordsettings()",
+      "id": "shared_api_service_apiservice_savemissingkeywordsettings"
     },
     {
       "label": ".getPreferenceMismatchSettings()",
@@ -262,9 +302,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L121",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice_getpreferencemismatchsettings",
       "community": 61,
-      "norm_label": ".getpreferencemismatchsettings()"
+      "norm_label": ".getpreferencemismatchsettings()",
+      "id": "shared_api_service_apiservice_getpreferencemismatchsettings"
     },
     {
       "label": ".savePreferenceMismatchSettings()",
@@ -272,9 +312,9 @@
       "source_file": "apps/ui/src/app/shared/api.service.ts",
       "source_location": "L125",
       "_origin": "ast",
-      "id": "shared_api_service_apiservice_savepreferencemismatchsettings",
       "community": 61,
-      "norm_label": ".savepreferencemismatchsettings()"
+      "norm_label": ".savepreferencemismatchsettings()",
+      "id": "shared_api_service_apiservice_savepreferencemismatchsettings"
     },
     {
       "label": "resume-parser.service.ts",
@@ -282,9 +322,9 @@
       "source_file": "apps/ui/src/app/shared/resume-parser.service.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "shared_resume_parser_service",
       "community": 19,
-      "norm_label": "resume-parser.service.ts"
+      "norm_label": "resume-parser.service.ts",
+      "id": "shared_resume_parser_service"
     },
     {
       "label": "ResumeParserService",
@@ -292,9 +332,9 @@
       "source_file": "apps/ui/src/app/shared/resume-parser.service.ts",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "shared_resume_parser_service_resumeparserservice",
       "community": 19,
-      "norm_label": "resumeparserservice"
+      "norm_label": "resumeparserservice",
+      "id": "shared_resume_parser_service_resumeparserservice"
     },
     {
       "label": ".parsePdf()",
@@ -302,9 +342,9 @@
       "source_file": "apps/ui/src/app/shared/resume-parser.service.ts",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "shared_resume_parser_service_resumeparserservice_parsepdf",
       "community": 19,
-      "norm_label": ".parsepdf()"
+      "norm_label": ".parsepdf()",
+      "id": "shared_resume_parser_service_resumeparserservice_parsepdf"
     },
     {
       "label": "extractPageText()",
@@ -312,9 +352,9 @@
       "source_file": "apps/ui/src/app/shared/resume-parser.service.ts",
       "source_location": "L36",
       "_origin": "ast",
-      "id": "shared_resume_parser_service_extractpagetext",
       "community": 19,
-      "norm_label": "extractpagetext()"
+      "norm_label": "extractpagetext()",
+      "id": "shared_resume_parser_service_extractpagetext"
     },
     {
       "label": "index.ts",
@@ -322,9 +362,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "src_index",
       "community": 0,
-      "norm_label": "index.ts"
+      "norm_label": "index.ts",
+      "id": "src_index"
     },
     {
       "label": "terms.ts",
@@ -332,9 +372,9 @@
       "source_file": "packages/scoring/src/terms.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "src_terms",
       "community": 0,
-      "norm_label": "terms.ts"
+      "norm_label": "terms.ts",
+      "id": "src_terms"
     },
     {
       "label": "stripPhoneNumbers()",
@@ -342,9 +382,9 @@
       "source_file": "packages/scoring/src/terms.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "id": "src_terms_stripphonenumbers",
       "community": 0,
-      "norm_label": "stripphonenumbers()"
+      "norm_label": "stripphonenumbers()",
+      "id": "src_terms_stripphonenumbers"
     },
     {
       "label": "extractTerms()",
@@ -352,9 +392,9 @@
       "source_file": "packages/scoring/src/terms.ts",
       "source_location": "L14",
       "_origin": "ast",
-      "id": "src_terms_extractterms",
       "community": 0,
-      "norm_label": "extractterms()"
+      "norm_label": "extractterms()",
+      "id": "src_terms_extractterms"
     },
     {
       "label": "terms.test.ts",
@@ -362,9 +402,9 @@
       "source_file": "packages/scoring/test/terms.test.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "test_terms_test",
       "community": 0,
-      "norm_label": "terms.test.ts"
+      "norm_label": "terms.test.ts",
+      "id": "test_terms_test"
     },
     {
       "label": "angular.json",
@@ -4815,46 +4855,6 @@
       "community": 52,
       "norm_label": ".setactiveresume()",
       "id": "web_http_storage_adapter_httpstorageadapter_setactiveresume"
-    },
-    {
-      "label": "privacy.component.ts",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/legal/privacy.component.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 67,
-      "norm_label": "privacy.component.ts",
-      "id": "legal_privacy_component"
-    },
-    {
-      "label": "PrivacyComponent",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/legal/privacy.component.ts",
-      "source_location": "L11",
-      "_origin": "ast",
-      "community": 67,
-      "norm_label": "privacycomponent",
-      "id": "legal_privacy_component_privacycomponent"
-    },
-    {
-      "label": "terms.component.ts",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/legal/terms.component.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 67,
-      "norm_label": "terms.component.ts",
-      "id": "legal_terms_component"
-    },
-    {
-      "label": "TermsComponent",
-      "file_type": "code",
-      "source_file": "apps/ui/src/app/web/legal/terms.component.ts",
-      "source_location": "L11",
-      "_origin": "ast",
-      "community": 67,
-      "norm_label": "termscomponent",
-      "id": "legal_terms_component_termscomponent"
     },
     {
       "label": "nav-shell.component.ts",
@@ -12650,6 +12650,70 @@
   ],
   "links": [
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/legal/privacy.component.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "legal_privacy_component",
+      "target": "legal_privacy_component_privacycomponent"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/routes.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_routes",
+      "target": "legal_privacy_component"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/routes.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_routes",
+      "target": "legal_privacy_component_privacycomponent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/legal/terms.component.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "legal_terms_component",
+      "target": "legal_terms_component_termscomponent"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/routes.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_routes",
+      "target": "legal_terms_component"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/web/routes.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "web_routes",
+      "target": "legal_terms_component_termscomponent"
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -13231,9 +13295,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_index",
-      "target": "src_score_scoreresumeagainstjob",
-      "confidence_score": 1.0
+      "target": "src_score_scoreresumeagainstjob"
     },
     {
       "relation": "re_exports",
@@ -13242,9 +13306,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_index",
-      "target": "src_stopwords_extra_stopwords",
-      "confidence_score": 1.0
+      "target": "src_stopwords_extra_stopwords"
     },
     {
       "relation": "re_exports",
@@ -13253,9 +13317,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_index",
-      "target": "src_terms",
-      "confidence_score": 1.0
+      "target": "src_terms"
     },
     {
       "relation": "re_exports",
@@ -13264,9 +13328,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_index",
-      "target": "src_terms_extractterms",
-      "confidence_score": 1.0
+      "target": "src_terms_extractterms"
     },
     {
       "relation": "re_exports",
@@ -13275,9 +13339,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_index",
-      "target": "src_terms_stripphonenumbers",
-      "confidence_score": 1.0
+      "target": "src_terms_stripphonenumbers"
     },
     {
       "relation": "imports_from",
@@ -13286,9 +13350,9 @@
       "source_file": "packages/scoring/test/terms.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "test_terms_test",
-      "target": "src_index",
-      "confidence_score": 1.0
+      "target": "src_index"
     },
     {
       "relation": "imports_from",
@@ -13339,9 +13403,9 @@
       "source_file": "packages/scoring/src/terms.ts",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_terms",
-      "target": "src_terms_stripphonenumbers",
-      "confidence_score": 1.0
+      "target": "src_terms_stripphonenumbers"
     },
     {
       "relation": "imports",
@@ -13350,9 +13414,9 @@
       "source_file": "packages/scoring/test/terms.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "test_terms_test",
-      "target": "src_terms_stripphonenumbers",
-      "confidence_score": 1.0
+      "target": "src_terms_stripphonenumbers"
     },
     {
       "relation": "imports",
@@ -13405,9 +13469,9 @@
       "source_file": "packages/scoring/test/terms.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "test_terms_test",
-      "target": "src_terms_extractterms",
-      "confidence_score": 1.0
+      "target": "src_terms_extractterms"
     },
     {
       "relation": "contains",
@@ -20756,70 +20820,6 @@
       "confidence_score": 1.0,
       "source": "web_http_storage_adapter_httpstorageadapter_gettermboosts",
       "target": "web_http_storage_adapter_httpstorageadapter_load"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/legal/privacy.component.ts",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "legal_privacy_component",
-      "target": "legal_privacy_component_privacycomponent"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/routes.ts",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_routes",
-      "target": "legal_privacy_component"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/routes.ts",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_routes",
-      "target": "legal_privacy_component_privacycomponent"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/legal/terms.component.ts",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "legal_terms_component",
-      "target": "legal_terms_component_termscomponent"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/routes.ts",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_routes",
-      "target": "legal_terms_component"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/app/web/routes.ts",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "web_routes",
-      "target": "legal_terms_component_termscomponent"
     },
     {
       "relation": "contains",
@@ -32445,5 +32445,5 @@
       "source_file": "resources/test_files/senior_software_engineer.txt"
     }
   ],
-  "built_at_commit": "9159a35de71b28cfddede1d40f6545cc31e3e72f"
+  "built_at_commit": "91d2e5b642d5db92bec472af61daf95d21a81b37"
 }

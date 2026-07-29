@@ -710,13 +710,13 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/legal/privacy.component.ts": {
-    "mtime": 1785027837.423912,
-    "ast_hash": "9b1381f354fb01ac4a0c652ed00dea01",
+    "mtime": 1785346783.5719156,
+    "ast_hash": "7e7cf6bc1a77505422a7a1cbcc387c47",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/legal/terms.component.ts": {
-    "mtime": 1785027837.4244058,
-    "ast_hash": "dac8def39aa165412f6e9e67aaa427e4",
+    "mtime": 1785346780.1550252,
+    "ast_hash": "b0a327336453809e7bc73acf6d9a99b1",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/nav-shell.component.ts": {
