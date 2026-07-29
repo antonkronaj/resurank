@@ -555,8 +555,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/shared/app.component.ts": {
-    "mtime": 1785347008.268465,
-    "ast_hash": "87485b114bc9782587d087dd21543006",
+    "mtime": 1785348585.1489182,
+    "ast_hash": "de971127185e7418b6d2978d54fecde5",
     "semantic_hash": ""
   },
   "apps/ui/src/app/shared/clipboard.token.ts": {
@@ -780,8 +780,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/shared/app.component.html": {
-    "mtime": 1785348020.8323872,
-    "ast_hash": "2062524d79ceb03584abacdc6be26f21",
+    "mtime": 1785349346.1020107,
+    "ast_hash": "290edcb74b314b5fff1a823b8cb9f1a0",
     "semantic_hash": ""
   },
   "apps/ui/src/app/shared/keyword-info-modal/keyword-info-modal.component.html": {
