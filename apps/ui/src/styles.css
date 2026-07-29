@@ -283,8 +283,17 @@ body {
 .chip--missing { background: var(--danger-subtle); color: var(--danger); }
 .toolbar-filter { display: flex; gap: 8px; align-items: center; }
 .select {
-  background: var(--bg); border: 1px solid var(--border); color: var(--text);
-  padding: 7px 10px; border-radius: 7px; font: inherit; font-size: 13px;
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+    linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+  background-position: calc(100% - 17px) center, calc(100% - 12px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  border: 1px solid var(--border); color: var(--text);
+  padding: 7px 30px 7px 10px; border-radius: 7px; font: inherit; font-size: 13px;
+  cursor: pointer;
 }
 
 /* ── Danger zone ─────────────────────────────────────────────────────── */
