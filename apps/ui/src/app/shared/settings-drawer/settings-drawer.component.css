@@ -11,7 +11,7 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 320px;
+  width: 360px;
   background: var(--sidebar-bg);
   border-left: 1px solid var(--border);
   z-index: 101;
@@ -38,7 +38,7 @@
 
 .dw-title {
   font-weight: 600;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text);
 }
 
@@ -46,10 +46,10 @@
   background: var(--surface-2);
   border: 1px solid var(--border);
   cursor: pointer;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -84,7 +84,7 @@
 }
 
 .dw-section-title {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
@@ -101,7 +101,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--muted);
   padding: 0 2px;
   line-height: 1;
@@ -120,7 +120,7 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
-  font-size: 10px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--muted);
@@ -129,9 +129,9 @@
 .dw-field input {
   background: var(--bg);
   border: 1px solid var(--border);
-  padding: 6px 10px;
+  padding: 7px 10px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text);
   font-family: inherit;
   text-transform: none;
@@ -149,9 +149,9 @@
 .dw-check {
   display: flex;
   align-items: center;
-  height: 22px;
+  height: 24px;
   gap: 8px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-muted);
   cursor: pointer;
   text-transform: none;
@@ -164,8 +164,8 @@
 }
 
 .dw-check input[type=checkbox] {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
   cursor: pointer;
   accent-color: var(--accent);
   margin: 0;
@@ -175,9 +175,9 @@ button.primary {
   background: var(--accent);
   color: #fff;
   border: none;
-  padding: 6px 14px;
+  padding: 7px 14px;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
   align-self: flex-start;
   font-family: inherit;
@@ -190,17 +190,17 @@ button.primary:hover {
 }
 
 button.primary.sm {
-  font-size: 12px;
-  padding: 5px 12px;
+  font-size: 13px;
+  padding: 6px 12px;
 }
 
 button.danger {
   background: #c0392b;
   color: #fff;
   border: none;
-  padding: 6px 14px;
+  padding: 7px 14px;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
   font-family: inherit;
   font-weight: 500;
@@ -213,8 +213,8 @@ button.danger:hover {
 }
 
 button.danger.sm {
-  font-size: 12px;
-  padding: 5px 12px;
+  font-size: 13px;
+  padding: 6px 12px;
 }
 
 .bulk-delete-list {
@@ -230,18 +230,18 @@ button.danger.sm {
 }
 
 .resume-name {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text);
 }
 
 .text-muted {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .text-muted.small, p.small {
-  font-size: 11px;
+  font-size: 12px;
   margin: 0;
 }
 
@@ -250,9 +250,9 @@ button.danger.sm {
   align-items: center;
   background: var(--surface-2);
   border: 1px solid var(--border);
-  padding: 6px 12px;
+  padding: 7px 12px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   align-self: flex-start;
   color: var(--text);
@@ -267,7 +267,7 @@ button.danger.sm {
 
 .key-status-inline {
   font-weight: 400;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0;
   text-transform: none;
   white-space: nowrap;
@@ -296,7 +296,7 @@ button.danger.sm {
 
 .boost-row {
   display: grid;
-  grid-template-columns: 1fr 70px 24px;
+  grid-template-columns: 1fr 80px 28px;
   gap: 6px;
   align-items: center;
 }
@@ -304,9 +304,9 @@ button.danger.sm {
 .boost-row input {
   background: var(--bg);
   border: 1px solid var(--border);
-  padding: 5px 8px;
+  padding: 6px 8px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text);
   font-family: inherit;
   transition: border-color 0.15s, background 0.15s;
@@ -324,11 +324,11 @@ button.danger.sm {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--muted);
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -354,7 +354,7 @@ button.danger.sm {
   align-items: center;
   gap: 8px;
   margin: 8px 0;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
   color: var(--text);
 }
@@ -373,7 +373,7 @@ button.danger.sm {
 .missing-slider-label {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
 }
 
@@ -393,7 +393,7 @@ button.danger.sm {
 }
 
 .dw-subsection-title {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text);
   margin-top: 12px;
@@ -402,7 +402,7 @@ button.danger.sm {
 
 .pinned-row {
   display: grid;
-  grid-template-columns: 1fr 90px 24px;
+  grid-template-columns: 1fr 100px 28px;
   gap: 6px;
   align-items: center;
 }
@@ -410,9 +410,9 @@ button.danger.sm {
 .pinned-term {
   background: var(--bg);
   border: 1px solid var(--border);
-  padding: 5px 8px;
+  padding: 6px 8px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text);
   font-family: inherit;
   transition: border-color 0.15s, background 0.15s;
@@ -426,7 +426,7 @@ button.danger.sm {
   border: 1px solid var(--border);
   padding: 8px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text);
   font-family: inherit;
   resize: vertical;
@@ -450,9 +450,9 @@ button.danger.sm {
 .pinned-importance {
   background: var(--bg);
   border: 1px solid var(--border);
-  padding: 4px 6px;
+  padding: 5px 6px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text);
   font-family: inherit;
   cursor: pointer;
