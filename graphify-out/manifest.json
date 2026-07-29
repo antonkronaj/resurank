@@ -555,8 +555,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/shared/app.component.ts": {
-    "mtime": 1785027837.4108982,
-    "ast_hash": "b3d2d71bad026f8be7e2479f3efe5f42",
+    "mtime": 1785347008.268465,
+    "ast_hash": "87485b114bc9782587d087dd21543006",
     "semantic_hash": ""
   },
   "apps/ui/src/app/shared/clipboard.token.ts": {
@@ -720,8 +720,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/nav-shell.component.ts": {
-    "mtime": 1785027837.4250522,
-    "ast_hash": "45b04f737ccd0678505a62fe5d089653",
+    "mtime": 1785347022.4041836,
+    "ast_hash": "4f15815893f5806b5afe0459a23843bf",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/resume-picker/resume-picker.component.ts": {
@@ -855,8 +855,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/nav-shell.component.html": {
-    "mtime": 1785346263.7118402,
-    "ast_hash": "3b4a3951f6b0fb95d0ebad6f764a4e5c",
+    "mtime": 1785347026.5960002,
+    "ast_hash": "00c91113a9ce32d24e410464cc89f247",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/resume-picker/resume-picker.component.html": {
@@ -927,6 +927,11 @@
   "packages/scoring/test/terms.test.ts": {
     "mtime": 1785345275.3637526,
     "ast_hash": "9dd916589f8fe70e8ee27b15a29b3b9b",
+    "semantic_hash": ""
+  },
+  "apps/ui/src/app/shared/theme.service.ts": {
+    "mtime": 1785346987.7403502,
+    "ast_hash": "b49dd8b442f0e6045f14da234f57f851",
     "semantic_hash": ""
   }
 }
