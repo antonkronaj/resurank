@@ -55,9 +55,19 @@
     @if (sessionsMessage()) {
       <p class="form-notice">{{ sessionsMessage() }}</p>
     }
-    <button (click)="signOutEverywhere()" [disabled]="signingOutEverywhere()" class="ghost" type="button">
-      {{ signingOutEverywhere() ? 'Signing out…' : 'Sign out everywhere' }}
-    </button>
+    @if (!signOutAllRequested()) {
+      <button (click)="signOutAllRequested.set(true)" class="ghost" type="button">Sign out everywhere</button>
+    } @else {
+      <p class="small muted">
+        Every signed-in device will need its password again. This cannot be undone.
+      </p>
+      <div style="display:flex;gap:10px">
+        <button (click)="signOutEverywhere()" [disabled]="signingOutEverywhere()" class="danger-btn" type="button">
+          {{ signingOutEverywhere() ? 'Signing out…' : 'Sign out all devices' }}
+        </button>
+        <button (click)="signOutAllRequested.set(false)" class="ghost" type="button">Cancel</button>
+      </div>
+    }
   </section>
 
   <section class="panel zone-danger">

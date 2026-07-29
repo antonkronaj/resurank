@@ -37,6 +37,7 @@ export class AccountComponent implements OnInit {
   readonly passwordMessage = signal('');
   readonly passwordError = signal('');
 
+  readonly signOutAllRequested = signal(false);
   readonly signingOutEverywhere = signal(false);
   readonly sessionsMessage = signal('');
 

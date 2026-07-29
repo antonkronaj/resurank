@@ -55,15 +55,15 @@ export class NavShellComponent {
     this.menuOpen.set(false);
   }
 
+  /**
+   * Local sign-out only. "Sign out everywhere" deliberately lives on the
+   * Account screen instead: it is irreversible (every device must re-enter
+   * its password) and sat here one pixel from this button under a nearly
+   * identical label, so a misclick was cheap to make and impossible to undo.
+   */
   async signOut(): Promise<void> {
     this.closeMenu();
     await this.auth.logout();
-    await this.router.navigate(['/login']);
-  }
-
-  async signOutEverywhere(): Promise<void> {
-    this.closeMenu();
-    await this.auth.logoutAll();
     await this.router.navigate(['/login']);
   }
 }
