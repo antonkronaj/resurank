@@ -6,7 +6,7 @@ import {
   STORAGE_ADAPTER,
   StorageAdapter,
 } from './storage/storage-adapter';
-import {extractTerms, ResumeParserService} from './resume-parser.service';
+import {extractTerms, ResumeParserService, stripPhoneNumbers} from './resume-parser.service';
 import {EmbeddingService, ModelStatus} from './embedding.service';
 import {MatchBreakdown, MatcherService, MatchResult, TermCount, TermWeight} from './matcher.service';
 
@@ -53,7 +53,9 @@ export class ApiService {
   uploadResume(file: File): Observable<{ ok: boolean; chars: number; termCount: number }> {
     return from((async () => {
       const stopwords = new Set(await this.storage.getStopwords());
-      const {text, arrayBuffer} = await this.parser.parsePdf(file);
+      const {text: rawText, arrayBuffer} = await this.parser.parsePdf(file);
+      // Phone numbers are redacted before storage/scoring — never save or embed them.
+      const text = stripPhoneNumbers(rawText);
       const terms = extractTerms(text, stopwords);
       const data = {
         filename: file.name,

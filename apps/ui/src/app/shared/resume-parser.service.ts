@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-export {extractTerms} from '@resurank/scoring';
+export {extractTerms, stripPhoneNumbers} from '@resurank/scoring';
 
 @Injectable({providedIn: 'root'})
 export class ResumeParserService {
