@@ -7,5 +7,8 @@ import {RouterLink} from '@angular/router';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './privacy.component.html',
+  // Scoped to this component only (emulated encapsulation) — bumps the
+  // legal page's body text without touching the shared `.small` class.
+  styles: ['.small { font-size: 14px; }'],
 })
 export class PrivacyComponent {}
