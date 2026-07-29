@@ -166,7 +166,7 @@ body {
   display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 16px;
   background: var(--toolbar-bg); border-bottom: 1px solid var(--border-light);
 }
-.brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; color: var(--accent); letter-spacing: -.3px; }
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; color: var(--accent); letter-spacing: -.3px; text-decoration: none; }
 .brand-mark {
   width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center;
   background: linear-gradient(135deg, var(--accent), var(--accent-hover));
