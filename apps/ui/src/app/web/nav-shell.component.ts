@@ -1,6 +1,7 @@
 import {Component, computed, inject, signal} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {AuthService} from './auth.service';
+import {ThemeService} from '../shared/theme.service';
 
 /**
  * The authenticated web app's chrome: brand, primary nav (Resumes / Score /
@@ -26,8 +27,10 @@ import {AuthService} from './auth.service';
 export class NavShellComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
+  private themeService = inject(ThemeService);
 
   readonly menuOpen = signal(false);
+  readonly theme = this.themeService.theme;
 
   readonly initials = computed(() => {
     const user = this.auth.user();
@@ -41,6 +44,11 @@ export class NavShellComponent {
 
   toggleMenu(): void {
     this.menuOpen.update((open) => !open);
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggle();
+    this.closeMenu();
   }
 
   closeMenu(): void {

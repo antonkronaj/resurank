@@ -13,6 +13,9 @@
         <div (click)="closeMenu()" class="menu-backdrop"></div>
         <div class="avatar-menu">
           <a (click)="closeMenu()" class="avatar-menu-item" routerLink="account">Account</a>
+          <button (click)="toggleTheme()" class="avatar-menu-item" type="button">
+            {{ theme() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode' }}
+          </button>
           <button (click)="signOut()" class="avatar-menu-item" type="button">Sign out</button>
           <button (click)="signOutEverywhere()" class="avatar-menu-item" type="button">Sign out everywhere</button>
           <a class="avatar-menu-item" href="/terms" style="font-size:12px" target="_blank">Terms</a>

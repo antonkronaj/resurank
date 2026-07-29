@@ -123,6 +123,12 @@
   text-align: center;
 }
 
+/* Web moves this into the avatar menu in `web/nav-shell.component.ts`, since
+   that chrome (not this shared component) is what persists across routes. */
+:host-context([data-platform="web"]) .tb-theme-btn {
+  display: none;
+}
+
 /* ── Body ─────────────────────────────────────────────────────────────── */
 .body {
   display: flex;
