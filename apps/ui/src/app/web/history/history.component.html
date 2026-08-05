@@ -52,4 +52,11 @@
   }
 </div>
 
-<app-history-detail-modal (close)="closeDetail()" [entry]="selectedEntry()" />
+<app-history-detail-modal
+  (close)="closeDetail()"
+  (rescore)="rescore($event)"
+  [activeResumeName]="activeResumeName()"
+  [entry]="selectedEntry()"
+  [rescoreError]="rescoreError()"
+  [rescoreOutcome]="rescoreOutcome()"
+  [rescoring]="rescoring()" />

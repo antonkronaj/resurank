@@ -58,5 +58,43 @@
     } @else {
       <p class="small muted">Recorded before ResuRank tracked which model produced a score.</p>
     }
+
+    @if (rescoreOutcome(); as outcome) {
+      <p class="small">
+        Re-scored: <strong>{{ scorePct(outcome.previous) }}</strong> →
+        <strong>{{ scorePct(outcome.next) }}</strong> ({{ scoreDelta(outcome) }}).
+        The entry above is unchanged — re-scores are added to the list as new rows.
+      </p>
+    } @else {
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap">
+        <button
+          (click)="rescore.emit(e)"
+          [disabled]="rescoring() || !activeResumeName()"
+          class="ghost"
+          type="button">
+          @if (rescoring()) {
+            @if (modelProgress(); as pct) {
+              Loading model… {{ pct }}%
+            } @else {
+              Scoring…
+            }
+          } @else {
+            Re-score with current model
+          }
+        </button>
+        @if (!activeResumeName()) {
+          <span class="small muted">Upload a resume to re-score.</span>
+        } @else if (activeResumeName() !== e.resumeFilename) {
+          <span class="small muted">
+            Scores against your active resume, <strong>{{ activeResumeName() }}</strong> — not the
+            {{ e.resumeFilename ?? 'deleted resume' }} this entry used.
+          </span>
+        }
+      </div>
+    }
+
+    @if (rescoreError()) {
+      <p class="form-error small">{{ rescoreError() }}</p>
+    }
   }
 </app-modal-shell>

@@ -270,9 +270,6 @@ export class AppComponent implements OnInit {
     this.api.savePreferenceMismatchSettings(settings).subscribe({
       next: () => {
         this.savingPreferenceSettings.set(false);
-        if (settings.text !== previous.text) {
-          this.embeddingService.invalidatePreferenceCache();
-        }
         this.preferenceSettings.set(settings);
         this.message.set('Preference settings saved.');
       },

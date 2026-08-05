@@ -207,6 +207,7 @@ body {
   padding: 9px 16px; border-radius: 7px; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer;
 }
 .ghost:hover { background: var(--row-hover); }
+.ghost:disabled { opacity: .5; cursor: not-allowed; background: transparent; }
 .danger-btn {
   background: transparent; border: 1px solid var(--danger); color: var(--danger);
   padding: 9px 16px; border-radius: 7px; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer;

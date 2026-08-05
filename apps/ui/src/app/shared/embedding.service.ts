@@ -29,8 +29,6 @@ export class EmbeddingService {
 
   private embedder: WorkerEmbedder | null = null;
   private embedderPromise: Promise<WorkerEmbedder> | null = null;
-  private resumeCache: {text: string; vector: number[]} | null = null;
-  private preferenceCache: {text: string; vector: number[]} | null = null;
 
   constructor(
     @Inject(MODEL_CACHE_DIR) private getCacheDir: () => Promise<string | undefined>,
@@ -50,37 +48,12 @@ export class EmbeddingService {
     };
   }
 
-  warmup(): void {
-    this.getEmbedder().catch(err => console.error('[EmbeddingService] warmup failed:', err));
-  }
-
-  async embedResume(text: string): Promise<number[]> {
-    if (this.resumeCache?.text === text) return this.resumeCache.vector;
-    const [vector] = await this.embed([text]);
-    this.resumeCache = {text, vector};
-    return vector;
-  }
-
-  invalidateResumeCache(): void {
-    this.resumeCache = null;
-  }
-
-  async embedPreference(text: string): Promise<number[]> {
-    if (this.preferenceCache?.text === text) return this.preferenceCache.vector;
-    const [vector] = await this.embed([text]);
-    this.preferenceCache = {text, vector};
-    return vector;
-  }
-
-  invalidatePreferenceCache(): void {
-    this.preferenceCache = null;
-  }
-
-  async embedJob(text: string): Promise<number[]> {
-    const [vector] = await this.embed([text]);
-    return vector;
-  }
-
+  /**
+   * The only entry point. Scoring reaches this through `MatcherService`'s
+   * `Embedder` adapter, which is what triggers the model download on the first
+   * score — there is deliberately no eager warm-up, so a user who never scores
+   * never pays for the ~25 MB fetch.
+   */
   async embed(texts: string[]): Promise<number[][]> {
     if (texts.length === 0) return [];
     const embedder = await this.getEmbedder();

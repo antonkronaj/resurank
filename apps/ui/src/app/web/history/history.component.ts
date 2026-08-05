@@ -1,6 +1,8 @@
 import {CommonModule} from '@angular/common';
 import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {firstValueFrom} from 'rxjs';
+import {ApiService} from '../../shared/api.service';
 import {EmbeddingService} from '../../shared/embedding.service';
 import {scoreTier} from '../../shared/score-tier';
 import {ApiHistoryEntry, ApiHistorySummary, HistoryService} from '../history.service';
@@ -29,6 +31,20 @@ export class HistoryComponent implements OnInit {
   readonly resumeFilter = signal<string>('');
   readonly sortMode = signal<SortMode>('newest');
   readonly selectedEntry = signal<ApiHistoryEntry | null>(null);
+  readonly rescoring = signal(false);
+  readonly rescoreError = signal('');
+  /** Old vs new score for the entry in the open modal, once a re-score lands. */
+  readonly rescoreOutcome = signal<{previous: number; next: number} | null>(null);
+
+  /**
+   * Re-scoring runs against whichever resume is active, not the one the entry
+   * was originally scored with — the scoring path has no way to score against
+   * an inactive resume. The modal names it so the comparison is never implied
+   * to be like-for-like when it isn't.
+   */
+  readonly activeResumeName = computed(
+    () => this.resumes().find((r) => r.isActive)?.filename ?? null,
+  );
 
   readonly sortedEntries = computed(() => {
     const list = this.entries();
@@ -52,6 +68,7 @@ export class HistoryComponent implements OnInit {
 
   private historyService = inject(HistoryService);
   private resumesService = inject(ResumesService);
+  private api = inject(ApiService);
 
   ngOnInit(): void {
     this.resumesService.list().then((list) => this.resumes.set(list));
@@ -80,14 +97,41 @@ export class HistoryComponent implements OnInit {
 
   async open(id: string): Promise<void> {
     try {
+      this.rescoreOutcome.set(null);
+      this.rescoreError.set('');
       this.selectedEntry.set(await this.historyService.get(id));
     } catch (err: unknown) {
       this.error.set(errorMessage(err));
     }
   }
 
+  /**
+   * Re-runs the stored job description through the current model and settings.
+   * `ApiService.match()` writes its own history row, so this deliberately does
+   * not edit the original entry — the old score stays on the record and the
+   * re-score joins the list as a new row, which is what makes the two
+   * comparable in the first place.
+   */
+  async rescore(entry: ApiHistoryEntry): Promise<void> {
+    if (this.rescoring()) return;
+    this.rescoring.set(true);
+    this.rescoreError.set('');
+    this.rescoreOutcome.set(null);
+    try {
+      const result = await firstValueFrom(this.api.match(entry.jobTitle, entry.jobDescription));
+      this.rescoreOutcome.set({previous: entry.score, next: result.score});
+      await this.refresh();
+    } catch (err: unknown) {
+      this.rescoreError.set(errorMessage(err));
+    } finally {
+      this.rescoring.set(false);
+    }
+  }
+
   closeDetail(): void {
     this.selectedEntry.set(null);
+    this.rescoreOutcome.set(null);
+    this.rescoreError.set('');
   }
 }
 

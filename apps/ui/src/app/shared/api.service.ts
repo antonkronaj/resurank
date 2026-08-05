@@ -19,11 +19,6 @@ export interface ResumeInfo {
   chars?: number;
 }
 
-export interface HealthResponse {
-  ok: boolean;
-  model: ModelStatus;
-}
-
 export type {ModelStatus};
 
 @Injectable({providedIn: 'root'})
@@ -43,13 +38,6 @@ export class ApiService {
     ));
   }
 
-  getHealth(): Observable<HealthResponse> {
-    return new Observable(subscriber => {
-      subscriber.next({ok: true, model: this.embedding.status()});
-      subscriber.complete();
-    });
-  }
-
   uploadResume(file: File): Observable<{ ok: boolean; chars: number; termCount: number }> {
     return from((async () => {
       const stopwords = new Set(await this.storage.getStopwords());
@@ -64,7 +52,6 @@ export class ApiService {
         uploadedAt: new Date().toISOString(),
       };
       await this.storage.saveResume(data, arrayBuffer);
-      this.embedding.invalidateResumeCache();
       return {ok: true, chars: text.length, termCount: terms.length};
     })());
   }
