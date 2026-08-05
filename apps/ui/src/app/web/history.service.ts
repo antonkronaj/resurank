@@ -10,6 +10,8 @@ export interface ApiHistorySummary {
   resumeFilename: string | null;
   jobTitle: string;
   score: number;
+  /** Null for rows written before provenance was recorded. */
+  embeddingModel: string | null;
   createdAt: string;
 }
 
@@ -17,6 +19,8 @@ export interface ApiHistorySummary {
 export interface ApiHistoryEntry extends ApiHistorySummary {
   jobDescription: string;
   result: MatchResult;
+  embeddingDtype: string | null;
+  scoringVersion: string | null;
 }
 
 /**

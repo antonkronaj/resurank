@@ -198,6 +198,12 @@
       <div class="text-muted small">
         Version: {{ appVersion() }}
       </div>
+      <div class="text-muted small">
+        Embedding model: <code>{{ modelLabel() }}</code> ({{ modelDtype }}, ~{{ modelSizeMb }} MB)
+      </div>
+      <div class="text-muted small">
+        Scoring engine: {{ scoringVersion }}
+      </div>
     </div>
 
   </div>

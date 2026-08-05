@@ -46,7 +46,20 @@ export interface StoreSnapshot {
   preferenceMismatchSettings: PreferenceMismatchSettings;
 }
 
-export interface HistoryEntryInput {
+/**
+ * How a score was produced. Recorded alongside the result because a stored
+ * score is only comparable to a new one when the model, its quantization and
+ * the scoring weights all match — and all three move independently.
+ */
+export interface ScoreProvenance {
+  /** Full model id, e.g. 'Xenova/jina-embeddings-v2-small-en'. */
+  embeddingModel: string;
+  embeddingDtype: string;
+  /** @resurank/scoring version, which is what the tuning constants track. */
+  scoringVersion: string;
+}
+
+export interface HistoryEntryInput extends ScoreProvenance {
   jobTitle: string;
   jobDescription: string;
   result: MatchResult;

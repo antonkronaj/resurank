@@ -1,6 +1,7 @@
 import {CommonModule} from '@angular/common';
-import {Component, input, output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
 import {EMBEDDING_WEIGHT, TFIDF_WEIGHT} from '@resurank/scoring/constants';
+import {EmbeddingService} from '../../shared/embedding.service';
 import {ModalShellComponent} from '../../shared/modal-shell/modal-shell.component';
 import {scoreTier} from '../../shared/score-tier';
 import {ApiHistoryEntry} from '../history.service';
@@ -20,7 +21,19 @@ export class HistoryDetailModalComponent {
   readonly TFIDF_WEIGHT = TFIDF_WEIGHT;
   readonly scoreTier = scoreTier;
 
+  private readonly embedding = inject(EmbeddingService);
+  readonly currentModelLabel = this.embedding.modelLabel;
+
   scorePct(score: number): number {
     return Math.round(score * 100);
+  }
+
+  /** Drops the org prefix, matching how the model is named everywhere else in the UI. */
+  modelLabel(modelId: string): string {
+    return modelId.slice(modelId.lastIndexOf('/') + 1);
+  }
+
+  scoredWithOtherModel(entry: ApiHistoryEntry): boolean {
+    return !!entry.embeddingModel && entry.embeddingModel !== this.embedding.modelId();
   }
 }

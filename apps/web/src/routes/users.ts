@@ -145,6 +145,9 @@ export async function userRoutes(
         jobDescription: scoreHistory.jobDescription,
         score: scoreHistory.score,
         result: scoreHistory.result,
+        embeddingModel: scoreHistory.embeddingModel,
+        embeddingDtype: scoreHistory.embeddingDtype,
+        scoringVersion: scoreHistory.scoringVersion,
         createdAt: scoreHistory.createdAt,
       })
       .from(scoreHistory)

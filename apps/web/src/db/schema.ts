@@ -156,6 +156,20 @@ export const scoreHistory = pgTable(
      */
     score: doublePrecision('score').notNull(),
     result: jsonb('result').$type<MatchResult>().notNull(),
+    /**
+     * How the score was produced. Three columns rather than one jsonb blob:
+     * these are scalar, low-cardinality and always arrive together, so
+     * `group by scoring_version` stays possible without unpacking jsonb — the
+     * same reasoning that gives `score` its own column. Kept out of `result`
+     * because that is @resurank/scoring's `MatchResult` contract, shared with
+     * the MCP server, and provenance is about the run, not the score.
+     *
+     * Nullable: rows written before this existed genuinely do not know, and
+     * the desktop build does not record history at all.
+     */
+    embeddingModel: text('embedding_model'),
+    embeddingDtype: text('embedding_dtype'),
+    scoringVersion: text('scoring_version'),
     createdAt: timestamp('created_at', {withTimezone: true}).notNull().defaultNow(),
   },
   (table) => [

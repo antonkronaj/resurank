@@ -147,6 +147,12 @@ export const createHistorySchema = z.object({
   // `score` is read by the server (it is denormalised into its own column for
   // sorting); the rest is stored as opaque jsonb owned by @resurank/scoring.
   result: z.object({score: z.number().finite()}).passthrough(),
+  // Self-reported provenance from the client. Constrained rather than accepted
+  // as free text: these are echoed back into the history UI, and the shapes
+  // are narrow enough that there is no reason to allow anything else.
+  embeddingModel: z.string().regex(/^[\w.-]+\/[\w.-]+$/).max(128).optional(),
+  embeddingDtype: z.string().regex(/^[a-z0-9_]+$/).max(16).optional(),
+  scoringVersion: z.string().regex(/^\d+\.\d+\.\d+(?:[-+][\w.-]+)?$/).max(32).optional(),
 });
 
 export const historyQuerySchema = z.object({

@@ -1,16 +1,16 @@
 # Graph Report - resurank  (2026-08-05)
 
 ## Corpus Check
-- 138 files · ~183,333 words
+- 140 files · ~185,556 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1245 nodes · 1914 edges · 76 communities (62 shown, 14 thin omitted)
+- 1250 nodes · 1938 edges · 76 communities (63 shown, 13 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `841508d9`
+- Built from commit: `167c7e47`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -92,26 +92,26 @@
 ## God Nodes (most connected - your core abstractions)
 1. `SettingsDrawerComponent` - 29 edges
 2. `AppComponent` - 21 edges
-3. `AuthService` - 21 edges
-4. `MissingKeywordSettings` - 20 edges
-5. `PreferenceMismatchSettings` - 20 edges
-6. `HttpStorageAdapter` - 19 edges
-7. `ResuRank` - 17 edges
-8. `ElectronStorageAdapter` - 16 edges
-9. `ApiService` - 16 edges
-10. `EmbeddingService` - 16 edges
+3. `EmbeddingService` - 21 edges
+4. `AuthService` - 21 edges
+5. `MissingKeywordSettings` - 20 edges
+6. `PreferenceMismatchSettings` - 20 edges
+7. `HttpStorageAdapter` - 19 edges
+8. `ResuRank` - 17 edges
+9. `ElectronStorageAdapter` - 16 edges
+10. `ApiService` - 16 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Java / Spring Boot Skills` --semantically_similar_to--> `TypeScript / Node.js Skills`  [INFERRED] [semantically similar]
   resources/test_files/senior_software_engineer.txt → packages/scoring/test/fixtures/resume.txt
+- `writeConfigAtomic()` --calls--> `require`  [INFERRED]
+  apps/desktop/src/main/claude-desktop.ts → packages/mcp-server/src/resume-loader.ts
 - `Auto-Update Config (electron-updater)` --references--> `ResuRank`  [INFERRED]
   app-update.yml → README.md
 - `Senior Software Engineer Backend Platform JD` --conceptually_related_to--> `Preference Mismatch Penalty`  [INFERRED]
   resources/test_files/senior_software_engineer.txt → packages/scoring/README.md
 - `HealthResponse` --references--> `ModelStatus`  [EXTRACTED]
   apps/ui/src/app/shared/api.service.ts → packages/scoring/src/worker-embedder.ts
-- `writeConfigAtomic()` --calls--> `require`  [INFERRED]
-  apps/desktop/src/main/claude-desktop.ts → packages/mcp-server/src/resume-loader.ts
 
 ## Import Cycles
 - None detected.
@@ -125,15 +125,15 @@
 - **Shared Scoring Engine Consumers** — scoring_resurank_scoring_pkg, mcp_server_resurank_mcp, scoring_score_resume_against_job [EXTRACTED 1.00]
 - **Job Description Test Corpus** — test_files_english_java_angular, test_files_foreign_language, test_files_registered_nurse, test_files_senior_software_engineer [INFERRED 0.85]
 
-## Communities (76 total, 14 thin omitted)
+## Communities (76 total, 13 thin omitted)
 
 ### Community 0 - "Embedding & Matcher Services"
 Cohesion: 0.07
 Nodes (35): PIN_IMPORTANCE_MULTIPLIERS, embedder, EMBEDDING_MODEL, NodeEmbedder, NodeEmbedderOptions, buildTfIdf(), computeMissingKeywordPenalty(), computePreferenceMismatchPenalty() (+27 more)
 
 ### Community 1 - "API Service (IPC Bridge)"
-Cohesion: 0.08
-Nodes (13): errorMessage(), HistoryComponent, SortMode, HistoryDetailModalComponent, errorMessage(), ResumesComponent, scoreTier, ApiHistoryEntry (+5 more)
+Cohesion: 0.07
+Nodes (14): errorMessage(), HistoryComponent, SortMode, HistoryDetailModalComponent, ResumePickerComponent, errorMessage(), ResumesComponent, scoreTier (+6 more)
 
 ### Community 2 - "Electron Root Package"
 Cohesion: 0.04
@@ -161,23 +161,23 @@ Nodes (29): cli, analytics, packageManager, prefix, projectType, root, schematic
 
 ### Community 8 - "Claude Desktop Config (Main)"
 Cohesion: 0.12
-Nodes (26): ClaudeConfig, ClaudeDesktopStatus, connect(), ConnectOptions, ConnectResult, disconnect(), getConfigPath(), getMcpEntry() (+18 more)
+Nodes (25): ClaudeConfig, ClaudeDesktopStatus, connect(), ConnectOptions, ConnectResult, disconnect(), getConfigPath(), getMcpEntry() (+17 more)
 
 ### Community 10 - "Frontend UI Layout"
 Cohesion: 0.12
 Nodes (26): Keyword Breakdown Mode (weighted / counts), Job Description Input Panel, Job Description Keywords Panel, Matched / Missing Terms Section, App Root Component, Score Ring & Breakdown, App Toolbar (brand, theme toggle, settings), Claude Desktop Card Component (+18 more)
 
 ### Community 11 - "MCP Resume Resolver"
-Cohesion: 0.13
-Nodes (13): FileCacheEntry, loadResumeFile(), ResolvedResume, resolveResume(), resumePath, ResumeSource, server, validateResumeText() (+5 more)
+Cohesion: 0.12
+Nodes (14): FileCacheEntry, loadResumeFile(), ResolvedResume, resolveResume(), resumePath, ResumeSource, server, validateResumeText() (+6 more)
 
 ### Community 12 - "Scoring Model & Design Decisions"
 Cohesion: 0.06
 Nodes (30): Auto-Update Config (electron-updater), Critical Missing Keywords Penalty, Divergence Adjustment, Keyword Similarity (TF-IDF), Preference Mismatch Penalty, ResuRank Product Description, Security Posture (Fuses, CSP, Isolation), Semantic Similarity (Vector Embeddings) (+22 more)
 
 ### Community 13 - "App Root Component Logic"
-Cohesion: 0.13
-Nodes (20): main(), assertDatabaseReachable(), closeDatabase(), Database, db, pool, migrationsFolder, writeLimit() (+12 more)
+Cohesion: 0.18
+Nodes (10): Database, db, pool, authRoutes(), bootstrapRoutes(), healthRoutes(), userRoutes(), BuildAppOptions (+2 more)
 
 ### Community 14 - "Scoring tsconfig"
 Cohesion: 0.11
@@ -196,8 +196,8 @@ Cohesion: 0.13
 Nodes (14): compilerOptions, allowSyntheticDefaultImports, declaration, esModuleInterop, module, moduleResolution, outDir, resolveJsonModule (+6 more)
 
 ### Community 18 - "Storage Service (JSON Files)"
-Cohesion: 0.27
-Nodes (6): KeywordInfoModalComponent, KeywordInfoMode, ModalShellComponent, ScoreInfoModalComponent, BreakdownMode, CLIPBOARD_WRITER
+Cohesion: 0.18
+Nodes (9): KeywordInfoModalComponent, KeywordInfoMode, ModalShellComponent, ScoreInfoModalComponent, SettingsInfoModalComponent, SettingsInfoMode, ResumeInfo, BreakdownMode (+1 more)
 
 ### Community 19 - "Claude Desktop Card (Frontend)"
 Cohesion: 0.22
@@ -239,6 +239,10 @@ Nodes (4): devDependencies, @huggingface/transformers, @types/node, typescript
 Cohesion: 0.50
 Nodes (4): repository, directory, type, url
 
+### Community 30 - "Worker Export Map"
+Cohesion: 0.13
+Nodes (10): ClaudeDesktopConnectResult, ClaudeDesktopStatus, Window, Window, MissingKeywordSettings, PreferenceMismatchSettings, ResumeData, StoreSnapshot (+2 more)
+
 ### Community 31 - "Peer Dependency Meta"
 Cohesion: 0.67
 Nodes (3): optional, peerDependenciesMeta, @huggingface/transformers
@@ -276,8 +280,8 @@ Cohesion: 0.12
 Nodes (16): compilerOptions, declaration, esModuleInterop, isolatedModules, lib, module, moduleResolution, outDir (+8 more)
 
 ### Community 43 - "Community 43"
-Cohesion: 0.18
-Nodes (10): appConfig, BoostRow, SettingsInfoModalComponent, SettingsInfoMode, ResumeInfo, APP_VERSION, DESKTOP_SETTINGS_PANEL, PinImportance (+2 more)
+Cohesion: 0.24
+Nodes (10): appConfig, BoostRow, APP_VERSION, DESKTOP_SETTINGS_PANEL, PinImportance, DEFAULT_MISSING_KEYWORD_SETTINGS, DEFAULT_PREFERENCE_MISMATCH_SETTINGS, PinnedTerm (+2 more)
 
 ### Community 44 - "Community 44"
 Cohesion: 0.25
@@ -288,32 +292,32 @@ Cohesion: 0.33
 Nodes (5): **Feature list (supplementary bullets)**, **Long description (website / landing page)**, **Short description (app store listing, ~80 words)**, **Tagline (one line, hero text)**, **Under the hood (technical readers / developer audience)**
 
 ### Community 46 - "Community 46"
-Cohesion: 0.24
-Nodes (15): getTransporter(), layout(), Mail, send(), sendAccountExistsEmail(), sendEmailChangedNotice(), sendEmailChangeEmail(), sendInBackground() (+7 more)
+Cohesion: 0.33
+Nodes (12): getTransporter(), layout(), Mail, send(), sendAccountExistsEmail(), sendEmailChangedNotice(), sendEmailChangeEmail(), sendInBackground() (+4 more)
 
 ### Community 47 - "Community 47"
 Cohesion: 0.14
 Nodes (13): 1. Start Postgres + Mailpit, 2. Configure environment, 3. Apply the database schema, 4. Run the server, 5. Run the tests, Building & running for production, Docker, Environment variables (+5 more)
 
 ### Community 48 - "Community 48"
-Cohesion: 0.14
-Nodes (24): EmailToken, emailTokens, EmailTokenType, emailTokenTypes, NewUser, Resume, resumes, scoreHistory (+16 more)
+Cohesion: 0.13
+Nodes (25): EmailToken, emailTokens, EmailTokenType, emailTokenTypes, NewUser, Resume, resumes, ScoreHistoryEntry (+17 more)
 
 ### Community 49 - "Community 49"
-Cohesion: 0.12
-Nodes (25): sessions, users, linkPath(), login(), register(), registerAndVerify(), sessionCookie(), signedInUser() (+17 more)
+Cohesion: 0.10
+Nodes (30): main(), assertDatabaseReachable(), closeDatabase(), migrationsFolder, sessions, linkPath(), login(), register() (+22 more)
 
 ### Community 50 - "Community 50"
-Cohesion: 0.18
-Nodes (15): ApiHistoryEntry, ApiHistorySummary, ErrorCode, sendError(), sendValidationError(), DomainRoutesOptions, clearSessionCookie(), resolveSession() (+7 more)
+Cohesion: 0.15
+Nodes (16): scoreHistory, ApiHistoryEntry, ApiHistorySummary, ErrorCode, sendValidationError(), DomainRoutesOptions, writeLimit(), createHistorySchema (+8 more)
 
 ### Community 51 - "Community 51"
-Cohesion: 0.12
-Nodes (16): changePasswordSchema, createResumeSchema, emailOnlySchema, emailSchema, loginSchema, missingKeywordSettingsSchema, nameSchema, passwordSchema (+8 more)
+Cohesion: 0.14
+Nodes (17): changePasswordSchema, emailOnlySchema, emailSchema, loginSchema, missingKeywordSettingsSchema, nameSchema, passwordSchema, penaltySchema (+9 more)
 
 ### Community 52 - "Community 52"
-Cohesion: 0.26
-Nodes (13): ClaudeDesktopConnectResult, ClaudeDesktopStatus, Window, Window, DEFAULT_MISSING_KEYWORD_SETTINGS, DEFAULT_PREFERENCE_MISMATCH_SETTINGS, HistoryEntryInput, MissingKeywordSettings (+5 more)
+Cohesion: 0.23
+Nodes (10): users, getDummyHash(), hashPassword(), verifyPassword(), createUser(), findUserByEmail(), toPublicUser(), deleteAccountSchema (+2 more)
 
 ### Community 54 - "Community 54"
 Cohesion: 0.18
@@ -340,16 +344,16 @@ Cohesion: 0.29
 Nodes (7): After publishing a new scoring version, API, `Embedder` interface, License, Publishing a new version, @resurank/scoring, Subpath exports
 
 ### Community 65 - "Community 65"
-Cohesion: 0.16
-Nodes (18): User, generateToken(), getDummyHash(), hashPassword(), hashToken(), verifyPassword(), createSession(), revokeAllSessions() (+10 more)
+Cohesion: 0.23
+Nodes (13): User, generateToken(), hashToken(), sendError(), clearSessionCookie(), createSession(), resolveSession(), revokeAllSessions() (+5 more)
 
 ### Community 67 - "Community 67"
 Cohesion: 0.16
 Nodes (8): PrivacyComponent, TermsComponent, RegisterComponent, SignInComponent, VerifyEmailComponent, authGuard(), ApiErrorBody, PublicUser
 
 ### Community 68 - "Community 68"
-Cohesion: 0.20
-Nodes (4): EmbeddingService, MODEL_CACHE_DIR, ModelHostConfig, WorkerEmbedder
+Cohesion: 0.18
+Nodes (5): EmbeddingService, MODEL_CACHE_DIR, ModelHostConfig, WorkerEmbedder, ScoreProvenance
 
 ### Community 69 - "Community 69"
 Cohesion: 0.40
@@ -364,24 +368,24 @@ Cohesion: 0.67
 Nodes (3): default, types, ./constants
 
 ## Knowledge Gaps
-- **549 isolated node(s):** `name`, `version`, `description`, `license`, `author` (+544 more)
+- **549 isolated node(s):** `config`, `ClaudeDesktopStatus`, `ConnectResult`, `McpEntry`, `ClaudeConfig` (+544 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **14 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `embedder` connect `Embedding & Matcher Services` to `Claude Desktop Card (Frontend)`, `MCP Resume Resolver`?**
-  _High betweenness centrality (0.021) - this node is a cross-community bridge._
-- **Why does `require` connect `Claude Desktop Config (Main)` to `MCP Resume Resolver`?**
+  _High betweenness centrality (0.022) - this node is a cross-community bridge._
+- **Why does `SettingsDrawerComponent` connect `Settings Drawer Component` to `Storage Service (JSON Files)`, `Community 43`?**
   _High betweenness centrality (0.013) - this node is a cross-community bridge._
-- **What connects `name`, `version`, `description` to the rest of the system?**
+- **Why does `require` connect `MCP Resume Resolver` to `Claude Desktop Config (Main)`?**
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
+- **What connects `config`, `ClaudeDesktopStatus`, `ConnectResult` to the rest of the system?**
   _552 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Embedding & Matcher Services` be split into smaller, more focused modules?**
-  _Cohesion score 0.0660377358490566 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06894049346879536 - nodes in this community are weakly interconnected._
 - **Should `API Service (IPC Bridge)` be split into smaller, more focused modules?**
-  _Cohesion score 0.07862679955703211 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06612244897959184 - nodes in this community are weakly interconnected._
 - **Should `Electron Root Package` be split into smaller, more focused modules?**
   _Cohesion score 0.04081632653061224 - nodes in this community are weakly interconnected._
-- **Should `Frontend Package Deps` be split into smaller, more focused modules?**
-  _Cohesion score 0.0425531914893617 - nodes in this community are weakly interconnected._

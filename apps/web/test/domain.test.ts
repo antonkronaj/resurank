@@ -309,6 +309,61 @@ describe('history', () => {
     assert.equal(entry.jobTitle, 'Staff Engineer');
   });
 
+  it('records score provenance and serves it back', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {token} = await signedInUser(app, 'history-provenance');
+    const resumeId = await upload(token, 'cv.pdf');
+
+    const created = await post(token, '/api/history', {
+      resumeId,
+      jobTitle: 'Provenance',
+      jobDescription: 'a job that needs typing',
+      result: RESULT,
+      embeddingModel: 'Xenova/jina-embeddings-v2-small-en',
+      embeddingDtype: 'q8',
+      scoringVersion: '1.3.0',
+    });
+    assert.equal(created.statusCode, 201, created.payload);
+
+    const [summary] = (await get(token, '/api/history')).json().history;
+    assert.equal(summary.embeddingModel, 'Xenova/jina-embeddings-v2-small-en', 'model is on the summary');
+    assert.equal(summary.embeddingDtype, undefined, 'dtype and version stay on the full entry');
+
+    const {entry} = (await get(token, `/api/history/${summary.id}`)).json();
+    assert.equal(entry.embeddingModel, 'Xenova/jina-embeddings-v2-small-en');
+    assert.equal(entry.embeddingDtype, 'q8');
+    assert.equal(entry.scoringVersion, '1.3.0');
+  });
+
+  it('stores nulls when provenance is omitted', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {token} = await signedInUser(app, 'history-no-provenance');
+    const resumeId = await upload(token, 'cv.pdf');
+
+    const response = await saveScore(token, resumeId, 'Legacy client');
+    assert.equal(response.statusCode, 201, 'provenance is optional');
+
+    const {entry} = (await get(token, `/api/history/${response.json().entry.id}`)).json();
+    assert.equal(entry.embeddingModel, null);
+    assert.equal(entry.scoringVersion, null);
+  });
+
+  it('rejects malformed provenance rather than storing it', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {token} = await signedInUser(app, 'history-bad-provenance');
+    const resumeId = await upload(token, 'cv.pdf');
+
+    const response = await post(token, '/api/history', {
+      resumeId,
+      jobTitle: 'Injected',
+      jobDescription: 'a job',
+      result: RESULT,
+      embeddingModel: '<img src=x onerror=alert(1)>',
+    });
+
+    assert.equal(response.statusCode, 400, 'the model id is echoed into the UI, so it is constrained');
+  });
+
   it('keeps the unrounded float intact', async (t) => {
     if (!mailpitUp) return t.skip('Mailpit not running');
     const {token} = await signedInUser(app, 'history-float');

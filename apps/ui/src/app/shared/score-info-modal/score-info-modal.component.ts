@@ -1,4 +1,5 @@
-import {Component, input, output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
+import {EmbeddingService} from '../embedding.service';
 import {ModalShellComponent} from '../modal-shell/modal-shell.component';
 
 @Component({
@@ -11,4 +12,8 @@ import {ModalShellComponent} from '../modal-shell/modal-shell.component';
 export class ScoreInfoModalComponent {
   isOpen = input<boolean>(false);
   close = output<void>();
+
+  private readonly embedding = inject(EmbeddingService);
+  readonly modelLabel = this.embedding.modelLabel;
+  readonly modelSizeMb = this.embedding.modelSizeMb;
 }

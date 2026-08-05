@@ -28,7 +28,7 @@
     <div class="step-title">Step 2 — Embedding score (semantic similarity)</div>
     <p>Answers: <em>do these two texts mean the same thing, even if they use different words?</em></p>
     <p>
-      Both texts are passed through a local AI model (<code>jina-embeddings-v2-small-en</code>, ~25 MB, runs fully
+      Both texts are passed through a local AI model (<code>{{ modelLabel() }}</code>, ~{{ modelSizeMb }} MB, runs fully
       offline).
       The model converts each text into a vector representing its meaning. The score is the
       <strong>cosine similarity</strong> between the two vectors.

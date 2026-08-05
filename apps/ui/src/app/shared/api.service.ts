@@ -86,6 +86,9 @@ export class ApiService {
           jobTitle: title.trim() || 'Untitled role',
           jobDescription: description,
           result,
+          // Captured after scoring, so it describes the run that produced
+          // `result` rather than whatever is loaded when the row is read back.
+          ...this.embedding.provenance(),
         });
       } catch {
         // ignored — see above

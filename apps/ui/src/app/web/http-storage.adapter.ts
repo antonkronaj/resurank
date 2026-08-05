@@ -137,6 +137,9 @@ export class HttpStorageAdapter implements StorageAdapter {
         jobTitle: entry.jobTitle,
         jobDescription: entry.jobDescription,
         result: entry.result,
+        embeddingModel: entry.embeddingModel,
+        embeddingDtype: entry.embeddingDtype,
+        scoringVersion: entry.scoringVersion,
       }),
     );
   }

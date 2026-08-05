@@ -1,6 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {EmbeddingService} from '../../shared/embedding.service';
 import {scoreTier} from '../../shared/score-tier';
 import {ApiHistoryEntry, ApiHistorySummary, HistoryService} from '../history.service';
 import {ApiResumeSummary, ResumesService} from '../resumes.service';
@@ -36,6 +37,18 @@ export class HistoryComponent implements OnInit {
   });
 
   readonly scoreTier = scoreTier;
+
+  private embedding = inject(EmbeddingService);
+
+  /**
+   * True when a row was scored with a different embedding model than the one
+   * loaded now, which makes its score not directly comparable to a fresh one.
+   * A row with no recorded model predates provenance — unknown, not stale, so
+   * it stays unmarked rather than accusing every legacy row.
+   */
+  scoredWithOtherModel(entry: ApiHistorySummary): boolean {
+    return !!entry.embeddingModel && entry.embeddingModel !== this.embedding.modelId();
+  }
 
   private historyService = inject(HistoryService);
   private resumesService = inject(ResumesService);

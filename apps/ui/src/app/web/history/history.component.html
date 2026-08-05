@@ -38,6 +38,11 @@
             <div class="hist-title">{{ entry.jobTitle }}</div>
             <div class="hist-sub">
               {{ entry.resumeFilename ?? 'Deleted resume' }} · {{ entry.createdAt | date: 'd MMM y' }}
+              @if (scoredWithOtherModel(entry)) {
+                <span class="badge muted" title="Scored with {{ entry.embeddingModel }}, not the model loaded now">
+                  older model
+                </span>
+              }
             </div>
           </div>
           <button class="icon-btn" title="Open" type="button">→</button>

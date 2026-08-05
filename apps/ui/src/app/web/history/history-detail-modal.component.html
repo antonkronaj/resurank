@@ -42,5 +42,21 @@
 
     <h3 class="sub-title" style="margin-top:18px">Job description</h3>
     <p class="small" style="white-space:pre-wrap">{{ e.jobDescription }}</p>
+
+    <h3 class="sub-title" style="margin-top:18px">How this was scored</h3>
+    @if (e.embeddingModel) {
+      <p class="small muted">
+        Embedding model: <code>{{ modelLabel(e.embeddingModel) }}</code>@if (e.embeddingDtype) { ({{ e.embeddingDtype }}) }<br>
+        Scoring engine: {{ e.scoringVersion ?? 'unknown' }}
+      </p>
+      @if (scoredWithOtherModel(e)) {
+        <p class="small muted">
+          Your current model is <code>{{ currentModelLabel() }}</code>, so re-scoring this job may give a
+          different result.
+        </p>
+      }
+    } @else {
+      <p class="small muted">Recorded before ResuRank tracked which model produced a score.</p>
+    }
   }
 </app-modal-shell>

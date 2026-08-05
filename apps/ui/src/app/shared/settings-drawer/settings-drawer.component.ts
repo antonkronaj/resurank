@@ -4,7 +4,9 @@ import {FormsModule} from '@angular/forms';
 import {MissingKeywordSettings, PreferenceMismatchSettings, ResumeInfo} from '../api.service';
 import {DEFAULT_MISSING_KEYWORD_SETTINGS, DEFAULT_PREFERENCE_MISMATCH_SETTINGS, PinnedTerm} from '../storage/storage-adapter';
 import {DEFAULT_PIN_IMPORTANCE, MISSING_KEYWORD_PENALTY_LIMIT, PREFERENCE_MISMATCH_PENALTY_LIMIT, PinImportance} from '@resurank/scoring/constants';
+import {SCORING_VERSION} from '@resurank/scoring';
 import {SettingsInfoModalComponent, SettingsInfoMode} from '../settings-info-modal/settings-info-modal.component';
+import {EmbeddingService} from '../embedding.service';
 import {APP_VERSION} from '../app-version.token';
 import {DESKTOP_SETTINGS_PANEL} from '../desktop-settings-panel.token';
 
@@ -53,6 +55,12 @@ export class SettingsDrawerComponent implements OnInit {
   preferenceMaxPenalty = signal(0);
   preferenceText = signal('');
   readonly PREFERENCE_PENALTY_LIMIT = PREFERENCE_MISMATCH_PENALTY_LIMIT;
+
+  private readonly embedding = inject(EmbeddingService);
+  readonly modelLabel = this.embedding.modelLabel;
+  readonly modelDtype = this.embedding.modelDtype;
+  readonly modelSizeMb = this.embedding.modelSizeMb;
+  readonly scoringVersion = SCORING_VERSION;
 
   /** Null on the web build — `NgComponentOutlet` in the template no-ops on null. */
   readonly desktopSettingsPanel = inject(DESKTOP_SETTINGS_PANEL);

@@ -16,6 +16,11 @@ const summaryColumns = {
   resumeFilename: scoreHistory.resumeFilename,
   jobTitle: scoreHistory.jobTitle,
   score: scoreHistory.score,
+  // Carried on the summary, unlike the rest of the provenance, so the list can
+  // mark rows scored with a different model than the one loaded now — the
+  // reason a stored score may not be comparable is worth seeing without
+  // opening each row.
+  embeddingModel: scoreHistory.embeddingModel,
   createdAt: scoreHistory.createdAt,
 };
 
@@ -25,6 +30,7 @@ type SummaryRow = {
   resumeFilename: string | null;
   jobTitle: string;
   score: number;
+  embeddingModel: string | null;
   createdAt: Date;
 };
 
@@ -35,6 +41,7 @@ function toSummary(row: SummaryRow): ApiHistorySummary {
     resumeFilename: row.resumeFilename,
     jobTitle: row.jobTitle,
     score: row.score,
+    embeddingModel: row.embeddingModel,
     createdAt: row.createdAt.toISOString(),
   };
 }
@@ -90,6 +97,8 @@ export async function historyRoutes(
       ...toSummary(row),
       jobDescription: row.jobDescription,
       result: row.result,
+      embeddingDtype: row.embeddingDtype,
+      scoringVersion: row.scoringVersion,
     };
     return reply.send({entry});
   });
@@ -98,7 +107,8 @@ export async function historyRoutes(
     const parsed = createHistorySchema.safeParse(request.body);
     if (!parsed.success) return sendValidationError(reply, parsed.error);
 
-    const {resumeId, jobTitle, jobDescription, result} = parsed.data;
+    const {resumeId, jobTitle, jobDescription, result, embeddingModel, embeddingDtype, scoringVersion} =
+      parsed.data;
     if (jobDescription.length > JOB_DESCRIPTION_CHAR_CAP) {
       return sendError(
         reply,
@@ -138,10 +148,21 @@ export async function historyRoutes(
         // so the column and the payload can never disagree.
         score: result.score,
         result: result as unknown as MatchResult,
+        embeddingModel: embeddingModel ?? null,
+        embeddingDtype: embeddingDtype ?? null,
+        scoringVersion: scoringVersion ?? null,
       })
       .returning();
 
-    return reply.code(201).send({entry: {...toSummary(row), jobDescription, result: row.result}});
+    return reply.code(201).send({
+      entry: {
+        ...toSummary(row),
+        jobDescription,
+        result: row.result,
+        embeddingDtype: row.embeddingDtype,
+        scoringVersion: row.scoringVersion,
+      },
+    });
   });
 
   app.delete('/api/history/:id', {preHandler: requireAuth, config: limit}, async (request, reply) => {
