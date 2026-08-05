@@ -1,16 +1,16 @@
 # Graph Report - resurank  (2026-08-05)
 
 ## Corpus Check
-- 140 files · ~185,556 words
+- 140 files · ~185,675 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1250 nodes · 1938 edges · 76 communities (63 shown, 13 thin omitted)
+- 1250 nodes · 1938 edges · 77 communities (63 shown, 14 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `167c7e47`
+- Built from commit: `9b3ddec5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -88,6 +88,7 @@
 - [[_COMMUNITY_Community 73|Community 73]]
 - [[_COMMUNITY_Community 74|Community 74]]
 - [[_COMMUNITY_Community 75|Community 75]]
+- [[_COMMUNITY_Community 76|Community 76]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `SettingsDrawerComponent` - 29 edges
@@ -125,7 +126,7 @@
 - **Shared Scoring Engine Consumers** — scoring_resurank_scoring_pkg, mcp_server_resurank_mcp, scoring_score_resume_against_job [EXTRACTED 1.00]
 - **Job Description Test Corpus** — test_files_english_java_angular, test_files_foreign_language, test_files_registered_nurse, test_files_senior_software_engineer [INFERRED 0.85]
 
-## Communities (76 total, 13 thin omitted)
+## Communities (77 total, 14 thin omitted)
 
 ### Community 0 - "Embedding & Matcher Services"
 Cohesion: 0.07
@@ -176,8 +177,8 @@ Cohesion: 0.06
 Nodes (30): Auto-Update Config (electron-updater), Critical Missing Keywords Penalty, Divergence Adjustment, Keyword Similarity (TF-IDF), Preference Mismatch Penalty, ResuRank Product Description, Security Posture (Fuses, CSP, Isolation), Semantic Similarity (Vector Embeddings) (+22 more)
 
 ### Community 13 - "App Root Component Logic"
-Cohesion: 0.18
-Nodes (10): Database, db, pool, authRoutes(), bootstrapRoutes(), healthRoutes(), userRoutes(), BuildAppOptions (+2 more)
+Cohesion: 0.16
+Nodes (14): DomainRoutesOptions, writeLimit(), updateSettingsSchema, currentUser(), authRoutes(), bootstrapRoutes(), healthRoutes(), historyRoutes() (+6 more)
 
 ### Community 14 - "Scoring tsconfig"
 Cohesion: 0.11
@@ -300,16 +301,16 @@ Cohesion: 0.14
 Nodes (13): 1. Start Postgres + Mailpit, 2. Configure environment, 3. Apply the database schema, 4. Run the server, 5. Run the tests, Building & running for production, Docker, Environment variables (+5 more)
 
 ### Community 48 - "Community 48"
-Cohesion: 0.13
-Nodes (25): EmailToken, emailTokens, EmailTokenType, emailTokenTypes, NewUser, Resume, resumes, ScoreHistoryEntry (+17 more)
+Cohesion: 0.16
+Nodes (20): Database, db, pool, Resume, UserSettings, activateResume(), ApiResume, ApiResumeSummary (+12 more)
 
 ### Community 49 - "Community 49"
 Cohesion: 0.10
 Nodes (30): main(), assertDatabaseReachable(), closeDatabase(), migrationsFolder, sessions, linkPath(), login(), register() (+22 more)
 
 ### Community 50 - "Community 50"
-Cohesion: 0.15
-Nodes (16): scoreHistory, ApiHistoryEntry, ApiHistorySummary, ErrorCode, sendValidationError(), DomainRoutesOptions, writeLimit(), createHistorySchema (+8 more)
+Cohesion: 0.13
+Nodes (15): EmailToken, emailTokens, EmailTokenType, emailTokenTypes, NewUser, resumes, scoreHistory, ScoreHistoryEntry (+7 more)
 
 ### Community 51 - "Community 51"
 Cohesion: 0.14
@@ -370,7 +371,7 @@ Nodes (3): default, types, ./constants
 ## Knowledge Gaps
 - **549 isolated node(s):** `config`, `ClaudeDesktopStatus`, `ConnectResult`, `McpEntry`, `ClaudeConfig` (+544 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **14 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_

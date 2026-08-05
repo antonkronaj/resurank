@@ -302,6 +302,11 @@ Score the resume at `RESUME_PATH` against a job posting.
     "overlap_bonus":     0.13,
     "divergence_penalty": 0.0
   },
+  "scored_with": {                         // provenance — scores only compare
+    "embedding_model": "Xenova/jina-embeddings-v2-small-en",
+    "embedding_dtype": "q8",
+    "scoring_version": "1.3.0"             // …across runs where all three match
+  },
   "language_warning": false                // true when JD looks non-English
 }
 ```

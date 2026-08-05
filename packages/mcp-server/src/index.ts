@@ -8,9 +8,10 @@ import {
   ListPromptsRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import {scoreResumeAgainstJob} from '@resurank/scoring';
+import {EMBEDDING_MODEL, SCORING_VERSION, scoreResumeAgainstJob} from '@resurank/scoring';
 import {createTransformersEmbedder} from '@resurank/scoring/node-embedder';
 import {loadResumeText} from './resume-loader.js';
+import {MCP_VERSION} from './version.js';
 
 const TOOL_NAME = 'resurank_score';
 const CRITICAL_GAP_WEIGHT_THRESHOLD = 1.5;
@@ -161,7 +162,7 @@ function buildResumeNote(source: ResumeSource): string {
 const PROMPT_NAME = 'score-resume';
 
 const server = new Server(
-  {name: 'resurank', version: '0.1.0'},
+  {name: 'resurank', version: MCP_VERSION},
   {capabilities: {tools: {}, prompts: {}}},
 );
 
@@ -333,7 +334,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       '| "inline_text"); do not claim the resume was empty or not provided. ' +
       '(4) If the user is comparing variants, mention which variant this score ' +
       'corresponds to (the path or "inline pasted version") so they can keep ' +
-      'iterations straight.',
+      'iterations straight. (5) Do not volunteer scored_with; it is provenance ' +
+      'for reproducibility. Cite it only if the user asks what model was used, ' +
+      'or to explain why a score differs from an earlier one whose scored_with ' +
+      'was different.',
     resume: {
       source: resume.source,
       path: resume.path ?? null,
@@ -353,6 +357,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       combined_score: round(result.score),
       overlap_bonus: round(result.breakdown.overlapBonus),
       divergence_penalty: round(result.breakdown.divergencePenalty),
+    },
+    // How this score was produced. Scores are only comparable across runs when
+    // all three match, so they travel with the result rather than being
+    // reconstructed from whatever happens to be installed later.
+    scored_with: {
+      embedding_model: embedder.modelId,
+      embedding_dtype: EMBEDDING_MODEL.dtype,
+      scoring_version: SCORING_VERSION,
     },
     language_warning: result.languageWarning,
   };
@@ -400,6 +412,9 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
   process.stderr.write('[resurank-mcp] stdio server ready\n');
+  process.stderr.write(
+    `[resurank-mcp] scoring ${SCORING_VERSION}, embedding model ${embedder.modelId} (${EMBEDDING_MODEL.dtype})\n`,
+  );
   embedder.warmup().catch(err => {
     process.stderr.write(`[resurank-mcp] warmup failed: ${err}\n`);
   });

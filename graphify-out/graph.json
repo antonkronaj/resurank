@@ -5223,7 +5223,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "db_client",
-      "community": 13,
+      "community": 48,
       "norm_label": "client.ts"
     },
     {
@@ -5233,7 +5233,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "db_client_pool",
-      "community": 13,
+      "community": 48,
       "norm_label": "pool"
     },
     {
@@ -5243,7 +5243,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "db_client_db",
-      "community": 13,
+      "community": 48,
       "norm_label": "db"
     },
     {
@@ -5253,7 +5253,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "db_client_database",
-      "community": 13,
+      "community": 48,
       "norm_label": "database"
     },
     {
@@ -5303,7 +5303,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "db_schema",
-      "community": 48,
+      "community": 50,
       "norm_label": "schema.ts"
     },
     {
@@ -5333,7 +5333,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "db_schema_emailtokentypes",
-      "community": 48,
+      "community": 50,
       "norm_label": "emailtokentypes"
     },
     {
@@ -5343,7 +5343,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "db_schema_emailtokentype",
-      "community": 48,
+      "community": 50,
       "norm_label": "emailtokentype"
     },
     {
@@ -5353,7 +5353,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "db_schema_emailtokens",
-      "community": 48,
+      "community": 50,
       "norm_label": "emailtokens"
     },
     {
@@ -5363,7 +5363,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "db_schema_resumes",
-      "community": 48,
+      "community": 50,
       "norm_label": "resumes"
     },
     {
@@ -5403,7 +5403,7 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "db_schema_newuser",
-      "community": 48,
+      "community": 50,
       "norm_label": "newuser"
     },
     {
@@ -5413,7 +5413,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "db_schema_session",
-      "community": 48,
+      "community": 50,
       "norm_label": "session"
     },
     {
@@ -5423,7 +5423,7 @@
       "source_location": "L184",
       "_origin": "ast",
       "id": "db_schema_emailtoken",
-      "community": 48,
+      "community": 50,
       "norm_label": "emailtoken"
     },
     {
@@ -5443,7 +5443,7 @@
       "source_location": "L187",
       "_origin": "ast",
       "id": "db_schema_scorehistoryentry",
-      "community": 48,
+      "community": 50,
       "norm_label": "scorehistoryentry"
     },
     {
@@ -5813,7 +5813,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_errors",
-      "community": 50,
+      "community": 76,
       "norm_label": "errors.ts"
     },
     {
@@ -5823,7 +5823,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "lib_errors_errorcode",
-      "community": 50,
+      "community": 76,
       "norm_label": "errorcode"
     },
     {
@@ -5843,7 +5843,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "lib_errors_sendvalidationerror",
-      "community": 50,
+      "community": 76,
       "norm_label": "sendvalidationerror()"
     },
     {
@@ -5853,7 +5853,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_route_options",
-      "community": 50,
+      "community": 13,
       "norm_label": "route-options.ts"
     },
     {
@@ -5863,7 +5863,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "lib_route_options_domainroutesoptions",
-      "community": 50,
+      "community": 13,
       "norm_label": "domainroutesoptions"
     },
     {
@@ -5873,7 +5873,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "lib_route_options_writelimit",
-      "community": 50,
+      "community": 13,
       "norm_label": "writelimit()"
     },
     {
@@ -6213,7 +6213,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "lib_validation_updatesettingsschema",
-      "community": 50,
+      "community": 13,
       "norm_label": "updatesettingsschema"
     },
     {
@@ -6283,7 +6283,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "plugins_auth_currentuser",
-      "community": 50,
+      "community": 13,
       "norm_label": "currentuser()"
     },
     {
@@ -6373,7 +6373,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "routes_health",
-      "community": 13,
+      "community": 48,
       "norm_label": "health.ts"
     },
     {
@@ -6433,7 +6433,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "routes_history_historyroutes",
-      "community": 50,
+      "community": 13,
       "norm_label": "historyroutes()"
     },
     {
@@ -6453,7 +6453,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "routes_resumes_resumeroutes",
-      "community": 50,
+      "community": 13,
       "norm_label": "resumeroutes()"
     },
     {
@@ -6463,7 +6463,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "routes_settings",
-      "community": 50,
+      "community": 13,
       "norm_label": "settings.ts"
     },
     {
@@ -6473,7 +6473,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "routes_settings_settingsroutes",
-      "community": 50,
+      "community": 13,
       "norm_label": "settingsroutes()"
     },
     {
@@ -8238,7 +8238,7 @@
       "label": "round()",
       "file_type": "code",
       "source_file": "packages/mcp-server/src/index.ts",
-      "source_location": "L365",
+      "source_location": "L376",
       "_origin": "ast",
       "id": "src_index_round",
       "community": 11,
@@ -8248,7 +8248,7 @@
       "label": "buildSummary()",
       "file_type": "code",
       "source_file": "packages/mcp-server/src/index.ts",
-      "source_location": "L369",
+      "source_location": "L380",
       "_origin": "ast",
       "id": "src_index_buildsummary",
       "community": 11,
@@ -8258,7 +8258,7 @@
       "label": "main()",
       "file_type": "code",
       "source_file": "packages/mcp-server/src/index.ts",
-      "source_location": "L399",
+      "source_location": "L410",
       "_origin": "ast",
       "id": "packages_mcp_server_src_index_ts_src_index_main",
       "community": 11,
@@ -11678,7 +11678,7 @@
       "label": "Configuration",
       "file_type": "document",
       "source_file": "packages/mcp-server/README.md",
-      "source_location": "L311",
+      "source_location": "L316",
       "_origin": "ast",
       "id": "mcp_server_readme_configuration",
       "community": 40,
@@ -11688,7 +11688,7 @@
       "label": "How the score works",
       "file_type": "document",
       "source_file": "packages/mcp-server/README.md",
-      "source_location": "L327",
+      "source_location": "L332",
       "_origin": "ast",
       "id": "mcp_server_readme_how_the_score_works",
       "community": 40,
@@ -11698,7 +11698,7 @@
       "label": "Distribution",
       "file_type": "document",
       "source_file": "packages/mcp-server/README.md",
-      "source_location": "L350",
+      "source_location": "L355",
       "_origin": "ast",
       "id": "mcp_server_readme_distribution",
       "community": 40,
@@ -11708,7 +11708,7 @@
       "label": "Publishing a new version",
       "file_type": "document",
       "source_file": "packages/mcp-server/README.md",
-      "source_location": "L355",
+      "source_location": "L360",
       "_origin": "ast",
       "id": "mcp_server_readme_publishing_a_new_version",
       "community": 40,
@@ -11718,7 +11718,7 @@
       "label": "Local registration (during development)",
       "file_type": "document",
       "source_file": "packages/mcp-server/README.md",
-      "source_location": "L406",
+      "source_location": "L411",
       "_origin": "ast",
       "id": "mcp_server_readme_local_registration_during_development",
       "community": 40,
@@ -11728,7 +11728,7 @@
       "label": "License",
       "file_type": "document",
       "source_file": "packages/mcp-server/README.md",
-      "source_location": "L431",
+      "source_location": "L436",
       "_origin": "ast",
       "id": "mcp_server_readme_license",
       "community": 40,
@@ -11738,7 +11738,7 @@
       "label": "Limitations",
       "file_type": "document",
       "source_file": "packages/mcp-server/README.md",
-      "source_location": "L436",
+      "source_location": "L441",
       "_origin": "ast",
       "id": "mcp_server_readme_limitations",
       "community": 40,
@@ -16935,9 +16935,9 @@
       "source_file": "apps/ui/src/app/web/history/history.component.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "history_history_component",
-      "target": "shared_embedding_service",
-      "confidence_score": 1.0
+      "target": "shared_embedding_service"
     },
     {
       "relation": "imports_from",
@@ -16946,9 +16946,9 @@
       "source_file": "apps/ui/src/app/web/history/history-detail-modal.component.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "history_history_detail_modal_component",
-      "target": "shared_embedding_service",
-      "confidence_score": 1.0
+      "target": "shared_embedding_service"
     },
     {
       "relation": "imports_from",
@@ -16957,9 +16957,9 @@
       "source_file": "apps/ui/src/app/shared/score-info-modal/score-info-modal.component.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "score_info_modal_score_info_modal_component",
-      "target": "shared_embedding_service",
-      "confidence_score": 1.0
+      "target": "shared_embedding_service"
     },
     {
       "relation": "imports_from",
@@ -16968,9 +16968,9 @@
       "source_file": "apps/ui/src/app/shared/settings-drawer/settings-drawer.component.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "settings_drawer_settings_drawer_component",
-      "target": "shared_embedding_service",
-      "confidence_score": 1.0
+      "target": "shared_embedding_service"
     },
     {
       "relation": "contains",
@@ -17088,9 +17088,9 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "shared_embedding_service",
-      "target": "storage_storage_adapter",
-      "confidence_score": 1.0
+      "target": "storage_storage_adapter"
     },
     {
       "relation": "imports",
@@ -17099,9 +17099,9 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "shared_embedding_service",
-      "target": "storage_storage_adapter_scoreprovenance",
-      "confidence_score": 1.0
+      "target": "storage_storage_adapter_scoreprovenance"
     },
     {
       "relation": "imports_from",
@@ -17121,9 +17121,9 @@
       "source_file": "apps/ui/src/app/web/history/history.component.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "history_history_component",
-      "target": "shared_embedding_service_embeddingservice",
-      "confidence_score": 1.0
+      "target": "shared_embedding_service_embeddingservice"
     },
     {
       "relation": "imports",
@@ -17132,9 +17132,9 @@
       "source_file": "apps/ui/src/app/web/history/history-detail-modal.component.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "history_history_detail_modal_component",
-      "target": "shared_embedding_service_embeddingservice",
-      "confidence_score": 1.0
+      "target": "shared_embedding_service_embeddingservice"
     },
     {
       "relation": "imports",
@@ -17143,9 +17143,9 @@
       "source_file": "apps/ui/src/app/shared/score-info-modal/score-info-modal.component.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "score_info_modal_score_info_modal_component",
-      "target": "shared_embedding_service_embeddingservice",
-      "confidence_score": 1.0
+      "target": "shared_embedding_service_embeddingservice"
     },
     {
       "relation": "imports",
@@ -17154,9 +17154,9 @@
       "source_file": "apps/ui/src/app/shared/settings-drawer/settings-drawer.component.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "settings_drawer_settings_drawer_component",
-      "target": "shared_embedding_service_embeddingservice",
-      "confidence_score": 1.0
+      "target": "shared_embedding_service_embeddingservice"
     },
     {
       "relation": "method",
@@ -17244,9 +17244,9 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L45",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "shared_embedding_service_embeddingservice",
-      "target": "shared_embedding_service_embeddingservice_provenance",
-      "confidence_score": 1.0
+      "target": "shared_embedding_service_embeddingservice_provenance"
     },
     {
       "relation": "method",
@@ -17309,9 +17309,9 @@
       "source_file": "apps/ui/src/app/shared/embedding.service.ts",
       "source_location": "L45",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "shared_embedding_service_embeddingservice_provenance",
-      "target": "storage_storage_adapter_scoreprovenance",
-      "confidence_score": 1.0
+      "target": "storage_storage_adapter_scoreprovenance"
     },
     {
       "relation": "calls",
@@ -18647,9 +18647,9 @@
       "source_file": "apps/ui/src/app/shared/storage/storage-adapter.ts",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "storage_storage_adapter",
-      "target": "storage_storage_adapter_scoreprovenance",
-      "confidence_score": 1.0
+      "target": "storage_storage_adapter_scoreprovenance"
     },
     {
       "relation": "contains",
@@ -18897,9 +18897,9 @@
       "source_file": "apps/ui/src/app/shared/storage/storage-adapter.ts",
       "source_location": "L62",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "storage_storage_adapter_historyentryinput",
-      "target": "storage_storage_adapter_scoreprovenance",
-      "confidence_score": 1.0
+      "target": "storage_storage_adapter_scoreprovenance"
     },
     {
       "relation": "references",
@@ -19890,9 +19890,9 @@
       "source_file": "apps/ui/src/app/web/history/history.component.ts",
       "source_location": "L49",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "history_history_component_historycomponent_scoredwithothermodel",
-      "target": "web_history_service_apihistorysummary",
-      "confidence_score": 1.0
+      "target": "web_history_service_apihistorysummary"
     },
     {
       "relation": "inherits",
@@ -19934,9 +19934,9 @@
       "source_file": "apps/ui/src/app/web/history/history-detail-modal.component.ts",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "history_history_detail_modal_component_historydetailmodalcomponent_scoredwithothermodel",
-      "target": "web_history_service_apihistoryentry",
-      "confidence_score": 1.0
+      "target": "web_history_service_apihistoryentry"
     },
     {
       "relation": "references",
@@ -20050,9 +20050,9 @@
       "source_file": "apps/ui/src/app/web/history/history-detail-modal.component.ts",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "history_history_detail_modal_component_historydetailmodalcomponent",
-      "target": "history_history_detail_modal_component_historydetailmodalcomponent_modellabel",
-      "confidence_score": 1.0
+      "target": "history_history_detail_modal_component_historydetailmodalcomponent_modellabel"
     },
     {
       "relation": "method",
@@ -20060,9 +20060,9 @@
       "source_file": "apps/ui/src/app/web/history/history-detail-modal.component.ts",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "history_history_detail_modal_component_historydetailmodalcomponent",
-      "target": "history_history_detail_modal_component_historydetailmodalcomponent_scoredwithothermodel",
-      "confidence_score": 1.0
+      "target": "history_history_detail_modal_component_historydetailmodalcomponent_scoredwithothermodel"
     },
     {
       "relation": "method",
@@ -20204,9 +20204,9 @@
       "source_file": "apps/ui/src/app/web/history/history.component.ts",
       "source_location": "L49",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "history_history_component_historycomponent",
-      "target": "history_history_component_historycomponent_scoredwithothermodel",
-      "confidence_score": 1.0
+      "target": "history_history_component_historycomponent_scoredwithothermodel"
     },
     {
       "relation": "method",
@@ -28870,9 +28870,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_scoring_src_index_ts_src_index",
-      "target": "src_constants",
-      "confidence_score": 1.0
+      "target": "src_constants"
     },
     {
       "relation": "contains",
@@ -28978,9 +28978,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_scoring_src_index_ts_src_index",
-      "target": "src_model",
-      "confidence_score": 1.0
+      "target": "src_model"
     },
     {
       "relation": "re_exports",
@@ -28989,9 +28989,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_scoring_src_index_ts_src_index",
-      "target": "src_model_embedding_model",
-      "confidence_score": 1.0
+      "target": "src_model_embedding_model"
     },
     {
       "relation": "re_exports",
@@ -29000,9 +29000,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_scoring_src_index_ts_src_index",
-      "target": "src_score",
-      "confidence_score": 1.0
+      "target": "src_score"
     },
     {
       "relation": "re_exports",
@@ -29011,9 +29011,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_scoring_src_index_ts_src_index",
-      "target": "src_score_scoreresumeagainstjob",
-      "confidence_score": 1.0
+      "target": "src_score_scoreresumeagainstjob"
     },
     {
       "relation": "re_exports",
@@ -29022,9 +29022,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_scoring_src_index_ts_src_index",
-      "target": "src_stopwords",
-      "confidence_score": 1.0
+      "target": "src_stopwords"
     },
     {
       "relation": "re_exports",
@@ -29033,9 +29033,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_scoring_src_index_ts_src_index",
-      "target": "src_stopwords_extra_stopwords",
-      "confidence_score": 1.0
+      "target": "src_stopwords_extra_stopwords"
     },
     {
       "relation": "re_exports",
@@ -29044,9 +29044,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_scoring_src_index_ts_src_index",
-      "target": "src_terms",
-      "confidence_score": 1.0
+      "target": "src_terms"
     },
     {
       "relation": "re_exports",
@@ -29055,9 +29055,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_scoring_src_index_ts_src_index",
-      "target": "src_terms_extractterms",
-      "confidence_score": 1.0
+      "target": "src_terms_extractterms"
     },
     {
       "relation": "re_exports",
@@ -29066,9 +29066,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_scoring_src_index_ts_src_index",
-      "target": "src_terms_stripphonenumbers",
-      "confidence_score": 1.0
+      "target": "src_terms_stripphonenumbers"
     },
     {
       "relation": "re_exports",
@@ -29077,9 +29077,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_scoring_src_index_ts_src_index",
-      "target": "src_types",
-      "confidence_score": 1.0
+      "target": "src_types"
     },
     {
       "relation": "re_exports",
@@ -29088,9 +29088,9 @@
       "source_file": "packages/scoring/src/index.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "packages_scoring_src_index_ts_src_index",
-      "target": "src_version",
-      "confidence_score": 1.0
+      "target": "src_version"
     },
     {
       "relation": "contains",
@@ -33113,5 +33113,5 @@
       "source_file": "resources/test_files/senior_software_engineer.txt"
     }
   ],
-  "built_at_commit": "167c7e4730af90229f59ad7200f0ec66de4a15dc"
+  "built_at_commit": "9b3ddec5a8042128f7ccb8c81d0a17759ac660ad"
 }
