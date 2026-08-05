@@ -5,12 +5,12 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1252 nodes · 1937 edges · 74 communities (62 shown, 12 thin omitted)
+- 1252 nodes · 1937 edges · 74 communities (63 shown, 11 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 12 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `974cbcee`
+- Built from commit: `e6431479`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -106,8 +106,8 @@
   app-update.yml → README.md
 - `SettingsDrawerComponent` --references--> `PinImportance`  [EXTRACTED]
   apps/ui/src/app/shared/settings-drawer/settings-drawer.component.ts → packages/scoring/src/constants.ts
-- `HistoryEntryInput` --references--> `MatchResult`  [EXTRACTED]
-  apps/ui/src/app/shared/storage/storage-adapter.ts → packages/scoring/src/types.ts
+- `PinnedTerm` --references--> `PinImportance`  [EXTRACTED]
+  apps/ui/src/app/shared/storage/storage-adapter.ts → packages/scoring/src/constants.ts
 
 ## Import Cycles
 - None detected.
@@ -121,7 +121,7 @@
 - **Shared Scoring Engine Consumers** — scoring_resurank_scoring_pkg, mcp_server_resurank_mcp, scoring_score_resume_against_job [EXTRACTED 1.00]
 - **Job Description Test Corpus** — test_files_english_java_angular, test_files_foreign_language, test_files_registered_nurse, test_files_senior_software_engineer [INFERRED 0.85]
 
-## Communities (74 total, 12 thin omitted)
+## Communities (74 total, 11 thin omitted)
 
 ### Community 0 - "Embedding & Matcher Services"
 Cohesion: 0.09
@@ -188,12 +188,12 @@ Cohesion: 0.13
 Nodes (14): compilerOptions, allowSyntheticDefaultImports, declaration, esModuleInterop, module, moduleResolution, outDir, resolveJsonModule (+6 more)
 
 ### Community 18 - "Storage Service (JSON Files)"
-Cohesion: 0.16
-Nodes (11): appConfig, BoostRow, SettingsInfoModalComponent, SettingsInfoMode, ResumeInfo, APP_VERSION, DESKTOP_SETTINGS_PANEL, PinImportance (+3 more)
+Cohesion: 0.19
+Nodes (9): appConfig, BoostRow, SettingsInfoModalComponent, SettingsInfoMode, ResumeInfo, APP_VERSION, DESKTOP_SETTINGS_PANEL, PinnedTerm (+1 more)
 
 ### Community 19 - "Claude Desktop Card (Frontend)"
-Cohesion: 0.19
-Nodes (11): MatcherService, extractPageText(), ResumeParserService, NodeEmbedder, NodeEmbedderOptions, Embedder, JobInput, MatchBreakdown (+3 more)
+Cohesion: 0.21
+Nodes (11): MatcherService, PinImportance, NodeEmbedder, NodeEmbedderOptions, Embedder, JobInput, MatchBreakdown, MatchResult (+3 more)
 
 ### Community 20 - "Scoring Package Exports"
 Cohesion: 0.17
@@ -233,7 +233,7 @@ Nodes (4): repository, directory, type, url
 
 ### Community 30 - "Worker Export Map"
 Cohesion: 0.12
-Nodes (15): ClaudeDesktopConnectResult, ClaudeDesktopStatus, Window, ElectronStorageAdapter, Window, DEFAULT_MISSING_KEYWORD_SETTINGS, DEFAULT_PREFERENCE_MISMATCH_SETTINGS, HistoryEntryInput (+7 more)
+Nodes (15): ClaudeDesktopConnectResult, ClaudeDesktopStatus, Window, Window, DEFAULT_MISSING_KEYWORD_SETTINGS, DEFAULT_PREFERENCE_MISMATCH_SETTINGS, HistoryEntryInput, MissingKeywordSettings (+7 more)
 
 ### Community 31 - "Peer Dependency Meta"
 Cohesion: 0.67
@@ -319,6 +319,10 @@ Nodes (6): compilerOptions, outDir, rootDir, sourceMap, extends, include
 Cohesion: 0.31
 Nodes (8): main(), assertDatabaseReachable(), closeDatabase(), Database, db, pool, migrationsFolder, buildApp()
 
+### Community 61 - "Community 61"
+Cohesion: 0.14
+Nodes (3): ApiService, extractPageText(), ResumeParserService
+
 ### Community 62 - "Community 62"
 Cohesion: 0.40
 Nodes (3): FILES, here, outDir
@@ -332,7 +336,7 @@ Cohesion: 0.16
 Nodes (8): PrivacyComponent, TermsComponent, RegisterComponent, SignInComponent, VerifyEmailComponent, authGuard(), ApiErrorBody, PublicUser
 
 ### Community 68 - "Community 68"
-Cohesion: 0.13
+Cohesion: 0.14
 Nodes (10): EmbeddingService, MODEL_CACHE_DIR, ModelHostConfig, createWorkerEmbedder(), ModelStatus, WorkerEmbedder, WorkerEmbedderOptions, WorkerMessage (+2 more)
 
 ### Community 72 - "Community 72"
@@ -352,20 +356,20 @@ Cohesion: 0.67
 Nodes (3): default, types, ./constants
 
 ## Knowledge Gaps
-- **551 isolated node(s):** `config`, `ClaudeDesktopStatus`, `ConnectResult`, `McpEntry`, `ClaudeConfig` (+546 more)
+- **551 isolated node(s):** `name`, `version`, `description`, `license`, `author` (+546 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `embedder` connect `Embedding & Matcher Services` to `Claude Desktop Card (Frontend)`, `MCP Resume Resolver`?**
-  _High betweenness centrality (0.024) - this node is a cross-community bridge._
-- **Why does `SettingsDrawerComponent` connect `Settings Drawer Component` to `Storage Service (JSON Files)`, `Community 43`?**
-  _High betweenness centrality (0.016) - this node is a cross-community bridge._
+  _High betweenness centrality (0.022) - this node is a cross-community bridge._
 - **Why does `require` connect `MCP Resume Resolver` to `Claude Desktop Config (Main)`?**
-  _High betweenness centrality (0.011) - this node is a cross-community bridge._
-- **What connects `config`, `ClaudeDesktopStatus`, `ConnectResult` to the rest of the system?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+- **Why does `writeConfigAtomic()` connect `Claude Desktop Config (Main)` to `MCP Resume Resolver`?**
+  _High betweenness centrality (0.013) - this node is a cross-community bridge._
+- **What connects `name`, `version`, `description` to the rest of the system?**
   _554 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Embedding & Matcher Services` be split into smaller, more focused modules?**
   _Cohesion score 0.08536585365853659 - nodes in this community are weakly interconnected._
