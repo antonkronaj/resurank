@@ -35,16 +35,12 @@ export interface WorkerEmbedderOptions {
   modelHost?: string;
   /** Path template appended to `modelHost`; see transformers.js's `env.remotePathTemplate`. */
   remotePathTemplate?: string;
-  cacheSize?: number;
-  batchSize?: number;
-  requestTimeoutMs?: number;
   onStatus?: (status: ModelStatus) => void;
 }
 
 export interface WorkerEmbedder extends Embedder {
   warmup(): Promise<void>;
   embed(texts: string[]): Promise<number[][]>;
-  dispose(): void;
   readonly status: ModelStatus;
 }
 
@@ -60,15 +56,17 @@ interface WorkerMessage {
   progress?: number;
 }
 
-const DEFAULT_CACHE_SIZE = 16;
-const DEFAULT_BATCH_SIZE = 10;
-const DEFAULT_REQUEST_TIMEOUT_MS = 60_000;
+/**
+ * Embedded texts held in memory per embedder, evicted least-recently-used
+ * first. Reads re-put the entry, which is what keeps the resume vector — read
+ * on every score but written once — from aging out behind job descriptions.
+ */
+const CACHE_SIZE = 16;
+/** Texts sent to the worker per postMessage round trip. */
+const BATCH_SIZE = 10;
+const REQUEST_TIMEOUT_MS = 60_000;
 
 export function createWorkerEmbedder(options: WorkerEmbedderOptions): WorkerEmbedder {
-  const cacheMax = options.cacheSize ?? DEFAULT_CACHE_SIZE;
-  const batchSize = options.batchSize ?? DEFAULT_BATCH_SIZE;
-  const requestTimeoutMs = options.requestTimeoutMs ?? DEFAULT_REQUEST_TIMEOUT_MS;
-
   let worker: Worker | null = null;
   let readyPromise: Promise<void> | null = null;
   const pendingRequests = new Map<string, {resolve: (v: number[][]) => void; reject: (e: Error) => void}>();
@@ -83,7 +81,7 @@ export function createWorkerEmbedder(options: WorkerEmbedderOptions): WorkerEmbe
   function cachePut(text: string, vector: number[]): void {
     if (textCache.has(text)) textCache.delete(text);
     textCache.set(text, vector);
-    while (textCache.size > cacheMax) {
+    while (textCache.size > CACHE_SIZE) {
       const oldest = textCache.keys().next().value;
       if (oldest === undefined) break;
       textCache.delete(oldest);
@@ -157,7 +155,7 @@ export function createWorkerEmbedder(options: WorkerEmbedderOptions): WorkerEmbe
       const timeout = setTimeout(() => {
         pendingRequests.delete(id);
         reject(new Error(`Embedding request ${id} timed out`));
-      }, requestTimeoutMs);
+      }, REQUEST_TIMEOUT_MS);
 
       pendingRequests.set(id, {
         resolve: (vectors) => {
@@ -193,6 +191,10 @@ export function createWorkerEmbedder(options: WorkerEmbedderOptions): WorkerEmbe
         const cached = textCache.get(texts[i]);
         if (cached) {
           out[i] = cached;
+          // Re-put on a hit so eviction is by recency, not insertion order.
+          // Without this the resume vector — read on every score, written
+          // once — is evicted after CACHE_SIZE new job descriptions.
+          cachePut(texts[i], cached);
         } else {
           missIndices.push(i);
           missTexts.push(texts[i]);
@@ -201,8 +203,8 @@ export function createWorkerEmbedder(options: WorkerEmbedderOptions): WorkerEmbe
 
       if (missTexts.length > 0) {
         const fetched: number[][] = [];
-        for (let i = 0; i < missTexts.length; i += batchSize) {
-          const batch = missTexts.slice(i, i + batchSize);
+        for (let i = 0; i < missTexts.length; i += BATCH_SIZE) {
+          const batch = missTexts.slice(i, i + BATCH_SIZE);
           const batchResults = await embedBatch(batch);
           fetched.push(...batchResults);
         }
@@ -213,17 +215,6 @@ export function createWorkerEmbedder(options: WorkerEmbedderOptions): WorkerEmbe
       }
 
       return out as number[][];
-    },
-
-    dispose(): void {
-      if (worker) {
-        worker.terminate();
-        worker = null;
-      }
-      readyPromise = null;
-      pendingRequests.clear();
-      textCache.clear();
-      setStatus({loading: false, ready: false});
     },
   };
 }

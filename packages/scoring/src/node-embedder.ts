@@ -3,9 +3,7 @@ import {EMBEDDING_MODEL} from './model.js';
 import type {Embedder} from './types.js';
 
 export interface NodeEmbedderOptions {
-  cacheDir?: string;
   modelId?: string;
-  cacheSize?: number;
   onProgress?: (event: {status: string; file?: string; progress?: number; loaded?: number; total?: number}) => void;
   onEmbedStart?: (textCount: number, cacheHits: number) => void;
   onEmbedEnd?: (durationMs: number) => void;
@@ -17,18 +15,18 @@ export interface NodeEmbedder extends Embedder {
   readonly modelId: string;
 }
 
-const DEFAULT_CACHE_SIZE = 16;
+/** Embedded texts held in memory, least-recently-used evicted first. */
+const CACHE_SIZE = 16;
 
 export function createTransformersEmbedder(options: NodeEmbedderOptions = {}): NodeEmbedder {
   const modelId = options.modelId ?? EMBEDDING_MODEL.id;
   let pipelinePromise: Promise<any> | null = null;
-  const cacheMax = options.cacheSize ?? DEFAULT_CACHE_SIZE;
   const textCache = new Map<string, number[]>();
 
   function cachePut(text: string, vector: number[]): void {
     if (textCache.has(text)) textCache.delete(text);
     textCache.set(text, vector);
-    while (textCache.size > cacheMax) {
+    while (textCache.size > CACHE_SIZE) {
       const oldest = textCache.keys().next().value;
       if (oldest === undefined) break;
       textCache.delete(oldest);
@@ -41,9 +39,10 @@ export function createTransformersEmbedder(options: NodeEmbedderOptions = {}): N
       const {env, pipeline} = await import('@huggingface/transformers');
       env.allowRemoteModels = true;
       env.allowLocalModels = false;
-      if (options.cacheDir) {
-        env.cacheDir = options.cacheDir;
-      }
+      // `env.cacheDir` is left at the Transformers.js default (~/.cache/
+      // huggingface). The browser path takes a cacheDir because Electron has a
+      // userData directory worth pointing at; under Node there is no equivalent
+      // caller-specific location, so there is nothing to override it with.
       return pipeline('feature-extraction', modelId, {
         dtype: EMBEDDING_MODEL.dtype,
         progress_callback: (p: any) => options.onProgress?.(p),
@@ -68,6 +67,8 @@ export function createTransformersEmbedder(options: NodeEmbedderOptions = {}): N
         const cached = textCache.get(texts[i]);
         if (cached) {
           out[i] = cached;
+          // Re-put on a hit — see worker-embedder.ts.
+          cachePut(texts[i], cached);
         } else {
           missIndices.push(i);
           missTexts.push(texts[i]);
