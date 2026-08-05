@@ -1,10 +1,9 @@
 /// <reference lib="webworker" />
 
 import {EMBEDDING_MAX_LENGTH} from './constants.js';
+import {EMBEDDING_MODEL} from './model.js';
 
 declare const self: DedicatedWorkerGlobalScope;
-
-const DEFAULT_MODEL_ID = 'Xenova/jina-embeddings-v2-small-en';
 
 let _pipelinePromise: Promise<any> | null = null;
 let _config: {
@@ -14,6 +13,11 @@ let _config: {
   modelHost?: string;
   remotePathTemplate?: string;
 } = {};
+
+/** The id actually handed to the pipeline — reported back so callers can record it. */
+function resolvedModelId(): string {
+  return _config.modelId ?? EMBEDDING_MODEL.id;
+}
 
 async function getEmbedder(): Promise<any> {
   if (_pipelinePromise) return _pipelinePromise;
@@ -48,8 +52,8 @@ async function getEmbedder(): Promise<any> {
       (env.backends.onnx.wasm as any).numThreads = isolated ? Math.min(4, hwc) : 1;
     }
 
-    return pipeline('feature-extraction', _config.modelId ?? DEFAULT_MODEL_ID, {
-      dtype: 'q8',
+    return pipeline('feature-extraction', resolvedModelId(), {
+      dtype: EMBEDDING_MODEL.dtype,
       progress_callback: (progress: any) => {
         if (progress.status === 'progress') {
           self.postMessage({
@@ -87,7 +91,7 @@ function triggerEagerLoad(): void {
   if (_eagerLoadStarted) return;
   _eagerLoadStarted = true;
   getEmbedder()
-    .then(() => self.postMessage({ready: true}))
+    .then(() => self.postMessage({ready: true, modelId: resolvedModelId()}))
     .catch((err: unknown) => {
       const message = err instanceof Error ? err.message : String(err);
       self.postMessage({type: 'loadError', message});

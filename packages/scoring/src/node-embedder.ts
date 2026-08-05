@@ -1,4 +1,5 @@
 import {EMBEDDING_MAX_LENGTH} from './constants.js';
+import {EMBEDDING_MODEL} from './model.js';
 import type {Embedder} from './types.js';
 
 export interface NodeEmbedderOptions {
@@ -12,12 +13,14 @@ export interface NodeEmbedderOptions {
 
 export interface NodeEmbedder extends Embedder {
   warmup(): Promise<void>;
+  /** The model id in use — `options.modelId` when given, otherwise the package default. */
+  readonly modelId: string;
 }
 
-const DEFAULT_MODEL_ID = 'Xenova/jina-embeddings-v2-small-en';
 const DEFAULT_CACHE_SIZE = 16;
 
 export function createTransformersEmbedder(options: NodeEmbedderOptions = {}): NodeEmbedder {
+  const modelId = options.modelId ?? EMBEDDING_MODEL.id;
   let pipelinePromise: Promise<any> | null = null;
   const cacheMax = options.cacheSize ?? DEFAULT_CACHE_SIZE;
   const textCache = new Map<string, number[]>();
@@ -41,8 +44,8 @@ export function createTransformersEmbedder(options: NodeEmbedderOptions = {}): N
       if (options.cacheDir) {
         env.cacheDir = options.cacheDir;
       }
-      return pipeline('feature-extraction', options.modelId ?? DEFAULT_MODEL_ID, {
-        dtype: 'q8',
+      return pipeline('feature-extraction', modelId, {
+        dtype: EMBEDDING_MODEL.dtype,
         progress_callback: (p: any) => options.onProgress?.(p),
       });
     })();
@@ -50,6 +53,8 @@ export function createTransformersEmbedder(options: NodeEmbedderOptions = {}): N
   }
 
   return {
+    modelId,
+
     async warmup(): Promise<void> {
       await getPipeline();
     },

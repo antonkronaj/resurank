@@ -8,6 +8,12 @@ export interface ModelStatus {
   progress?: number;
   file?: string;
   error?: string;
+  /**
+   * The model the worker actually loaded, present once `ready` is true.
+   * Reported by the worker rather than read from `EMBEDDING_MODEL.id` so that
+   * a caller passing `options.modelId` still records what really ran.
+   */
+  modelId?: string;
 }
 
 export interface WorkerEmbedderOptions {
@@ -45,6 +51,7 @@ export interface WorkerEmbedder extends Embedder {
 interface WorkerMessage {
   id?: string;
   ready?: boolean;
+  modelId?: string;
   vectors?: number[][];
   error?: string;
   message?: string;
@@ -110,7 +117,9 @@ export function createWorkerEmbedder(options: WorkerEmbedderOptions): WorkerEmbe
         const msg = event.data;
 
         if (msg.ready) {
-          setStatus({loading: false, ready: true});
+          // Fall back to the configured id for workers built before the ready
+          // message carried one.
+          setStatus({loading: false, ready: true, modelId: msg.modelId ?? options.modelId});
           resolve();
         } else if (msg.type === 'downloadStart') {
           setStatus({loading: true, ready: false, progress: 0, file: msg.file});
