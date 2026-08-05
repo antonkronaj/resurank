@@ -10,13 +10,13 @@
     "semantic_hash": "049154f4930b22a4d64a92a4cee4e21f"
   },
   "packages/mcp-server/package.json": {
-    "mtime": 1785948907.5282793,
-    "ast_hash": "d885c924fd665415f614ecf825c19430",
+    "mtime": 1785949141.8073287,
+    "ast_hash": "ab1f8bb8cc7be389decbf2e75cc4c242",
     "semantic_hash": ""
   },
   "packages/mcp-server/src/index.ts": {
-    "mtime": 1785949033.4668236,
-    "ast_hash": "57d02ae264c2619f29be987a4410145d",
+    "mtime": 1785949148.263937,
+    "ast_hash": "1a502808f11063f30f0e235b204ddf65",
     "semantic_hash": ""
   },
   "packages/mcp-server/src/resume-loader.ts": {
@@ -957,6 +957,16 @@
   "apps/web/drizzle/meta/0002_snapshot.json": {
     "mtime": 1785947367.1348257,
     "ast_hash": "efa07bb1ac559ecc114847f0f550c020",
+    "semantic_hash": ""
+  },
+  "packages/mcp-server/scripts/gen-version.mjs": {
+    "mtime": 1785949136.3042848,
+    "ast_hash": "df43966e6049cf9bf80f0272a587532f",
+    "semantic_hash": ""
+  },
+  "packages/mcp-server/src/version.ts": {
+    "mtime": 1785949152.5671632,
+    "ast_hash": "5a36fa8abe8aa59bc18bc6fa7db3e0c2",
     "semantic_hash": ""
   }
 }
