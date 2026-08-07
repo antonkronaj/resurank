@@ -1,16 +1,16 @@
 # Graph Report - resurank  (2026-08-07)
 
 ## Corpus Check
-- 153 files · ~198,468 words
+- 153 files · ~198,581 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1317 nodes · 2070 edges · 83 communities (73 shown, 10 thin omitted)
+- 1317 nodes · 2070 edges · 85 communities (74 shown, 11 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 12 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `05fa8520`
+- Built from commit: `d794b666`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -92,6 +92,8 @@
 - [[_COMMUNITY_Community 79|Community 79]]
 - [[_COMMUNITY_Community 80|Community 80]]
 - [[_COMMUNITY_Community 81|Community 81]]
+- [[_COMMUNITY_Community 82|Community 82]]
+- [[_COMMUNITY_Community 83|Community 83]]
 - [[_COMMUNITY_Community 84|Community 84]]
 
 ## God Nodes (most connected - your core abstractions)
@@ -103,8 +105,8 @@
 6. `HttpStorageAdapter` - 19 edges
 7. `scripts` - 17 edges
 8. `ResuRank` - 17 edges
-9. `ElectronStorageAdapter` - 16 edges
-10. `ApiService` - 16 edges
+9. `HistoryDetailModalComponent` - 16 edges
+10. `ElectronStorageAdapter` - 16 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Java / Spring Boot Skills` --semantically_similar_to--> `TypeScript / Node.js Skills`  [INFERRED] [semantically similar]
@@ -130,7 +132,7 @@
 - **Shared Scoring Engine Consumers** — scoring_resurank_scoring_pkg, mcp_server_resurank_mcp, scoring_score_resume_against_job [EXTRACTED 1.00]
 - **Job Description Test Corpus** — test_files_english_java_angular, test_files_foreign_language, test_files_registered_nurse, test_files_senior_software_engineer [INFERRED 0.85]
 
-## Communities (83 total, 10 thin omitted)
+## Communities (85 total, 11 thin omitted)
 
 ### Community 0 - "Embedding & Matcher Services"
 Cohesion: 0.18
@@ -199,10 +201,6 @@ Nodes (16): author, bugs, url, description, engines, node, files, homepage (+8 m
 ### Community 17 - "Electron Main tsconfig"
 Cohesion: 0.13
 Nodes (14): compilerOptions, allowSyntheticDefaultImports, declaration, esModuleInterop, module, moduleResolution, outDir, resolveJsonModule (+6 more)
-
-### Community 19 - "Claude Desktop Card (Frontend)"
-Cohesion: 0.21
-Nodes (3): SettingsComponent, ThemeService, NavShellComponent
 
 ### Community 20 - "Scoring Package Exports"
 Cohesion: 0.17
@@ -329,8 +327,8 @@ Cohesion: 0.18
 Nodes (10): 1. What you need before starting, 2. Build the image, 3. Run migrations, 4. Environment variables, 5. TLS and headers, 6. Post-deploy verification checklist, 7. Rollback, Corrections / open items (kept current — Phase 10) (+2 more)
 
 ### Community 56 - "Community 56"
-Cohesion: 0.21
-Nodes (14): PIN_IMPORTANCE_MULTIPLIERS, buildTfIdf(), computeMissingKeywordPenalty(), computePreferenceMismatchPenalty(), detectNonEnglish(), dotProduct(), normalizeBoosts(), normSq() (+6 more)
+Cohesion: 0.16
+Nodes (19): PIN_IMPORTANCE_MULTIPLIERS, buildTfIdf(), computeMissingKeywordPenalty(), computePreferenceMismatchPenalty(), detectNonEnglish(), dotProduct(), normalizeBoosts(), normSq() (+11 more)
 
 ### Community 57 - "Community 57"
 Cohesion: 0.29
@@ -341,16 +339,16 @@ Cohesion: 0.25
 Nodes (5): RESUME_PICKER_PANEL, appConfig, AppShellComponent, authInterceptor(), webRoutes
 
 ### Community 61 - "Community 61"
-Cohesion: 0.20
-Nodes (8): appConfig, BoostRow, SettingsInfoModalComponent, SettingsInfoMode, APP_VERSION, DESKTOP_SETTINGS_PANEL, MODEL_CACHE_DIR, STORAGE_ADAPTER
+Cohesion: 0.36
+Nodes (4): appConfig, DESKTOP_SETTINGS_PANEL, MODEL_CACHE_DIR, STORAGE_ADAPTER
 
 ### Community 62 - "Community 62"
 Cohesion: 0.40
 Nodes (3): FILES, here, outDir
 
 ### Community 63 - "Community 63"
-Cohesion: 0.22
-Nodes (12): MatcherService, DEFAULT_MISSING_KEYWORD_SETTINGS, DEFAULT_PREFERENCE_MISMATCH_SETTINGS, JobInput, MatchBreakdown, MatchResult, MissingKeywordSettings, PinnedTerm (+4 more)
+Cohesion: 0.31
+Nodes (6): MatcherService, extractPageText(), ResumeParserService, JobInput, MatchBreakdown, MatchResult
 
 ### Community 65 - "Community 65"
 Cohesion: 0.13
@@ -400,6 +398,14 @@ Nodes (5): EmbeddingService, MODEL_HOST, ModelHostConfig, WorkerEmbedder, ScoreP
 Cohesion: 0.17
 Nodes (8): embedder, fixtureDir, jd, job, resume, fixtureDir, jd, resume
 
+### Community 81 - "Community 81"
+Cohesion: 0.36
+Nodes (4): BoostRow, SettingsInfoModalComponent, SettingsInfoMode, APP_VERSION
+
+### Community 82 - "Community 82"
+Cohesion: 0.57
+Nodes (3): EXTRA_STOPWORDS, extractTerms(), stripPhoneNumbers()
+
 ### Community 84 - "Community 84"
 Cohesion: 0.16
 Nodes (15): ApiHistoryEntry, ApiHistorySummary, toApiSettings(), ErrorCode, sendError(), sendValidationError(), DomainRoutesOptions, clearSessionCookie() (+7 more)
@@ -407,17 +413,17 @@ Nodes (15): ApiHistoryEntry, ApiHistorySummary, toApiSettings(), ErrorCode, send
 ## Knowledge Gaps
 - **572 isolated node(s):** `config`, `ClaudeDesktopStatus`, `ConnectResult`, `McpEntry`, `ClaudeConfig` (+567 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **10 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `embedder` connect `Community 80` to `MCP Resume Resolver`, `Community 63`?**
-  _High betweenness centrality (0.024) - this node is a cross-community bridge._
-- **Why does `SettingsDrawerComponent` connect `Settings Drawer Component` to `Preload tsconfig`, `API Service (IPC Bridge)`, `Community 61`?**
-  _High betweenness centrality (0.013) - this node is a cross-community bridge._
-- **Why does `require` connect `Claude Desktop Config (Main)` to `MCP Resume Resolver`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+  _High betweenness centrality (0.021) - this node is a cross-community bridge._
+- **Why does `SettingsDrawerComponent` connect `Settings Drawer Component` to `Preload tsconfig`, `Community 81`, `API Service (IPC Bridge)`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **Why does `MissingKeywordSettings` connect `Worker Export Map` to `Preload tsconfig`, `Community 81`, `API Service (IPC Bridge)`, `Community 63`?**
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **What connects `config`, `ClaudeDesktopStatus`, `ConnectResult` to the rest of the system?**
   _575 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `API Service (IPC Bridge)` be split into smaller, more focused modules?**
