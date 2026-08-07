@@ -56,6 +56,12 @@ export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyIn
   const app = Fastify({
     logger: {level: config.isProduction ? 'info' : 'debug'},
     trustProxy: config.isProduction,
+    // Without this, app.close() waits for open keep-alive connections to end
+    // naturally before the port is released. In dev that races node --watch's
+    // near-immediate respawn on every file change, causing an intermittent
+    // EADDRINUSE; in prod a graceful SIGTERM should drop connections promptly
+    // too rather than blocking shutdown on a client that never disconnects.
+    forceCloseConnections: true,
   });
 
   await app.register(helmet, {
