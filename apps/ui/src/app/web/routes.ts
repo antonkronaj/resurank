@@ -12,6 +12,7 @@ import {PrivacyComponent} from './legal/privacy.component';
 import {TermsComponent} from './legal/terms.component';
 import {NavShellComponent} from './nav-shell.component';
 import {ResumesComponent} from './resumes/resumes.component';
+import {SettingsComponent} from './settings/settings.component';
 
 /**
  * The guarded routes sit under `NavShellComponent`, which owns the toolbar +
@@ -38,6 +39,7 @@ export const webRoutes: Routes = [
       {path: 'resumes', component: ResumesComponent},
       {path: 'history', component: HistoryComponent},
       {path: 'account', component: AccountComponent},
+      {path: 'settings', component: SettingsComponent},
     ],
   },
   {path: '**', redirectTo: ''},

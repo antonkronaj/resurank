@@ -24,7 +24,7 @@
       } @else {
       <p class="text-muted small">No resume uploaded yet.</p>
     }
-      <label class="file-btn">
+      <label class="file-btn dw-resume-upload">
         <input (change)="onResumeSelected($event)" accept="application/pdf" hidden type="file"/>
         {{ uploading() ? 'Uploading…' : (resume().uploaded ? 'Replace PDF' : 'Upload PDF') }}
       </label>
@@ -193,7 +193,7 @@
       </div>
     </div>
 
-    <div class="dw-section">
+    <div class="dw-section dw-about">
       <div class="dw-section-title">About</div>
       <div class="text-muted small">
         Version: {{ appVersion() }}

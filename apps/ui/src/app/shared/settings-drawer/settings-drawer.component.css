@@ -83,6 +83,23 @@
   gap: 10px;
 }
 
+/* Web relocates this block to its own Settings page (web/settings) — the
+   drawer keeps only the scoring knobs there. Desktop has no such page (it is
+   a single screen with no nav), so it still shows About here. Same
+   `:host-context` platform-gating convention as app.component.css. */
+:host-context([data-platform="web"]) .dw-about {
+  display: none;
+}
+
+/* Upload is `/resumes`' job on web, which also handles switching and
+   deleting; desktop has no such screen so it uploads from here. The Resume
+   block itself stays on both — the Score screen's resume picker only renders
+   with 2+ resumes (web/resume-picker), so with a single one this is the only
+   place showing which resume a score will run against. */
+:host-context([data-platform="web"]) .dw-resume-upload {
+  display: none;
+}
+
 .dw-section-title {
   font-size: 12px;
   font-weight: 700;

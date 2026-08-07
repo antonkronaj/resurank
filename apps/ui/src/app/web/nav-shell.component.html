@@ -13,18 +13,26 @@
         <div (click)="closeMenu()" class="menu-backdrop"></div>
         <div class="avatar-menu">
           <a (click)="closeMenu()" class="avatar-menu-item" routerLink="account">Account</a>
+          <a (click)="closeMenu()" class="avatar-menu-item" routerLink="settings">Settings</a>
           <button (click)="toggleTheme()" class="avatar-menu-item" type="button">
             {{ theme() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode' }}
           </button>
           <button (click)="signOut()" class="avatar-menu-item" type="button">Sign out</button>
-          <a class="avatar-menu-item" href="/terms" style="font-size:12px" target="_blank">Terms</a>
-          <a class="avatar-menu-item" href="/privacy" style="font-size:12px" target="_blank">Privacy</a>
         </div>
       }
     </div>
   </header>
 
   <router-outlet />
+
+  <!-- Legal links live here rather than in the avatar menu, which is for
+       account actions. Kept as `target="_blank"` (their pre-move behaviour)
+       so reading them never costs you an in-progress score. -->
+  <footer class="app-footer">
+    <a class="app-footer-link" href="/terms" rel="noopener" target="_blank">Terms</a>
+    <span aria-hidden="true">·</span>
+    <a class="app-footer-link" href="/privacy" rel="noopener" target="_blank">Privacy</a>
+  </footer>
 </div>
 
 <div class="min-width-guard">

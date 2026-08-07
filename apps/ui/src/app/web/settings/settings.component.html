@@ -1,0 +1,59 @@
+<div class="content" style="max-width:720px">
+  <h2 class="panel-title" style="font-size:19px;margin-bottom:16px">Settings</h2>
+
+  <section class="panel">
+    <h3 class="sub-title">Appearance</h3>
+    <div class="row-between">
+      <div>
+        <div class="small">Theme</div>
+        <div class="small muted">Also switchable from the avatar menu.</div>
+      </div>
+      <div class="toolbar-filter" role="group" aria-label="Theme">
+        <button
+          (click)="setTheme('light')"
+          [attr.aria-pressed]="theme() === 'light'"
+          [class.primary]="theme() === 'light'"
+          [class.ghost]="theme() !== 'light'"
+          type="button">Light</button>
+        <button
+          (click)="setTheme('dark')"
+          [attr.aria-pressed]="theme() === 'dark'"
+          [class.primary]="theme() === 'dark'"
+          [class.ghost]="theme() !== 'dark'"
+          type="button">Dark</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h3 class="sub-title">Resumes</h3>
+    <p class="small muted" style="margin:0 0 12px">
+      Upload, switch, and delete resumes on their own screen.
+    </p>
+    <a class="ghost" routerLink="/resumes" style="display:inline-block;text-decoration:none">
+      Manage resumes
+    </a>
+  </section>
+
+  <section class="panel">
+    <h3 class="sub-title">Scoring</h3>
+    <p class="small muted" style="margin:0 0 12px">
+      Term boosts, exclusion words, critical keywords, and preference mismatch are
+      tuned on the Score screen, so you can re-run a match right after changing them.
+    </p>
+    <a class="ghost" routerLink="/score" style="display:inline-block;text-decoration:none">
+      Go to Score
+    </a>
+  </section>
+
+  <section class="panel">
+    <h3 class="sub-title">About</h3>
+    <div class="small muted">
+      Embedding model: <code>{{ modelLabel() }}</code> ({{ modelDtype }}, ~{{ modelSizeMb }} MB)
+    </div>
+    <div class="small muted">Scoring engine: {{ scoringVersion }}</div>
+    <div class="small muted" style="margin-top:8px">
+      Matching runs entirely in your browser — the model is downloaded once and cached.
+    </div>
+  </section>
+</div>
