@@ -11078,7 +11078,7 @@
       "label": "7. Rollback",
       "file_type": "document",
       "source_file": "docs/deployment-runbook.md",
-      "source_location": "L137",
+      "source_location": "L143",
       "_origin": "ast",
       "id": "docs_deployment_runbook_7_rollback",
       "community": 54,
@@ -11088,7 +11088,7 @@
       "label": "Corrections / open items (kept current \u2014 Phase 10)",
       "file_type": "document",
       "source_file": "docs/deployment-runbook.md",
-      "source_location": "L146",
+      "source_location": "L152",
       "_origin": "ast",
       "id": "docs_deployment_runbook_corrections_open_items_kept_current_phase_10",
       "community": 54,
@@ -11098,7 +11098,7 @@
       "label": "Verified (Phase 10)",
       "file_type": "document",
       "source_file": "docs/deployment-runbook.md",
-      "source_location": "L186",
+      "source_location": "L192",
       "_origin": "ast",
       "id": "docs_deployment_runbook_verified_phase_10",
       "community": 54,
@@ -33148,5 +33148,5 @@
       "source_file": "resources/test_files/senior_software_engineer.txt"
     }
   ],
-  "built_at_commit": "7d1240fb63627600bb22c4729b39c479aa4409d8"
+  "built_at_commit": "60630a12156a84b9e6f1ceb1abceaf7f33444690"
 }

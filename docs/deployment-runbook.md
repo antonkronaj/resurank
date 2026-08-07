@@ -129,6 +129,12 @@ Run through this once against the real deployment before calling it live:
       drop the headers even though the app itself is fine. See "Corrections"
       below for exactly how to check each browser without a full CDP-style
       automation setup.
+- [ ] With the Network tab open, run a match and confirm the ORT WASM binary
+      and the model files (`/assets/models/...`) actually load, initiated
+      from the embedding worker rather than the main thread. This is
+      stricter than "a score eventually comes back" (already covered above)
+      — a broken threaded path can still silently succeed by falling back to
+      slower single-threaded scoring, with no visible error.
 - [ ] Hit `/api/health` rapidly (>300 requests within a minute) from one
       client and confirm a `429` eventually appears — confirms the global
       rate-limit baseline reached production intact.
