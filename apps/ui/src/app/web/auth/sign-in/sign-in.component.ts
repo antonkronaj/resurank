@@ -16,6 +16,14 @@ export class SignInComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
+  /** Benefit bullets on the brand pane — rendered by one @for so the check
+   *  icon is declared a single time in the template. */
+  readonly points = [
+    {strong: 'The PDF never leaves your device.', rest: 'Parsing happens client-side.'},
+    {strong: 'The AI model runs locally.', rest: 'No inference server, no third party.'},
+    {strong: 'Export or delete everything', rest: 'at any time.'},
+  ];
+
   email = signal('');
   password = signal('');
   submitting = signal(false);

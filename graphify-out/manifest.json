@@ -680,8 +680,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/auth/sign-in/sign-in.component.ts": {
-    "mtime": 1785027837.4213119,
-    "ast_hash": "da67f14b27a899c02bc04b03bca102e6",
+    "mtime": 1786126074.4557605,
+    "ast_hash": "d7ef364d8fbfc094348ff70da32a0d97",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/auth/verify-email/verify-email.component.ts": {
@@ -825,8 +825,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/auth/sign-in/sign-in.component.html": {
-    "mtime": 1785027837.4211326,
-    "ast_hash": "95dbba3c7f3caabd4833c2d2931e1b70",
+    "mtime": 1786126082.9406388,
+    "ast_hash": "56ef1b8719dd843c0405b47ef84a3ec5",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/auth/verify-email/verify-email.component.html": {
@@ -840,8 +840,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/history/history.component.html": {
-    "mtime": 1785949820.8587976,
-    "ast_hash": "06afef1fe321a5f81abfee9fc379b46c",
+    "mtime": 1786125952.4291785,
+    "ast_hash": "56c149ef305ceafe581d8b58ba83733d",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/legal/privacy.component.html": {
@@ -865,8 +865,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/resumes/resumes.component.html": {
-    "mtime": 1785027837.4260821,
-    "ast_hash": "6f5cff34b385e02ee483011eefc0d419",
+    "mtime": 1786125965.9260018,
+    "ast_hash": "b3f1dbf08480f7dd7b9d01a41acc6266",
     "semantic_hash": ""
   },
   "apps/ui/src/index.html": {

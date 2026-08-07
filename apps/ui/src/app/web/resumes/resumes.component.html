@@ -8,7 +8,10 @@
     </div>
     <label class="primary">
       <input (change)="onFileSelected($event)" accept="application/pdf" hidden type="file"/>
-      {{ uploading() ? 'Uploading…' : '＋ Add resume' }}
+      @if (!uploading()) {
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+      }
+      {{ uploading() ? 'Uploading…' : 'Add resume' }}
     </label>
   </div>
 
@@ -18,14 +21,14 @@
 
   @if (!loading() && resumes().length === 0) {
     <div class="empty panel">
-      <div class="empty-ico">▤</div>
+      <div class="empty-ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></div>
       <p>No resumes yet. Upload a PDF to get started.</p>
     </div>
   } @else {
     <div class="res-grid">
       @for (r of resumes(); track r.id) {
         <article [class.is-active]="r.isActive" class="res-card">
-          <div class="res-ico">▤</div>
+          <div class="res-ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></div>
           <div class="res-meta">
             <div class="res-name">
               {{ r.filename }}
@@ -44,7 +47,7 @@
           @if (confirmingDeleteId() === r.id) {
             <button (click)="confirmDelete(r.id)" class="danger-btn" type="button">Confirm delete?</button>
           } @else {
-            <button (click)="requestDelete(r.id)" class="icon-btn danger-hover" title="Delete" type="button">🗑</button>
+            <button (click)="requestDelete(r.id)" aria-label="Delete" class="icon-btn danger-hover" title="Delete" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
           }
         </article>
       }

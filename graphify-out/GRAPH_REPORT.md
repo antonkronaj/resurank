@@ -1,16 +1,16 @@
 # Graph Report - resurank  (2026-08-07)
 
 ## Corpus Check
-- 143 files · ~186,836 words
+- 143 files · ~187,103 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1253 nodes · 1939 edges · 78 communities (68 shown, 10 thin omitted)
+- 1254 nodes · 1939 edges · 79 communities (69 shown, 10 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 12 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1ab88288`
+- Built from commit: `7d1240fb`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -126,7 +126,7 @@
 - **Shared Scoring Engine Consumers** — scoring_resurank_scoring_pkg, mcp_server_resurank_mcp, scoring_score_resume_against_job [EXTRACTED 1.00]
 - **Job Description Test Corpus** — test_files_english_java_angular, test_files_foreign_language, test_files_registered_nurse, test_files_senior_software_engineer [INFERRED 0.85]
 
-## Communities (78 total, 10 thin omitted)
+## Communities (79 total, 10 thin omitted)
 
 ### Community 0 - "Embedding & Matcher Services"
 Cohesion: 0.15
@@ -385,7 +385,7 @@ Cohesion: 0.67
 Nodes (3): glob, overrides, karma
 
 ## Knowledge Gaps
-- **553 isolated node(s):** `name`, `author`, `version`, `private`, `description` (+548 more)
+- **553 isolated node(s):** `config`, `ClaudeDesktopStatus`, `ConnectResult`, `McpEntry`, `ClaudeConfig` (+548 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **10 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -393,12 +393,12 @@ Nodes (3): glob, overrides, karma
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `embedder` connect `Community 56` to `Claude Desktop Card (Frontend)`, `MCP Resume Resolver`?**
-  _High betweenness centrality (0.022) - this node is a cross-community bridge._
-- **Why does `AppComponent` connect `Community 55` to `Community 67`, `Storage Service (JSON Files)`, `Community 43`?**
-  _High betweenness centrality (0.017) - this node is a cross-community bridge._
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
+- **Why does `SettingsDrawerComponent` connect `Settings Drawer Component` to `Storage Service (JSON Files)`?**
+  _High betweenness centrality (0.016) - this node is a cross-community bridge._
 - **Why does `require` connect `MCP Resume Resolver` to `Claude Desktop Config (Main)`?**
-  _High betweenness centrality (0.014) - this node is a cross-community bridge._
-- **What connects `name`, `author`, `version` to the rest of the system?**
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
+- **What connects `config`, `ClaudeDesktopStatus`, `ConnectResult` to the rest of the system?**
   _556 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `API Service (IPC Bridge)` be split into smaller, more focused modules?**
   _Cohesion score 0.06561085972850679 - nodes in this community are weakly interconnected._

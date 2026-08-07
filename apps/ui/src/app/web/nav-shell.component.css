@@ -20,12 +20,27 @@
   min-width: 200px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow);
   padding: 6px;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  transform-origin: top right;
+  animation: menu-in 0.16s var(--ease-out);
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar-menu {
+    animation: none;
+  }
 }
 
 .avatar-menu-item {
