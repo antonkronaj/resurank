@@ -15,6 +15,7 @@ import {ApiHistoryEntry} from '../history.service';
   standalone: true,
   imports: [CommonModule, ModalShellComponent],
   templateUrl: './history-detail-modal.component.html',
+  styleUrl: './history-detail-modal.component.css',
 })
 export class HistoryDetailModalComponent {
   entry = input<ApiHistoryEntry | null>(null);

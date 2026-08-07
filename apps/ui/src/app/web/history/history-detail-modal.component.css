@@ -1,0 +1,169 @@
+/*
+ * Readability pass (this component only): the shared `.small`/`.muted`
+ * utilities in styles.css are 12.5px, sized for dense list rows elsewhere in
+ * the app. A modal read top-to-bottom wants a larger, more comfortable body
+ * size — bumped here rather than globally so list rows across the rest of
+ * the web app are untouched. Angular's emulated encapsulation adds an
+ * attribute selector to every rule below, which always outranks the
+ * unscoped global rule of equal specificity, so this only affects what's
+ * rendered inside this component's own template.
+ */
+.small {
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.sub-title {
+  font-size: 12.5px;
+  margin-top: 22px;
+}
+
+/* ── Info cards — "How this was scored" / "Scoring settings used" ───────
+   Key/value provenance data reads better as a labelled block than as loose
+   paragraphs competing with the free-form job description above it. */
+.info-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
+.info-card + .info-card {
+  margin-top: -6px;
+}
+
+.meta-grid {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 16px;
+  row-gap: 8px;
+}
+
+.meta-grid dt {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  padding-top: 1px;
+}
+
+.meta-grid dd {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.meta-grid code {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 12.5px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--text);
+}
+
+.meta-tag {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  padding: 1px 8px;
+  margin-left: 6px;
+  vertical-align: 1px;
+}
+
+.meta-empty {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── Notices — the "may differ" / "ran under X this time" callouts ──────
+   A left accent bar plus an icon reads as a flag worth pausing on, unlike a
+   muted paragraph that blends into the surrounding prose. */
+.notice {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--accent-subtle);
+  border: 1px solid transparent;
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+}
+
+.notice svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  color: var(--accent);
+}
+
+.notice--outcome {
+  background: var(--surface-2);
+  border-left-color: var(--text-muted);
+}
+
+.notice--outcome svg {
+  color: var(--text-muted);
+}
+
+/* ── Diff card — "What changed since" ────────────────────────────────── */
+.diff-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.diff-item {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.diff-dot {
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-top: 7px;
+  background: var(--accent);
+}
+
+.diff-dot--add {
+  background: var(--ok);
+}
+
+.diff-dot--remove {
+  background: var(--danger);
+}
+
+.diff-item code {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 12.5px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: var(--text);
+}
+
+.diff-was {
+  color: var(--text-muted);
+}

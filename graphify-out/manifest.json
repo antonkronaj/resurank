@@ -330,8 +330,8 @@
     "semantic_hash": ""
   },
   "apps/web/src/app.ts": {
-    "mtime": 1785124079.432,
-    "ast_hash": "38131643036f1c3636b70858fabd512a",
+    "mtime": 1786145264.554836,
+    "ast_hash": "ffc70ba46be55c849beaa27fd485c6db",
     "semantic_hash": ""
   },
   "apps/web/src/config.ts": {
