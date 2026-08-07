@@ -187,11 +187,14 @@ body {
 }
 .tb-btn:hover { background: var(--row-hover); }
 .avatar {
-  width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
-  background: var(--accent-subtle); color: var(--accent); font-weight: 700; font-size: 12px;
-  border: 1px solid var(--border); cursor: pointer; font: inherit;
-  padding: 0; line-height: 1;
+  width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+  font: inherit; font-size: 12px; font-weight: 800; letter-spacing: .04em; line-height: 1;
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  color: #04201c; border: none; cursor: pointer; padding: 0;
+  box-shadow: 0 0 0 2px var(--toolbar-bg), 0 0 0 3px var(--border);
+  transition: box-shadow .15s;
 }
+.avatar:hover { box-shadow: 0 0 0 2px var(--toolbar-bg), 0 0 0 3px var(--accent); }
 
 .content { max-width: 1080px; margin: 0 auto; padding: 24px 16px 64px; }
 .panel {

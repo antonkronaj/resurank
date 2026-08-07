@@ -1,7 +1,7 @@
 {
   "package.json": {
-    "mtime": 1785031517.0863476,
-    "ast_hash": "04586ff95b60e4ff64de0ea8cac16344",
+    "mtime": 1786125360.7796412,
+    "ast_hash": "3fdbcd01a443e2c79ed0b2f352461d90",
     "semantic_hash": ""
   },
   "packages/mcp-server/install.sh": {
