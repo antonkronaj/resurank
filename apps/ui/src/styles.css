@@ -333,9 +333,19 @@ body {
    (set by web/app-shell.component.ts) instead.
    ══════════════════════════════════════════════════════════════════════ */
 
-/* Glass sticky toolbar: stays visible while the document scrolls. */
+/* Glass sticky toolbar: stays visible while the document scrolls.
+   The blur lives on a ::before, not on .toolbar itself — `backdrop-filter`
+   (like `filter`) makes its element a containing block for `position: fixed`
+   descendants, which was clipping the avatar menu's full-viewport click
+   -outside backdrop down to the toolbar's own 52px-tall box. A pseudo
+   -element has no descendants of its own, so isolating the filter there
+   keeps .avatar-wrap's fixed backdrop anchored to the real viewport. */
 html[data-platform="web"] .toolbar {
   position: sticky; top: 0; z-index: 50;
+}
+html[data-platform="web"] .toolbar::before {
+  content: '';
+  position: absolute; inset: 0; z-index: -1;
   background: var(--toolbar-glass);
   -webkit-backdrop-filter: blur(12px) saturate(1.4);
   backdrop-filter: blur(12px) saturate(1.4);
