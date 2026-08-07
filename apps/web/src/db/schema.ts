@@ -136,6 +136,54 @@ export const userSettings = pgTable('user_settings', {
   updatedAt: timestamp('updated_at', {withTimezone: true}).notNull().defaultNow(),
 });
 
+/**
+ * Immutable snapshots of the four scoring settings, one row per distinct state
+ * a user has scored under. `user_settings` holds what is current; this holds
+ * what a given score actually ran with, so a stored score stays explainable
+ * after the settings that produced it are edited.
+ *
+ * A separate table rather than columns on `score_history` because these are
+ * neither scalar nor low-cardinality — the reasoning that put `embedding_model`
+ * inline cuts the other way here. A stopword list runs to thousands of entries
+ * and changes far less often than scores are recorded, so inlining it would
+ * copy the same large blob onto every row. Sharing one row across every score
+ * taken under it also makes "did these two runs use the same settings?" an id
+ * comparison instead of a deep object diff.
+ *
+ * Rows are never updated or individually deleted; they are only removed when
+ * their user is. Editing settings writes a new version (or reuses a matching
+ * one) rather than mutating an existing row, which is what makes an old
+ * `score_history.settings_version_id` still mean what it meant when written.
+ */
+export const settingsVersions = pgTable(
+  'settings_versions',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, {onDelete: 'cascade'}),
+    /**
+     * sha256 over the canonicalised payload below — see lib/settings-hash.ts,
+     * which owns the canonical form. Unique per user so re-saving identical
+     * settings reuses this row instead of writing a near-duplicate on every
+     * score. Stored rather than derived on read so the uniqueness is enforced
+     * by the database rather than by every caller remembering to check.
+     */
+    hash: text('hash').notNull(),
+    // The same four payload columns as `user_settings`, frozen at score time.
+    stopwords: jsonb('stopwords').$type<string[]>().notNull(),
+    termBoosts: jsonb('term_boosts').$type<Record<string, number>>().notNull(),
+    missingKeywordSettings: jsonb('missing_keyword_settings')
+      .$type<MissingKeywordSettings>()
+      .notNull(),
+    preferenceMismatchSettings: jsonb('preference_mismatch_settings')
+      .$type<PreferenceMismatchSettings>()
+      .notNull(),
+    createdAt: timestamp('created_at', {withTimezone: true}).notNull().defaultNow(),
+  },
+  (table) => [uniqueIndex('settings_versions_user_hash_idx').on(table.userId, table.hash)],
+);
+
 export const scoreHistory = pgTable(
   'score_history',
   {
@@ -166,15 +214,51 @@ export const scoreHistory = pgTable(
      *
      * Nullable: rows written before this existed genuinely do not know, and
      * the desktop build does not record history at all.
+     *
+     * Backfill decision (applies to every nullable provenance column below,
+     * including `resume_id` above and `settings_version_id` further down):
+     * there is no backfill. A null stays null forever rather than being
+     * populated with a guess or the current value, because both would assert
+     * a provenance nobody actually recorded — and every reader of these
+     * columns must in turn treat null as "unknown", never as "same as now".
+     * The UI enforces this uniformly: `scoredWithOther*` in
+     * apps/ui/src/app/web/history/{history,history-detail-modal}.component.ts
+     * all early-return `false` on a null column (unmarked rather than flagged
+     * stale), and history-detail-modal.component.html shows an explicit
+     * "recorded before ResuRank tracked which X produced a score" line rather
+     * than rendering an empty or zeroed section.
      */
     embeddingModel: text('embedding_model'),
     embeddingDtype: text('embedding_dtype'),
     scoringVersion: text('scoring_version'),
+    /**
+     * The settings this score ran under. Nullable on the same terms as the
+     * three columns above: rows written before this existed genuinely do not
+     * know, and reading null as "the current settings" would assert a
+     * provenance nobody recorded.
+     *
+     * `set null` rather than cascade so a settings version can never take
+     * history rows with it — matching `resume_id`. In practice versions are
+     * only removed with their user, which drops this row anyway.
+     */
+    settingsVersionId: uuid('settings_version_id').references(() => settingsVersions.id, {
+      onDelete: 'set null',
+    }),
     createdAt: timestamp('created_at', {withTimezone: true}).notNull().defaultNow(),
   },
   (table) => [
     index('score_history_user_created_idx').on(table.userId, table.createdAt),
     index('score_history_resume_id_idx').on(table.resumeId),
+    /**
+     * Not for any query the app runs — for the foreign key. Postgres enforces
+     * `on delete set null` by looking up referencing rows, and without this it
+     * does that with a sequential scan of the whole table, once per settings
+     * version being removed. Deleting one account would otherwise scan
+     * `score_history` once for every settings state that account ever scored
+     * under. `score_history_resume_id_idx` above exists for exactly the same
+     * reason on the identically-shaped `resume_id`.
+     */
+    index('score_history_settings_version_id_idx').on(table.settingsVersionId),
   ],
 );
 
@@ -184,4 +268,5 @@ export type Session = typeof sessions.$inferSelect;
 export type EmailToken = typeof emailTokens.$inferSelect;
 export type Resume = typeof resumes.$inferSelect;
 export type UserSettings = typeof userSettings.$inferSelect;
+export type SettingsVersion = typeof settingsVersions.$inferSelect;
 export type ScoreHistoryEntry = typeof scoreHistory.$inferSelect;

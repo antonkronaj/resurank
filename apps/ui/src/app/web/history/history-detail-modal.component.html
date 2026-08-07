@@ -49,14 +49,96 @@
         Embedding model: <code>{{ modelLabel(e.embeddingModel) }}</code>@if (e.embeddingDtype) { ({{ e.embeddingDtype }}) }<br>
         Scoring engine: {{ e.scoringVersion ?? 'unknown' }}
       </p>
-      @if (scoredWithOtherModel(e)) {
+      @if (wouldRescoreDiffer(e)) {
         <p class="small muted">
-          Your current model is <code>{{ currentModelLabel() }}</code>, so re-scoring this job may give a
+          You are now on {{ currentSetupLabel(e) }}, so re-scoring this job may give a
           different result.
         </p>
       }
     } @else {
       <p class="small muted">Recorded before ResuRank tracked which model produced a score.</p>
+    }
+
+    @if (e.settings; as s) {
+      <h3 class="sub-title" style="margin-top:18px">Scoring settings used</h3>
+      <p class="small muted">
+        {{ s.stopwords.length }} excluded {{ s.stopwords.length === 1 ? 'word' : 'words' }} ·
+        {{ boostCount(s) }} term {{ boostCount(s) === 1 ? 'boost' : 'boosts' }}
+      </p>
+      <p class="small muted">
+        Critical missing keywords:
+        {{ s.missingKeywordSettings.enabled ? 'on' : 'off' }}
+        @if (s.missingKeywordSettings.enabled) {
+          (up to {{ s.missingKeywordSettings.maxPenalty * 100 | number: '1.0-0' }}% penalty)
+        }
+      </p>
+      @if (s.missingKeywordSettings.pinnedTerms.length > 0) {
+        <div class="chips">
+          @for (pin of s.missingKeywordSettings.pinnedTerms; track pin.term) {
+            <span class="chip chip--missing">{{ pin.term }} ({{ pin.importance }})</span>
+          }
+        </div>
+      }
+      <p class="small muted" style="margin-top:8px">
+        Preference mismatch:
+        {{ s.preferenceMismatchSettings.enabled ? 'on' : 'off' }}
+        @if (s.preferenceMismatchSettings.enabled) {
+          (up to {{ s.preferenceMismatchSettings.maxPenalty * 100 | number: '1.0-0' }}% penalty)
+        }
+      </p>
+      @if (s.preferenceMismatchSettings.enabled && s.preferenceMismatchSettings.text) {
+        <p class="small muted" style="white-space:pre-wrap">"{{ s.preferenceMismatchSettings.text }}"</p>
+      }
+    } @else {
+      <h3 class="sub-title" style="margin-top:18px">Scoring settings used</h3>
+      <p class="small muted">Recorded before ResuRank tracked which settings produced a score.</p>
+    }
+
+    @if (settingsDiff(e); as d) {
+      <h3 class="sub-title" style="margin-top:18px">What changed since</h3>
+      <ul class="small muted" style="margin:0; padding-left:18px">
+        @if (d.stopwordsAdded.length || d.stopwordsRemoved.length) {
+          <li>Excluded words: {{ stopwordDeltaLabel(d) }}</li>
+        }
+        @for (b of d.termBoostsChanged; track b.term) {
+          <li>
+            Term boost "{{ b.term }}":
+            @if (b.from === null) { added at {{ b.to }} }
+            @else if (b.to === null) { removed (was {{ b.from }}) }
+            @else { {{ b.from }} → {{ b.to }} }
+          </li>
+        }
+        @if (d.missingKeywordEnabledChanged; as c) {
+          <li>Critical missing keywords: {{ c.from ? 'on' : 'off' }} → {{ c.to ? 'on' : 'off' }}</li>
+        }
+        @if (d.missingKeywordMaxPenaltyChanged; as c) {
+          <li>
+            Missing-keyword penalty cap: {{ c.from * 100 | number: '1.0-0' }}% →
+            {{ c.to * 100 | number: '1.0-0' }}%
+          </li>
+        }
+        @for (p of d.pinnedTermsAdded; track p.term) {
+          <li>Pinned "{{ p.term }}" ({{ p.importance }}) added</li>
+        }
+        @for (p of d.pinnedTermsRemoved; track p.term) {
+          <li>Pinned "{{ p.term }}" ({{ p.importance }}) removed</li>
+        }
+        @for (p of d.pinnedTermsImportanceChanged; track p.term) {
+          <li>Pinned "{{ p.term }}" importance: {{ p.from }} → {{ p.to }}</li>
+        }
+        @if (d.preferenceMismatchEnabledChanged; as c) {
+          <li>Preference mismatch: {{ c.from ? 'on' : 'off' }} → {{ c.to ? 'on' : 'off' }}</li>
+        }
+        @if (d.preferenceMismatchMaxPenaltyChanged; as c) {
+          <li>
+            Preference-mismatch penalty cap: {{ c.from * 100 | number: '1.0-0' }}% →
+            {{ c.to * 100 | number: '1.0-0' }}%
+          </li>
+        }
+        @if (d.preferenceMismatchTextChanged) {
+          <li>Preference-mismatch text changed</li>
+        }
+      </ul>
     }
 
     @if (rescoreOutcome(); as outcome) {
@@ -65,6 +147,11 @@
         <strong>{{ scorePct(outcome.next) }}</strong> ({{ scoreDelta(outcome) }}).
         The entry above is unchanged — re-scores are added to the list as new rows.
       </p>
+      @if (wouldRescoreDiffer(e)) {
+        <p class="small muted">
+          Ran under {{ currentSetupLabel(e) }} this time@if (settingsDiff(e); as d) { ({{ settingsDiffSummary(d) }})}.
+        </p>
+      }
     } @else {
       <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap">
         <button
@@ -84,9 +171,9 @@
         </button>
         @if (!activeResumeName()) {
           <span class="small muted">Upload a resume to re-score.</span>
-        } @else if (activeResumeName() !== e.resumeFilename) {
+        } @else if (scoredWithOtherResume(e) || !e.resumeId) {
           <span class="small muted">
-            Scores against your active resume, <strong>{{ activeResumeName() }}</strong> — not the
+            Scores against your active resume, <strong>{{ activeResumeLabel(e) }}</strong> — not the
             {{ e.resumeFilename ?? 'deleted resume' }} this entry used.
           </span>
         }

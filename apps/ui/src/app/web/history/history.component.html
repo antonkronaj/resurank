@@ -38,10 +38,8 @@
             <div class="hist-title">{{ entry.jobTitle }}</div>
             <div class="hist-sub">
               {{ entry.resumeFilename ?? 'Deleted resume' }} · {{ entry.createdAt | date: 'd MMM y' }}
-              @if (scoredWithOtherModel(entry)) {
-                <span class="badge muted" title="Scored with {{ entry.embeddingModel }}, not the model loaded now">
-                  older model
-                </span>
+              @if (provenanceMismatch(entry); as mismatch) {
+                <span class="badge muted" [title]="mismatch.title">{{ mismatch.label }}</span>
               }
             </div>
           </div>
@@ -55,7 +53,10 @@
 <app-history-detail-modal
   (close)="closeDetail()"
   (rescore)="rescore($event)"
+  [activeResumeId]="activeResumeId()"
   [activeResumeName]="activeResumeName()"
+  [currentSettings]="currentSettings()"
+  [currentSettingsVersionId]="currentSettingsVersionId()"
   [entry]="selectedEntry()"
   [rescoreError]="rescoreError()"
   [rescoreOutcome]="rescoreOutcome()"

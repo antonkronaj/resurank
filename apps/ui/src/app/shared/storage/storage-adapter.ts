@@ -59,10 +59,23 @@ export interface ScoreProvenance {
   scoringVersion: string;
 }
 
+/**
+ * The four keys of `StoreSnapshot` that are not the resume — everything a user
+ * can change that moves a score.
+ */
+export type SettingsSnapshot = Omit<StoreSnapshot, 'resume'>;
+
 export interface HistoryEntryInput extends ScoreProvenance {
   jobTitle: string;
   jobDescription: string;
   result: MatchResult;
+  /**
+   * The settings this run scored under, captured at score time for the same
+   * reason as `ScoreProvenance`: they are editable, so a stored score stops
+   * being explainable the moment they change. Read back as a shared
+   * `settings_versions` row rather than copied onto every history row.
+   */
+  settings: SettingsSnapshot;
 }
 
 /**

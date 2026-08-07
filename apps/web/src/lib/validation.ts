@@ -118,6 +118,14 @@ export const preferenceMismatchSettingsSchema = z.object({
   text: z.string().max(JOB_DESCRIPTION_CHAR_CAP),
 });
 
+const stopwordsSchema = z.array(termSchema).max(10_000);
+
+const termBoostsSchema = z
+  .record(termSchema, z.number().finite().min(0).max(100))
+  .refine((boosts) => Object.keys(boosts).length <= 5_000, {
+    message: 'Too many term boosts.',
+  });
+
 /**
  * Partial by design: the desktop StorageService saves each of these four keys
  * independently, so a PATCH that touches one key must not require the caller to
@@ -125,19 +133,27 @@ export const preferenceMismatchSettingsSchema = z.object({
  */
 export const updateSettingsSchema = z
   .object({
-    stopwords: z.array(termSchema).max(10_000).optional(),
-    termBoosts: z
-      .record(termSchema, z.number().finite().min(0).max(100))
-      .refine((boosts) => Object.keys(boosts).length <= 5_000, {
-        message: 'Too many term boosts.',
-      })
-      .optional(),
+    stopwords: stopwordsSchema.optional(),
+    termBoosts: termBoostsSchema.optional(),
     missingKeywordSettings: missingKeywordSettingsSchema.optional(),
     preferenceMismatchSettings: preferenceMismatchSettingsSchema.optional(),
   })
   .refine((value) => Object.keys(value).length > 0, {
     message: 'Provide at least one setting to update.',
   });
+
+/**
+ * The settings a score ran under, sent alongside it. Same four shapes as
+ * `updateSettingsSchema` but every key required, unlike that PATCH: a snapshot
+ * missing a key would be indistinguishable from one where the key was empty,
+ * and the whole point of storing it is that it describes the run exactly.
+ */
+export const settingsPayloadSchema = z.object({
+  stopwords: stopwordsSchema,
+  termBoosts: termBoostsSchema,
+  missingKeywordSettings: missingKeywordSettingsSchema,
+  preferenceMismatchSettings: preferenceMismatchSettingsSchema,
+});
 
 export const createHistorySchema = z.object({
   resumeId: z.string().uuid().nullable().optional(),
@@ -153,6 +169,12 @@ export const createHistorySchema = z.object({
   embeddingModel: z.string().regex(/^[\w.-]+\/[\w.-]+$/).max(128).optional(),
   embeddingDtype: z.string().regex(/^[a-z0-9_]+$/).max(16).optional(),
   scoringVersion: z.string().regex(/^\d+\.\d+\.\d+(?:[-+][\w.-]+)?$/).max(32).optional(),
+  /**
+   * Optional on the same terms as the provenance above: the MCP server and any
+   * client predating this simply do not send it, and a row without it records
+   * that its settings are unknown rather than claiming today's.
+   */
+  settings: settingsPayloadSchema.optional(),
 });
 
 export const historyQuerySchema = z.object({

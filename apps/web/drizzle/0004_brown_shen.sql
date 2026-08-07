@@ -1,0 +1,1 @@
+CREATE INDEX "score_history_settings_version_id_idx" ON "score_history" USING btree ("settings_version_id");

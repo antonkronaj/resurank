@@ -140,6 +140,7 @@ export class HttpStorageAdapter implements StorageAdapter {
         embeddingModel: entry.embeddingModel,
         embeddingDtype: entry.embeddingDtype,
         scoringVersion: entry.scoringVersion,
+        settings: entry.settings,
       }),
     );
   }

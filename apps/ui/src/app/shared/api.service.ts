@@ -61,7 +61,10 @@ export class ApiService {
       const resume = await this.storage.getResume();
       if (!resume) throw new Error('No resume uploaded');
       const boosts = await this.storage.getTermBoosts();
-      const stopwords = new Set(await this.storage.getStopwords());
+      // Kept as the array it arrived as, not just the Set the scorer wants:
+      // the same values are recorded below as this run's settings snapshot.
+      const stopwordList = await this.storage.getStopwords();
+      const stopwords = new Set(stopwordList);
       const missingSettings = await this.storage.getMissingKeywordSettings();
       const preferenceSettings = await this.storage.getPreferenceMismatchSettings();
       const result = await this.matcher.scoreSingleJob(resume.text, {title, description}, boosts, stopwords, missingSettings, preferenceSettings);
@@ -76,6 +79,15 @@ export class ApiService {
           // Captured after scoring, so it describes the run that produced
           // `result` rather than whatever is loaded when the row is read back.
           ...this.embedding.provenance(),
+          // The exact values passed to `scoreSingleJob` above, for the same
+          // reason — reading them back from storage here would race an edit
+          // made while the score was in flight.
+          settings: {
+            stopwords: stopwordList,
+            termBoosts: boosts,
+            missingKeywordSettings: missingSettings,
+            preferenceMismatchSettings: preferenceSettings,
+          },
         });
       } catch {
         // ignored — see above

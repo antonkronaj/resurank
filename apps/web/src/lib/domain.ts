@@ -46,6 +46,14 @@ export interface ApiHistorySummary {
   score: number;
   /** Null for rows written before provenance was recorded. */
   embeddingModel: string | null;
+  /** Null for rows written before provenance was recorded. */
+  scoringVersion: string | null;
+  /**
+   * The settings this score ran under. Compare against the list response's
+   * `currentSettingsVersionId` to tell whether a re-score would use the same
+   * ones. Null where the client did not report them.
+   */
+  settingsVersionId: string | null;
   createdAt: string;
 }
 
@@ -53,7 +61,16 @@ export interface ApiHistoryEntry extends ApiHistorySummary {
   jobDescription: string;
   result: MatchResult;
   embeddingDtype: string | null;
-  scoringVersion: string | null;
+  /**
+   * The full settings this row's `settingsVersionId` points at, resolved
+   * server-side so the detail screen can render what actually ran without a
+   * second request. Not on `ApiHistorySummary`: the list only needs the id to
+   * badge a row as stale (see `HistoryComponent.provenanceMismatch`), and
+   * shipping every row's stopword list to draw that list would be the same
+   * "N × 32k characters" problem `ApiResumeSummary` avoids above. Null exactly
+   * when `settingsVersionId` is — no id, nothing to resolve.
+   */
+  settings: ApiSettings | null;
 }
 
 /** The four keys of StoreSnapshot that are not the resume. */

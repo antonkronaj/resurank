@@ -5,7 +5,7 @@ import type {FastifyInstance, LightMyRequestResponse} from 'fastify';
 import {JOB_DESCRIPTION_CHAR_CAP, RESUME_CHAR_CAP} from '@resurank/scoring';
 import {buildApp} from '../src/app.js';
 import {closeDatabase, db} from '../src/db/client.js';
-import {resumes, users} from '../src/db/schema.js';
+import {resumes, scoreHistory, settingsVersions, users} from '../src/db/schema.js';
 import {signedInUser} from './helpers/auth.js';
 import {clearMailbox, isMailpitRunning} from './helpers/mailpit.js';
 
@@ -546,5 +546,235 @@ describe('cross-user isolation', () => {
 
     assert.equal(response.statusCode, 404);
     assert.equal((await get(bob.token, '/api/history')).json().history.length, 0);
+  });
+});
+
+/**
+ * Provenance for the settings half of a score. The score itself is computed
+ * client-side, so what is under test here is purely the bookkeeping: that a
+ * run's settings are recorded, and that recording them does not write a fresh
+ * row per score — the dedup is the whole reason these live in their own table
+ * rather than inline on `score_history`.
+ */
+describe('settings versions', () => {
+  const SETTINGS = {
+    stopwords: ['the', 'and'],
+    termBoosts: {java: 3},
+    missingKeywordSettings: {
+      enabled: true,
+      maxPenalty: 0.25,
+      pinnedTerms: [{term: 'java', importance: 'high'}],
+    },
+    preferenceMismatchSettings: {enabled: false, maxPenalty: 0.25, text: ''},
+  };
+
+  function saveWithSettings(token: string, settings: unknown): Res {
+    return post(token, '/api/history', {
+      resumeId: null,
+      jobTitle: 'Engineer',
+      jobDescription: 'a job that needs typing',
+      result: RESULT,
+      settings,
+    });
+  }
+
+  /** Physical row identity — changes if Postgres rewrote the tuple. */
+  async function tupleIdOf(versionId: string): Promise<string> {
+    const result = await db.execute(
+      sql`select ctid::text as ctid from settings_versions where id = ${versionId}`,
+    );
+    return (result.rows as unknown as {ctid: string}[])[0].ctid;
+  }
+
+  async function versionCount(userId: string): Promise<number> {
+    const rows = await db
+      .select({id: settingsVersions.id})
+      .from(settingsVersions)
+      .where(eq(settingsVersions.userId, userId));
+    return rows.length;
+  }
+
+  async function settingsVersionIdOf(historyId: string): Promise<string | null> {
+    const [row] = await db
+      .select({settingsVersionId: scoreHistory.settingsVersionId})
+      .from(scoreHistory)
+      .where(eq(scoreHistory.id, historyId))
+      .limit(1);
+    return row.settingsVersionId;
+  }
+
+  it('stores the settings a score ran under', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {email, token} = await signedInUser(app, 'settings-store');
+    const id = await userId(email);
+
+    const response = await saveWithSettings(token, SETTINGS);
+
+    assert.equal(response.statusCode, 201);
+    assert.equal(await versionCount(id), 1);
+    assert.ok(await settingsVersionIdOf(response.json().entry.id), 'history row links to a version');
+  });
+
+  it('returns currentSettingsVersionId matching a row scored under it, and null before any settings are saved', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {token} = await signedInUser(app, 'settings-current-null');
+
+    const beforeAnySettings = (await get(token, '/api/history')).json();
+    assert.equal(
+      beforeAnySettings.currentSettingsVersionId,
+      null,
+      'no user_settings row exists yet, so there is nothing to match',
+    );
+
+    const saved = await saveWithSettings(token, SETTINGS);
+    const list = (await get(token, '/api/history')).json();
+    // `saveWithSettings` writes the row but never PATCHes /api/settings, so
+    // user_settings still does not match — this stays null even though a
+    // settings_versions row now exists for these exact settings.
+    assert.equal(list.currentSettingsVersionId, null);
+    assert.notEqual(await settingsVersionIdOf(saved.json().entry.id), null);
+  });
+
+  it('shares one version across repeated scores under identical settings', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {email, token} = await signedInUser(app, 'settings-dedup');
+    const id = await userId(email);
+
+    const first = await saveWithSettings(token, SETTINGS);
+    const second = await saveWithSettings(token, SETTINGS);
+
+    assert.equal(await versionCount(id), 1, 'a second score must not mint a second version');
+    assert.equal(
+      await settingsVersionIdOf(first.json().entry.id),
+      await settingsVersionIdOf(second.json().entry.id),
+      'both scores point at the same version',
+    );
+  });
+
+  it('does not rewrite the version row when settings have not changed', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {email, token} = await signedInUser(app, 'settings-no-rewrite');
+    const id = await userId(email);
+
+    const first = await saveWithSettings(token, SETTINGS);
+    const versionId = await settingsVersionIdOf(first.json().entry.id);
+    assert.ok(versionId);
+    const before = await tupleIdOf(versionId);
+
+    await saveWithSettings(token, SETTINGS);
+
+    // `on conflict do update` is a real UPDATE, so resolving through it would
+    // move the tuple and leave a dead one behind on every single score. The
+    // common path has to be a read. See resolveSettingsVersionId.
+    assert.equal(await tupleIdOf(versionId), before, 'an unchanged settings row must not be rewritten');
+    assert.equal(await versionCount(id), 1);
+  });
+
+  it('shares one version across differences the scorer discards', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {email, token} = await signedInUser(app, 'settings-equivalent');
+    const id = await userId(email);
+
+    await saveWithSettings(token, SETTINGS);
+    // Reordered stopwords and a differently-cased pin: same score, so this must
+    // not read as a settings change. See lib/settings-hash.ts.
+    await saveWithSettings(token, {
+      ...SETTINGS,
+      stopwords: ['and', 'the'],
+      missingKeywordSettings: {
+        ...SETTINGS.missingKeywordSettings,
+        pinnedTerms: [{term: 'JAVA', importance: 'high'}],
+      },
+    });
+
+    assert.equal(await versionCount(id), 1);
+  });
+
+  it('mints a new version when the settings really change', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {email, token} = await signedInUser(app, 'settings-changed');
+    const id = await userId(email);
+
+    const before = await saveWithSettings(token, SETTINGS);
+    const after = await saveWithSettings(token, {...SETTINGS, termBoosts: {java: 5}});
+
+    assert.equal(await versionCount(id), 2);
+    assert.notEqual(
+      await settingsVersionIdOf(before.json().entry.id),
+      await settingsVersionIdOf(after.json().entry.id),
+      'the earlier score keeps pointing at the settings it actually ran under',
+    );
+  });
+
+  it('keeps versions per-user, so identical settings never cross accounts', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const alice = await signedInUser(app, 'settings-alice');
+    const bob = await signedInUser(app, 'settings-bob');
+
+    const aliceScore = await saveWithSettings(alice.token, SETTINGS);
+    const bobScore = await saveWithSettings(bob.token, SETTINGS);
+
+    assert.equal(await versionCount(await userId(alice.email)), 1);
+    assert.equal(await versionCount(await userId(bob.email)), 1);
+    assert.notEqual(
+      await settingsVersionIdOf(aliceScore.json().entry.id),
+      await settingsVersionIdOf(bobScore.json().entry.id),
+    );
+  });
+
+  it('matches currentSettingsVersionId to a score taken right after saving those settings', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {token} = await signedInUser(app, 'settings-current-match');
+
+    await patch(token, '/api/settings', {
+      stopwords: SETTINGS.stopwords,
+      termBoosts: SETTINGS.termBoosts,
+      missingKeywordSettings: SETTINGS.missingKeywordSettings,
+      preferenceMismatchSettings: SETTINGS.preferenceMismatchSettings,
+    });
+    const saved = await saveWithSettings(token, SETTINGS);
+    const list = (await get(token, '/api/history')).json();
+
+    assert.notEqual(list.currentSettingsVersionId, null);
+    assert.equal(list.currentSettingsVersionId, await settingsVersionIdOf(saved.json().entry.id));
+
+    const [row] = list.history;
+    assert.equal(
+      row.settingsVersionId,
+      list.currentSettingsVersionId,
+      'this row should read as current, not stale, in the badge logic',
+    );
+  });
+
+  it('returns the resolved settings on the detail endpoint, not just their id', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {token} = await signedInUser(app, 'settings-detail-echo');
+
+    const created = await saveWithSettings(token, SETTINGS);
+    const {entry} = (await get(token, `/api/history/${created.json().entry.id}`)).json();
+
+    assert.deepEqual(entry.settings, SETTINGS, 'detail view resolves the id back to the payload');
+  });
+
+  it('returns null settings on the detail endpoint when none were sent', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {token} = await signedInUser(app, 'settings-detail-absent');
+
+    const created = await saveScore(token, null, 'No settings');
+    const {entry} = (await get(token, `/api/history/${created.json().entry.id}`)).json();
+
+    assert.equal(entry.settings, null);
+  });
+
+  it('records unknown rather than current settings when a client sends none', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {email, token} = await signedInUser(app, 'settings-absent');
+    const id = await userId(email);
+
+    const response = await saveScore(token, null, 'No settings');
+
+    assert.equal(response.statusCode, 201);
+    assert.equal(await versionCount(id), 0, 'nothing is invented for a client that sent none');
+    assert.equal(await settingsVersionIdOf(response.json().entry.id), null);
   });
 });

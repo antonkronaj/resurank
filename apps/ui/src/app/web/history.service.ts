@@ -2,6 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import type {MatchResult} from '@resurank/scoring';
 import {firstValueFrom} from 'rxjs';
+import type {SettingsSnapshot} from '../shared/storage/storage-adapter';
 
 /** Mirrors apps/web/src/lib/domain.ts ApiHistorySummary. */
 export interface ApiHistorySummary {
@@ -12,6 +13,13 @@ export interface ApiHistorySummary {
   score: number;
   /** Null for rows written before provenance was recorded. */
   embeddingModel: string | null;
+  /** Null for rows written before provenance was recorded. */
+  scoringVersion: string | null;
+  /**
+   * The settings this score ran under, compared against the list's
+   * `currentSettingsVersionId`. Null where the client did not report them.
+   */
+  settingsVersionId: string | null;
   createdAt: string;
 }
 
@@ -20,7 +28,8 @@ export interface ApiHistoryEntry extends ApiHistorySummary {
   jobDescription: string;
   result: MatchResult;
   embeddingDtype: string | null;
-  scoringVersion: string | null;
+  /** The full settings `settingsVersionId` points at. Null exactly when it is. */
+  settings: SettingsSnapshot | null;
 }
 
 /**
@@ -34,12 +43,22 @@ export interface ApiHistoryEntry extends ApiHistorySummary {
 export class HistoryService {
   constructor(private http: HttpClient) {}
 
-  async list(resumeId?: string): Promise<ApiHistorySummary[]> {
+  /**
+   * Returns the current settings version alongside the rows, because a row is
+   * only "stale settings" relative to it — and it is null when the settings
+   * loaded now have never been scored under, which makes every row stale.
+   */
+  async list(
+    resumeId?: string,
+  ): Promise<{entries: ApiHistorySummary[]; currentSettingsVersionId: string | null}> {
     const params = resumeId ? new HttpParams().set('resumeId', resumeId) : undefined;
     const res = await firstValueFrom(
-      this.http.get<{history: ApiHistorySummary[]}>('/api/history', {params}),
+      this.http.get<{history: ApiHistorySummary[]; currentSettingsVersionId: string | null}>(
+        '/api/history',
+        {params},
+      ),
     );
-    return res.history;
+    return {entries: res.history, currentSettingsVersionId: res.currentSettingsVersionId};
   }
 
   async get(id: string): Promise<ApiHistoryEntry> {
