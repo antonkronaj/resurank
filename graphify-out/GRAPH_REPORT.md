@@ -5,12 +5,12 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1252 nodes · 1937 edges · 74 communities (63 shown, 11 thin omitted)
+- 1251 nodes · 1937 edges · 73 communities (62 shown, 11 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 12 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e6431479`
+- Built from commit: `e7c9f00a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -121,7 +121,7 @@
 - **Shared Scoring Engine Consumers** — scoring_resurank_scoring_pkg, mcp_server_resurank_mcp, scoring_score_resume_against_job [EXTRACTED 1.00]
 - **Job Description Test Corpus** — test_files_english_java_angular, test_files_foreign_language, test_files_registered_nurse, test_files_senior_software_engineer [INFERRED 0.85]
 
-## Communities (74 total, 11 thin omitted)
+## Communities (73 total, 11 thin omitted)
 
 ### Community 0 - "Embedding & Matcher Services"
 Cohesion: 0.09
@@ -356,7 +356,7 @@ Cohesion: 0.67
 Nodes (3): default, types, ./constants
 
 ## Knowledge Gaps
-- **551 isolated node(s):** `name`, `version`, `description`, `license`, `author` (+546 more)
+- **551 isolated node(s):** `name`, `version`, `ng`, `start`, `build` (+546 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -364,12 +364,12 @@ Nodes (3): default, types, ./constants
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `embedder` connect `Embedding & Matcher Services` to `Claude Desktop Card (Frontend)`, `MCP Resume Resolver`?**
-  _High betweenness centrality (0.022) - this node is a cross-community bridge._
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+- **Why does `SettingsDrawerComponent` connect `Settings Drawer Component` to `Community 43`, `Storage Service (JSON Files)`, `Claude Desktop Card (Frontend)`?**
+  _High betweenness centrality (0.026) - this node is a cross-community bridge._
 - **Why does `require` connect `MCP Resume Resolver` to `Claude Desktop Config (Main)`?**
-  _High betweenness centrality (0.014) - this node is a cross-community bridge._
-- **Why does `writeConfigAtomic()` connect `Claude Desktop Config (Main)` to `MCP Resume Resolver`?**
-  _High betweenness centrality (0.013) - this node is a cross-community bridge._
-- **What connects `name`, `version`, `description` to the rest of the system?**
+  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+- **What connects `name`, `version`, `ng` to the rest of the system?**
   _554 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Embedding & Matcher Services` be split into smaller, more focused modules?**
   _Cohesion score 0.08536585365853659 - nodes in this community are weakly interconnected._

@@ -24,6 +24,7 @@
     "build:electron": "tsc -p apps/desktop/tsconfig.json",
     "build:server": "npm --prefix apps/web run build",
     "dev:server": "npm --prefix apps/web run dev",
+    "dev:web": "concurrently -n server,frontend -c blue,green \"npm run dev:server\" \"npm run dev:frontend:web\"",
     "build": "npm run build:scoring && npm run build:frontend && npm run build:electron",
     "dev:frontend": "npm --prefix apps/ui start",
     "dev:electron": "JOBDASH_DEV=1 npm run build:electron && JOBDASH_DEV=1 electron .",
@@ -50,6 +51,7 @@
     "@electron-forge/shared-types": "^7.11.1",
     "@electron/fuses": "^1.8.0",
     "@types/node": "^25.6.2",
+    "concurrently": "^10.0.4",
     "electron": "^42.0.1",
     "typescript": "5.9.3"
   },

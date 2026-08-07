@@ -10,8 +10,8 @@
     "semantic_hash": "049154f4930b22a4d64a92a4cee4e21f"
   },
   "packages/mcp-server/package.json": {
-    "mtime": 1785949249.7701917,
-    "ast_hash": "52e8bf4012d5821b8371c990f37a3e09",
+    "mtime": 1785954577.5679138,
+    "ast_hash": "029df473e18cfdcdadbc1ab38fbd0c14",
     "semantic_hash": ""
   },
   "packages/mcp-server/src/index.ts": {
@@ -325,8 +325,8 @@
     "semantic_hash": ""
   },
   "apps/web/package.json": {
-    "mtime": 1785948528.323027,
-    "ast_hash": "82c3632a41ff8f5a6dd362d69cf0a82e",
+    "mtime": 1785953278.932276,
+    "ast_hash": "9eefd1a43641256c58767ec9b1ecc7fe",
     "semantic_hash": ""
   },
   "apps/web/src/app.ts": {
@@ -510,8 +510,8 @@
     "semantic_hash": ""
   },
   "apps/ui/package.json": {
-    "mtime": 1785948833.5572743,
-    "ast_hash": "79434bede5fd64d15d61ffdb012f7186",
+    "mtime": 1785953278.0152533,
+    "ast_hash": "128716de969a6a16372064734b83a938",
     "semantic_hash": ""
   },
   "apps/ui/scripts/fetch-model.mjs": {
@@ -965,8 +965,8 @@
     "semantic_hash": ""
   },
   "packages/mcp-server/src/version.ts": {
-    "mtime": 1785949250.1656187,
-    "ast_hash": "1f8c21ccaa60171cec8d964feb05407f",
+    "mtime": 1785954577.9549103,
+    "ast_hash": "c0adae2e819bff15ba4fcaa8664837f6",
     "semantic_hash": ""
   },
   "packages/scoring/test/worker-embedder.test.ts": {
