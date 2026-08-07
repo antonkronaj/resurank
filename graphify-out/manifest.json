@@ -825,8 +825,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/auth/sign-in/sign-in.component.html": {
-    "mtime": 1786126082.9406388,
-    "ast_hash": "56ef1b8719dd843c0405b47ef84a3ec5",
+    "mtime": 1786126178.4473722,
+    "ast_hash": "413c5200dd4c5a23f1a01b84394f7f89",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/auth/verify-email/verify-email.component.html": {
