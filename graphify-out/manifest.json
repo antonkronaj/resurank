@@ -695,8 +695,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/history/history-detail-modal.component.ts": {
-    "mtime": 1786145753.4617157,
-    "ast_hash": "172ba969dd643fa817f31e0bf7b72039",
+    "mtime": 1786146318.946046,
+    "ast_hash": "873fc0ffdeb51d03eaf429ccd6f3f6ec",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/history/history.component.ts": {
@@ -835,8 +835,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/history/history-detail-modal.component.html": {
-    "mtime": 1786145813.0440714,
-    "ast_hash": "0a8cb53252f0dbc210df8fe194e70af6",
+    "mtime": 1786146325.3189297,
+    "ast_hash": "db8039491e9a305dca7fea3715f7513c",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/history/history.component.html": {

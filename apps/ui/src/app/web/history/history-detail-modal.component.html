@@ -165,7 +165,7 @@
       <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap">
         <button
           (click)="rescore.emit(e)"
-          [disabled]="rescoring() || !activeResumeName()"
+          [disabled]="rescoring() || !activeResumeName() || rescoreWouldBeIdentical(e)"
           class="ghost"
           type="button">
           @if (rescoring()) {
@@ -180,6 +180,8 @@
         </button>
         @if (!activeResumeName()) {
           <span class="small muted">Upload a resume to re-score.</span>
+        } @else if (rescoreWouldBeIdentical(e)) {
+          <span class="small muted">Nothing has changed since this was scored.</span>
         } @else if (scoredWithOtherResume(e) || !e.resumeId) {
           <span class="small muted">
             Scores against your active resume, <strong>{{ activeResumeLabel(e) }}</strong> — not the

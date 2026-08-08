@@ -193,6 +193,27 @@ export class HistoryDetailModalComponent {
   }
 
   /**
+   * True only when every axis that could have changed is both known and
+   * unchanged — a re-score would reproduce this row's score exactly, so
+   * there's nothing to gain from running it again. Requires each field to be
+   * present (not just non-differing) because a missing field means we can't
+   * actually vouch for that axis — e.g. legacy rows recorded before ResuRank
+   * tracked `embeddingModel` — and `wouldRescoreDiffer` treats "unknown" as
+   * "not different", which is the wrong read here: unknown must not license
+   * skipping the re-score.
+   */
+  rescoreWouldBeIdentical(entry: ApiHistoryEntry): boolean {
+    return (
+      !!entry.embeddingModel &&
+      !!entry.scoringVersion &&
+      !!entry.settingsVersionId &&
+      !!entry.resumeId &&
+      !!this.activeResumeId() &&
+      !this.wouldRescoreDiffer(entry)
+    );
+  }
+
+  /**
    * Names the current setup on only the axes that differ from this row, e.g.
    * "model jina-embeddings-v2-small-en and scoring engine 2.0.0". Built here
    * rather than from `@if` blocks in the template, which leak whitespace
