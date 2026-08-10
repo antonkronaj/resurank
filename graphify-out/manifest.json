@@ -395,8 +395,8 @@
     "semantic_hash": ""
   },
   "apps/web/src/lib/validation.ts": {
-    "mtime": 1786399244.5987363,
-    "ast_hash": "aafad7ecdd770706029dc3a3f3ee7085",
+    "mtime": 1786404012.2300086,
+    "ast_hash": "4d868688bf908025abd0f5e9f7b94a90",
     "semantic_hash": ""
   },
   "apps/web/src/plugins/auth.ts": {
@@ -1030,18 +1030,18 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/admin.service.ts": {
-    "mtime": 1786399782.9612849,
-    "ast_hash": "2c7ad131683a46ef46720ccd744305e8",
+    "mtime": 1786404046.39874,
+    "ast_hash": "919e259a20b76d977bd348b9b9435396",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/admin/audit/audit.component.ts": {
-    "mtime": 1786399874.1005938,
-    "ast_hash": "332ac6e08534e1bce0570413e23f57ae",
+    "mtime": 1786404058.8287258,
+    "ast_hash": "4d1a0cbcad546be67e5809696586e496",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/admin/user-detail/user-detail.component.ts": {
-    "mtime": 1786399851.2279813,
-    "ast_hash": "0c3870ac9963354b24c3d8ea4112d6c6",
+    "mtime": 1786404081.137515,
+    "ast_hash": "0693e36fe79420917482e0d94b11b78e",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/admin/users/users.component.ts": {
@@ -1075,13 +1075,13 @@
     "semantic_hash": ""
   },
   "apps/web/src/routes/admin.ts": {
-    "mtime": 1786399446.4993243,
-    "ast_hash": "0f9aa210cd590fd4026fa8f248c883e6",
+    "mtime": 1786404017.2635,
+    "ast_hash": "223cdd165c57c71cf62ccb2a86937afb",
     "semantic_hash": ""
   },
   "apps/web/test/admin.test.ts": {
-    "mtime": 1786400411.1279812,
-    "ast_hash": "f8649381c4ee12074bb9776f5e980ffb",
+    "mtime": 1786404118.454283,
+    "ast_hash": "0b8aa3f7cb2d41ef5c75a81c62ce97d7",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/admin/audit/audit.component.html": {
@@ -1090,8 +1090,8 @@
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/admin/user-detail/user-detail.component.html": {
-    "mtime": 1786399865.7567718,
-    "ast_hash": "9fa6a3bc4c37db480813b52d7bccf932",
+    "mtime": 1786404091.0729737,
+    "ast_hash": "7752cfa714b6c64eff853b8041fb66ad",
     "semantic_hash": ""
   },
   "apps/ui/src/app/web/admin/users/users.component.html": {

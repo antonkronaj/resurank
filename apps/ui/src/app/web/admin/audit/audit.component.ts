@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {Component, OnInit, inject, signal} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {AdminAuditEntry, AdminService} from '../../admin.service';
+import {ADMIN_AUDIT_ACTION_LABELS, AdminAuditEntry, AdminService} from '../../admin.service';
 
 /** Read-only, paginated view of admin_audit_log — the record for every
  * destructive action a delete or suspend leaves no other trace of. */
@@ -21,23 +21,12 @@ export class AdminAuditComponent implements OnInit {
   readonly page = signal(0);
   readonly pageSize = 50;
 
-  private readonly actionLabels: Record<AdminAuditEntry['action'], string> = {
-    delete_user: 'Deleted user',
-    suspend_user: 'Suspended user',
-    reinstate_user: 'Reinstated user',
-    grant_admin: 'Granted admin',
-    revoke_admin: 'Revoked admin',
-    force_verify: 'Force-verified email',
-    revoke_sessions: 'Revoked sessions',
-    seed_admin: 'Seeded bootstrap admin',
-  };
-
   ngOnInit(): void {
     this.refresh();
   }
 
   label(entry: AdminAuditEntry): string {
-    return this.actionLabels[entry.action] ?? entry.action;
+    return ADMIN_AUDIT_ACTION_LABELS[entry.action] ?? entry.action;
   }
 
   async refresh(): Promise<void> {

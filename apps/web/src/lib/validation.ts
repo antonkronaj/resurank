@@ -217,4 +217,7 @@ export const adminDeleteSchema = z.object({
 export const adminAuditQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(50),
   offset: z.coerce.number().int().min(0).default(0),
+  /** Narrows to actions taken against one account — used by the user detail
+   * page to show that user's own trail alongside its profile. */
+  targetId: z.string().uuid().optional(),
 });

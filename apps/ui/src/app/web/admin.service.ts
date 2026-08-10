@@ -51,6 +51,19 @@ export interface AdminAuditEntry {
   createdAt: string;
 }
 
+/** Shared by the audit log page and the per-user trail on the user detail
+ * page, so the two never drift apart. */
+export const ADMIN_AUDIT_ACTION_LABELS: Record<AdminAuditAction, string> = {
+  delete_user: 'Deleted user',
+  suspend_user: 'Suspended user',
+  reinstate_user: 'Reinstated user',
+  grant_admin: 'Granted admin',
+  revoke_admin: 'Revoked admin',
+  force_verify: 'Force-verified email',
+  revoke_sessions: 'Revoked sessions',
+  seed_admin: 'Seeded bootstrap admin',
+};
+
 export interface AdminStats {
   users: {
     total: number;
@@ -132,13 +145,14 @@ export class AdminService {
     await firstValueFrom(this.http.delete(`/api/admin/users/${id}`, {body: {password}}));
   }
 
-  async audit(options: {limit?: number; offset?: number}): Promise<{
+  async audit(options: {limit?: number; offset?: number; targetId?: string}): Promise<{
     entries: AdminAuditEntry[];
     total: number;
   }> {
     let params = new HttpParams();
     if (options.limit !== undefined) params = params.set('limit', options.limit);
     if (options.offset !== undefined) params = params.set('offset', options.offset);
+    if (options.targetId !== undefined) params = params.set('targetId', options.targetId);
 
     return firstValueFrom(
       this.http.get<{entries: AdminAuditEntry[]; total: number}>('/api/admin/audit', {params}),

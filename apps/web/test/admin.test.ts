@@ -474,4 +474,40 @@ describe('audit log', () => {
     const after_ = await db.select({total: sql<number>`count(*)`}).from(adminAuditLog);
     assert.equal(Number(after_[0].total) - Number(before[0].total), 4);
   });
+
+  it('filters by targetId, powering the trail on the user detail page', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const admin = await signedInAdmin('audit-filter-admin');
+    const targetA = await signedInUser('audit-filter-a');
+    const targetB = await signedInUser('audit-filter-b');
+
+    await app.inject({
+      method: 'POST',
+      url: `/api/admin/users/${targetA.id}/verify-email`,
+      headers: authHeader(admin.token),
+    });
+    await app.inject({
+      method: 'POST',
+      url: `/api/admin/users/${targetB.id}/verify-email`,
+      headers: authHeader(admin.token),
+    });
+    await app.inject({
+      method: 'POST',
+      url: `/api/admin/users/${targetA.id}/revoke-sessions`,
+      headers: authHeader(admin.token),
+    });
+
+    const response = await app.inject({
+      method: 'GET',
+      url: `/api/admin/audit?targetId=${targetA.id}`,
+      headers: authHeader(admin.token),
+    });
+    assert.equal(response.statusCode, 200);
+    const body = response.json();
+    assert.equal(body.total, 2, 'only targetA rows counted');
+    assert.ok(
+      body.entries.every((e: {targetId: string}) => e.targetId === targetA.id),
+      'no targetB rows leaked into the filtered result',
+    );
+  });
 });

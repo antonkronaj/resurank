@@ -447,16 +447,19 @@ export async function adminRoutes(
   app.get('/api/admin/audit', {preHandler: requireAdmin}, async (request, reply) => {
     const parsed = adminAuditQuerySchema.safeParse(request.query);
     if (!parsed.success) return sendValidationError(reply, parsed.error);
-    const {limit: pageLimit, offset} = parsed.data;
+    const {limit: pageLimit, offset, targetId} = parsed.data;
+
+    const where = targetId ? eq(adminAuditLog.targetId, targetId) : undefined;
 
     const [rows, [totalRow]] = await Promise.all([
       db
         .select()
         .from(adminAuditLog)
+        .where(where)
         .orderBy(desc(adminAuditLog.createdAt))
         .limit(pageLimit)
         .offset(offset),
-      db.select({total: count()}).from(adminAuditLog),
+      db.select({total: count()}).from(adminAuditLog).where(where),
     ]);
 
     return reply.send({
