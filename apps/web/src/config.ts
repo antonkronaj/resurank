@@ -12,10 +12,18 @@ import {fileURLToPath} from 'node:url';
 // Node 22 built-in .env loading — optional, real deployments inject env vars.
 // Candidates cover running from `dist/` and from `build-test/src/`, plus the
 // npm-script cwd (the package root). First hit wins; none is fine.
+//
+// `NODE_ENV=test` (set by the `test` script in package.json, before this
+// module ever runs) loads `.env.test` instead of `.env` — a separate file so
+// the test suite always points at the docker-compose Postgres on port 5433
+// (see docker-compose.yml) rather than whatever `.env` has configured for
+// local dev, which may be a different, non-disposable database on 5432.
+const envFileName = process.env.NODE_ENV === 'test' ? '.env.test' : '.env';
+
 for (const candidate of [
-  resolve(process.cwd(), '.env'),
-  resolve(dirname(fileURLToPath(import.meta.url)), '../.env'),
-  resolve(dirname(fileURLToPath(import.meta.url)), '../../.env'),
+  resolve(process.cwd(), envFileName),
+  resolve(dirname(fileURLToPath(import.meta.url)), '../' + envFileName),
+  resolve(dirname(fileURLToPath(import.meta.url)), '../../' + envFileName),
 ]) {
   try {
     process.loadEnvFile(candidate);

@@ -10,12 +10,13 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build:test": "tsc -p tsconfig.test.json",
-    "test": "npm run build:test && node --test --test-concurrency=1 build-test/test/*.test.js",
+    "test": "npm run build:test && NODE_ENV=test node --test --test-concurrency=1 build-test/test/*.test.js",
     "start": "node dist/index.js",
     "dev": "tsc -p tsconfig.json --watch --preserveWatchOutput & node --watch dist/index.js",
     "clean": "rm -rf dist",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:migrate:test": "DATABASE_URL=postgres://resurank:resurank@localhost:5433/resurank drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down"
