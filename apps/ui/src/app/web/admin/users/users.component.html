@@ -1,0 +1,101 @@
+<div class="content">
+  <div class="panel-head">
+    <div>
+      <h2 class="panel-title" style="margin:0">Admin</h2>
+      <p class="small muted" style="margin:4px 0 0">Search, inspect and manage accounts.</p>
+    </div>
+    <a class="link" routerLink="/admin/audit">View audit log →</a>
+  </div>
+
+  @if (stats(); as s) {
+    <div class="panel" style="display:flex;gap:28px;flex-wrap:wrap;margin-bottom:16px">
+      <div>
+        <div class="small muted">Users</div>
+        <div style="font-size:20px;font-weight:600">{{ s.users.total | number }}</div>
+      </div>
+      <div>
+        <div class="small muted">Admins</div>
+        <div style="font-size:20px;font-weight:600">{{ s.users.admins | number }}</div>
+      </div>
+      <div>
+        <div class="small muted">Suspended</div>
+        <div style="font-size:20px;font-weight:600">{{ s.users.suspended | number }}</div>
+      </div>
+      <div>
+        <div class="small muted">Signups (7d)</div>
+        <div style="font-size:20px;font-weight:600">{{ s.users.signupsLast7Days | number }}</div>
+      </div>
+      <div>
+        <div class="small muted">Resumes stored</div>
+        <div style="font-size:20px;font-weight:600">{{ s.resumes | number }}</div>
+      </div>
+      <div>
+        <div class="small muted">Scores recorded</div>
+        <div style="font-size:20px;font-weight:600">{{ s.scores | number }}</div>
+      </div>
+    </div>
+  }
+
+  <div class="toolbar-filter" style="margin-bottom:14px">
+    <input
+      (ngModelChange)="onQueryChange($event)"
+      [ngModel]="query()"
+      class="input"
+      placeholder="Search by email or name…"
+      style="min-width:260px"
+      type="text"
+    />
+    <select (ngModelChange)="onStatusChange($event)" [ngModel]="status()" class="select">
+      <option value="all">All users</option>
+      <option value="active">Active</option>
+      <option value="suspended">Suspended</option>
+      <option value="admin">Admins</option>
+    </select>
+  </div>
+
+  @if (error()) {
+    <p class="form-error">{{ error() }}</p>
+  }
+
+  @if (!loading() && users().length === 0) {
+    <div class="empty panel">
+      <p>No users match this search.</p>
+    </div>
+  } @else {
+    <div class="hist-list">
+      @for (u of users(); track u.id) {
+        <article (click)="open(u.id)" class="hist-item">
+          <div class="hist-meta">
+            <div class="hist-title">
+              {{ u.email }}
+              @if (u.role === 'admin') {
+                <span class="badge">Admin</span>
+              }
+              @if (u.disabledAt) {
+                <span class="badge muted">Suspended</span>
+              }
+              @if (!u.emailVerified) {
+                <span class="badge muted">Unverified</span>
+              }
+            </div>
+            <div class="hist-sub">
+              {{ u.name || 'No name' }} · {{ u.resumeCount }} resumes · {{ u.historyCount }} scores ·
+              joined {{ u.createdAt | date: 'd MMM y' }}
+            </div>
+          </div>
+          <button aria-label="Open" class="icon-btn" title="Open" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </article>
+      }
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px">
+      <span class="small muted">{{ total() | number }} total</span>
+      <div style="display:flex;gap:8px">
+        <button (click)="prevPage()" [disabled]="page() === 0" class="ghost" type="button">Previous</button>
+        <button (click)="nextPage()" [disabled]="(page() + 1) * pageSize >= total()" class="ghost" type="button">Next</button>
+      </div>
+    </div>
+  }
+</div>

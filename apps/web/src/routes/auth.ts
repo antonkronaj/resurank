@@ -277,6 +277,14 @@ export async function authRoutes(
       );
     }
 
+    // Suspending a user (routes/admin.ts) revokes their sessions at that
+    // moment, but nothing stops them from logging in again afterward and
+    // minting a fresh one — check here rather than relying solely on
+    // requireAuth's disabledAt check to catch it on their next request.
+    if (user.disabledAt) {
+      return sendError(reply, 403, 'account_disabled', 'This account has been suspended.');
+    }
+
     const {token, expiresAt} = await createSession(user.id, request);
     setSessionCookie(reply, token, expiresAt);
 

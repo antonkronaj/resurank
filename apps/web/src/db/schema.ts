@@ -26,6 +26,9 @@ import type {
  * holds extracted text only, and there is deliberately no binary column.
  */
 
+export const userRoles = ['user', 'admin'] as const;
+export type UserRole = (typeof userRoles)[number];
+
 export const users = pgTable(
   'users',
   {
@@ -40,6 +43,16 @@ export const users = pgTable(
      * typo can never strand an account on an inbox nobody owns.
      */
     pendingEmail: text('pending_email'),
+    /**
+     * Staff axis, not a billing/plan tier — see the note on `role` vs a future
+     * subscription concept in the admin feature plan. Set by an operator
+     * (bootstrapped from ADMIN_EMAIL/ADMIN_PASSWORD, see lib/admin-seed.ts, or
+     * granted by an existing admin) and rarely changes.
+     */
+    role: text('role').$type<UserRole>().notNull().default('user'),
+    /** Non-null = suspended: requireAuth rejects the session and the app
+     * treats every existing session as revoked. Set only by an admin. */
+    disabledAt: timestamp('disabled_at', {withTimezone: true}),
     createdAt: timestamp('created_at', {withTimezone: true}).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', {withTimezone: true}).notNull().defaultNow(),
   },
@@ -47,6 +60,8 @@ export const users = pgTable(
     // Case-insensitive uniqueness without requiring the citext extension,
     // which not every managed Postgres enables by default.
     uniqueIndex('users_email_lower_unique').on(sql`lower(${table.email})`),
+    // Default ordering for the admin user list.
+    index('users_created_at_idx').on(table.createdAt),
   ],
 );
 
@@ -262,6 +277,45 @@ export const scoreHistory = pgTable(
   ],
 );
 
+export const adminAuditActions = [
+  'delete_user',
+  'suspend_user',
+  'reinstate_user',
+  'grant_admin',
+  'revoke_admin',
+  'force_verify',
+  'revoke_sessions',
+  'seed_admin',
+] as const;
+export type AdminAuditAction = (typeof adminAuditActions)[number];
+
+/**
+ * One row per privileged action taken through /api/admin/*. `actorId` is
+ * nullable and `onDelete: 'set null'` rather than cascade — deleting an admin
+ * must not erase the record of what they did, so `actorEmail` is captured
+ * alongside it as a snapshot for when the FK has gone null. `targetId` has no
+ * FK at all: after `delete_user` the target row is gone, and the log must
+ * still say who it was, so `targetEmail` is the only durable reference.
+ */
+export const adminAuditLog = pgTable(
+  'admin_audit_log',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    actorId: uuid('actor_id').references(() => users.id, {onDelete: 'set null'}),
+    actorEmail: text('actor_email').notNull(),
+    targetId: uuid('target_id'),
+    targetEmail: text('target_email'),
+    action: text('action').$type<AdminAuditAction>().notNull(),
+    detail: jsonb('detail').$type<Record<string, unknown>>().notNull().default({}),
+    ip: text('ip'),
+    createdAt: timestamp('created_at', {withTimezone: true}).notNull().defaultNow(),
+  },
+  (table) => [
+    index('admin_audit_log_created_at_idx').on(table.createdAt),
+    index('admin_audit_log_target_id_idx').on(table.targetId),
+  ],
+);
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type Session = typeof sessions.$inferSelect;
@@ -270,3 +324,5 @@ export type Resume = typeof resumes.$inferSelect;
 export type UserSettings = typeof userSettings.$inferSelect;
 export type SettingsVersion = typeof settingsVersions.$inferSelect;
 export type ScoreHistoryEntry = typeof scoreHistory.$inferSelect;
+export type AdminAuditLogEntry = typeof adminAuditLog.$inferSelect;
+export type NewAdminAuditLogEntry = typeof adminAuditLog.$inferInsert;

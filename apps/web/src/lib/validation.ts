@@ -182,3 +182,39 @@ export const historyQuerySchema = z.object({
   offset: z.coerce.number().int().min(0).default(0),
   resumeId: z.string().uuid().optional(),
 });
+
+/*
+ * Admin routes.
+ */
+
+export const adminUserQuerySchema = z.object({
+  limit: z.coerce.number().int().min(1).max(100).default(50),
+  offset: z.coerce.number().int().min(0).default(0),
+  /** Free-text match against email prefix and name substring. */
+  q: z.string().trim().max(200).optional(),
+  status: z.enum(['all', 'active', 'suspended', 'admin']).default('all'),
+});
+
+/** Body for PATCH /api/admin/users/:id/role. Re-checks the acting admin's own
+ * password, same as every other destructive admin action. */
+export const adminRoleSchema = z.object({
+  role: z.enum(['user', 'admin']),
+  password: z.string().min(1).max(MAX_PASSWORD_LENGTH),
+});
+
+/** Body for PATCH /api/admin/users/:id/status. */
+export const adminStatusSchema = z.object({
+  disabled: z.boolean(),
+  password: z.string().min(1).max(MAX_PASSWORD_LENGTH),
+});
+
+/** Body for DELETE /api/admin/users/:id — the only field it needs beyond the
+ * acting admin's own password re-check. */
+export const adminDeleteSchema = z.object({
+  password: z.string().min(1).max(MAX_PASSWORD_LENGTH),
+});
+
+export const adminAuditQuerySchema = z.object({
+  limit: z.coerce.number().int().min(1).max(100).default(50),
+  offset: z.coerce.number().int().min(0).default(0),
+});

@@ -1,0 +1,42 @@
+<div class="content">
+  <a class="link" routerLink="/admin">← Back to users</a>
+
+  <div class="panel-head" style="margin-top:16px">
+    <div>
+      <h2 class="panel-title" style="margin:0">Audit log</h2>
+      <p class="small muted" style="margin:4px 0 0">Every privileged action taken through this panel.</p>
+    </div>
+  </div>
+
+  @if (error()) {
+    <p class="form-error">{{ error() }}</p>
+  }
+
+  @if (!loading() && entries().length === 0) {
+    <div class="empty panel">
+      <p>No admin actions recorded yet.</p>
+    </div>
+  } @else {
+    <div class="hist-list">
+      @for (e of entries(); track e.id) {
+        <div class="hist-item" style="cursor:default">
+          <div class="hist-meta">
+            <div class="hist-title">{{ label(e) }}</div>
+            <div class="hist-sub">
+              {{ e.actorEmail }} → {{ e.targetEmail || 'account since removed' }} ·
+              {{ e.createdAt | date: 'medium' }}
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px">
+      <span class="small muted">{{ total() | number }} total</span>
+      <div style="display:flex;gap:8px">
+        <button (click)="prevPage()" [disabled]="page() === 0" class="ghost" type="button">Previous</button>
+        <button (click)="nextPage()" [disabled]="(page() + 1) * pageSize >= total()" class="ghost" type="button">Next</button>
+      </div>
+    </div>
+  }
+</div>

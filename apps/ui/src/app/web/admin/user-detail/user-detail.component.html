@@ -1,0 +1,122 @@
+<div class="content" style="max-width:720px">
+  <a class="link" routerLink="/admin">← Back to users</a>
+
+  @if (error()) {
+    <p class="form-error">{{ error() }}</p>
+  }
+
+  @if (detail(); as d) {
+    <h2 class="panel-title" style="font-size:19px;margin:16px 0">
+      {{ d.user.email }}
+      @if (d.user.role === 'admin') {
+        <span class="badge">Admin</span>
+      }
+      @if (d.user.disabledAt) {
+        <span class="badge muted">Suspended</span>
+      }
+    </h2>
+
+    @if (isSelf()) {
+      <p class="form-notice">This is your own account — manage it from the Account page instead.</p>
+    }
+
+    <section class="panel">
+      <h3 class="sub-title">Profile</h3>
+      <div class="small muted">Name</div>
+      <div style="margin-bottom:10px">{{ d.user.name || '—' }}</div>
+      <div class="small muted">Email verified</div>
+      <div style="margin-bottom:10px">{{ d.user.emailVerified ? 'Yes' : 'No' }}</div>
+      <div class="small muted">Joined</div>
+      <div style="margin-bottom:10px">{{ d.user.createdAt | date: 'medium' }}</div>
+      <div class="small muted">Resumes · Scores · Settings versions</div>
+      <div>{{ d.resumeCount }} · {{ d.historyCount }} · {{ d.settingsVersionCount }}</div>
+    </section>
+
+    @if (actionMessage()) {
+      <p class="form-notice">{{ actionMessage() }}</p>
+    }
+
+    <section class="panel">
+      <h3 class="sub-title">Sessions</h3>
+      @if (d.sessions.length === 0) {
+        <p class="small muted">No active sessions.</p>
+      } @else {
+        <div class="hist-list">
+          @for (s of d.sessions; track s.id) {
+            <div class="hist-item" style="cursor:default">
+              <div class="hist-meta">
+                <div class="hist-title">{{ s.ip || 'Unknown IP' }}</div>
+                <div class="hist-sub">
+                  {{ s.userAgent || 'Unknown device' }} · last seen {{ s.lastSeenAt | date: 'short' }}
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+      @if (!isSelf() && d.sessions.length > 0) {
+        <button (click)="revokeSessions()" [disabled]="acting()" class="ghost" style="margin-top:10px" type="button">
+          Sign out everywhere
+        </button>
+      }
+    </section>
+
+    @if (!isSelf()) {
+      <section class="panel zone-danger">
+        <h3 class="panel-title">Admin actions</h3>
+
+        @if (actionError()) {
+          <p class="form-error">{{ actionError() }}</p>
+        }
+
+        @if (!confirming()) {
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            @if (!d.user.emailVerified) {
+              <button (click)="forceVerify()" [disabled]="acting()" class="ghost" type="button">
+                Mark email verified
+              </button>
+            }
+            <a class="ghost" [href]="exportUrl()" style="text-decoration:none;text-align:center">Export data</a>
+            @if (d.user.role === 'admin') {
+              <button (click)="requestConfirm('demote')" class="ghost" type="button">Revoke admin</button>
+            } @else {
+              <button (click)="requestConfirm('promote')" class="ghost" type="button">Grant admin</button>
+            }
+            @if (d.user.disabledAt) {
+              <button (click)="requestConfirm('reinstate')" class="ghost" type="button">Reinstate account</button>
+            } @else {
+              <button (click)="requestConfirm('suspend')" class="danger-btn" type="button">Suspend account</button>
+            }
+            <button (click)="requestConfirm('delete')" class="danger-btn" type="button">Delete account</button>
+          </div>
+        } @else {
+          <p class="small muted">
+            @switch (confirming()) {
+              @case ('promote') { Grant this account admin access. }
+              @case ('demote') { Revoke this account's admin access. }
+              @case ('suspend') { Suspend this account — every session is signed out immediately and sign-in is blocked. }
+              @case ('reinstate') { Reinstate this account — it can sign in again. }
+              @case ('delete') { Permanently delete this account and everything it owns. This cannot be undone. }
+            }
+            Confirm with your own password.
+          </p>
+          <label class="field">
+            <span class="field-label">Your password</span>
+            <input [ngModel]="password()" (ngModelChange)="password.set($event)" class="input" type="password"/>
+          </label>
+          <div style="display:flex;gap:10px">
+            <button
+              (click)="runConfirmed()"
+              [disabled]="acting() || !password()"
+              [class]="confirming() === 'suspend' || confirming() === 'delete' || confirming() === 'demote' ? 'danger-btn' : 'primary'"
+              type="button"
+            >
+              {{ acting() ? 'Working…' : 'Confirm' }}
+            </button>
+            <button (click)="cancelConfirm()" class="ghost" type="button">Cancel</button>
+          </div>
+        }
+      </section>
+    }
+  }
+</div>

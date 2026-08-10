@@ -9,6 +9,10 @@ export interface PublicUser {
   name: string | null;
   emailVerified: boolean;
   pendingEmail: string | null;
+  role: 'user' | 'admin';
+  /** ISO timestamp while suspended; null otherwise. A signed-in user's own
+   * account is never non-null here — requireAuth clears their session first. */
+  disabledAt: string | null;
   createdAt: string;
 }
 

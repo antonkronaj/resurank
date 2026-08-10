@@ -1,6 +1,10 @@
 import {Routes} from '@angular/router';
 import {AppComponent} from '../shared/app.component';
 import {AccountComponent} from './account/account.component';
+import {AdminAuditComponent} from './admin/audit/audit.component';
+import {AdminUserDetailComponent} from './admin/user-detail/user-detail.component';
+import {AdminUsersComponent} from './admin/users/users.component';
+import {adminGuard} from './admin.guard';
 import {authGuard} from './auth.guard';
 import {ForgotPasswordComponent} from './auth/forgot-password/forgot-password.component';
 import {RegisterComponent} from './auth/register/register.component';
@@ -40,6 +44,9 @@ export const webRoutes: Routes = [
       {path: 'history', component: HistoryComponent},
       {path: 'account', component: AccountComponent},
       {path: 'settings', component: SettingsComponent},
+      {path: 'admin', component: AdminUsersComponent, canActivate: [adminGuard]},
+      {path: 'admin/users/:id', component: AdminUserDetailComponent, canActivate: [adminGuard]},
+      {path: 'admin/audit', component: AdminAuditComponent, canActivate: [adminGuard]},
     ],
   },
   {path: '**', redirectTo: ''},

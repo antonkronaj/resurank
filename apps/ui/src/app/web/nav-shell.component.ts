@@ -31,6 +31,7 @@ export class NavShellComponent {
 
   readonly menuOpen = signal(false);
   readonly theme = this.themeService.theme;
+  readonly isAdmin = computed(() => this.auth.user()?.role === 'admin');
 
   readonly initials = computed(() => {
     const user = this.auth.user();

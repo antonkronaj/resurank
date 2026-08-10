@@ -8,6 +8,7 @@ import rateLimit from '@fastify/rate-limit';
 import fastifyStatic from '@fastify/static';
 import {config} from './config.js';
 import {registerAuthDecorators} from './plugins/auth.js';
+import {adminRoutes} from './routes/admin.js';
 import {authRoutes} from './routes/auth.js';
 import {bootstrapRoutes} from './routes/bootstrap.js';
 import {healthRoutes} from './routes/health.js';
@@ -100,6 +101,7 @@ export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyIn
   await app.register(resumeRoutes, {rateLimitMax: options.rateLimitMax});
   await app.register(settingsRoutes, {rateLimitMax: options.rateLimitMax});
   await app.register(historyRoutes, {rateLimitMax: options.rateLimitMax});
+  await app.register(adminRoutes, {rateLimitMax: options.rateLimitMax});
 
   // Static hosting of the Angular web build. Absent in dev, where the Angular
   // dev server serves the frontend and proxies /api here.

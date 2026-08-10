@@ -5,6 +5,9 @@
       <a routerLink="score" routerLinkActive="active">Score</a>
       <a routerLink="resumes" routerLinkActive="active">Resumes</a>
       <a routerLink="history" routerLinkActive="active">History</a>
+      @if (isAdmin()) {
+        <a routerLink="admin" routerLinkActive="active">Admin</a>
+      }
     </nav>
     <span class="flex1"></span>
     <div class="avatar-wrap">

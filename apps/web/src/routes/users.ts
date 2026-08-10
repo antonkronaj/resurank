@@ -1,14 +1,14 @@
-import {desc, eq} from 'drizzle-orm';
+import {eq} from 'drizzle-orm';
 import type {FastifyInstance} from 'fastify';
 import {config} from '../config.js';
 import {db} from '../db/client.js';
-import {resumes, scoreHistory, userSettings, users} from '../db/schema.js';
+import {users} from '../db/schema.js';
 import {verifyPassword} from '../lib/crypto.js';
 import {issueEmailToken} from '../lib/email-tokens.js';
 import {sendAccountExistsEmail, sendEmailChangeEmail, sendInBackground} from '../lib/email.js';
 import {sendError, sendValidationError} from '../lib/errors.js';
 import {clearSessionCookie} from '../lib/sessions.js';
-import {findUserByEmail, toPublicUser} from '../lib/users.js';
+import {exportUserData, findUserByEmail, toPublicUser} from '../lib/users.js';
 import {deleteAccountSchema, updateProfileSchema} from '../lib/validation.js';
 import {currentUser, requireAuth} from '../plugins/auth.js';
 
@@ -111,58 +111,11 @@ export async function userRoutes(
    */
   app.get('/api/users/me/export', {preHandler: requireAuth}, async (request, reply) => {
     const user = currentUser(request);
-
-    const [settings] = await db
-      .select({
-        stopwords: userSettings.stopwords,
-        termBoosts: userSettings.termBoosts,
-        missingKeywordSettings: userSettings.missingKeywordSettings,
-        preferenceMismatchSettings: userSettings.preferenceMismatchSettings,
-        updatedAt: userSettings.updatedAt,
-      })
-      .from(userSettings)
-      .where(eq(userSettings.userId, user.id));
-
-    const userResumes = await db
-      .select({
-        id: resumes.id,
-        filename: resumes.filename,
-        text: resumes.text,
-        terms: resumes.terms,
-        uploadedAt: resumes.uploadedAt,
-        isActive: resumes.isActive,
-      })
-      .from(resumes)
-      .where(eq(resumes.userId, user.id))
-      .orderBy(desc(resumes.uploadedAt));
-
-    const history = await db
-      .select({
-        id: scoreHistory.id,
-        resumeId: scoreHistory.resumeId,
-        resumeFilename: scoreHistory.resumeFilename,
-        jobTitle: scoreHistory.jobTitle,
-        jobDescription: scoreHistory.jobDescription,
-        score: scoreHistory.score,
-        result: scoreHistory.result,
-        embeddingModel: scoreHistory.embeddingModel,
-        embeddingDtype: scoreHistory.embeddingDtype,
-        scoringVersion: scoreHistory.scoringVersion,
-        createdAt: scoreHistory.createdAt,
-      })
-      .from(scoreHistory)
-      .where(eq(scoreHistory.userId, user.id))
-      .orderBy(desc(scoreHistory.createdAt));
+    const data = await exportUserData(user);
 
     const filename = `resurank-export-${new Date().toISOString().slice(0, 10)}.json`;
     reply.header('content-disposition', `attachment; filename="${filename}"`);
 
-    return reply.send({
-      exportedAt: new Date().toISOString(),
-      user: toPublicUser(user),
-      settings: settings ?? null,
-      resumes: userResumes,
-      history,
-    });
+    return reply.send(data);
   });
 }

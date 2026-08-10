@@ -88,6 +88,34 @@ export const config = {
     pass: process.env.SMTP_PASS || undefined,
     from: optional('SMTP_FROM', 'ResuRank <no-reply@resurank.local>'),
   },
+
+  /**
+   * Bootstrap admin, seeded by lib/admin-seed.ts on every startup. Both unset
+   * is a normal deployment with no admin yet (or one already granted through
+   * the app); one set without the other is almost certainly a typo, so that
+   * fails fast rather than silently skipping the seed. This account's
+   * password is env-owned: the seeder re-hashes it on every boot, so
+   * rotating a leaked credential is "change the env var and restart," not a
+   * password reset. See ADMIN_EMAIL/ADMIN_PASSWORD in .env.example.
+   */
+  admin: {
+    email: process.env.ADMIN_EMAIL || undefined,
+    password: process.env.ADMIN_PASSWORD || undefined,
+  },
 } as const;
 
 export type Config = typeof config;
+
+if (Boolean(config.admin.email) !== Boolean(config.admin.password)) {
+  throw new Error(
+    'ADMIN_EMAIL and ADMIN_PASSWORD must both be set, or both left unset.',
+  );
+}
+
+const ADMIN_PASSWORD_MIN_LENGTH = 10; // matches lib/validation.ts passwordSchema
+
+if (config.admin.password && config.admin.password.length < ADMIN_PASSWORD_MIN_LENGTH) {
+  throw new Error(
+    `ADMIN_PASSWORD must be at least ${ADMIN_PASSWORD_MIN_LENGTH} characters.`,
+  );
+}

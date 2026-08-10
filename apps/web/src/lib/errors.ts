@@ -16,7 +16,11 @@ export type ErrorCode =
   | 'invalid_token'
   | 'payload_too_large'
   | 'rate_limited'
-  | 'internal_error';
+  | 'internal_error'
+  /** Session resolved to a suspended account; the cookie is cleared too. */
+  | 'account_disabled'
+  /** Authenticated, but the account lacks the role a route requires. */
+  | 'forbidden';
 
 export function sendError(
   reply: FastifyReply,
