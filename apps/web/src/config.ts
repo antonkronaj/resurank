@@ -89,12 +89,33 @@ export const config = {
     globalWindow: optional('RATE_LIMIT_GLOBAL_WINDOW', '1 minute'),
   },
 
+  /** Shared by both mail paths below — see lib/email.ts. */
+  email: {
+    from: optional('EMAIL_FROM', 'ResuRank <no-reply@resurank.local>'),
+  },
+
+  /**
+   * Resend API key. When set, lib/email.ts sends through Resend's HTTP API
+   * (via the `resend` SDK) instead of the SMTP transport below — this is how
+   * dev can opt into Resend without a separate build. Required in production
+   * (see the fail-fast check below); optional everywhere else, where an
+   * unset key falls back to SMTP/Mailpit.
+   */
+  resend: {
+    apiKey: process.env.RESEND_API_KEY || undefined,
+  },
+
+  /**
+   * Fallback transport, and the only one the test suite uses (`.env.test`
+   * never sets RESEND_API_KEY) — SMTP to Mailpit in dev/test via
+   * docker-compose.yml. Real deployments should set RESEND_API_KEY instead
+   * of pointing this at a real SMTP provider.
+   */
   smtp: {
     host: optional('SMTP_HOST', 'localhost'),
     port: Number(optional('SMTP_PORT', '1025')),
     user: process.env.SMTP_USER || undefined,
     pass: process.env.SMTP_PASS || undefined,
-    from: optional('SMTP_FROM', 'ResuRank <no-reply@resurank.local>'),
   },
 
   /**
@@ -126,4 +147,11 @@ if (config.admin.password && config.admin.password.length < ADMIN_PASSWORD_MIN_L
   throw new Error(
     `ADMIN_PASSWORD must be at least ${ADMIN_PASSWORD_MIN_LENGTH} characters.`,
   );
+}
+
+// A production deployment silently falling back to the Mailpit-shaped SMTP
+// defaults would mean verification/reset emails go nowhere — fail at
+// startup instead of on the first registration.
+if (config.isProduction && !config.resend.apiKey) {
+  throw new Error('RESEND_API_KEY is required in production.');
 }

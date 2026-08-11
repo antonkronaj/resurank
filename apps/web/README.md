@@ -108,9 +108,10 @@ inject these directly rather than shipping a `.env` file — see
 | `RATE_LIMIT_AUTH_MAX` / `RATE_LIMIT_AUTH_WINDOW` | no | `5` / `15 minutes` | Credential + mail-sending endpoints (login, register, password reset, etc.). |
 | `RATE_LIMIT_WRITE_MAX` / `RATE_LIMIT_WRITE_WINDOW` | no | `60` / `1 minute` | Authenticated writes — resume uploads, saved scores, settings changes. |
 | `RATE_LIMIT_GLOBAL_MAX` / `RATE_LIMIT_GLOBAL_WINDOW` | no | `300` / `1 minute` | Baseline for every other route, including the public `GET /api/health`. Per-route limits above override this where they apply. |
-| `SMTP_HOST` / `SMTP_PORT` | no | `localhost` / `1025` | Points at Mailpit by default (dev). Use a real provider (Resend/Postmark/SES/etc.) in production, on a domain with SPF/DKIM set up. |
-| `SMTP_USER` / `SMTP_PASS` | no | unset | Only needed for providers that require SMTP auth. |
-| `SMTP_FROM` | no | `ResuRank <no-reply@resurank.local>` | |
+| `EMAIL_FROM` | no | `ResuRank <no-reply@resurank.local>` | From address, used no matter which mail path below sends the message. |
+| `RESEND_API_KEY` | **yes in production** | unset | Sends through [Resend](https://resend.com)'s HTTP API — the only mail path production supports; the server fails fast at startup without it. Optional in dev (falls back to SMTP/Mailpit below when unset), so dev can send through Resend too by setting this. `EMAIL_FROM`'s domain must be verified with Resend (SPF/DKIM). |
+| `SMTP_HOST` / `SMTP_PORT` | no | `localhost` / `1025` | Fallback transport used only when `RESEND_API_KEY` is unset. Points at Mailpit by default (dev/test); not intended for production. |
+| `SMTP_USER` / `SMTP_PASS` | no | unset | Only needed for an SMTP provider that requires auth. |
 
 ## Building & running for production
 

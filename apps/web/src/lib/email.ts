@@ -1,6 +1,21 @@
 import nodemailer, {type Transporter} from 'nodemailer';
+import {Resend} from 'resend';
 import type {FastifyBaseLogger} from 'fastify';
 import {config} from '../config.js';
+
+/**
+ * Two send paths, chosen once per process by whether RESEND_API_KEY is set
+ * (see config.ts): Resend's HTTP API for dev/prod, or SMTP for the fallback
+ * that Mailpit and the test suite rely on. Both are lazily constructed so a
+ * process that never sends mail (most test files) never touches either.
+ */
+
+let resendClient: Resend | undefined;
+
+function getResendClient(): Resend {
+  resendClient ??= new Resend(config.resend.apiKey);
+  return resendClient;
+}
 
 let transporter: Transporter | undefined;
 
@@ -23,7 +38,15 @@ interface Mail {
 }
 
 async function send(mail: Mail): Promise<void> {
-  await getTransporter().sendMail({from: config.smtp.from, ...mail});
+  if (config.resend.apiKey) {
+    const {error} = await getResendClient().emails.send({from: config.email.from, ...mail});
+    if (error) {
+      throw new Error(`Resend rejected the email to ${mail.to}: ${error.message}`);
+    }
+    return;
+  }
+
+  await getTransporter().sendMail({from: config.email.from, ...mail});
 }
 
 function layout(heading: string, body: string, action?: {label: string; url: string}): string {
@@ -145,7 +168,7 @@ export async function sendPasswordChangedNotice(to: string): Promise<void> {
 
 /**
  * Fire-and-forget delivery. Mail is sent outside the request/response cycle on
- * purpose: a dead SMTP host must never turn a successful write into a 500.
+ * purpose: a dead mail provider must never turn a successful write into a 500.
  */
 export function sendInBackground(
   logger: FastifyBaseLogger,
@@ -153,8 +176,4 @@ export function sendInBackground(
   context: string,
 ): void {
   task.catch((error) => logger.error({error, context}, 'failed to send email'));
-}
-
-export async function verifyEmailTransport(): Promise<void> {
-  await getTransporter().verify();
 }

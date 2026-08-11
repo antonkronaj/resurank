@@ -4,7 +4,7 @@ Scope of this document, per an explicit decision in Phase 10: **prepare
 artifacts and steps, provision nothing live.** Nothing here has been run
 against a real hosting account. The Docker build and image itself *have*
 been exercised for real (see "Verified" at the bottom); everything
-downstream of that (which Postgres/SMTP provider, DNS, TLS termination) is a
+downstream of that (which Postgres provider, DNS, TLS termination) is a
 choice for whoever actually deploys this.
 
 ---
@@ -14,10 +14,11 @@ choice for whoever actually deploys this.
 - A Postgres instance reachable from wherever the container runs (Neon,
   Supabase, RDS, Fly Postgres, or your own). Any recent Postgres version —
   nothing here uses exotic extensions.
-- An SMTP provider for transactional email (Resend, Postmark, SES, etc.).
-  Mailpit (used in local dev) is not for production. Verify SPF/DKIM for
-  whatever sending domain you use, or verification/reset emails will land in
-  spam or get rejected outright.
+- A [Resend](https://resend.com) account and API key — the only transactional
+  email path production supports (see `RESEND_API_KEY` below; the server
+  fails fast at startup without it). Mailpit (used in local dev) is not for
+  production. Verify SPF/DKIM for whatever sending domain you use, or
+  verification/reset emails will land in spam or get rejected outright.
 - A place to run one container that can reach both of the above and expose
   port 3001 (or whatever you set `PORT` to) behind TLS.
 - A domain (or subdomain) for `PUBLIC_URL` — this is embedded in every
@@ -43,7 +44,7 @@ same-origin from the container, not fetched from HuggingFace at runtime; see
 would copy this machine's own `node_modules` over the image's freshly
 `npm ci`'d one — breaking `argon2`'s native binding, built for the host's
 OS/arch, not the Alpine container's — and would bake local `.env` files
-(real DB/session/SMTP values, even if just dev ones) straight into an image
+(real DB/session/Resend values, even if just dev ones) straight into an image
 layer. Don't remove it.
 
 Push to whatever registry your host pulls from:
@@ -78,7 +79,9 @@ All read once at startup in `apps/web/src/config.ts`.
 | `PUBLIC_URL` | no | `http://localhost:3001` | Real public origin — embedded in every email link. Must be `https://` in production. |
 | `COOKIE_DOMAIN` | no | unset (host-only cookie) | Only set this if the API and frontend are on different subdomains of the same parent domain. Leave unset for the normal single-origin case. |
 | `PORT` / `HOST` | no | `3001` / `0.0.0.0` | |
-| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` / `SMTP_FROM` | no (defaults point at local Mailpit) | — | Point these at your real provider. `SMTP_FROM` should be on a domain with SPF/DKIM set up, or mail gets flagged/rejected. |
+| `RESEND_API_KEY` | **yes** | — | Sends through [Resend](https://resend.com)'s HTTP API — the only mail path production supports; the server fails fast at startup without it. |
+| `EMAIL_FROM` | no | `ResuRank <no-reply@resurank.local>` | Should be on a domain verified with Resend (SPF/DKIM set up there), or mail gets flagged/rejected. |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | no | — | Fallback transport, only used if `RESEND_API_KEY` is unset — not relevant once `RESEND_API_KEY` is set for production. |
 | `RATE_LIMIT_AUTH_MAX` / `RATE_LIMIT_AUTH_WINDOW` | no | `5` / `15 minutes` | Credential + mail-sending endpoints. |
 | `RATE_LIMIT_WRITE_MAX` / `RATE_LIMIT_WRITE_WINDOW` | no | `60` / `1 minute` | Authenticated writes (uploads, settings, history). |
 | `RATE_LIMIT_GLOBAL_MAX` / `RATE_LIMIT_GLOBAL_WINDOW` | no | `300` / `1 minute` | Baseline for every other route, including the public, unauthenticated `GET /api/health` — added in Phase 10, see "Corrections" below. |
