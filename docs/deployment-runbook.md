@@ -127,9 +127,32 @@ survive to the browser — a proxy that drops them silently degrades the app
 (scoring still works single-threaded in most browsers, but slower, with no
 visible error) rather than breaking it loudly.
 
-If `trustProxy` needs adjusting for your specific proxy setup (it's enabled
-whenever `NODE_ENV=production`), see the `Fastify({trustProxy: ...})` call in
-`app.ts`.
+### `trustProxy` and the hop count
+
+In production `app.ts` sets `trustProxy: 1` — Fastify trusts exactly one
+reverse proxy hop and derives `request.ip` (and therefore every rate limit
+bucket, plus `sessions.ip` / `admin_audit_log.ip`) from the `X-Forwarded-For`
+entry just before that hop. This assumes the topology in §1/§5 above: **one**
+load balancer or reverse proxy between the internet and this container.
+
+If you put anything else in front of that load balancer — a CDN, a WAF, a
+second internal proxy — the hop count is now wrong and must be updated in
+`apps/web/src/app.ts` (`trustProxy: ...`) to match, or the same class of bug
+this replaced comes back:
+
+- **Hop count too low** (e.g. left at `1` with two real hops in front):
+  `request.ip` resolves to the *first* proxy's address, not the real client,
+  for every request — every legitimate user behind it collapses onto the
+  same rate-limit bucket and the same IP in `sessions.ip`.
+- **Hop count too high, or back to `true`/unbounded**: a client can set its
+  own `request.ip` by sending extra `X-Forwarded-For` entries, which
+  defeats every rate limit (including the login brute-force throttle) and
+  lets an attacker write arbitrary IPs into `sessions.ip` and
+  `admin_audit_log.ip`.
+
+Recount the hops for your actual deployment before going live, and update
+this note when the topology changes. See the comment above `trustProxy` in
+`app.ts` and the [Fastify `trustProxy` docs](https://fastify.dev/docs/latest/Reference/Server/#trustproxy).
 
 ## 6. Post-deploy verification checklist
 

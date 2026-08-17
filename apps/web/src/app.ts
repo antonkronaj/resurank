@@ -1,7 +1,7 @@
 import {existsSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {dirname, resolve} from 'node:path';
-import Fastify, {type FastifyInstance} from 'fastify';
+import Fastify, {type FastifyInstance, type FastifyServerOptions} from 'fastify';
 import cookie from '@fastify/cookie';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
@@ -51,12 +51,33 @@ export interface BuildAppOptions {
    * throttled, and lower it in one dedicated test to assert throttling works.
    */
   rateLimitMax?: number;
+  /**
+   * Overrides Fastify's trustProxy. Defaults to the production hop count
+   * (1) when NODE_ENV=production, false otherwise. Tests use this to
+   * exercise the proxy-trust boundary directly without NODE_ENV=production
+   * (which also demands RESEND_API_KEY and other prod-only config).
+   */
+  trustProxy?: FastifyServerOptions['trustProxy'];
 }
 
 export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyInstance> {
   const app = Fastify({
     logger: {level: config.isProduction ? 'info' : 'debug'},
-    trustProxy: config.isProduction,
+    // A hop count, not `config.isProduction` (which is just `true`/`false`).
+    // `true` tells Fastify to trust the entire X-Forwarded-For chain from any
+    // client with no limit, which lets a client set its own request.ip by
+    // sending whatever XFF value it likes — and @fastify/rate-limit keys its
+    // buckets on request.ip, so that silently defeats every rate limit in
+    // the app (including the login brute-force throttle) and lets an
+    // attacker write arbitrary IPs into sessions.ip / admin_audit_log.ip.
+    // `1` trusts exactly the single reverse proxy / load balancer this app
+    // is deployed behind (see docs/deployment-runbook.md §5) and takes the
+    // client IP from the hop just before it — recount this if the real
+    // deployment topology ever adds another hop (e.g. a CDN/WAF in front of
+    // the load balancer), since too high a count is exactly as exploitable
+    // as `true`, and too low collapses every real client behind the proxy
+    // onto the proxy's own IP.
+    trustProxy: options.trustProxy ?? (config.isProduction ? 1 : false),
     // Without this, app.close() waits for open keep-alive connections to end
     // naturally before the port is released. In dev that races node --watch's
     // near-immediate respawn on every file change, causing an intermittent
