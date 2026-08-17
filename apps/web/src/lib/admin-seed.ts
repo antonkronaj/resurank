@@ -13,13 +13,7 @@ interface SeedLogger {
 
 /**
  * Ensures the bootstrap admin (ADMIN_EMAIL / ADMIN_PASSWORD) exists and is an
- * admin, on every startup. This is what makes the credential leak-recovery
- * story work (see the plan's "Leak-recovery model"): rotating a leaked
- * password is "change the env var and restart," because the row's password
- * hash is unconditionally rewritten here, not just on first creation.
- *
- * No-ops entirely when ADMIN_EMAIL is unset — config.ts already guarantees
- * ADMIN_EMAIL and ADMIN_PASSWORD are set together, so checking one is enough.
+ * admin, on every startup.
  */
 export async function seedAdminUser(log: SeedLogger): Promise<void> {
   const {email, password} = config.admin;

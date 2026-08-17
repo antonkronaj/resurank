@@ -211,7 +211,7 @@ export async function adminRoutes(
         return sendError(reply, passwordErr.status, passwordErr.code, passwordErr.message);
       }
 
-      const result = await db.transaction(async (tx) => {
+      const result = await db.transaction(async tx => {
         const [target] = await tx.select().from(users).where(eq(users.id, targetId));
         if (!target) {
           return {ok: false, status: 404, code: 'not_found', message: 'User not found.'} as const;
@@ -309,9 +309,10 @@ export async function adminRoutes(
         return sendError(reply, result.status, result.code, result.message);
       }
 
-      // Outside the transaction: cutting off in-flight sessions is a safe,
-      // idempotent follow-up rather than something that needs to roll back
-      // together with the role/status write.
+      /**
+       * Once a user is suspended, we also sign them out everywhere. We do that after the main database transaction
+       * because session deletion is safe to retry and does not need to undo the suspension if it fails.
+       */
       if (disabled) await revokeAllSessions(result.user.id);
 
       return reply.send({user: toPublicUser(result.user)});

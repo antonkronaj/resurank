@@ -20,8 +20,7 @@ export interface RecordAdminActionInput {
  *
  * Accepts an optional transaction handle (the same type `db.transaction`
  * hands its callback) so the audit row commits atomically with the mutation
- * it describes: a mutation that succeeds with no audit row, or an audit row
- * for a mutation that rolled back, are both worse than doing nothing.
+ * it describes.
  */
 export async function recordAdminAction(
   input: RecordAdminActionInput,
