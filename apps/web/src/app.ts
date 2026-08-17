@@ -19,20 +19,6 @@ import {userRoutes} from './routes/users.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-/**
- * Content-Security-Policy for the web build. Mirrors the Electron production
- * CSP (apps/desktop/src/main/index.ts) minus the `app:` custom scheme, which is desktop-only.
- * `wasm-unsafe-eval` and `worker-src blob:` are required by the client-side
- * ONNX embedding worker.
- *
- * `connect-src 'self'` is enough for the model fetch: it's served same-origin
- * from /assets/models (apps/ui/scripts/fetch-model.mjs), not huggingface.co.
- * That isn't just tidier — under COEP `require-corp` below, a cross-origin
- * fetch from huggingface.co has no CORP header and gets blocked outright, so
- * this and require-corp are a matched pair. See docs/web-deployment-plan.md's
- * "CORRECTIONS TO THE PLAN" note for why an earlier version of this file
- * allowed huggingface.co here.
- */
 const cspDirectives = {
   'default-src': ["'self'"],
   'connect-src': ["'self'"],
@@ -44,6 +30,24 @@ const cspDirectives = {
   'base-uri': ["'self'"],
   'form-action': ["'self'"],
 };
+
+/**
+ * Ceiling on the raw request body, replacing Fastify's implicit 1 MiB
+ * default. This is sized for the largest *legitimate* body, `POST /api/history` with a
+ * full settings snapshot attached (`settingsPayloadSchema`) plus a `result`
+ * at its own cap (`MATCH_RESULT_MAX_BYTES`, routes/history.ts):
+ *   stopwords 10k × ~110B  ≈ 1.10 MB
+ *   termBoosts 5k × ~125B  ≈ 0.63 MB
+ *   pinnedTerms 500 × ~140B ≈ 0.07 MB
+ *   jobDescription/preference text (32k chars each) ≈ 0.06 MB
+ *   result (capped)                                 ≈ 0.50 MB
+ *                                            total   ≈ 2.36 MB
+ * 3 MiB leaves headroom for JSON overhead without coming close to unbounded.
+ * Every field summed above already has its own cap enforced by a zod schema
+ * or a route-level check — this is a second, coarser backstop in front of
+ * those, not a substitute for them.
+ */
+const MAX_REQUEST_BODY_BYTES = 3 * 1024 * 1024;
 
 export interface BuildAppOptions {
   /**
@@ -63,35 +67,20 @@ export interface BuildAppOptions {
 export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyInstance> {
   const app = Fastify({
     logger: {level: config.isProduction ? 'info' : 'debug'},
-    // A hop count, not `config.isProduction` (which is just `true`/`false`).
-    // `true` tells Fastify to trust the entire X-Forwarded-For chain from any
-    // client with no limit, which lets a client set its own request.ip by
-    // sending whatever XFF value it likes — and @fastify/rate-limit keys its
-    // buckets on request.ip, so that silently defeats every rate limit in
-    // the app (including the login brute-force throttle) and lets an
-    // attacker write arbitrary IPs into sessions.ip / admin_audit_log.ip.
-    // `1` trusts exactly the single reverse proxy / load balancer this app
-    // is deployed behind (see docs/deployment-runbook.md §5) and takes the
-    // client IP from the hop just before it — recount this if the real
-    // deployment topology ever adds another hop (e.g. a CDN/WAF in front of
-    // the load balancer), since too high a count is exactly as exploitable
-    // as `true`, and too low collapses every real client behind the proxy
-    // onto the proxy's own IP.
+    // A hop count `1` trusts exactly the single reverse proxy / load balancer this app
+    // is deployed behind and takes the client IP from the hop just before it.
+    // Recount this if the real deployment topology ever adds another hop
+    // (e.g. a CDN/WAF in front of the load balancer), since too high a count is as exploitable
+    // as `true`, and too low collapses every real client behind the proxy onto the proxy's own IP.
     trustProxy: options.trustProxy ?? (config.isProduction ? 1 : false),
-    // Without this, app.close() waits for open keep-alive connections to end
-    // naturally before the port is released. In dev that races node --watch's
-    // near-immediate respawn on every file change, causing an intermittent
-    // EADDRINUSE; in prod a graceful SIGTERM should drop connections promptly
-    // too rather than blocking shutdown on a client that never disconnects.
+    bodyLimit: MAX_REQUEST_BODY_BYTES,
     forceCloseConnections: true,
   });
 
   await app.register(helmet, {
     contentSecurityPolicy: {directives: cspDirectives},
     // The client-side embedding worker needs `crossOriginIsolated` for
-    // SharedArrayBuffer / threaded WASM. Electron uses COEP `credentialless`,
-    // which Safari does not support; `require-corp` works everywhere but
-    // requires every cross-origin subresource to carry a CORP header.
+    // SharedArrayBuffer / threaded WASM.
     crossOriginOpenerPolicy: {policy: 'same-origin'},
     crossOriginEmbedderPolicy: {policy: 'require-corp'},
     crossOriginResourcePolicy: {policy: 'same-origin'},
@@ -100,13 +89,6 @@ export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyIn
   await app.register(cookie, {secret: config.sessionSecret});
 
   // Global baseline for every route that doesn't set its own tighter limit
-  // via `writeLimit()`/`authRoutes`/`userRoutes` below (GET /api/health and
-  // the read side of resumes/settings/history/bootstrap otherwise had no
-  // ceiling at all — this was the gap Phase 10 closed). `rateLimitMax`
-  // reuses the same test-only override those routes already take, so the
-  // handful of tests that intentionally lower a specific route's limit (or
-  // raise it to avoid throttling an entire flow suite) affect this baseline
-  // the same way instead of needing a second knob.
   await app.register(rateLimit, {
     global: true,
     max: options.rateLimitMax ?? config.rateLimit.globalMax,

@@ -1,11 +1,6 @@
 import {z} from 'zod';
 import {JOB_DESCRIPTION_CHAR_CAP} from '@resurank/scoring';
 
-/**
- * Upper bound on password length. argon2's cost is driven by its parameters
- * rather than input size, but an unbounded field is still free CPU for an
- * attacker, so cap it well above any real passphrase.
- */
 const MAX_PASSWORD_LENGTH = 200;
 
 export const emailSchema = z
@@ -51,11 +46,6 @@ export const changePasswordSchema = z.object({
   newPassword: passwordSchema,
 });
 
-/**
- * PATCH /api/users/me. Both fields are optional and `name: null` clears the
- * name, but an empty body is rejected — a request that changes nothing should
- * not report success.
- */
 export const updateProfileSchema = z
   .object({
     name: z.string().trim().min(1).max(120).nullable().optional(),
@@ -65,22 +55,9 @@ export const updateProfileSchema = z
     message: 'Provide a name or an email to update.',
   });
 
-/** Account deletion is irreversible, so it re-checks the password. */
 export const deleteAccountSchema = z.object({
   password: z.string().min(1).max(MAX_PASSWORD_LENGTH),
 });
-
-/*
- * Domain routes.
- *
- * Note what these schemas deliberately do NOT bound: `text` on a resume and
- * `jobDescription` on a history entry. Those carry the caps from
- * @resurank/scoring and are checked in the route so they can answer 413
- * `payload_too_large` — a distinct, machine-readable condition the UI can
- * explain ("your resume is too long") rather than a generic validation error.
- * Everything else is bounded here purely to keep unbounded client input out of
- * jsonb columns.
- */
 
 /** Long enough for any real term or stopword, short enough to bound the row. */
 const TERM_MAX_LENGTH = 100;
@@ -92,9 +69,6 @@ export const idParamSchema = z.object({id: z.string().uuid()});
 export const createResumeSchema = z.object({
   filename: z.string().trim().min(1).max(255),
   text: z.string().min(1),
-  // Extracted client-side during PDF parsing, exactly as the desktop build
-  // does it — the server stores what the parser produced rather than
-  // re-deriving it against settings that may have moved on since.
   terms: z.array(termSchema).max(10_000),
 });
 
@@ -126,11 +100,6 @@ const termBoostsSchema = z
     message: 'Too many term boosts.',
   });
 
-/**
- * Partial by design: the desktop StorageService saves each of these four keys
- * independently, so a PATCH that touches one key must not require the caller to
- * read and resend the other three.
- */
 export const updateSettingsSchema = z
   .object({
     stopwords: stopwordsSchema.optional(),
@@ -142,12 +111,6 @@ export const updateSettingsSchema = z
     message: 'Provide at least one setting to update.',
   });
 
-/**
- * The settings a score ran under, sent alongside it. Same four shapes as
- * `updateSettingsSchema` but every key required, unlike that PATCH: a snapshot
- * missing a key would be indistinguishable from one where the key was empty,
- * and the whole point of storing it is that it describes the run exactly.
- */
 export const settingsPayloadSchema = z.object({
   stopwords: stopwordsSchema,
   termBoosts: termBoostsSchema,
@@ -164,8 +127,7 @@ export const createHistorySchema = z.object({
   // sorting); the rest is stored as opaque jsonb owned by @resurank/scoring.
   result: z.object({score: z.number().finite()}).passthrough(),
   // Self-reported provenance from the client. Constrained rather than accepted
-  // as free text: these are echoed back into the history UI, and the shapes
-  // are narrow enough that there is no reason to allow anything else.
+  // as free text: these are echoed back into the history UI
   embeddingModel: z.string().regex(/^[\w.-]+\/[\w.-]+$/).max(128).optional(),
   embeddingDtype: z.string().regex(/^[a-z0-9_]+$/).max(16).optional(),
   scoringVersion: z.string().regex(/^\d+\.\d+\.\d+(?:[-+][\w.-]+)?$/).max(32).optional(),
@@ -195,21 +157,16 @@ export const adminUserQuerySchema = z.object({
   status: z.enum(['all', 'active', 'suspended', 'admin']).default('all'),
 });
 
-/** Body for PATCH /api/admin/users/:id/role. Re-checks the acting admin's own
- * password, same as every other destructive admin action. */
 export const adminRoleSchema = z.object({
   role: z.enum(['user', 'admin']),
   password: z.string().min(1).max(MAX_PASSWORD_LENGTH),
 });
 
-/** Body for PATCH /api/admin/users/:id/status. */
 export const adminStatusSchema = z.object({
   disabled: z.boolean(),
   password: z.string().min(1).max(MAX_PASSWORD_LENGTH),
 });
 
-/** Body for DELETE /api/admin/users/:id — the only field it needs beyond the
- * acting admin's own password re-check. */
 export const adminDeleteSchema = z.object({
   password: z.string().min(1).max(MAX_PASSWORD_LENGTH),
 });
@@ -217,7 +174,5 @@ export const adminDeleteSchema = z.object({
 export const adminAuditQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(50),
   offset: z.coerce.number().int().min(0).default(0),
-  /** Narrows to actions taken against one account — used by the user detail
-   * page to show that user's own trail alongside its profile. */
   targetId: z.string().uuid().optional(),
 });

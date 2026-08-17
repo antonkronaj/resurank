@@ -2,9 +2,11 @@ import assert from 'node:assert/strict';
 import {after, before, describe, it} from 'node:test';
 import {and, eq, sql} from 'drizzle-orm';
 import type {FastifyInstance, LightMyRequestResponse} from 'fastify';
-import {JOB_DESCRIPTION_CHAR_CAP, RESUME_CHAR_CAP} from '@resurank/scoring';
+import {JOB_DESCRIPTION_CHAR_CAP, RESUME_CHAR_CAP, type MatchResult} from '@resurank/scoring';
 import {buildApp} from '../src/app.js';
 import {closeDatabase, db} from '../src/db/client.js';
+import {MATCH_RESULT_MAX_BYTES, MAX_HISTORY_ROWS_PER_USER} from '../src/routes/history.js';
+import {MAX_RESUMES_PER_USER} from '../src/routes/resumes.js';
 import {resumes, scoreHistory, settingsVersions, users} from '../src/db/schema.js';
 import {signedInUser} from './helpers/auth.js';
 import {clearMailbox, isMailpitRunning} from './helpers/mailpit.js';
@@ -73,6 +75,35 @@ async function userId(email: string): Promise<string> {
     .from(users)
     .where(sql`lower(${users.email}) = lower(${email})`);
   return row.id;
+}
+
+/**
+ * Seeds history/resume rows directly in the database rather than through the
+ * API — reaching the row-count caps (in the thousands) one HTTP write at a
+ * time would make these tests painfully slow, and the caps themselves don't
+ * care how the rows got there, only how many exist.
+ */
+async function seedHistoryRows(forUserId: string, rowCount: number): Promise<void> {
+  await db.insert(scoreHistory).values(
+    Array.from({length: rowCount}, () => ({
+      userId: forUserId,
+      jobTitle: 'seed',
+      jobDescription: 'seed',
+      score: 0,
+      result: RESULT as unknown as MatchResult,
+    })),
+  );
+}
+
+async function seedResumeRows(forUserId: string, rowCount: number): Promise<void> {
+  await db.insert(resumes).values(
+    Array.from({length: rowCount}, (_, i) => ({
+      userId: forUserId,
+      filename: `seed-${i}.pdf`,
+      text: 'seed',
+      terms: [],
+    })),
+  );
 }
 
 before(async () => {
@@ -205,6 +236,22 @@ describe('resumes', () => {
     });
 
     assert.equal(response.statusCode, 201, 'the cap is inclusive');
+  });
+
+  it('refuses a new resume once the per-user cap is reached', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {email, token} = await signedInUser(app, 'resume-row-cap');
+
+    await seedResumeRows(await userId(email), MAX_RESUMES_PER_USER);
+
+    const response = await post(token, '/api/resumes', {
+      filename: 'one-too-many.pdf',
+      text: 'one too many',
+      terms: ['one'],
+    });
+
+    assert.equal(response.statusCode, 409);
+    assert.equal(response.json().error, 'conflict');
   });
 
   it('survives two uploads racing each other', async (t) => {
@@ -431,6 +478,49 @@ describe('history', () => {
 
     assert.equal(response.statusCode, 413);
     assert.equal(response.json().error, 'payload_too_large');
+  });
+
+  it('refuses a result over the byte-size cap', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {token} = await signedInUser(app, 'history-result-cap');
+
+    // Padded past MATCH_RESULT_MAX_BYTES with a field the server never reads
+    // — the cap is on serialized size, not on any particular MatchResult key.
+    const response = await post(token, '/api/history', {
+      jobTitle: 'Oversized',
+      jobDescription: 'a job',
+      result: {...RESULT, padding: 'a'.repeat(MATCH_RESULT_MAX_BYTES)},
+    });
+
+    assert.equal(response.statusCode, 413);
+    assert.equal(response.json().error, 'payload_too_large');
+  });
+
+  it('accepts a well-formed result right under the byte-size cap', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {token} = await signedInUser(app, 'history-result-ok');
+
+    // Comfortably under the cap after JSON-encoding overhead (quotes, other
+    // RESULT keys), not exactly at the boundary.
+    const response = await post(token, '/api/history', {
+      jobTitle: 'Large but fine',
+      jobDescription: 'a job',
+      result: {...RESULT, padding: 'a'.repeat(MATCH_RESULT_MAX_BYTES - 1024)},
+    });
+
+    assert.equal(response.statusCode, 201, response.payload);
+  });
+
+  it('refuses a new history row once the per-user cap is reached', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const {email, token} = await signedInUser(app, 'history-row-cap');
+
+    await seedHistoryRows(await userId(email), MAX_HISTORY_ROWS_PER_USER);
+
+    const response = await saveScore(token, null, 'One too many');
+
+    assert.equal(response.statusCode, 409);
+    assert.equal(response.json().error, 'conflict');
   });
 
   it('survives the resume it scored being deleted', async (t) => {

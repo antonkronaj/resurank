@@ -1,4 +1,4 @@
-import {and, desc, eq} from 'drizzle-orm';
+import {and, count, desc, eq} from 'drizzle-orm';
 import type {FastifyInstance} from 'fastify';
 import {RESUME_CHAR_CAP} from '@resurank/scoring';
 import {db} from '../db/client.js';
@@ -13,15 +13,17 @@ import {
 import {sendError, sendValidationError} from '../lib/errors.js';
 import {createResumeSchema, idParamSchema} from '../lib/validation.js';
 import {currentUser, requireAuth} from '../plugins/auth.js';
-import {writeLimit, type DomainRoutesOptions} from '../lib/route-options.js';
+import {type DomainRoutesOptions, writeLimit} from '../lib/route-options.js';
 
 /**
- * Resume CRUD. Only extracted text is ever stored — the PDF binary stays on the
- * client, which is the whole point of the privacy story.
- *
- * Every lookup filters on `user_id` as well as `id`, and a row belonging to
- * someone else answers 404 rather than 403: telling a caller "that exists but
- * is not yours" is itself a disclosure.
+ * Ceiling on how many resumes one account can hold. Only one is ever
+ * "active" at a time, but nothing stops an account from uploading a fresh
+ * one on every visit forever.
+ */
+export const MAX_RESUMES_PER_USER = 50;
+
+/**
+ * Resume CRUD. Only extracted text is ever stored
  */
 export async function resumeRoutes(
   app: FastifyInstance,
@@ -69,10 +71,15 @@ export async function resumeRoutes(
 
     const userId = currentUser(request).id;
 
-    // A freshly uploaded resume becomes the active one, matching the desktop
-    // build where uploading simply replaced the single stored resume.
+    // A freshly uploaded resume becomes the active one
     const row = await db.transaction(async (tx) => {
       await lockUserForResumeWrite(tx, userId);
+
+      const [{value: resumeCount}] = await tx
+        .select({value: count()})
+        .from(resumes)
+        .where(eq(resumes.userId, userId));
+      if (resumeCount >= MAX_RESUMES_PER_USER) return null;
 
       await tx
         .update(resumes)
@@ -86,6 +93,15 @@ export async function resumeRoutes(
 
       return created;
     });
+
+    if (!row) {
+      return sendError(
+        reply,
+        409,
+        'conflict',
+        `You have reached the limit of ${MAX_RESUMES_PER_USER.toLocaleString('en-US')} saved resumes. Delete some before uploading more.`,
+      );
+    }
 
     return reply.code(201).send({resume: toApiResume(row)});
   });
