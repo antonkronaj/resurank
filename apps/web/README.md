@@ -39,7 +39,9 @@ cp .env.example .env
 ```
 
 The defaults in `.env.example` already point at the services from step 1.
-Generate a real `SESSION_SECRET` even for local dev:
+`SESSION_SECRET` has to be set or the server won't boot, though nothing reads
+it today (see the note under Environment variables). Any value works for local
+dev; generate a real one anyway so the habit survives the fix:
 
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
@@ -98,7 +100,7 @@ inject these directly rather than shipping a `.env` file — see
 | Variable | Required | Default | Notes |
 |---|---|---|---|
 | `DATABASE_URL` | **yes** | — | Postgres connection string. |
-| `SESSION_SECRET` | **yes** | — | Signs the session cookie. Rotating it invalidates every existing session. |
+| `SESSION_SECRET` | **yes** | — | Required at startup, but **nothing reads it** — see below. |
 | `NODE_ENV` | no | `development` | `production` enables `trustProxy` and raises the log level. |
 | `PORT` | no | `3001` | |
 | `HOST` | no | `0.0.0.0` | |
@@ -112,6 +114,34 @@ inject these directly rather than shipping a `.env` file — see
 | `RESEND_API_KEY` | **yes in production** | unset | Sends through [Resend](https://resend.com)'s HTTP API — the only mail path production supports; the server fails fast at startup without it. Optional in dev (falls back to SMTP/Mailpit below when unset), so dev can send through Resend too by setting this. `EMAIL_FROM`'s domain must be verified with Resend (SPF/DKIM). |
 | `SMTP_HOST` / `SMTP_PORT` | no | `localhost` / `1025` | Fallback transport used only when `RESEND_API_KEY` is unset. Points at Mailpit by default (dev/test); not intended for production. |
 | `SMTP_USER` / `SMTP_PASS` | no | unset | Only needed for an SMTP provider that requires auth. |
+
+### A note on `SESSION_SECRET`
+
+It is passed to `@fastify/cookie` as the signing secret, but that only enables
+the opt-in `{signed: true}` / `unsignCookie` APIs — and neither is ever called.
+`setSessionCookie` sets a plain cookie and `requireAuth` reads it raw, so the
+secret never participates in anything. Earlier revisions of this table claimed
+it signed the session cookie and that rotating it invalidated every session;
+both were wrong. **Rotating it invalidates nothing.**
+
+To actually sign everyone out, delete the rows — sessions live entirely in the
+`sessions` table, keyed by the SHA-256 digest of the cookie's token:
+
+```sql
+DELETE FROM sessions;
+```
+
+Per-account, use `POST /api/auth/logout-all` or
+`POST /api/admin/users/:id/revoke-sessions`; a password change or reset already
+revokes that user's sessions automatically.
+
+None of this weakens the session mechanism: the cookie carries 32 bytes of
+`randomBytes` output and the server looks sessions up by SHA-256 digest, so
+forging one means guessing a 256-bit value and an HMAC would add nothing. The
+variable is a leftover of the conventional Express/Fastify pattern where the
+cookie carries the session id and signing *is* load-bearing. Keep setting it
+until it is either removed or genuinely wired up — the server won't boot
+without it.
 
 ## Building & running for production
 

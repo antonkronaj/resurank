@@ -75,7 +75,7 @@ All read once at startup in `apps/web/src/config.ts`.
 | Variable | Required | Default | Notes |
 |---|---|---|---|
 | `DATABASE_URL` | **yes** | — | Postgres connection string. |
-| `SESSION_SECRET` | **yes** | — | Signs the session cookie. Generate with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Rotating it invalidates every existing session. |
+| `SESSION_SECRET` | **yes** | — | Startup fails without it, but **nothing currently reads it** — see "Corrections" below before relying on it for anything. Generate with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. |
 | `PUBLIC_URL` | no | `http://localhost:3001` | Real public origin — embedded in every email link. Must be `https://` in production. |
 | `COOKIE_DOMAIN` | no | unset (host-only cookie) | Only set this if the API and frontend are on different subdomains of the same parent domain. Leave unset for the normal single-origin case. |
 | `PORT` / `HOST` | no | `3001` / `0.0.0.0` | |
@@ -88,7 +88,26 @@ All read once at startup in `apps/web/src/config.ts`.
 | `STATIC_DIR` | no | `../../../apps/ui/dist/frontend/browser` | Only override if you restructure the image's layout. |
 
 Generate `SESSION_SECRET` fresh for the real deployment — don't reuse the
-value from any local `.env`.
+value from any local `.env`. Note that this is hygiene against a *future*
+change, not a control that is doing anything today: see "Corrections" below.
+
+### Invalidating sessions
+
+To sign every user out — after a suspected token leak, say — delete the rows.
+Sessions live entirely in the `sessions` table, keyed by the SHA-256 digest of
+the token in the cookie:
+
+```sql
+DELETE FROM sessions;
+```
+
+For a single account, prefer the application paths, which do this already:
+`POST /api/auth/logout-all`, `POST /api/admin/users/:id/revoke-sessions`, or
+suspending the account (`PATCH /api/admin/users/:id/status`). A password change
+or reset also revokes every session for that user automatically.
+
+Restarting the server does **not** invalidate sessions, and neither does
+changing `SESSION_SECRET` — see below.
 
 ## 5. TLS and headers
 
@@ -153,6 +172,37 @@ becomes destructive, add an explicit rollback note here at that time.
 ---
 
 ## Corrections / open items (kept current — Phase 10)
+
+- **`SESSION_SECRET` does nothing, and this table used to claim otherwise.**
+  Until now both this runbook and `apps/web/README.md` said it "signs the
+  session cookie" and that "rotating it invalidates every existing session."
+  Neither is true, and the second one is the dangerous half — it reads as an
+  incident-response lever and would silently fail as one.
+
+  What actually happens: `config.sessionSecret` is `required()`, so the server
+  refuses to start without it, and it is handed to `@fastify/cookie` as the
+  signing secret. But that only *enables* the opt-in `{signed: true}` /
+  `unsignCookie` APIs, and neither is ever called — `setSessionCookie` sets a
+  plain cookie and `requireAuth` reads it raw. Checked across every commit on
+  every branch: `signed: true` has never appeared in this repository. It was
+  not wired up and later removed; it was never wired up.
+
+  So rotating `SESSION_SECRET` and restarting invalidates **zero** sessions.
+  Every outstanding cookie keeps working. Use the `DELETE FROM sessions` path
+  in §4 instead.
+
+  Nothing is currently *weakened* by this: the cookie holds 32 bytes of
+  `randomBytes` output, the server stores only its SHA-256 digest and looks the
+  session up by that digest, so forging one means guessing a 256-bit random
+  value. An HMAC over it would add no security — there is no structure to
+  tamper with. The variable is a vestige of the conventional Express/Fastify
+  session pattern, where the cookie carries the session id and signing *is*
+  load-bearing; this codebase chose the stronger opaque-token design and the
+  scaffolding came along with it.
+
+  Open decision — either drop the variable entirely (recommended, since signing
+  buys nothing here) or actually sign the cookie. Until that lands, keep setting
+  it: the server will not boot otherwise.
 
 - **Rate limiting**: `GET /api/health` and the read side of
   resumes/settings/history/bootstrap had *no* rate limit at all before Phase
