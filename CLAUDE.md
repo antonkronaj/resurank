@@ -23,7 +23,16 @@ resurank/
 │   │       ├── desktop/     # Electron-only: electron-storage.adapter, claude-desktop card
 │   │       └── web/         # Web-only: http-storage.adapter, auth, routing, history
 │   └── web/                 # @resurank/server — Fastify + Postgres + email + static hosting.
-│                            #   Performs NO ML; embedding/scoring stay client-side.
+│       └── src/             #   Performs NO ML; embedding/scoring stay client-side.
+│           ├── routes/      # One file per resource (auth, users, admin, resumes,
+│           │                #   settings, history, bootstrap, health)
+│           ├── lib/         # Sessions, email + templates, crypto, validation, audit,
+│           │                #   domain logic, admin guards/seed
+│           ├── db/          # Drizzle client, schema, migration runner
+│           ├── plugins/     # Fastify plugins (auth decorators)
+│           ├── app.ts       # buildApp() — wires plugins, routes, middleware
+│           ├── config.ts    # Env-based config, validated at startup
+│           └── index.ts     # Process entrypoint
 ├── packages/
 │   ├── scoring/             # @resurank/scoring — pure scoring logic, exported as npm package
 │   │   └── src/
@@ -153,11 +162,13 @@ The `version:*` scripts create prefixed git tags (`scoring-v1.0.x`, `mcp-v1.0.x`
 
 ## Rules
 
+- Before exploring the codebase, use the graphify graph (`graphify-out/`) to quickly understand the project — see the **graphify** section below.
 - Use Angular components for all UI work — no vanilla DOM manipulation.
 - Do not add new dependencies without asking first.
 - Ask clarifying questions before starting non-trivial tasks.
 - Keep scoring logic in `packages/scoring` — it is a published package and must stay framework-agnostic.
 - The embedding model path and user data paths are resolved at runtime via `apps/desktop/src/config.ts`; do not hardcode paths.
+- **Organize functions within a file so it reads top to bottom**: exported/entry-point functions come first, and each function they call is declared *after* its first use — not before. A reader should be able to start at the top of the file and go deeper as they read down, rather than hunting upward for definitions. (See `apps/web/src/lib/email.ts` for the pattern: the `send*Email` exports are at the top, the internal `send()` they all call comes next, and the two transport helpers `send()` depends on — `getResendClient`/`getTransporter` — are last.) This only reorders declarations; it must not change behavior, so it applies naturally to `function` declarations (hoisted) — take care with `const fn = () => {}` bindings, which are not hoisted and must stay in a valid order.
 
 ## Branch Policy
 
