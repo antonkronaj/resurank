@@ -1,7 +1,7 @@
 # Graph Report - resurank  (2026-08-17)
 
 ## Corpus Check
-- 166 files · ~209,771 words
+- 166 files · ~210,001 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b5cf086f`
+- Built from commit: `53c4915e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -417,7 +417,7 @@ Cohesion: 0.31
 Nodes (5): EMBEDDING_MODEL, _config, embed(), getEmbedder(), triggerEagerLoad()
 
 ## Knowledge Gaps
-- **568 isolated node(s):** `here`, `cspDirectives`, `BuildAppOptions`, `1. What you need before starting`, `2. Build the image` (+563 more)
+- **568 isolated node(s):** `Project Overview`, `Monorepo Structure`, `Tech Stack`, `First-time setup`, `Dev mode (hot reload)` (+563 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -425,12 +425,12 @@ Nodes (5): EMBEDDING_MODEL, _config, embed(), getEmbedder(), triggerEagerLoad()
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `embedder` connect `Community 65` to `Community 43`, `MCP Resume Resolver`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
-- **Why does `AppComponent` connect `Community 55` to `Community 67`, `Community 79`, `Community 85`, `Preload tsconfig`, `Worker Export Map`?**
-  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+  _High betweenness centrality (0.023) - this node is a cross-community bridge._
 - **Why does `require` connect `MCP Resume Resolver` to `Claude Desktop Config (Main)`?**
-  _High betweenness centrality (0.014) - this node is a cross-community bridge._
-- **What connects `here`, `cspDirectives`, `BuildAppOptions` to the rest of the system?**
+  _High betweenness centrality (0.017) - this node is a cross-community bridge._
+- **Why does `writeConfigAtomic()` connect `Claude Desktop Config (Main)` to `MCP Resume Resolver`?**
+  _High betweenness centrality (0.017) - this node is a cross-community bridge._
+- **What connects `Project Overview`, `Monorepo Structure`, `Tech Stack` to the rest of the system?**
   _571 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Embedding & Matcher Services` be split into smaller, more focused modules?**
   _Cohesion score 0.12280701754385964 - nodes in this community are weakly interconnected._
