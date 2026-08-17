@@ -290,8 +290,8 @@
     "semantic_hash": ""
   },
   "docs/deployment-runbook.md": {
-    "mtime": 1786735698.015836,
-    "ast_hash": "a1d2c91f91c7321e41f33bbc48ef75e3",
+    "mtime": 1786932574.941228,
+    "ast_hash": "88e5ffc470103dcacf347aeb2d37b9e5",
     "semantic_hash": ""
   },
   "apps/web/drizzle.config.ts": {
@@ -330,8 +330,8 @@
     "semantic_hash": ""
   },
   "apps/web/src/app.ts": {
-    "mtime": 1786399375.6615252,
-    "ast_hash": "1f67b2bf6e0a71141b1d876eae249960",
+    "mtime": 1786932641.4121733,
+    "ast_hash": "6f18612a2c894ef00dbe36c41dff034f",
     "semantic_hash": ""
   },
   "apps/web/src/config.ts": {
@@ -370,8 +370,8 @@
     "semantic_hash": ""
   },
   "apps/web/src/lib/email.ts": {
-    "mtime": 1786408073.8174295,
-    "ast_hash": "36d38a22d962366e6ff3c7f1731e6f30",
+    "mtime": 1786932923.2289712,
+    "ast_hash": "1b7a3586df47f626d5b2240d262a9cdf",
     "semantic_hash": ""
   },
   "apps/web/src/lib/errors.ts": {
@@ -1097,6 +1097,16 @@
   "apps/ui/src/app/web/admin/users/users.component.html": {
     "mtime": 1786399828.068752,
     "ast_hash": "dd4c3db127b25e81e56bf736abcc2529",
+    "semantic_hash": ""
+  },
+  "apps/web/src/lib/email-templates.ts": {
+    "mtime": 1786932892.2381563,
+    "ast_hash": "8577a2eaf0830d9ea6dbfb2ffb3b1ed4",
+    "semantic_hash": ""
+  },
+  "apps/web/test/trust-proxy.test.ts": {
+    "mtime": 1786932694.8726945,
+    "ast_hash": "daa51dadcdd3873551b72d5b3ad101af",
     "semantic_hash": ""
   }
 }
