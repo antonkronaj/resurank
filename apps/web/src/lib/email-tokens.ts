@@ -1,4 +1,4 @@
-import {and, eq, gt, isNull} from 'drizzle-orm';
+import {and, eq, gt, isNull, lt, or} from 'drizzle-orm';
 import {db} from '../db/client.js';
 import {emailTokens, type EmailTokenType} from '../db/schema.js';
 import {generateToken, hashToken} from './crypto.js';
@@ -8,6 +8,11 @@ const TTL_MS: Record<EmailTokenType, number> = {
   reset: 60 * 60 * 1000, // 1 hour — shorter, it grants account takeover
   change_email: 24 * 60 * 60 * 1000, // 24 hours
 };
+
+/**
+ * Consumed tokens are kept briefly after use rather than deleted inline by consumeEmailToken
+ */
+const USED_TOKEN_RETENTION_MS = 60 * 60 * 1000; // 1 hour
 
 /**
  * Drops every outstanding token of a type. Used both to keep one live link per
@@ -60,4 +65,17 @@ export async function consumeEmailToken(
     .returning({userId: emailTokens.userId});
 
   return row?.userId ?? null;
+}
+
+/** Removes rows past their expiry, plus consumed rows past the retention grace period. */
+export async function deleteExpiredEmailTokens(): Promise<void> {
+  const now = new Date();
+  await db
+    .delete(emailTokens)
+    .where(
+      or(
+        lt(emailTokens.expiresAt, now),
+        lt(emailTokens.usedAt, new Date(now.getTime() - USED_TOKEN_RETENTION_MS)),
+      ),
+    );
 }

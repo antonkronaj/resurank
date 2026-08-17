@@ -73,6 +73,14 @@ export const config = {
    */
   staticDir: optional('STATIC_DIR', '../../../apps/ui/dist/frontend/browser'),
 
+  /**
+   * How often lib/cleanup.ts sweeps expired sessions and email tokens.
+   * Runs once immediately at startup, then on this interval — see
+   * index.ts. A single-container deploy runs this in-process rather than
+   * via an external cron.
+   */
+  cleanupIntervalMs: Number(optional('CLEANUP_INTERVAL_MS', String(60 * 60 * 1000))),  // 1 hour
+
   rateLimit: {
     /** Throttle for credential and mail-sending endpoints. */
     authMax: Number(optional('RATE_LIMIT_AUTH_MAX', '5')),

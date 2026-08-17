@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {randomUUID} from 'node:crypto';
 import {after, before, describe, it} from 'node:test';
 import {and, eq, inArray, isNull, notInArray, sql} from 'drizzle-orm';
 import type {FastifyInstance} from 'fastify';
@@ -204,6 +205,32 @@ describe('user search and listing', () => {
     const body = page.json();
     assert.equal(body.users.length, 1);
     assert.ok(body.total >= 2, 'total reflects the full match count, not just this page');
+  });
+});
+
+describe('user-detail session list', () => {
+  it('excludes expired sessions', async (t) => {
+    if (!mailpitUp) return t.skip('Mailpit not running');
+    const admin = await signedInAdmin('session-list-admin');
+    const target = await signedInUser('session-list-target');
+
+    const expiredId = randomUUID();
+    await db.insert(sessions).values({
+      id: expiredId,
+      userId: target.id,
+      expiresAt: new Date(Date.now() - 1000),
+    });
+
+    const response = await app.inject({
+      method: 'GET',
+      url: `/api/admin/users/${target.id}`,
+      headers: authHeader(admin.token),
+    });
+    assert.equal(response.statusCode, 200);
+    const returnedIds = response.json().sessions.map((s: {id: string}) => s.id);
+    assert.ok(!returnedIds.includes(expiredId), 'expired session omitted from the list');
+
+    await db.delete(sessions).where(eq(sessions.id, expiredId));
   });
 });
 

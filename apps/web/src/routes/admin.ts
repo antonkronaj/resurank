@@ -1,4 +1,4 @@
-import {and, count, desc, eq, ilike, isNotNull, isNull, max, or, sql} from 'drizzle-orm';
+import {and, count, desc, eq, gt, ilike, isNotNull, isNull, max, or, sql} from 'drizzle-orm';
 import type {FastifyInstance} from 'fastify';
 import {config} from '../config.js';
 import {db} from '../db/client.js';
@@ -153,7 +153,10 @@ export async function adminRoutes(
             expiresAt: sessions.expiresAt,
           })
           .from(sessions)
-          .where(eq(sessions.userId, target.id))
+          // Excludes rows that deleteExpiredSessions (lib/cleanup.ts) hasn't swept
+          // yet — this list otherwise reads as "active sessions" to an
+          // operator triaging an account, and a stale row here is indistinguishable from a live one.
+          .where(and(eq(sessions.userId, target.id), gt(sessions.expiresAt, new Date())))
           .orderBy(desc(sessions.lastSeenAt)),
       ]);
 
