@@ -370,8 +370,8 @@
     "semantic_hash": ""
   },
   "apps/web/src/lib/email.ts": {
-    "mtime": 1786932923.2289712,
-    "ast_hash": "1b7a3586df47f626d5b2240d262a9cdf",
+    "mtime": 1786933072.7553537,
+    "ast_hash": "bf91853f6cb71905a1ae0b1b2d9eff91",
     "semantic_hash": ""
   },
   "apps/web/src/lib/errors.ts": {

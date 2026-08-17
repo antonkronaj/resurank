@@ -12,49 +12,6 @@ import {
   type EmailTemplate,
 } from './email-templates.js';
 
-/**
- * Two send paths, chosen once per process by whether RESEND_API_KEY is set
- * (see config.ts): Resend's HTTP API for dev/prod, or SMTP for the fallback
- * that Mailpit and the test suite rely on. Both are lazily constructed so a
- * process that never sends mail (most test files) never touches either.
- */
-
-let resendClient: Resend | undefined;
-
-function getResendClient(): Resend {
-  resendClient ??= new Resend(config.resend.apiKey);
-  return resendClient;
-}
-
-let transporter: Transporter | undefined;
-
-function getTransporter(): Transporter {
-  transporter ??= nodemailer.createTransport({
-    host: config.smtp.host,
-    port: config.smtp.port,
-    // Port 465 is implicit TLS; 587/1025 upgrade via STARTTLS when offered.
-    secure: config.smtp.port === 465,
-    auth: config.smtp.user ? {user: config.smtp.user, pass: config.smtp.pass} : undefined,
-  });
-  return transporter;
-}
-
-interface Mail extends EmailTemplate {
-  to: string;
-}
-
-async function send(mail: Mail): Promise<void> {
-  if (config.resend.apiKey) {
-    const {error} = await getResendClient().emails.send({from: config.email.from, ...mail});
-    if (error) {
-      throw new Error(`Resend rejected the email to ${mail.to}: ${error.message}`);
-    }
-    return;
-  }
-
-  await getTransporter().sendMail({from: config.email.from, ...mail});
-}
-
 export async function sendVerificationEmail(to: string, token: string): Promise<void> {
   await send({to, ...verificationEmail(token)});
 }
@@ -104,4 +61,46 @@ export function sendInBackground(
   context: string,
 ): void {
   task.catch((error) => logger.error({error, context}, 'failed to send email'));
+}
+
+interface Mail extends EmailTemplate {
+  to: string;
+}
+
+/**
+ * Two send paths, chosen once per process by whether RESEND_API_KEY is set
+ * (see config.ts): Resend's HTTP API for dev/prod, or SMTP for the fallback
+ * that Mailpit and the test suite rely on. Both are lazily constructed so a
+ * process that never sends mail (most test files) never touches either.
+ */
+async function send(mail: Mail): Promise<void> {
+  if (config.resend.apiKey) {
+    const {error} = await getResendClient().emails.send({from: config.email.from, ...mail});
+    if (error) {
+      throw new Error(`Resend rejected the email to ${mail.to}: ${error.message}`);
+    }
+    return;
+  }
+
+  await getTransporter().sendMail({from: config.email.from, ...mail});
+}
+
+let resendClient: Resend | undefined;
+
+function getResendClient(): Resend {
+  resendClient ??= new Resend(config.resend.apiKey);
+  return resendClient;
+}
+
+let transporter: Transporter | undefined;
+
+function getTransporter(): Transporter {
+  transporter ??= nodemailer.createTransport({
+    host: config.smtp.host,
+    port: config.smtp.port,
+    // Port 465 is implicit TLS; 587/1025 upgrade via STARTTLS when offered.
+    secure: config.smtp.port === 465,
+    auth: config.smtp.user ? {user: config.smtp.user, pass: config.smtp.pass} : undefined,
+  });
+  return transporter;
 }
