@@ -2,23 +2,12 @@ import {and, count, desc, eq, ilike, isNotNull, isNull, max, or, sql} from 'driz
 import type {FastifyInstance} from 'fastify';
 import {config} from '../config.js';
 import {db} from '../db/client.js';
-import {
-  adminAuditLog,
-  resumes,
-  scoreHistory,
-  sessions,
-  settingsVersions,
-  users,
-} from '../db/schema.js';
-import {
-  checkActingPassword,
-  checkAdminQuorum,
-  checkNotSelf,
-} from '../lib/admin-guards.js';
+import {adminAuditLog, resumes, scoreHistory, sessions, settingsVersions, users,} from '../db/schema.js';
+import {checkActingPassword, checkAdminQuorum, checkNotSelf,} from '../lib/admin-guards.js';
 import {recordAdminAction} from '../lib/audit.js';
 import {revokeAllSessions} from '../lib/sessions.js';
 import {sendError, sendValidationError} from '../lib/errors.js';
-import {writeLimit, type DomainRoutesOptions} from '../lib/route-options.js';
+import {type DomainRoutesOptions, writeLimit} from '../lib/route-options.js';
 import {
   adminAuditQuerySchema,
   adminDeleteSchema,
@@ -34,12 +23,6 @@ import {exportUserData, toPublicUser} from '../lib/users.js';
  * Admin-only account management: list/search/inspect/suspend/delete users,
  * grant or revoke admin, and read the audit trail those actions write. Every
  * route here sits behind `requireAdmin` (requireAuth + role check).
- *
- * Follows the same shape as every other domain route file (settings.ts,
- * users.ts): `(app, options)`, `writeLimit(options)`, zod `safeParse`,
- * `sendError`/`sendValidationError`. Destructive endpoints (role, status,
- * delete) additionally run the guardrails in lib/admin-guards.ts and write an
- * audit row in the same transaction as the mutation.
  */
 export async function adminRoutes(
   app: FastifyInstance,
@@ -47,8 +30,6 @@ export async function adminRoutes(
 ): Promise<void> {
   const limit = writeLimit(options);
 
-  /** Throttle for password-checking / mutating endpoints, matching the
-   * `strictLimit` used by routes/users.ts for the same reason. */
   const strictLimit = {
     rateLimit: {
       max: options.rateLimitMax ?? config.rateLimit.authMax,
